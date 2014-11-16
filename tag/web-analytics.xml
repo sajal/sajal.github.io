@@ -3,7 +3,7 @@
   <channel>
       <title>Web-Analytics on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/web-analytics.xml</link>
+    <link>http://www.sajalkayan.com/tag/web-analytics.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Goodbye Alexa : Google Trends for websites is here!</title>
-      <link>http://sajal.github.io/goodbye-alexa-google-trends-for-websites-is-here.html</link>
+      <link>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</link>
       <pubDate>Sat, 21 Jun 2008 10:07:23 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/goodbye-alexa-google-trends-for-websites-is-here.html</guid>
+      <guid>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</guid>
       <description>Earlier, every now and then I would go to Alexa to see my ranking to massage my ego. Now, Google has come up with a reality check - &lt;a href=&#34;http://trends.google.com/websites?q=sajalkayan.com&#34;&gt;Google Trends for websites&lt;/a&gt;.
 
 Google announced a new layer to Google Trends in an &lt;a href=&#34;http://googlewebmastercentral.blogspot.com/2008/06/new-layer-to-google-trends.html&#34;&gt;official blogpost&lt;/a&gt;. &lt;a href=&#34;http://www.mattcutts.com/blog/google-trends-for-websites/&#34;&gt;Matt Cutts&lt;/a&gt; and &lt;a href=&#34;http://searchengineland.com/080620-131900.php&#34;&gt;Barry Schwartz&lt;/a&gt; also blogged about it.
@@ -39,10 +39,10 @@ Google Trends does a reality check : Now, these results are more believable.
     
     <item>
       <title>Piwik the Google Analytics Killer!</title>
-      <link>http://sajal.github.io/piwik-the-google-analytics-killer.html</link>
+      <link>http://www.sajalkayan.com/piwik-the-google-analytics-killer.html</link>
       <pubDate>Tue, 19 Feb 2008 19:22:33 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/piwik-the-google-analytics-killer.html</guid>
+      <guid>http://www.sajalkayan.com/piwik-the-google-analytics-killer.html</guid>
       <description>Just today &lt;a href=&#34;http://www.lopsta.com/2008/02/19/open-source-web-analytics/&#34; target=&#34;_blank&#34;&gt;Jan told me&lt;/a&gt; about &lt;a href=&#34;http://piwik.org&#34; target=&#34;_blank&#34;&gt;Piwik&lt;/a&gt;. At first glance it looks quite neat and developer friendly. The idea seems to be to make an &lt;strong&gt;Open Source alternative to Google Analytics&lt;/strong&gt; and the &lt;a href=&#34;http://piwik.org/blog/2008/02/why-is-piwik-better-than-the-competition/&#34; target=&#34;_blank&#34;&gt;advantages&lt;/a&gt; seems to be many. Piwik is the new version of &lt;a href=&#34;http://www.phpmyvisites.us/&#34;&gt;phpMyVisites&lt;/a&gt; and is supported by &lt;a href=&#34;http://www.openads.org/&#34; target=&#34;_blank&#34;&gt;OpenAds&lt;/a&gt; (a very powerful Open Source Ad server)
 
 Piwik like Google Analytics &lt;strong&gt;uses javascript to collect users data&lt;/strong&gt; and is not dependent on the web servers access.log file, thus &lt;strong&gt;100% eliminating the chances of any bad bot activity to be mistaken for a user&lt;/strong&gt;. Piwik can also be hosted independently on a separate server or in my case a separate country.

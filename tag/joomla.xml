@@ -3,7 +3,7 @@
   <channel>
       <title>Joomla on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/joomla.xml</link>
+    <link>http://www.sajalkayan.com/tag/joomla.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)</title>
-      <link>http://sajal.github.io/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
+      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
       <pubDate>Tue, 26 Feb 2008 09:38:47 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
+      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
       <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
 
 Meta tags are an important part of the web page. They are used to pass information to browsers and bots and are not intended for the average browser to see. We will basically discuss about the 2 most common meta attributes which are &lt;strong&gt;keywords&lt;/strong&gt; and &lt;strong&gt;description&lt;/strong&gt;.
@@ -49,10 +49,10 @@ Source : &lt;a href=&#34;http://en.wikipedia.org/wiki/Meta_element#The_descripti
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 1 URLs</title>
-      <link>http://sajal.github.io/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</link>
+      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</link>
       <pubDate>Sun, 17 Feb 2008 12:06:25 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</guid>
+      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</guid>
       <description>Last month I started using Drupal and explained how &lt;a href=&#34;/drupal-rulez-joomls-sux.html&#34;&gt;&lt;strong&gt;Drupal is better&lt;/strong&gt; in terms of organizing content when compared to Joomla&lt;/a&gt;. Today I am going to explain some &lt;strong&gt;SEO benifits of using Drupal over Joomla&lt;/strong&gt;.
 
 This is the first part of a series and I will blog about &lt;strong&gt;Search Engine Friendly URLs&lt;/strong&gt; today:-
@@ -85,10 +85,10 @@ Part 1 of the Series. More to follow later on various other aspects on &lt;stron
     
     <item>
       <title>Drupal rulez Joomla sux!</title>
-      <link>http://sajal.github.io/drupal-rulez-joomls-sux.html</link>
+      <link>http://www.sajalkayan.com/drupal-rulez-joomls-sux.html</link>
       <pubDate>Wed, 06 Feb 2008 17:25:17 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/drupal-rulez-joomls-sux.html</guid>
+      <guid>http://www.sajalkayan.com/drupal-rulez-joomls-sux.html</guid>
       <description>&lt;img src=&#34;/wp-content/uploads/2008/02/drupliconsmall.png&#34; alt=&#34;Drupal Logo&#34; align=&#34;left&#34; border=&#34;0&#34; vspace=&#34;10&#34; hspace=&#34;10&#34; /&gt;I am perhaps the newest entrant to the growing number of Drupal fanboys in Thailand. From what Ive seen most geeks in Thailand use drupal, usually for community building projects and also for personal blogs.
 
 The first I was introduced to Drupal was while chatting with &lt;a href=&#34;http://www.johnberns.com/2008/02/10/my-first-drupal-convert/&#34; title=&#34;Converted me to Drupal&#34;&gt;John Berns&lt;/a&gt; and &lt;a href=&#34;http://sugree.com/&#34;&gt;Sugree&lt;/a&gt; on the &lt;a href=&#34;http://www.barcampbangkok.org/&#34;&gt;BarcampBangkok&lt;/a&gt; IRC room. In a short chat session, these two people managed to convince me that Drupal can easily do the stuff ive been trying/wanting to do for the last 2 Years.

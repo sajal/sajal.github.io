@@ -3,7 +3,7 @@
   <channel>
       <title>Meta on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/meta.xml</link>
+    <link>http://www.sajalkayan.com/tag/meta.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)</title>
-      <link>http://sajal.github.io/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
+      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
       <pubDate>Tue, 26 Feb 2008 09:38:47 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
+      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
       <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
 
 Meta tags are an important part of the web page. They are used to pass information to browsers and bots and are not intended for the average browser to see. We will basically discuss about the 2 most common meta attributes which are &lt;strong&gt;keywords&lt;/strong&gt; and &lt;strong&gt;description&lt;/strong&gt;.

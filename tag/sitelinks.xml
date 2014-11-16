@@ -3,7 +3,7 @@
   <channel>
       <title>Sitelinks on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/sitelinks.xml</link>
+    <link>http://www.sajalkayan.com/tag/sitelinks.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>thaindian.com now has sitelinks on google SERPs</title>
-      <link>http://sajal.github.io/thaindiancom-now-has-sitelinks-on-google-serps.html</link>
+      <link>http://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</link>
       <pubDate>Sun, 09 Mar 2008 10:57:38 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/thaindiancom-now-has-sitelinks-on-google-serps.html</guid>
+      <guid>http://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</guid>
       <description>w00t!
 
 Just noticed today. &lt;a href=&#34;http://www.thaindian.com/&#34; title=&#34;Indians in Thailand&#34;&gt;Thaindian.com&lt;/a&gt; now has sitelinks on &lt;a href=&#34;http://www.google.com/search?q=indians+in+thailand&#34; title=&#34;Google SERPs for &#34;indians in thailand&#34;&#34; target=&#34;_blank&#34;&gt;Google Search Result Pages&lt;/a&gt;. I found it while mucking around inside the Google Webmaster tools. In the web master tools, I can &#34;block&#34; pages from the sitelinks if i wished to do so.

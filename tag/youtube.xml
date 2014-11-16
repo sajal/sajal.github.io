@@ -3,7 +3,7 @@
   <channel>
       <title>Youtube on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/youtube.xml</link>
+    <link>http://www.sajalkayan.com/tag/youtube.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Google Adsense text ads in Youtube&#39;s embedded player?</title>
-      <link>http://sajal.github.io/google-adsense-text-ads-in-youtubes-embedded-player.html</link>
+      <link>http://www.sajalkayan.com/google-adsense-text-ads-in-youtubes-embedded-player.html</link>
       <pubDate>Mon, 25 Feb 2008 09:10:04 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/google-adsense-text-ads-in-youtubes-embedded-player.html</guid>
+      <guid>http://www.sajalkayan.com/google-adsense-text-ads-in-youtubes-embedded-player.html</guid>
       <description>Today while searching for photography tutorials, i landed up on &lt;a href=&#34;http://www.cameratown.com/guides/&#34; target=&#34;_blank&#34;&gt;Cameratown&#39;s tutorial page&lt;/a&gt;. Surprisingly, there was a contextual text ad for &#34;Canon Flash Photography&#34; on it. Wonder if it is a new phenomenon, searching on &lt;a href=&#34;/tag/google&#34;&gt;Google&lt;/a&gt; would only lead me to articles/posts about the adsense video ad units. Take a look at the image below, it shows the &lt;strong&gt;adsense text ad within the video&lt;/strong&gt;.
 
 &lt;img src=&#34;/wp-content/uploads/2008/02/adsense-youtube.png&#34; alt=&#34;Adsense text ads in youtube video&#34; /&gt;

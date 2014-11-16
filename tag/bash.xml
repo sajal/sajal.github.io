@@ -3,7 +3,7 @@
   <channel>
       <title>Bash on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/bash.xml</link>
+    <link>http://www.sajalkayan.com/tag/bash.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>My history</title>
-      <link>http://sajal.github.io/my-history.html</link>
+      <link>http://www.sajalkayan.com/my-history.html</link>
       <pubDate>Mon, 14 Apr 2008 17:02:35 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/my-history.html</guid>
+      <guid>http://www.sajalkayan.com/my-history.html</guid>
       <description>Stolen idea from &lt;a href=&#34;http://sugree.com/node/114&#34; title=&#34;Sugree&#39;s history&#34; target=&#34;_blank&#34;&gt;Sugree&lt;/a&gt;...
 &lt;pre lang=&#34;Bash&#34;&gt;[sajal@localhost ~]$ history|awk &#39;{a[$2]++} END{for(i in a){printf &#34;%5d\t%s\n&#34;,a[i],i}}&#39;|sort -rn|head
 239   ./autofollow.pl
