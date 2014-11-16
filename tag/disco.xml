@@ -3,7 +3,7 @@
   <channel>
       <title>Disco on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/disco.xml</link>
+    <link>http://sajal.github.io/tag/disco.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Disco &#43; EC2 spot instance = WIN</title>
-      <link>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
+      <link>http://sajal.github.io/disco-ec2-spot-instance-win.html</link>
       <pubDate>Tue, 30 Oct 2012 13:13:59 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
+      <guid>http://sajal.github.io/disco-ec2-spot-instance-win.html</guid>
       <description>&lt;p&gt;tl;dr version : &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;This&lt;/a&gt; is how I spent a Saturday evening.&lt;/p&gt;
 
 	&lt;p&gt;&amp;lt;blink&amp;gt;&lt;strong&gt;Warning&lt;/strong&gt;: If you like to write Java, stop reading now. Go back to using Hadoop. It&#39;s a much more mature project.&amp;lt;/blink&amp;gt;&lt;/p&gt;

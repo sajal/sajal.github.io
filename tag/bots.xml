@@ -3,7 +3,7 @@
   <channel>
       <title>Bots on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/bots.xml</link>
+    <link>http://sajal.github.io/tag/bots.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Python script to detect bad bots/people faking as Googlebot</title>
-      <link>http://www.sajalkayan.com/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</link>
+      <link>http://sajal.github.io/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</link>
       <pubDate>Sat, 28 Mar 2009 16:25:34 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</guid>
+      <guid>http://sajal.github.io/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</guid>
       <description>A script for analyzing my webservers access.log is long overdue here is a small start. Just recently I noticed a bad bot was attempting to scrape whole of my site using Googlebot&#39;s useragent. Since im learning python, I thought it might be a nice experience to write a simple script which can help me detect these fakers.
 
 The script looks at the access log, looks for records matching &#34;Googlebot&#34; then validates based on techniques mentioned at &#34;&lt;a href=&#34;http://googlewebmastercentral.blogspot.com/2006/09/how-to-verify-googlebot.html&#34;&gt;How to verify Googlebot&lt;/a&gt;&#34; at Google Webmaster Central Blog. It may also be useful or even fun to catch other SEOs trying to see your site thru Googlebot&#39;s eyes.

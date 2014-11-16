@@ -3,7 +3,7 @@
   <channel>
       <title>Payment-Gateways on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/payment-gateways.xml</link>
+    <link>http://sajal.github.io/tag/payment-gateways.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Amazon thinks all internet users come from United States</title>
-      <link>http://www.sajalkayan.com/amazon-thinks-all-internet-users-come-from-united-states.html</link>
+      <link>http://sajal.github.io/amazon-thinks-all-internet-users-come-from-united-states.html</link>
       <pubDate>Sat, 01 Mar 2008 23:28:02 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/amazon-thinks-all-internet-users-come-from-united-states.html</guid>
+      <guid>http://sajal.github.io/amazon-thinks-all-internet-users-come-from-united-states.html</guid>
       <description>Recently when trying to &#34;&lt;strong&gt;Sign Up for Amazon Payments&lt;/strong&gt;&#34; I had to login and then the form shown to me had only United States as an option. Couldn&#39;t find an explanation for this anywhere. My account as my Thailand address listed. Why does amazon force me to accept that I am from US? Or is it that they seriously believe that people outside United States don&#39;t use the internet?
 
 &lt;img src=&#34;/wp-content/uploads/2008/03/amazon.png&#34; alt=&#34;Amazon payments sign up form&#34; /&gt;

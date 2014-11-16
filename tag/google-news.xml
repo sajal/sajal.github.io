@@ -3,7 +3,7 @@
   <channel>
       <title>Google-News on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/google-news.xml</link>
+    <link>http://sajal.github.io/tag/google-news.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Google News ranking factors, 2003 patent revealed</title>
-      <link>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</link>
+      <link>http://sajal.github.io/google-news-ranking-factors-2003-patent-revealed.html</link>
       <pubDate>Thu, 20 Aug 2009 10:13:34 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</guid>
+      <guid>http://sajal.github.io/google-news-ranking-factors-2003-patent-revealed.html</guid>
       <description>Via &lt;a href=&#34;http://www.webpronews.com/topnews/2009/08/19/possible-google-news-ranking-factors-revealed-in-patent&#34;&gt;WebProNews&lt;/a&gt; by Chris Crum
 A patent application by Google &#34;&lt;a href=&#34;http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&amp;Sect2=HITOFF&amp;u=%2Fnetahtml%2FPTO%2Fsearch-adv.htm&amp;r=1&amp;p=1&amp;f=G&amp;l=50&amp;d=PTXT&amp;S1=7,577,655.PN.&amp;OS=pn/7,577,655&amp;RS=PN/7,577,655&#34;&gt;Systems and methods for improving the ranking of news articles&lt;/a&gt;&#34; was Granted on August 18, 2009. The patent was originally filed about 6 years ago on &#34;September 16, 2003&#34;. Interesting analysis in human readable language at &lt;a href=&#34;http://www.seobythesea.com/?p=2810&#34;&gt;Seo By The Sea&lt;/a&gt; by Bill Slawski.
 
@@ -71,10 +71,10 @@ Google also sees(IMHO) regular SEO policies in determining the &lt;em&gt;Story R
     
     <item>
       <title>Secrets of Google News...What I learnt the hard way!</title>
-      <link>http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</link>
+      <link>http://sajal.github.io/secrets-of-google-newswhat-i-learnt-the-hard-way.html</link>
       <pubDate>Thu, 03 Apr 2008 15:12:03 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</guid>
+      <guid>http://sajal.github.io/secrets-of-google-newswhat-i-learnt-the-hard-way.html</guid>
       <description>Just now I noticed an &lt;a href=&#34;http://www.seroundtable.com/archives/016773.html&#34;&gt;interesting post from seroundtable&lt;/a&gt; on my feed-reader and it immediately caught my attention. Nice to hear things &lt;a href=&#34;http://googlenewsblog.blogspot.com/2008/04/psstsecrets-of-google-news-exposed.html&#34;&gt;directly from the horses mouth&lt;/a&gt;, most of them are what I assumed. searchengineland also posted &lt;a href=&#34;http://searchengineland.com/080403-083445.php&#34;&gt;some comments&lt;/a&gt; on this issue.
 &lt;blockquote&gt;&lt;em&gt;Having an image next to your article improves your ranking: MYTH&lt;/em&gt;&lt;/blockquote&gt;
 Having an image in an article might not improve your ranking, but it is a very important aspect for a &lt;a href=&#34;/seo-and-newsgooglecom-run-your-own-news-website.html&#34; title=&#34;SEO and news.google.com - Run your own news website&#34;&gt;Google News Publisher&lt;/a&gt;. Say if you are reporting on a story which has many sources, you stand to get greater exposure in case the image from your site is picked up for this story. Once, a story I had about &#34;Britney Spears&#34; had an image of her. Now the news story which showed up on organic SERPs for &#34;Britney Spears&#34; had the image from my site. Got shit loads of traffic on it.
@@ -97,10 +97,10 @@ We have faith in Google. Even if the Google blog said this were true I wouldn&#3
     
     <item>
       <title>SEO and news.google.com - Run your own news website</title>
-      <link>http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html</link>
+      <link>http://sajal.github.io/seo-and-newsgooglecom-run-your-own-news-website.html</link>
       <pubDate>Thu, 06 Mar 2008 22:24:04 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html</guid>
+      <guid>http://sajal.github.io/seo-and-newsgooglecom-run-your-own-news-website.html</guid>
       <description>&lt;img src=&#34;/wp-content/uploads/2008/03/google-news.gif&#34; alt=&#34;Google News Logo&#34; align=&#34;left&#34; /&gt;As a relatively &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34; target=&#34;_blank&#34;&gt;new news publisher&lt;/a&gt; accepted into the &lt;a href=&#34;http://news.google.com&#34; title=&#34;Google News&#34; target=&#34;_blank&#34;&gt;Google News Search&lt;/a&gt;, I am exploring/testing various ways to rank better in the Google News Search. When I first started, I faced many problems like the &lt;a href=&#34;/google-works-in-mysterious-ways-stops-crawling.html&#34; title=&#34;Google works in mysterious ways - Stops Crawling&#34;&gt;MTU issue&lt;/a&gt;, but since there was(and still is) a lack of online resources and blogs discussing how it works, I had to learn the hard way. On my blog here I intend to change this. Sure there is a &lt;a href=&#34;http://googlenewsblog.blogspot.com/&#34; title=&#34;Google News Blog&#34; target=&#34;_blank&#34;&gt;Google News Blog&lt;/a&gt;, but the posts are targeted towards news surfers not news publishers. A good place to ask questions would be at &lt;a href=&#34;http://groups.google.com/group/news-HelpPublishers/topics&#34; title=&#34;Google News Publishers - Troubleshooting&#34; target=&#34;_blank&#34;&gt;Google news publishers group&lt;/a&gt;, but most queries there are left unanswered for weeks.
 
 As per &lt;a href=&#34;http://en.wikipedia.org/wiki/Google_News&#34; title=&#34;Google News on Wikipedia&#34; target=&#34;_blank&#34;&gt;wikipedia&lt;/a&gt; :
@@ -135,10 +135,10 @@ In the next post I will be writing about &lt;strong&gt;image optimization for Go
     
     <item>
       <title>Google works in mysterious ways - Stops Crawling</title>
-      <link>http://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html</link>
+      <link>http://sajal.github.io/google-works-in-mysterious-ways-stops-crawling.html</link>
       <pubDate>Fri, 04 Jan 2008 20:07:34 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html</guid>
+      <guid>http://sajal.github.io/google-works-in-mysterious-ways-stops-crawling.html</guid>
       <description>I am running the website &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34;&gt;thaindian.com&lt;/a&gt; which on September of 2007 finally(after 3 attempts) got &lt;strong&gt;approved as a &lt;a href=&#34;http://news.google.com/news?q=site%3Athaindian.com&#34;&gt;Google news search source&lt;/a&gt;&lt;/strong&gt;. Since then we have seen a steady increase in traffic at the portal. We partnered with a news agency for latest Indian news also and they have been providing good content. Since &lt;strong&gt;content is still the king&lt;/strong&gt;(some might argue), it was going good for us.
 &lt;p style=&#34;text-align: center&#34;&gt;&lt;img src=&#34;http://traffic.alexa.com/graph?c=1&amp;amp;f=555555&amp;amp;u=thaindian.com&amp;amp;r=6m&amp;amp;y=r&amp;amp;z=3&amp;amp;h=300&amp;amp;w=500&#34; alt=&#34;Notice the low traffic in december begining.&#34; title=&#34;Notice the low traffic in december begining.&#34; border=&#34;0&#34; width=&#34;500&#34; height=&#34;300&#34; /&gt;&lt;/p&gt;
 Sometime in November, we suddenly increased the rate of putting new content (from approx &lt;strong&gt;30 articles/week&lt;/strong&gt; to about &lt;strong&gt;200 articles/day&lt;/strong&gt;) this got a HUGE surge in traffic. My &lt;a href=&#34;http://en.wikipedia.org/wiki/WAMP&#34;&gt;WAMP&lt;/a&gt; setup couldn&#39;t handle it, Apache would restart for no apparent reason. I sent in motion to get myself a &lt;a href=&#34;http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29&#34;&gt;LAMP&lt;/a&gt; server.

@@ -3,7 +3,7 @@
   <channel>
       <title>Akamai on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/akamai.xml</link>
+    <link>http://sajal.github.io/tag/akamai.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>In a CDN&#39;d world, OpenDNS is the enemy!</title>
-      <link>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</link>
+      <link>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</link>
       <pubDate>Mon, 17 May 2010 17:19:30 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
+      <guid>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
       <description>While many people are happy with using DNS service providers such as OpenDNS, Google, etc... I will show you here why they may not produce optimal results.
 
 The way most &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDNs&lt;/a&gt; work is by using DNS routing. When a user attempts to resolve a hostname, the CDN&#39;s DNS server responds with an IP which is closest based on the IP address of the requester. A more detailed insight into the workings of a CDN can be found on an earlier post &#34;&lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34;&gt;Make your own cheap charlie CDN&lt;/a&gt;&#34;

@@ -3,7 +3,7 @@
   <channel>
       <title>Posts on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/post.xml</link>
+    <link>http://sajal.github.io/post.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Disco &#43; EC2 spot instance = WIN</title>
-      <link>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
+      <link>http://sajal.github.io/disco-ec2-spot-instance-win.html</link>
       <pubDate>Tue, 30 Oct 2012 13:13:59 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
+      <guid>http://sajal.github.io/disco-ec2-spot-instance-win.html</guid>
       <description>&lt;p&gt;tl;dr version : &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;This&lt;/a&gt; is how I spent a Saturday evening.&lt;/p&gt;
 
 	&lt;p&gt;&amp;lt;blink&amp;gt;&lt;strong&gt;Warning&lt;/strong&gt;: If you like to write Java, stop reading now. Go back to using Hadoop. It&#39;s a much more mature project.&amp;lt;/blink&amp;gt;&lt;/p&gt;
@@ -175,10 +175,10 @@ MyExampleJob().run(
     
     <item>
       <title>4 reasons why I love my ISP</title>
-      <link>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</link>
+      <link>http://sajal.github.io/4-reasons-why-i-love-my-isp.html</link>
       <pubDate>Mon, 28 Nov 2011 18:52:26 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</guid>
+      <guid>http://sajal.github.io/4-reasons-why-i-love-my-isp.html</guid>
       <description>&lt;p&gt;I&#39;ve been using &lt;a href=&#34;http://www.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; for years, and I absolutely love their service (and especially the transparent proxy). Here are some of the reasons why :-&lt;/p&gt;
 
 &lt;p&gt;&lt;del&gt;Censorship&lt;/del&gt; &lt;strong&gt;Protecting me from bad stuff&lt;/strong&gt; - Interwebs has a lot of &#34;bad&#34; things out there. My ISP takes good care of me by not letting me access things I am not supposed to see... Even sites not explicitly blocked by court-order. I don&#39;t know what I would do without them. My head would probably explode if I saw porn, and my feelings would get hurt if I came across certain types of political messages..&lt;/p&gt;
@@ -203,10 +203,10 @@ MyExampleJob().run(
     
     <item>
       <title>DFP now officially supports asynchronous rendering!</title>
-      <link>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</link>
+      <link>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</link>
       <pubDate>Thu, 27 Oct 2011 12:29:52 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</guid>
+      <guid>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</guid>
       <description>Yesterday, DFP launched &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=181071&#34;&gt;asynchronous ad loading&lt;/a&gt;. For the past few months ive &lt;a href=&#34;/optimizing-dfp-performance.html&#34; title=&#34;Optimizing DFP performance&#34;&gt;been&lt;/a&gt; &lt;a href=&#34;/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34; title=&#34;Complete Asynchronous ad loading using DFP and LABjs&#34;&gt;trying&lt;/a&gt; to load ads in a manner where it doesn&#39;t affect rest of the page load, this new development is like a dream come true.
 
 &lt;iframe width=&#34;480&#34; height=&#34;244&#34; src=&#34;http://www.youtube.com/embed/bA-Qgl7JqlQ&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
@@ -218,10 +218,10 @@ Thank you Google! You just made my day.
     
     <item>
       <title>Check if you are behind a transparent proxy</title>
-      <link>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</link>
+      <link>http://sajal.github.io/check-if-you-are-behind-a-transparent-proxy.html</link>
       <pubDate>Tue, 11 Oct 2011 19:38:50 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</guid>
+      <guid>http://sajal.github.io/check-if-you-are-behind-a-transparent-proxy.html</guid>
       <description>Many Asian ISPs do not provide &lt;em&gt;clean&lt;/em&gt; internet. They route all HTTP sessions thru a &lt;a href=&#34;http://en.wikipedia.org/wiki/Proxy_server#Transparent_proxies&#34;&gt;transparent proxy&lt;/a&gt;.
 
 Here is a simple way to check if you are behind one.
@@ -284,10 +284,10 @@ Reasons for doing so involve : Censorship, big brother snooping, caching, &lt;a 
     
     <item>
       <title>Evaluating few CDN options</title>
-      <link>http://www.sajalkayan.com/evaluating-few-cdn-options.html</link>
+      <link>http://sajal.github.io/evaluating-few-cdn-options.html</link>
       <pubDate>Fri, 10 Jun 2011 21:10:53 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/evaluating-few-cdn-options.html</guid>
+      <guid>http://sajal.github.io/evaluating-few-cdn-options.html</guid>
       <description>Recently, I was evaluating CDN options for a client with some unique challenges. We ended up using Amazon CloudFront, but ill detail the options we looked at and what let us to this decision.
 
 Some things to note:-
@@ -378,10 +378,10 @@ For us, the price and features are important, but whats more important is the re
     
     <item>
       <title>Attention skeptics: Web Performance Optimization works!</title>
-      <link>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</link>
+      <link>http://sajal.github.io/attention-skeptics-web-performance-optimization-works.html</link>
       <pubDate>Sat, 14 May 2011 14:39:14 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</guid>
+      <guid>http://sajal.github.io/attention-skeptics-web-performance-optimization-works.html</guid>
       <description>Today, I was looking into web performance issues for a new client who wishes to remain anonymous and saw an interesting example of value provided by improving performance.
 
 One of the first things I do when looking into a new site is look at Google Analytics to understand a little about the sites visitors. This helps in prioritizing changes which affects the majority of users.
@@ -406,20 +406,20 @@ The site in question is a web application where user inputs something and gets s
     
     <item>
       <title>Dear Google: W-W-W-WHY Y-YOU DO DAT?</title>
-      <link>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</link>
+      <link>http://sajal.github.io/dear-google-w-w-w-why-y-you-do-dat.html</link>
       <pubDate>Sat, 12 Mar 2011 19:01:28 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</guid>
+      <guid>http://sajal.github.io/dear-google-w-w-w-why-y-you-do-dat.html</guid>
       <description>&lt;img src=&#34;http://i.ticdn.com/sajal/documentwrite-W-W-W-WHY-Y-YOU-DO-DAT.jpg&#34; alt=&#34;document.write() .. why?&#34; /&gt;
 </description>
     </item>
     
     <item>
       <title>Complete Asynchronous ad loading using DFP and LABjs</title>
-      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <link>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
       <pubDate>Wed, 02 Mar 2011 18:43:51 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <guid>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
       <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
 
 &lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
@@ -523,10 +523,10 @@ The world would be a much better place without the evil document.write(). Google
     
     <item>
       <title>Internet connectivity in Myanmar (Burma)</title>
-      <link>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</link>
+      <link>http://sajal.github.io/internet-connectivity-in-myanmar-burma.html</link>
       <pubDate>Mon, 21 Feb 2011 09:21:09 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</guid>
+      <guid>http://sajal.github.io/internet-connectivity-in-myanmar-burma.html</guid>
       <description>Last weekend ( Feb 19th &amp; 20th) I was in Yangon for &lt;a href=&#34;http://www.barcampyangon.org/&#34;&gt;BarCamp Yangon&lt;/a&gt;.
 
 It probably had an attendance of &amp;gt; 4k participants... Probably one of the largest BarCamps ever,  despite the fact that the internet connectivity in Myanmar sucks big time.... Really unusable... 
@@ -583,10 +583,10 @@ The country has great people... It can succeed in this digital age if only Ameri
     
     <item>
       <title>DreamHost: Best customer service ever!</title>
-      <link>http://www.sajalkayan.com/dreamhost-best-customer-service-ever.html</link>
+      <link>http://sajal.github.io/dreamhost-best-customer-service-ever.html</link>
       <pubDate>Wed, 12 Jan 2011 17:46:08 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/dreamhost-best-customer-service-ever.html</guid>
+      <guid>http://sajal.github.io/dreamhost-best-customer-service-ever.html</guid>
       <description>&lt;blockquote&gt;&lt;em&gt;Please wait for a site operator to respond.
 
 You are now chatting with &#39;Brandon&#39;
@@ -612,10 +612,10 @@ The only reason im using DreamHost is cause this is a clients project where fanc
     
     <item>
       <title>SimpleCDN goes down - a case for using multiple CDN providers</title>
-      <link>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
+      <link>http://sajal.github.io/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
       <pubDate>Sat, 11 Dec 2010 21:24:49 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
+      <guid>http://sajal.github.io/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
       <description>CDN provider &lt;a href=&#34;http://www.simplecdn.com/&#34;&gt;SimpleCDN&lt;/a&gt; has been down since last few days, with their customers venting their anger via online channels such as &lt;a href=&#34;http://search.twitter.com/search?q=SimpleCDN&#34;&gt;twitter&lt;/a&gt;.
 
 To know more about what a CDN is, please read &lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;this post&lt;/a&gt;.
@@ -675,10 +675,10 @@ It is common for companies under legal threat to not make any statements which m
     
     <item>
       <title>Twitter logged me as someone else! Privacy FAIL!</title>
-      <link>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</link>
+      <link>http://sajal.github.io/twitter-logged-me-as-someone-else-privacy-fail.html</link>
       <pubDate>Wed, 27 Oct 2010 17:16:48 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
+      <guid>http://sajal.github.io/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
       <description>A while ago, clicking on the &#34;tweet&#34; button of a &lt;a href=&#34;http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/&#34;&gt;funny FAIL&lt;/a&gt; in &lt;a href=&#34;http://www.google.com/reader/&#34;&gt;Google Reader&lt;/a&gt; gave me the scare of my life. 
 
 First reaction: How did my twitter theme change?
@@ -726,10 +726,10 @@ Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do 
     
     <item>
       <title>Whos.amung.us goes down taking out numerous client websites</title>
-      <link>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</link>
+      <link>http://sajal.github.io/whosamungus-goes-down-taking-out-numerous-client-websites.html</link>
       <pubDate>Sun, 12 Sep 2010 17:04:54 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</guid>
+      <guid>http://sajal.github.io/whosamungus-goes-down-taking-out-numerous-client-websites.html</guid>
       <description>Realtime web analytics service &lt;a href=&#34;http://whos.amung.us/&#34;&gt;whos.amung.us&lt;/a&gt; has been completely down for at least the last 3 hours (as of sept 12 4:28pm UTC). Thousands of webmasters (myself included) use this widget to gather realtime traffic stats for websites. The current outage has caused big problems to the sites implementing this widget.
 
 Lets look at their widget implementation.
@@ -763,10 +763,10 @@ Respect your users, don&#39;t take them for granted!
     
     <item>
       <title>Optimizing DFP performance</title>
-      <link>http://www.sajalkayan.com/optimizing-dfp-performance.html</link>
+      <link>http://sajal.github.io/optimizing-dfp-performance.html</link>
       <pubDate>Fri, 10 Sep 2010 18:09:35 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/optimizing-dfp-performance.html</guid>
+      <guid>http://sajal.github.io/optimizing-dfp-performance.html</guid>
       <description>Ive been using &lt;a href=&#34;https://www.google.com/dfp/&#34;&gt;DFP&lt;/a&gt; (DoubleClick for Publishers - formerly Google Ad Manager) to serve ads as it has some certain features I really need.
 
 The downside of using DFP is that its browser side performance sucks big time. On my site, I use the experimental Iframe tagging, which basically writes an iframe in place of the ad and loads the third party ad codes into it. This runs asynchronously and is nice, but the DFP&#39;s bootstrap javascript blocks rendering and it needs to load 3 javascript files from Google serially. This bootstrap must be available before trying to fill an ad slot.
@@ -863,10 +863,10 @@ I am available for &lt;a href=&#34;/web-speed-consulting-services&#34;&gt;consul
     
     <item>
       <title>Twitter finally gets something right - Tweet Button</title>
-      <link>http://www.sajalkayan.com/twitter-finally-gets-something-right-tweet-button.html</link>
+      <link>http://sajal.github.io/twitter-finally-gets-something-right-tweet-button.html</link>
       <pubDate>Fri, 13 Aug 2010 14:35:42 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/twitter-finally-gets-something-right-tweet-button.html</guid>
+      <guid>http://sajal.github.io/twitter-finally-gets-something-right-tweet-button.html</guid>
       <description>FAILing all the time is not new for Twitter, in fact they are the masters of FAIL. Twitter FAILs so often that seeing the obnoxious FAIL WHALE on a daily basis has become a way of life for most of us. Twitter is so experienced in the art of FAIL, that they are aware and &lt;a href=&#34;http://www.youtube.com/watch?v=_7KdeUIvlvw&#34;&gt;experienced&lt;/a&gt; in causes of FAIL and how to mitigate its effects.
 
 Recently Twitter, for the first time ever, launched the &lt;a href=&#34;http://twitter.com/goodies/tweetbutton&#34;&gt;official Tweet button&lt;/a&gt; which one can put on their websites to allow the user to tweet easily and view the twitter based popularity of the page they are currently reading.

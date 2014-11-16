@@ -3,7 +3,7 @@
   <channel>
       <title>Security on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/security.xml</link>
+    <link>http://sajal.github.io/tag/security.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Twitter logged me as someone else! Privacy FAIL!</title>
-      <link>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</link>
+      <link>http://sajal.github.io/twitter-logged-me-as-someone-else-privacy-fail.html</link>
       <pubDate>Wed, 27 Oct 2010 17:16:48 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
+      <guid>http://sajal.github.io/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
       <description>A while ago, clicking on the &#34;tweet&#34; button of a &lt;a href=&#34;http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/&#34;&gt;funny FAIL&lt;/a&gt; in &lt;a href=&#34;http://www.google.com/reader/&#34;&gt;Google Reader&lt;/a&gt; gave me the scare of my life. 
 
 First reaction: How did my twitter theme change?
@@ -62,10 +62,10 @@ Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do 
     
     <item>
       <title>Secure Proxy using Squid</title>
-      <link>http://www.sajalkayan.com/secure-proxy-using-squid.html</link>
+      <link>http://sajal.github.io/secure-proxy-using-squid.html</link>
       <pubDate>Sat, 05 Jan 2008 05:16:52 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
+      <guid>http://sajal.github.io/secure-proxy-using-squid.html</guid>
       <description>Had originally posted this on Friday, September 29th, 2006 during the peak of Takhsin&#39;s rampant blocking of websites and the blocking proxies were messing up often blocking un-blocked pages also.
 
 It is very important to use a secure proxy if you browse the web from unsecure Networks.

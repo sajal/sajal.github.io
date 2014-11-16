@@ -3,7 +3,7 @@
   <channel>
       <title>Google on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/google.xml</link>
+    <link>http://sajal.github.io/tag/google.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>DFP now officially supports asynchronous rendering!</title>
-      <link>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</link>
+      <link>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</link>
       <pubDate>Thu, 27 Oct 2011 12:29:52 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</guid>
+      <guid>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</guid>
       <description>Yesterday, DFP launched &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=181071&#34;&gt;asynchronous ad loading&lt;/a&gt;. For the past few months ive &lt;a href=&#34;/optimizing-dfp-performance.html&#34; title=&#34;Optimizing DFP performance&#34;&gt;been&lt;/a&gt; &lt;a href=&#34;/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34; title=&#34;Complete Asynchronous ad loading using DFP and LABjs&#34;&gt;trying&lt;/a&gt; to load ads in a manner where it doesn&#39;t affect rest of the page load, this new development is like a dream come true.
 
 &lt;iframe width=&#34;480&#34; height=&#34;244&#34; src=&#34;http://www.youtube.com/embed/bA-Qgl7JqlQ&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
@@ -26,20 +26,20 @@ Thank you Google! You just made my day.
     
     <item>
       <title>Dear Google: W-W-W-WHY Y-YOU DO DAT?</title>
-      <link>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</link>
+      <link>http://sajal.github.io/dear-google-w-w-w-why-y-you-do-dat.html</link>
       <pubDate>Sat, 12 Mar 2011 19:01:28 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</guid>
+      <guid>http://sajal.github.io/dear-google-w-w-w-why-y-you-do-dat.html</guid>
       <description>&lt;img src=&#34;http://i.ticdn.com/sajal/documentwrite-W-W-W-WHY-Y-YOU-DO-DAT.jpg&#34; alt=&#34;document.write() .. why?&#34; /&gt;
 </description>
     </item>
     
     <item>
       <title>Complete Asynchronous ad loading using DFP and LABjs</title>
-      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <link>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
       <pubDate>Wed, 02 Mar 2011 18:43:51 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <guid>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
       <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
 
 &lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
@@ -143,10 +143,10 @@ The world would be a much better place without the evil document.write(). Google
     
     <item>
       <title>Optimizing DFP performance</title>
-      <link>http://www.sajalkayan.com/optimizing-dfp-performance.html</link>
+      <link>http://sajal.github.io/optimizing-dfp-performance.html</link>
       <pubDate>Fri, 10 Sep 2010 18:09:35 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/optimizing-dfp-performance.html</guid>
+      <guid>http://sajal.github.io/optimizing-dfp-performance.html</guid>
       <description>Ive been using &lt;a href=&#34;https://www.google.com/dfp/&#34;&gt;DFP&lt;/a&gt; (DoubleClick for Publishers - formerly Google Ad Manager) to serve ads as it has some certain features I really need.
 
 The downside of using DFP is that its browser side performance sucks big time. On my site, I use the experimental Iframe tagging, which basically writes an iframe in place of the ad and loads the third party ad codes into it. This runs asynchronously and is nice, but the DFP&#39;s bootstrap javascript blocks rendering and it needs to load 3 javascript files from Google serially. This bootstrap must be available before trying to fill an ad slot.
@@ -243,10 +243,10 @@ I am available for &lt;a href=&#34;/web-speed-consulting-services&#34;&gt;consul
     
     <item>
       <title>In a CDN&#39;d world, OpenDNS is the enemy!</title>
-      <link>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</link>
+      <link>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</link>
       <pubDate>Mon, 17 May 2010 17:19:30 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
+      <guid>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
       <description>While many people are happy with using DNS service providers such as OpenDNS, Google, etc... I will show you here why they may not produce optimal results.
 
 The way most &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDNs&lt;/a&gt; work is by using DNS routing. When a user attempts to resolve a hostname, the CDN&#39;s DNS server responds with an IP which is closest based on the IP address of the requester. A more detailed insight into the workings of a CDN can be found on an earlier post &#34;&lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34;&gt;Make your own cheap charlie CDN&lt;/a&gt;&#34;
@@ -497,10 +497,10 @@ EDIT 5: Added link to Bill Fumerola’s explanation of the problem.
     
     <item>
       <title>Google News ranking factors, 2003 patent revealed</title>
-      <link>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</link>
+      <link>http://sajal.github.io/google-news-ranking-factors-2003-patent-revealed.html</link>
       <pubDate>Thu, 20 Aug 2009 10:13:34 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</guid>
+      <guid>http://sajal.github.io/google-news-ranking-factors-2003-patent-revealed.html</guid>
       <description>Via &lt;a href=&#34;http://www.webpronews.com/topnews/2009/08/19/possible-google-news-ranking-factors-revealed-in-patent&#34;&gt;WebProNews&lt;/a&gt; by Chris Crum
 A patent application by Google &#34;&lt;a href=&#34;http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&amp;Sect2=HITOFF&amp;u=%2Fnetahtml%2FPTO%2Fsearch-adv.htm&amp;r=1&amp;p=1&amp;f=G&amp;l=50&amp;d=PTXT&amp;S1=7,577,655.PN.&amp;OS=pn/7,577,655&amp;RS=PN/7,577,655&#34;&gt;Systems and methods for improving the ranking of news articles&lt;/a&gt;&#34; was Granted on August 18, 2009. The patent was originally filed about 6 years ago on &#34;September 16, 2003&#34;. Interesting analysis in human readable language at &lt;a href=&#34;http://www.seobythesea.com/?p=2810&#34;&gt;Seo By The Sea&lt;/a&gt; by Bill Slawski.
 
@@ -557,10 +557,10 @@ Google also sees(IMHO) regular SEO policies in determining the &lt;em&gt;Story R
     
     <item>
       <title>Python script to detect bad bots/people faking as Googlebot</title>
-      <link>http://www.sajalkayan.com/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</link>
+      <link>http://sajal.github.io/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</link>
       <pubDate>Sat, 28 Mar 2009 16:25:34 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</guid>
+      <guid>http://sajal.github.io/python-script-to-detect-bad-botspeople-faking-as-googlebot.html</guid>
       <description>A script for analyzing my webservers access.log is long overdue here is a small start. Just recently I noticed a bad bot was attempting to scrape whole of my site using Googlebot&#39;s useragent. Since im learning python, I thought it might be a nice experience to write a simple script which can help me detect these fakers.
 
 The script looks at the access log, looks for records matching &#34;Googlebot&#34; then validates based on techniques mentioned at &#34;&lt;a href=&#34;http://googlewebmastercentral.blogspot.com/2006/09/how-to-verify-googlebot.html&#34;&gt;How to verify Googlebot&lt;/a&gt;&#34; at Google Webmaster Central Blog. It may also be useful or even fun to catch other SEOs trying to see your site thru Googlebot&#39;s eyes.
@@ -605,10 +605,10 @@ Upcoming features.
     
     <item>
       <title>The Good, The Bad and The Greedy!</title>
-      <link>http://www.sajalkayan.com/the-good-the-bad-and-the-greedy.html</link>
+      <link>http://sajal.github.io/the-good-the-bad-and-the-greedy.html</link>
       <pubDate>Sat, 07 Feb 2009 05:39:58 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/the-good-the-bad-and-the-greedy.html</guid>
+      <guid>http://sajal.github.io/the-good-the-bad-and-the-greedy.html</guid>
       <description>Usually wanting money is a good thing. It makes us work harder. Greed is actually a good thing. It is the only line of defense between working hard and being a full time couch potato. Occasionally greed makes us do things... really evil things..
 
 &lt;strong&gt;The Good Greed :&lt;/strong&gt; FOSS (Free and Open Source Software) is the perfect example of the good greed. The developers are usually not concerned about the community, they have their own personal greedy reason for contributing to a project. The reasons may be many including(but not limited to) :
@@ -651,10 +651,10 @@ Sajal
     
     <item>
       <title>Goodbye Alexa : Google Trends for websites is here!</title>
-      <link>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</link>
+      <link>http://sajal.github.io/goodbye-alexa-google-trends-for-websites-is-here.html</link>
       <pubDate>Sat, 21 Jun 2008 10:07:23 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</guid>
+      <guid>http://sajal.github.io/goodbye-alexa-google-trends-for-websites-is-here.html</guid>
       <description>Earlier, every now and then I would go to Alexa to see my ranking to massage my ego. Now, Google has come up with a reality check - &lt;a href=&#34;http://trends.google.com/websites?q=sajalkayan.com&#34;&gt;Google Trends for websites&lt;/a&gt;.
 
 Google announced a new layer to Google Trends in an &lt;a href=&#34;http://googlewebmastercentral.blogspot.com/2008/06/new-layer-to-google-trends.html&#34;&gt;official blogpost&lt;/a&gt;. &lt;a href=&#34;http://www.mattcutts.com/blog/google-trends-for-websites/&#34;&gt;Matt Cutts&lt;/a&gt; and &lt;a href=&#34;http://searchengineland.com/080620-131900.php&#34;&gt;Barry Schwartz&lt;/a&gt; also blogged about it.
@@ -679,10 +679,10 @@ Google Trends does a reality check : Now, these results are more believable.
     
     <item>
       <title>Me won Google schwag!</title>
-      <link>http://www.sajalkayan.com/me-won-google-schwag.html</link>
+      <link>http://sajal.github.io/me-won-google-schwag.html</link>
       <pubDate>Fri, 18 Apr 2008 18:00:19 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/me-won-google-schwag.html</guid>
+      <guid>http://sajal.github.io/me-won-google-schwag.html</guid>
       <description>On last week&#39;s &lt;a href=&#34;http://www.seroundtable.com/archives/016868.html&#34; target=&#34;_blank&#34;&gt;Video Recap of Weekly Search Buzz&lt;/a&gt;, &lt;a href=&#34;http://www.cartoonbarry.com/about.html&#34;&gt;Barry Schwartz&lt;/a&gt; of &lt;a href=&#34;http://www.seroundtable.com&#34; target=&#34;_blank&#34;&gt;seroundtable.com&lt;/a&gt; said he would is expecting schwag from a few companies, and he ran a video contest. The contest was to predict which companies schwag would arrive first. The correct entries would get the schwag as a prize. Here was my answer.
 &lt;blockquote&gt;&lt;em&gt;great show.
 for the quiz id say its Google!&lt;/em&gt;
@@ -702,10 +702,10 @@ Thanks a lot Barry Schwartz and Google, both of you rock!
     
     <item>
       <title>Secrets of Google News...What I learnt the hard way!</title>
-      <link>http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</link>
+      <link>http://sajal.github.io/secrets-of-google-newswhat-i-learnt-the-hard-way.html</link>
       <pubDate>Thu, 03 Apr 2008 15:12:03 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</guid>
+      <guid>http://sajal.github.io/secrets-of-google-newswhat-i-learnt-the-hard-way.html</guid>
       <description>Just now I noticed an &lt;a href=&#34;http://www.seroundtable.com/archives/016773.html&#34;&gt;interesting post from seroundtable&lt;/a&gt; on my feed-reader and it immediately caught my attention. Nice to hear things &lt;a href=&#34;http://googlenewsblog.blogspot.com/2008/04/psstsecrets-of-google-news-exposed.html&#34;&gt;directly from the horses mouth&lt;/a&gt;, most of them are what I assumed. searchengineland also posted &lt;a href=&#34;http://searchengineland.com/080403-083445.php&#34;&gt;some comments&lt;/a&gt; on this issue.
 &lt;blockquote&gt;&lt;em&gt;Having an image next to your article improves your ranking: MYTH&lt;/em&gt;&lt;/blockquote&gt;
 Having an image in an article might not improve your ranking, but it is a very important aspect for a &lt;a href=&#34;/seo-and-newsgooglecom-run-your-own-news-website.html&#34; title=&#34;SEO and news.google.com - Run your own news website&#34;&gt;Google News Publisher&lt;/a&gt;. Say if you are reporting on a story which has many sources, you stand to get greater exposure in case the image from your site is picked up for this story. Once, a story I had about &#34;Britney Spears&#34; had an image of her. Now the news story which showed up on organic SERPs for &#34;Britney Spears&#34; had the image from my site. Got shit loads of traffic on it.
@@ -728,10 +728,10 @@ We have faith in Google. Even if the Google blog said this were true I wouldn&#3
     
     <item>
       <title>Google Webmaster tools now on iGoogle homepage!</title>
-      <link>http://www.sajalkayan.com/google-webmaster-tools-now-on-igoogle-homepage.html</link>
+      <link>http://sajal.github.io/google-webmaster-tools-now-on-igoogle-homepage.html</link>
       <pubDate>Fri, 29 Feb 2008 15:10:52 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-webmaster-tools-now-on-igoogle-homepage.html</guid>
+      <guid>http://sajal.github.io/google-webmaster-tools-now-on-igoogle-homepage.html</guid>
       <description>&lt;a href=&#34;http://www.seroundtable.com/archives/016419.html&#34; title=&#34;Get Google Webmaster Tools on iGoogle as Gadgets&#34; target=&#34;_blank&#34;&gt;Just noticed&lt;/a&gt; a new feature on Google webmaster tools. Now we can get important information directly on iGoogle homepage. Adding this gadget is very easy. Simply log in to webmaster tools and under tools there is a new option called Gadgets. &lt;strong&gt;Thank you Google&lt;/strong&gt; and keep coming up with cool stuff like this!&lt;!--more--&gt;
 
 &lt;a href=&#34;/wp-content/uploads/2008/02/wmt.png&#34; title=&#34;Webmaster Tools&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;/wp-content/uploads/2008/02/wmt_th.png&#34; alt=&#34;Webmaster tools&#34; border=&#34;0&#34; /&gt;
@@ -753,10 +753,10 @@ Now, some neat statistics is available right here on my iGoogle Homepage
     
     <item>
       <title>SEOs Dance with Google - Tuesday 26th Feburary 2008</title>
-      <link>http://www.sajalkayan.com/seos-dance-with-google-tuesday-26th-feburary-2008.html</link>
+      <link>http://sajal.github.io/seos-dance-with-google-tuesday-26th-feburary-2008.html</link>
       <pubDate>Tue, 26 Feb 2008 19:13:48 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/seos-dance-with-google-tuesday-26th-feburary-2008.html</guid>
+      <guid>http://sajal.github.io/seos-dance-with-google-tuesday-26th-feburary-2008.html</guid>
       <description>Yesterday was&lt;strong&gt; Google Dance day&lt;/strong&gt; and the SEOs are perhaps still dancing today (Tuesday in US). Some say that &lt;strong&gt;page rank is useless&lt;/strong&gt;, but i tend to believe it has some relevance. At least it is an &lt;strong&gt;indicative of the link authority of the site&lt;/strong&gt;.
 
 First noticed it yesterday evening(early a.m. in US) when &lt;a href=&#34;http://www.barcampbangkok.org/&#34; title=&#34;The first BarCamp in Thailand&#34; target=&#34;_blank&#34;&gt;BarCampBangkok homepage&lt;/a&gt; showed pagerank 4. This was a direct jump from no rank. This is the result of loads of Bangkok based Geeks linking to BarCampBangkok from their blogs and sites. I too am guilty of providing a site wide link :)
@@ -769,10 +769,10 @@ Pagerank updates may not have finished, the results mentioned here may change. I
     
     <item>
       <title>Google Adsense text ads in Youtube&#39;s embedded player?</title>
-      <link>http://www.sajalkayan.com/google-adsense-text-ads-in-youtubes-embedded-player.html</link>
+      <link>http://sajal.github.io/google-adsense-text-ads-in-youtubes-embedded-player.html</link>
       <pubDate>Mon, 25 Feb 2008 09:10:04 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-adsense-text-ads-in-youtubes-embedded-player.html</guid>
+      <guid>http://sajal.github.io/google-adsense-text-ads-in-youtubes-embedded-player.html</guid>
       <description>Today while searching for photography tutorials, i landed up on &lt;a href=&#34;http://www.cameratown.com/guides/&#34; target=&#34;_blank&#34;&gt;Cameratown&#39;s tutorial page&lt;/a&gt;. Surprisingly, there was a contextual text ad for &#34;Canon Flash Photography&#34; on it. Wonder if it is a new phenomenon, searching on &lt;a href=&#34;/tag/google&#34;&gt;Google&lt;/a&gt; would only lead me to articles/posts about the adsense video ad units. Take a look at the image below, it shows the &lt;strong&gt;adsense text ad within the video&lt;/strong&gt;.
 
 &lt;img src=&#34;/wp-content/uploads/2008/02/adsense-youtube.png&#34; alt=&#34;Adsense text ads in youtube video&#34; /&gt;
@@ -785,10 +785,10 @@ If you have any more info on this phenomenon then do let me know.
     
     <item>
       <title>How to Negotiate - Tips for Yahoo!</title>
-      <link>http://www.sajalkayan.com/how-to-negotiate-tips-for-yahoo.html</link>
+      <link>http://sajal.github.io/how-to-negotiate-tips-for-yahoo.html</link>
       <pubDate>Mon, 11 Feb 2008 14:04:18 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/how-to-negotiate-tips-for-yahoo.html</guid>
+      <guid>http://sajal.github.io/how-to-negotiate-tips-for-yahoo.html</guid>
       <description>Awesome video reached homepage of &lt;a href=&#34;http://www.lopsta.com/2008/02/13/50-diggs-zu-verschenken/&#34; target=&#34;_blank&#34;&gt;digg&lt;/a&gt; from 2 separate links!
 &lt;object width=&#39;425&#39; height=&#39;345&#39; id=&#39;FiveminPlayer&#39;&gt;&lt;param name=&#39;allowfullscreen&#39; value=&#39;true&#39;/&gt;&lt;param name=&#39;allowScriptAccess&#39; value=&#39;always&#39;/&gt;&lt;param name=&#39;movie&#39; value=&#39;http://www.5min.com/Embeded/5794173/&#39;/&gt;&lt;embed src=&#39;http://www.5min.com/Embeded/5794173/&#39; type=&#39;application/x-shockwave-flash&#39; width=&#39;425&#39; height=&#39;345&#39; allowfullscreen=&#39;true&#39; allowScriptAccess=&#39;always&#39;&gt;&lt;/embed&gt;&lt;/object&gt;
 </description>

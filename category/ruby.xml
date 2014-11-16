@@ -3,7 +3,7 @@
   <channel>
       <title>Ruby on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/category/ruby.xml</link>
+    <link>http://sajal.github.io/category/ruby.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Messing with ROR</title>
-      <link>http://www.sajalkayan.com/messing-with-ror.html</link>
+      <link>http://sajal.github.io/messing-with-ror.html</link>
       <pubDate>Mon, 15 Sep 2008 13:47:02 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/messing-with-ror.html</guid>
+      <guid>http://sajal.github.io/messing-with-ror.html</guid>
       <description>Last few weeks I have beed gazing over &lt;a href=&#34;http://www.djangoproject.com/&#34;&gt;&lt;strong&gt;Django&lt;/strong&gt;&lt;/a&gt; and &lt;a href=&#34;http://www.rubyonrails.org/&#34;&gt;&lt;strong&gt;Ruby On Rails&lt;/strong&gt;&lt;/a&gt; web frameworks. Spent some time with both, read numerous &lt;strong&gt;ROR vs Django&lt;/strong&gt; posts. Even attended Django 1.0 launch party in Bangkok, to give the Django fanboys a chance to convince me into Django... I did look into both frameworks and have decided upon ROR for the following reasons.
 &lt;ol&gt;
 	&lt;li&gt;&lt;strong&gt;I love the Ruby language syntax. Looks neater and less confusing.&lt;/strong&gt;&lt;/li&gt;
@@ -39,10 +39,10 @@ Edit 1 : Added point 6 ...
     
     <item>
       <title>Ruby class to fetch suggested keywords</title>
-      <link>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</link>
+      <link>http://sajal.github.io/ruby-class-fetch-suggested-keywords.html</link>
       <pubDate>Sun, 03 Aug 2008 22:53:12 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</guid>
+      <guid>http://sajal.github.io/ruby-class-fetch-suggested-keywords.html</guid>
       <description>I have recently &lt;a href=&#34;http://twitter.com/sajal/statuses/872225824&#34;&gt;ditched Perl and fell for Ruby&lt;/a&gt;. 
 
 Here is a Ruby class which gets suggested keywords from yahoo API and presents it in a comma separated list. This might be useful for people who use Ruby to upload/edit multiple posts and need to tag them automagically.
