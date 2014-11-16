@@ -3,7 +3,7 @@
   <channel>
       <title>Browsers on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/browsers.xml</link>
+    <link>http://www.sajalkayan.com/tag/browsers.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Has Chrome killed Firefox?</title>
-      <link>http://sajal.github.io/has-chrome-killed-firefox.html</link>
+      <link>http://www.sajalkayan.com/has-chrome-killed-firefox.html</link>
       <pubDate>Tue, 02 Sep 2008 19:51:11 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/has-chrome-killed-firefox.html</guid>
+      <guid>http://www.sajalkayan.com/has-chrome-killed-firefox.html</guid>
       <description>&lt;strong&gt;... well not yet...&lt;/strong&gt;
 
 Just a while ago, &lt;a href=&#34;http://www.thaindian.com/newsportal/sci-tech/download-google-chrome_10091512.html&#34;&gt;Google launched their own browser Chrome&lt;/a&gt;. It does look good, has many cool features, more secure, more stable, but still a beta. And this time its really a beta. Currently its available only for windows, however the main point is that its opensource and a Linux and Mac builds are expected soon.

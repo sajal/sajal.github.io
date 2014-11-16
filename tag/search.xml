@@ -3,7 +3,7 @@
   <channel>
       <title>Search on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/search.xml</link>
+    <link>http://www.sajalkayan.com/tag/search.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Prospective search using python</title>
-      <link>http://sajal.github.io/prospective-search-using-python.html</link>
+      <link>http://www.sajalkayan.com/prospective-search-using-python.html</link>
       <pubDate>Wed, 22 Jul 2009 08:56:31 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/prospective-search-using-python.html</guid>
+      <guid>http://www.sajalkayan.com/prospective-search-using-python.html</guid>
       <description>&lt;strong&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Prospective_search&#34; rel=&#34;nofollow&#34;&gt;Prospective search&lt;/a&gt;&lt;/strong&gt;, or &lt;strong&gt;persistent search&lt;/strong&gt;, is a relatively less common method of implementing search where the list of keywords is defined, and when provided a single document it determines the list of keywords applicable to it.
 
 This is different from traditional (or &#34;retrospective&#34;) search, where many documents are stored into an indexed and when provided with a search term, the search engine returns the list of documents which best match the query.

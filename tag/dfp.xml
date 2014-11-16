@@ -3,7 +3,7 @@
   <channel>
       <title>Dfp on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/dfp.xml</link>
+    <link>http://www.sajalkayan.com/tag/dfp.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>DFP now officially supports asynchronous rendering!</title>
-      <link>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</link>
+      <link>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</link>
       <pubDate>Thu, 27 Oct 2011 12:29:52 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</guid>
+      <guid>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</guid>
       <description>Yesterday, DFP launched &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=181071&#34;&gt;asynchronous ad loading&lt;/a&gt;. For the past few months ive &lt;a href=&#34;/optimizing-dfp-performance.html&#34; title=&#34;Optimizing DFP performance&#34;&gt;been&lt;/a&gt; &lt;a href=&#34;/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34; title=&#34;Complete Asynchronous ad loading using DFP and LABjs&#34;&gt;trying&lt;/a&gt; to load ads in a manner where it doesn&#39;t affect rest of the page load, this new development is like a dream come true.
 
 &lt;iframe width=&#34;480&#34; height=&#34;244&#34; src=&#34;http://www.youtube.com/embed/bA-Qgl7JqlQ&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
@@ -26,10 +26,10 @@ Thank you Google! You just made my day.
     
     <item>
       <title>Complete Asynchronous ad loading using DFP and LABjs</title>
-      <link>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
       <pubDate>Wed, 02 Mar 2011 18:43:51 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
       <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
 
 &lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
@@ -133,10 +133,10 @@ The world would be a much better place without the evil document.write(). Google
     
     <item>
       <title>Optimizing DFP performance</title>
-      <link>http://sajal.github.io/optimizing-dfp-performance.html</link>
+      <link>http://www.sajalkayan.com/optimizing-dfp-performance.html</link>
       <pubDate>Fri, 10 Sep 2010 18:09:35 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/optimizing-dfp-performance.html</guid>
+      <guid>http://www.sajalkayan.com/optimizing-dfp-performance.html</guid>
       <description>Ive been using &lt;a href=&#34;https://www.google.com/dfp/&#34;&gt;DFP&lt;/a&gt; (DoubleClick for Publishers - formerly Google Ad Manager) to serve ads as it has some certain features I really need.
 
 The downside of using DFP is that its browser side performance sucks big time. On my site, I use the experimental Iframe tagging, which basically writes an iframe in place of the ad and loads the third party ad codes into it. This runs asynchronously and is nice, but the DFP&#39;s bootstrap javascript blocks rendering and it needs to load 3 javascript files from Google serially. This bootstrap must be available before trying to fill an ad slot.

@@ -3,7 +3,7 @@
   <channel>
       <title>Personal on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/category/personal.xml</link>
+    <link>http://www.sajalkayan.com/category/personal.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>My nerdiness!</title>
-      <link>http://sajal.github.io/my-nerdiness.html</link>
+      <link>http://www.sajalkayan.com/my-nerdiness.html</link>
       <pubDate>Fri, 20 Jun 2008 04:06:02 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/my-nerdiness.html</guid>
+      <guid>http://www.sajalkayan.com/my-nerdiness.html</guid>
       <description>Seems today I have nothing better to do... or maybe too lazy to do actual work !
 
 via &lt;a href=&#34;http://sugree.com/node/177&#34;&gt;Sugree&lt;/a&gt;
@@ -34,10 +34,10 @@ Nerd Test 2 :-
     
     <item>
       <title>My history</title>
-      <link>http://sajal.github.io/my-history.html</link>
+      <link>http://www.sajalkayan.com/my-history.html</link>
       <pubDate>Mon, 14 Apr 2008 17:02:35 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/my-history.html</guid>
+      <guid>http://www.sajalkayan.com/my-history.html</guid>
       <description>Stolen idea from &lt;a href=&#34;http://sugree.com/node/114&#34; title=&#34;Sugree&#39;s history&#34; target=&#34;_blank&#34;&gt;Sugree&lt;/a&gt;...
 &lt;pre lang=&#34;Bash&#34;&gt;[sajal@localhost ~]$ history|awk &#39;{a[$2]++} END{for(i in a){printf &#34;%5d\t%s\n&#34;,a[i],i}}&#39;|sort -rn|head
 239   ./autofollow.pl
@@ -56,10 +56,10 @@ Nerd Test 2 :-
     
     <item>
       <title>Im still alive!</title>
-      <link>http://sajal.github.io/im-still-alive.html</link>
+      <link>http://www.sajalkayan.com/im-still-alive.html</link>
       <pubDate>Thu, 20 Mar 2008 04:46:59 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/im-still-alive.html</guid>
+      <guid>http://www.sajalkayan.com/im-still-alive.html</guid>
       <description>As some of you may have noticed (or not!) I haven&#39;t updated my blog in the last 11 days... Maybe someone gets the wrong idea that I was kidnapped by some M$ goons and brainwashed or something. This post simple proves that I am still here and here to stay!
 
 Just some of my projects are taking a lot of my time. I have the following planned out for my blog.

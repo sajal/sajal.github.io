@@ -3,7 +3,7 @@
   <channel>
       <title>Perl on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/category/perl.xml</link>
+    <link>http://www.sajalkayan.com/category/perl.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Make your own cheap charlie CDN</title>
-      <link>http://sajal.github.io/make-your-own-cheap-charlie-cdn.html</link>
+      <link>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
       <pubDate>Sat, 28 Jun 2008 05:26:21 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/make-your-own-cheap-charlie-cdn.html</guid>
+      <guid>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
       <description>&lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network&#34; target=&#34;_self&#34;&gt;CDN&lt;/a&gt; stands for Content Delivery(or Distribution) Network. It is a network of servers usually located in various geographic locations to improve the availability and access speed of a website (or webapp or other media). The main use of CDNs were during the nineteens when inter-continental access was slow, scarce and expensive. Origin server could be in the silicon valley, users from UK would access the node located in UK, so in theory only once the page would be downloaded from the US server to the UK server. Thus allowing the UK visitors to access the page locally resulting in a huge saving in inter-continental bandwidth costs and improved access times for the end users.
 
 CDNs are traditionally a very expensive solution to implement if using any of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network#Commercial_CDNs&#34;&gt;established providers&lt;/a&gt;. The solution in itself is not very complex. I am in the process of implementing my very own CDN. The benefits are simple.
@@ -142,10 +142,10 @@ Also.. if squid supports ssl, would it be possible to use https (and also instal
     
     <item>
       <title>Extract info from flickr using Flickr::API in Perl</title>
-      <link>http://sajal.github.io/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
+      <link>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
       <pubDate>Sat, 01 Mar 2008 18:09:21 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
+      <guid>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
       <description>Today i learnt a neat trick. It it took me more time to make the script than it would have taken me to do the task manually.. the old fashioned way.. but it would save me(and hopefully you) a lot of time in the future. &lt;a href=&#34;http://www.flickr.com/services/api/&#34; title=&#34;Flickr API&#34;&gt;Flickr does have a nice API&lt;/a&gt; with many methods, almost everything which can be done via flickr website can be done using this API. You would need to have a &lt;a href=&#34;http://www.flickr.com/services/api/keys/&#34;&gt;Flickr API key&lt;/a&gt; to use this script.
 
 The objective : To generate some html code based on the images in &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/sets/72157604016439437/&#34; title=&#34;Indian Ambassador visits 41st Bangkok Gems &amp;amp; Jewelry Fair &#34; target=&#34;_blank&#34;&gt;one particular set&lt;/a&gt; in my &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/&#34; target=&#34;_blank&#34;&gt;flickr account&lt;/a&gt; and to &lt;a href=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; title=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; target=&#34;_blank&#34;&gt;display them&lt;/a&gt; in a nice manner(well better than earlier ;) ) using &lt;a href=&#34;http://www.huddletogether.com/projects/lightbox2/&#34; target=&#34;_blank&#34;&gt;Lightbox2&lt;/a&gt;

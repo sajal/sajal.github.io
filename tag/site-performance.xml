@@ -3,7 +3,7 @@
   <channel>
       <title>Site-Performance on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/site-performance.xml</link>
+    <link>http://www.sajalkayan.com/tag/site-performance.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>DFP now officially supports asynchronous rendering!</title>
-      <link>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</link>
+      <link>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</link>
       <pubDate>Thu, 27 Oct 2011 12:29:52 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/dfp-now-officially-supports-asynchronous-rendering.html</guid>
+      <guid>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</guid>
       <description>Yesterday, DFP launched &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=181071&#34;&gt;asynchronous ad loading&lt;/a&gt;. For the past few months ive &lt;a href=&#34;/optimizing-dfp-performance.html&#34; title=&#34;Optimizing DFP performance&#34;&gt;been&lt;/a&gt; &lt;a href=&#34;/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34; title=&#34;Complete Asynchronous ad loading using DFP and LABjs&#34;&gt;trying&lt;/a&gt; to load ads in a manner where it doesn&#39;t affect rest of the page load, this new development is like a dream come true.
 
 &lt;iframe width=&#34;480&#34; height=&#34;244&#34; src=&#34;http://www.youtube.com/embed/bA-Qgl7JqlQ&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
@@ -26,10 +26,10 @@ Thank you Google! You just made my day.
     
     <item>
       <title>Evaluating few CDN options</title>
-      <link>http://sajal.github.io/evaluating-few-cdn-options.html</link>
+      <link>http://www.sajalkayan.com/evaluating-few-cdn-options.html</link>
       <pubDate>Fri, 10 Jun 2011 21:10:53 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/evaluating-few-cdn-options.html</guid>
+      <guid>http://www.sajalkayan.com/evaluating-few-cdn-options.html</guid>
       <description>Recently, I was evaluating CDN options for a client with some unique challenges. We ended up using Amazon CloudFront, but ill detail the options we looked at and what let us to this decision.
 
 Some things to note:-
@@ -120,10 +120,10 @@ For us, the price and features are important, but whats more important is the re
     
     <item>
       <title>Attention skeptics: Web Performance Optimization works!</title>
-      <link>http://sajal.github.io/attention-skeptics-web-performance-optimization-works.html</link>
+      <link>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</link>
       <pubDate>Sat, 14 May 2011 14:39:14 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/attention-skeptics-web-performance-optimization-works.html</guid>
+      <guid>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</guid>
       <description>Today, I was looking into web performance issues for a new client who wishes to remain anonymous and saw an interesting example of value provided by improving performance.
 
 One of the first things I do when looking into a new site is look at Google Analytics to understand a little about the sites visitors. This helps in prioritizing changes which affects the majority of users.
@@ -148,20 +148,20 @@ The site in question is a web application where user inputs something and gets s
     
     <item>
       <title>Dear Google: W-W-W-WHY Y-YOU DO DAT?</title>
-      <link>http://sajal.github.io/dear-google-w-w-w-why-y-you-do-dat.html</link>
+      <link>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</link>
       <pubDate>Sat, 12 Mar 2011 19:01:28 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/dear-google-w-w-w-why-y-you-do-dat.html</guid>
+      <guid>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</guid>
       <description>&lt;img src=&#34;http://i.ticdn.com/sajal/documentwrite-W-W-W-WHY-Y-YOU-DO-DAT.jpg&#34; alt=&#34;document.write() .. why?&#34; /&gt;
 </description>
     </item>
     
     <item>
       <title>Complete Asynchronous ad loading using DFP and LABjs</title>
-      <link>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
       <pubDate>Wed, 02 Mar 2011 18:43:51 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
       <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
 
 &lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
@@ -265,10 +265,10 @@ The world would be a much better place without the evil document.write(). Google
     
     <item>
       <title>Internet connectivity in Myanmar (Burma)</title>
-      <link>http://sajal.github.io/internet-connectivity-in-myanmar-burma.html</link>
+      <link>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</link>
       <pubDate>Mon, 21 Feb 2011 09:21:09 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/internet-connectivity-in-myanmar-burma.html</guid>
+      <guid>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</guid>
       <description>Last weekend ( Feb 19th &amp; 20th) I was in Yangon for &lt;a href=&#34;http://www.barcampyangon.org/&#34;&gt;BarCamp Yangon&lt;/a&gt;.
 
 It probably had an attendance of &amp;gt; 4k participants... Probably one of the largest BarCamps ever,  despite the fact that the internet connectivity in Myanmar sucks big time.... Really unusable... 
@@ -325,10 +325,10 @@ The country has great people... It can succeed in this digital age if only Ameri
     
     <item>
       <title>Whos.amung.us goes down taking out numerous client websites</title>
-      <link>http://sajal.github.io/whosamungus-goes-down-taking-out-numerous-client-websites.html</link>
+      <link>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</link>
       <pubDate>Sun, 12 Sep 2010 17:04:54 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/whosamungus-goes-down-taking-out-numerous-client-websites.html</guid>
+      <guid>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</guid>
       <description>Realtime web analytics service &lt;a href=&#34;http://whos.amung.us/&#34;&gt;whos.amung.us&lt;/a&gt; has been completely down for at least the last 3 hours (as of sept 12 4:28pm UTC). Thousands of webmasters (myself included) use this widget to gather realtime traffic stats for websites. The current outage has caused big problems to the sites implementing this widget.
 
 Lets look at their widget implementation.
@@ -362,10 +362,10 @@ Respect your users, don&#39;t take them for granted!
     
     <item>
       <title>Optimizing DFP performance</title>
-      <link>http://sajal.github.io/optimizing-dfp-performance.html</link>
+      <link>http://www.sajalkayan.com/optimizing-dfp-performance.html</link>
       <pubDate>Fri, 10 Sep 2010 18:09:35 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/optimizing-dfp-performance.html</guid>
+      <guid>http://www.sajalkayan.com/optimizing-dfp-performance.html</guid>
       <description>Ive been using &lt;a href=&#34;https://www.google.com/dfp/&#34;&gt;DFP&lt;/a&gt; (DoubleClick for Publishers - formerly Google Ad Manager) to serve ads as it has some certain features I really need.
 
 The downside of using DFP is that its browser side performance sucks big time. On my site, I use the experimental Iframe tagging, which basically writes an iframe in place of the ad and loads the third party ad codes into it. This runs asynchronously and is nice, but the DFP&#39;s bootstrap javascript blocks rendering and it needs to load 3 javascript files from Google serially. This bootstrap must be available before trying to fill an ad slot.
@@ -462,10 +462,10 @@ I am available for &lt;a href=&#34;/web-speed-consulting-services&#34;&gt;consul
     
     <item>
       <title>Twitter finally gets something right - Tweet Button</title>
-      <link>http://sajal.github.io/twitter-finally-gets-something-right-tweet-button.html</link>
+      <link>http://www.sajalkayan.com/twitter-finally-gets-something-right-tweet-button.html</link>
       <pubDate>Fri, 13 Aug 2010 14:35:42 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/twitter-finally-gets-something-right-tweet-button.html</guid>
+      <guid>http://www.sajalkayan.com/twitter-finally-gets-something-right-tweet-button.html</guid>
       <description>FAILing all the time is not new for Twitter, in fact they are the masters of FAIL. Twitter FAILs so often that seeing the obnoxious FAIL WHALE on a daily basis has become a way of life for most of us. Twitter is so experienced in the art of FAIL, that they are aware and &lt;a href=&#34;http://www.youtube.com/watch?v=_7KdeUIvlvw&#34;&gt;experienced&lt;/a&gt; in causes of FAIL and how to mitigate its effects.
 
 Recently Twitter, for the first time ever, launched the &lt;a href=&#34;http://twitter.com/goodies/tweetbutton&#34;&gt;official Tweet button&lt;/a&gt; which one can put on their websites to allow the user to tweet easily and view the twitter based popularity of the page they are currently reading.
@@ -537,10 +537,10 @@ Moral of the story is that it is the responsibility of a 3rd party service provi
     
     <item>
       <title>Page Speed Analysis: Search Engine Roundtable</title>
-      <link>http://sajal.github.io/page-speed-analysis-search-engine-roundtable.html</link>
+      <link>http://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</link>
       <pubDate>Fri, 30 Jul 2010 17:25:40 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/page-speed-analysis-search-engine-roundtable.html</guid>
+      <guid>http://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</guid>
       <description>I am planing to do a series of posts on analyzing popular websites I visit frequently. By now I am so &lt;a href=&#34;/attn-big-media-web-page-speed-matters.html&#34; title=&#34;ATTN Big Media: Web page speed matters!&#34;&gt;obsessed to optimize for speed&lt;/a&gt; that I&#39;ve run out of sites to optimize, hence I&#39;m doing it for other sites.
 
 To start with I&#39;ll analyze &lt;a href=&#34;http://www.seroundtable.com/&#34;&gt;Search Engine Roundtable&lt;/a&gt;.
@@ -684,10 +684,10 @@ I am available for &lt;a href=&#34;/web-speed-consulting-services&#34;&gt;consul
     
     <item>
       <title>ATTN Big Media: Web page speed matters!</title>
-      <link>http://sajal.github.io/attn-big-media-web-page-speed-matters.html</link>
+      <link>http://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html</link>
       <pubDate>Sun, 04 Jul 2010 14:59:50 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/attn-big-media-web-page-speed-matters.html</guid>
+      <guid>http://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html</guid>
       <description>I am not a front-end kinda guy, but these days my latest obsession is to test and improve web page loading times. With this blogpost, I intend to show with examples of some selected websites and what are they doing right and what *desperately* needs to be improved. As I learn more about this I will be posting more in-depth posts on these issues.
 
 &lt;h4&gt;Why does it matter?&lt;/h4&gt;
@@ -963,10 +963,10 @@ An optimizers goal should not be simply to get the total load time low. Thats im
     
     <item>
       <title>In a CDN&#39;d world, OpenDNS is the enemy!</title>
-      <link>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</link>
+      <link>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</link>
       <pubDate>Mon, 17 May 2010 17:19:30 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
+      <guid>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
       <description>While many people are happy with using DNS service providers such as OpenDNS, Google, etc... I will show you here why they may not produce optimal results.
 
 The way most &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDNs&lt;/a&gt; work is by using DNS routing. When a user attempts to resolve a hostname, the CDN&#39;s DNS server responds with an IP which is closest based on the IP address of the requester. A more detailed insight into the workings of a CDN can be found on an earlier post &#34;&lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34;&gt;Make your own cheap charlie CDN&lt;/a&gt;&#34;
@@ -1217,10 +1217,10 @@ EDIT 5: Added link to Bill Fumerola’s explanation of the problem.
     
     <item>
       <title>Future releases of Firefox to speed page load time considerably?</title>
-      <link>http://sajal.github.io/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
+      <link>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
       <pubDate>Wed, 20 Jan 2010 14:29:58 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
+      <guid>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
       <description>Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
 
 Especially when within one ad code, I have a default ad code and that too has a default. This means, when an impression is trying to be filled, the ad network decides, if they can fill the impression based on parameters I set or not. If not, then they pass the impression down the chain to another network. It goes on until the end network. In my case the chain is mostly 3 networks. I cant increase it as it results in a poorer user experience.
@@ -1284,10 +1284,10 @@ Video of pageload on Firefox 3.6pre(Ubuntu build):-
     
     <item>
       <title>Make your own cheap charlie CDN</title>
-      <link>http://sajal.github.io/make-your-own-cheap-charlie-cdn.html</link>
+      <link>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
       <pubDate>Sat, 28 Jun 2008 05:26:21 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/make-your-own-cheap-charlie-cdn.html</guid>
+      <guid>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
       <description>&lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network&#34; target=&#34;_self&#34;&gt;CDN&lt;/a&gt; stands for Content Delivery(or Distribution) Network. It is a network of servers usually located in various geographic locations to improve the availability and access speed of a website (or webapp or other media). The main use of CDNs were during the nineteens when inter-continental access was slow, scarce and expensive. Origin server could be in the silicon valley, users from UK would access the node located in UK, so in theory only once the page would be downloaded from the US server to the UK server. Thus allowing the UK visitors to access the page locally resulting in a huge saving in inter-continental bandwidth costs and improved access times for the end users.
 
 CDNs are traditionally a very expensive solution to implement if using any of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network#Commercial_CDNs&#34;&gt;established providers&lt;/a&gt;. The solution in itself is not very complex. I am in the process of implementing my very own CDN. The benefits are simple.

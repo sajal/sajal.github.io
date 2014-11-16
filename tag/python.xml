@@ -3,7 +3,7 @@
   <channel>
       <title>Python on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/python.xml</link>
+    <link>http://www.sajalkayan.com/tag/python.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Disco &#43; EC2 spot instance = WIN</title>
-      <link>http://sajal.github.io/disco-ec2-spot-instance-win.html</link>
+      <link>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
       <pubDate>Tue, 30 Oct 2012 13:13:59 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/disco-ec2-spot-instance-win.html</guid>
+      <guid>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
       <description>&lt;p&gt;tl;dr version : &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;This&lt;/a&gt; is how I spent a Saturday evening.&lt;/p&gt;
 
 	&lt;p&gt;&amp;lt;blink&amp;gt;&lt;strong&gt;Warning&lt;/strong&gt;: If you like to write Java, stop reading now. Go back to using Hadoop. It&#39;s a much more mature project.&amp;lt;/blink&amp;gt;&lt;/p&gt;
@@ -175,10 +175,10 @@ MyExampleJob().run(
     
     <item>
       <title>Prospective search using python</title>
-      <link>http://sajal.github.io/prospective-search-using-python.html</link>
+      <link>http://www.sajalkayan.com/prospective-search-using-python.html</link>
       <pubDate>Wed, 22 Jul 2009 08:56:31 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/prospective-search-using-python.html</guid>
+      <guid>http://www.sajalkayan.com/prospective-search-using-python.html</guid>
       <description>&lt;strong&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Prospective_search&#34; rel=&#34;nofollow&#34;&gt;Prospective search&lt;/a&gt;&lt;/strong&gt;, or &lt;strong&gt;persistent search&lt;/strong&gt;, is a relatively less common method of implementing search where the list of keywords is defined, and when provided a single document it determines the list of keywords applicable to it.
 
 This is different from traditional (or &#34;retrospective&#34;) search, where many documents are stored into an indexed and when provided with a search term, the search engine returns the list of documents which best match the query.
@@ -223,10 +223,10 @@ If you know a better method to achieve prospective search in python do let me kn
     
     <item>
       <title>I &lt;3 Django</title>
-      <link>http://sajal.github.io/i-django.html</link>
+      <link>http://www.sajalkayan.com/i-django.html</link>
       <pubDate>Sun, 30 Nov 2008 19:42:39 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/i-django.html</guid>
+      <guid>http://www.sajalkayan.com/i-django.html</guid>
       <description>Last month(November) had been quite busy for me, had many things going on including :-
 &lt;ul&gt;
 	&lt;li&gt;&lt;strong&gt;My new Secret Project&lt;/strong&gt; : Its a new &lt;a href=&#34;http://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; based web project, if all goes as per plan I take over the world and declare windows illegal ;)&lt;/li&gt;

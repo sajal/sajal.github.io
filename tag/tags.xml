@@ -3,7 +3,7 @@
   <channel>
       <title>Tags on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/tags.xml</link>
+    <link>http://www.sajalkayan.com/tag/tags.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Ruby class to fetch suggested keywords</title>
-      <link>http://sajal.github.io/ruby-class-fetch-suggested-keywords.html</link>
+      <link>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</link>
       <pubDate>Sun, 03 Aug 2008 22:53:12 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/ruby-class-fetch-suggested-keywords.html</guid>
+      <guid>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</guid>
       <description>I have recently &lt;a href=&#34;http://twitter.com/sajal/statuses/872225824&#34;&gt;ditched Perl and fell for Ruby&lt;/a&gt;. 
 
 Here is a Ruby class which gets suggested keywords from yahoo API and presents it in a comma separated list. This might be useful for people who use Ruby to upload/edit multiple posts and need to tag them automagically.

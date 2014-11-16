@@ -3,7 +3,7 @@
   <channel>
       <title>Nerd-Test on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/nerd-test.xml</link>
+    <link>http://www.sajalkayan.com/tag/nerd-test.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>My nerdiness!</title>
-      <link>http://sajal.github.io/my-nerdiness.html</link>
+      <link>http://www.sajalkayan.com/my-nerdiness.html</link>
       <pubDate>Fri, 20 Jun 2008 04:06:02 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/my-nerdiness.html</guid>
+      <guid>http://www.sajalkayan.com/my-nerdiness.html</guid>
       <description>Seems today I have nothing better to do... or maybe too lazy to do actual work !
 
 via &lt;a href=&#34;http://sugree.com/node/177&#34;&gt;Sugree&lt;/a&gt;

@@ -3,7 +3,7 @@
   <channel>
       <title>Simplecdn on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/simplecdn.xml</link>
+    <link>http://www.sajalkayan.com/tag/simplecdn.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>SimpleCDN goes down - a case for using multiple CDN providers</title>
-      <link>http://sajal.github.io/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
+      <link>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
       <pubDate>Sat, 11 Dec 2010 21:24:49 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
+      <guid>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
       <description>CDN provider &lt;a href=&#34;http://www.simplecdn.com/&#34;&gt;SimpleCDN&lt;/a&gt; has been down since last few days, with their customers venting their anger via online channels such as &lt;a href=&#34;http://search.twitter.com/search?q=SimpleCDN&#34;&gt;twitter&lt;/a&gt;.
 
 To know more about what a CDN is, please read &lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;this post&lt;/a&gt;.

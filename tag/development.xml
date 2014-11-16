@@ -3,7 +3,7 @@
   <channel>
       <title>Development on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/development.xml</link>
+    <link>http://www.sajalkayan.com/tag/development.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Why cant FOSS succeed in India?</title>
-      <link>http://sajal.github.io/why-cant-foss-succeed-in-india.html</link>
+      <link>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</link>
       <pubDate>Mon, 18 Feb 2008 20:29:27 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/why-cant-foss-succeed-in-india.html</guid>
+      <guid>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</guid>
       <description>Recently Julie posted an interesting article called &#34;&lt;a href=&#34;http://goeastyoungwoman.wordpress.com/2008/02/17/open-source-development-women-and-asians-last/&#34;&gt;&lt;em&gt;open source development: women and Asians last&lt;/em&gt;&lt;/a&gt;&#34;. This attributes the main reason for Women and Asian people&#39;s lesser involvement in Open Source development to be its confrontational nature. It does make sense to an extent as far as Thailand is concerned, Thai people generally try to avoid confrontations. Women on the other hand is a species I can never understand.
 
 IMHO, the main issue is software piracy. The uninformed tend to think that &lt;strong&gt;Free Software == Cheap Software&lt;/strong&gt;. Cheap as in low quality. Proprietary software comes at a big price tag, so it must be good? A couple of months ago I visited a lawyer in Thailand and i booted my notebook(loaded with Fedora 7) to show him something. This person immediately remarked &#34;&lt;em&gt;Is that Vista?&lt;/em&gt;&#34; I told him &#34;&lt;em&gt;NO, Its Linux&lt;/em&gt;.&#34;. He found it hard to digest that I was running a far superior GUI than his crappy XP and it was Free. He replied &#34;&lt;strong&gt;&lt;em&gt;Isint Linux same like DOS?&lt;/em&gt;&lt;/strong&gt;&#34;. This person in question is quite computer literate, did his Masters in the States, manages his own website which by the way runs on an open source script uses open source PHP and MYSQL software and is probably hosted on a server running open source Linux. These people are so into the marketing BS coming from software vendors that they &lt;strong&gt;outright reject &lt;em&gt;Free Software&lt;/em&gt;&lt;/strong&gt;.&lt;!--more--&gt;

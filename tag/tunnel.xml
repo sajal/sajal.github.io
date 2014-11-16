@@ -3,7 +3,7 @@
   <channel>
       <title>Tunnel on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://sajal.github.io/tag/tunnel.xml</link>
+    <link>http://www.sajalkayan.com/tag/tunnel.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Secure Proxy using Squid</title>
-      <link>http://sajal.github.io/secure-proxy-using-squid.html</link>
+      <link>http://www.sajalkayan.com/secure-proxy-using-squid.html</link>
       <pubDate>Sat, 05 Jan 2008 05:16:52 &#43;0000</pubDate>
       
-      <guid>http://sajal.github.io/secure-proxy-using-squid.html</guid>
+      <guid>http://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
       <description>Had originally posted this on Friday, September 29th, 2006 during the peak of Takhsin&#39;s rampant blocking of websites and the blocking proxies were messing up often blocking un-blocked pages also.
 
 It is very important to use a secure proxy if you browse the web from unsecure Networks.
