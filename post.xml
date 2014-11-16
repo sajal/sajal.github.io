@@ -1,0 +1,940 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Posts on Sajal Kayan </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://www.sajalkayan.com/post.xml</link>
+    <language>en-us</language>
+    
+    
+    <updated>Tue, 30 Oct 2012 13:13:59 &#43;0000</updated>
+    
+    <item>
+      <title>Disco &#43; EC2 spot instance = WIN</title>
+      <link>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
+      <pubDate>Tue, 30 Oct 2012 13:13:59 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
+      <description>&lt;p&gt;tl;dr version : &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;This&lt;/a&gt; is how I spent a Saturday evening.&lt;/p&gt;
+
+	&lt;p&gt;&amp;lt;blink&amp;gt;&lt;strong&gt;Warning&lt;/strong&gt;: If you like to write Java, stop reading now. Go back to using Hadoop. It&#39;s a much more mature project.&amp;lt;/blink&amp;gt;&lt;/p&gt;
+
+	&lt;p&gt;As a part of my &lt;a href=&#34;http://www.turbobytes.com/&#34; title=&#34;multi-cdn service&#34;&gt;job&lt;/a&gt;, I do a lot of number processing. Over the course of last few weeks, I shifted to doing most of it using &lt;a href=&#34;http://research.google.com/archive/mapreduce.html&#34;&gt;MapReduce&lt;/a&gt; using &lt;a href=&#34;http://discoproject.org/&#34;&gt;Disco&lt;/a&gt;. Its a wonderful approach to processing big data where the time to process data is directly proportional to the amount of hardware you throw at it and the quantity of data. The amount of data to be processed can (in theory) be unlimited. While I don&#39;t do anything of Google scale, I deal with &lt;em&gt;Small Big Data&lt;/em&gt;. My datasets for an individual job would probably not exceed 1 GB. I can currently afford to continue not use MapReduce, but as my data set grows, I would &lt;em&gt;have to&lt;/em&gt; do distributed computing, so better start early.&lt;/p&gt;
+
+	&lt;h3&gt;Getting started with Disco&lt;/h3&gt;
+
+	&lt;p&gt;If you, like me, had given up on MapReduce in the past after trying to deal with administrating Hadoop, now is a great time to look into Disco. Installation is pretty easy. &lt;a href=&#34;http://discoproject.org/doc/disco/start/download.html&#34;&gt;Follow the docs&lt;/a&gt;. Within 5 minutes I was writing Jobs in python to process data, would have been faster if I knew before-hand that SSH daemon should be listening on port 22.&lt;/p&gt;
+
+	&lt;p&gt;Python for user scripts + Erlang for backend == match made in heaven&lt;/p&gt;
+
+	&lt;h3&gt;Enter disposable Disco&lt;/h3&gt;
+
+	&lt;p&gt;I made a &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;set of python scripts&lt;/a&gt; to launch and manage Disco clusters on EC2 where there is no need for any data to be stored. In my usecase, the input is read from Amazon S3 and output goes back into S3.
+
+	&lt;p&gt;There are some issues with running disco on EC2.&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;Must have ssh/keys setup such that Master can ssh into slaves.&lt;/li&gt;
+		&lt;li&gt;Must have a file with &lt;em&gt;erlang cookie&lt;/em&gt; with same contents on all slaves&lt;/li&gt;
+		&lt;li&gt;Must inform master the &lt;em&gt;hostnames&lt;/em&gt; of the slaves. FQDN or anything with a dot gets rejected&lt;/li&gt;
+		&lt;li&gt;The default root directories have very limited storage space, usually 8GB&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;p&gt;disposabledisco takes care of the above things and more. Everything needed to run the cluster is defined in a config file. First generate a sample config file.&lt;/p&gt;
+
+	&lt;pre&gt;
+python create_config.py &gt; config.json
+	&lt;/pre&gt;
+
+	&lt;p&gt;This creates a new file with some pre-populated values. For my case the config file looks like this(some info masked)&lt;/p&gt;
+
+	&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+{
+    &#34;AWS_SECRET&#34;: &#34;SNIPPED&#34;, 
+    &#34;ADDITIONAL_PACKAGES&#34;: [
+        &#34;git&#34;, 
+        &#34;libwww-perl&#34;, 
+        &#34;mongodb-clients&#34;, 
+        &#34;python-numpy&#34;, 
+        &#34;python-scipy&#34;, 
+        &#34;libzmq-dev&#34;, 
+        &#34;s3cmd&#34;, 
+        &#34;ntp&#34;, 
+        &#34;libguess1&#34;, 
+        &#34;python-dnspython&#34;, 
+        &#34;python-dateutil&#34;, 
+        &#34;pigz&#34;
+    ], 
+    &#34;SLAVE_MULTIPLIER&#34;: 1, 
+    &#34;PIP_REQUIREMENTS&#34;: [
+        &#34;iso8601&#34;,
+        &#34;pygeoip&#34;
+    ], 
+    &#34;MASTER_MULTIPLIER&#34;: 1, 
+    &#34;MGMT_KEY&#34;: &#34;ssh-rsa SNIPPED\n&#34;, 
+    &#34;SECURITY_GROUPS&#34;: [&#34;disco&#34;], 
+    &#34;BASE_PACKAGES&#34;: [
+        &#34;python-pip&#34;, 
+        &#34;python-dev&#34;, 
+        &#34;lighttpd&#34;
+    ], 
+    &#34;TAG_KEY&#34;: &#34;disposabledisco&#34;, 
+    &#34;NUM_SLAVES&#34;: 30, 
+    &#34;KEY_NAME&#34;: &#34;SNIPPED&#34;, 
+    &#34;AWS_ACCESS&#34;: &#34;SNIPPED&#34;, 
+    &#34;INSTANCE_TYPE&#34;: &#34;c1.medium&#34;, 
+    &#34;AMI&#34;: &#34;ami-6d3f9704&#34;, 
+    &#34;MAX_BID&#34;: &#34;0.04&#34;,
+    &#34;POST_INIT&#34;: &#34;echo \&#34;[default]\naccess_key = SNIPPED\nsecret_key = SNIPPED\&#34; &gt; /tmp/s3cfg\ncd /tmp\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIPASNum.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIP.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoLiteCity.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIPRegion.dat.gz\ngunzip *.gz\nchown disco:disco *.dat\n\n&#34;
+}
+	&lt;/pre&gt;
+
+	&lt;p&gt;This tells disposabledisco that I want a cluster with 1 master and 30 slaces all of type &lt;em&gt;c1.medium&lt;/em&gt;, and use &lt;em&gt;ami-6d3f9704&lt;/em&gt; as the starting point. It lists out the packages to be installed via apt-get and python dependencies to be installed using PIP. You can link to external tar, git repo, etc. Basically anything pip allows after &lt;em&gt;pip install&lt;/em&gt;&lt;/p&gt;
+
+	&lt;p&gt;The &lt;em&gt;POST_INIT&lt;/em&gt; portion is bash script that runs as root after rest of the install. In my case I am downloading and uncompressing different GeoIP databases archived in a S3 bucket for use from within disco jobs.&lt;/p&gt;
+
+	&lt;p&gt;Once the config file is ready run the following command many times. The output is fairly verbose.&lt;/p&gt;
+
+	&lt;pre&gt;
+python create_cluster.py config.json
+	&lt;/pre&gt;
+
+	&lt;p&gt;Why many times? Cause there is no state stored in the system. All state is managed using EC2 tags. This is what the script does on each run&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;Check if master is running. If not request a spot instance for it (and kill any zombie slaves lying around from previous runs).&lt;/li&gt;
+		&lt;li&gt;
+			If master us up and running.
+			&lt;ul&gt;
+				&lt;li&gt;Print the ssh command needed to setup port forwarding. After running the given ssh command you can see http://localhost:8090 on the browser to see disco&#39;s UI in all its glory.&lt;/li&gt;
+				&lt;li&gt;print the command to export DISCO_PROXY so you can create jobs locally&lt;/li&gt;
+				&lt;li&gt;Check inventory of slaves. A slave can have 3 statuses. 1) &lt;em&gt;pending&lt;/em&gt; - spot instance requested. 2) &lt;em&gt;running&lt;/em&gt; - the instance is running. 3) &lt;em&gt;bootstrapped&lt;/em&gt; - slave is completely setup and can be added to master.&lt;/li&gt;
+				&lt;li&gt;If total number of slaves is less than &lt;em&gt;NUM_SLAVES&lt;/em&gt; launch the remaining&lt;/li&gt;
+				&lt;li&gt;Try and bootstrap any &lt;em&gt;running&lt;/em&gt; instances. If bootstrap was successful, change the EC2 tag.&lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/li&gt;
+		&lt;li&gt;Finally, update the master&#39;s disco config. Telling it hostnames of instances to use and number of workers.&lt;/li&gt;
+		&lt;li&gt;???&lt;/li&gt;
+		&lt;li&gt;Profit&lt;/li&gt;
+	&lt;/ul&gt;
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/disco-cluster-small.png&#34; width=&#34;500&#34; height=&#34;377&#34; alt=&#34;Cloudwatch showing 31 instances&#34; title=&#34;Cloudwatch showing 31 instances&#34; /&gt;
+
+	&lt;p&gt;Many steps involve EC2 provisioning spot instances, waiting for instance to get initialized, etc..&lt;/p&gt;
+
+	&lt;p&gt;To help with shipping output to S3, I made some output classes for Disco&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&#34;https://gist.github.com/3919506&#34;&gt;S3Output&lt;/a&gt; - Each key, value returned creates a new file in S3 with the key as S3 key and value as String thats dumped inside it. So, one key should be yielded only once from reduce.&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&#34;https://gist.github.com/3975607&#34;&gt;S3LineOutput&lt;/a&gt; Similar to S3Output, but now it stores the output, and joins the output as one big file. has options for sorting, unique, etc. &lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;p&gt;Both these functions can be configured gzip the contents before uploading.&lt;/p&gt;
+
+	&lt;p&gt;As far as input is concerned, I send it a list of signed S3 urls. (Sidenote: It seems disco cannot handle https inputs at the moment, so I use http). A sample job run might look like.. &lt;/p&gt;
+
+	&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+def get_urls():
+    urls = []
+    for k in bucket.list(prefix=&#34;processed&#34;):
+        if k.name.endswith(&#34;gz&#34;):
+            urls += [k.generate_url(3660).replace(&#34;https&#34;, &#34;http&#34;)]
+    return urls
+
+MyExampleJob().run(
+	input=get_urls(),
+	params={
+		&#34;AWS_KEY&#34;: &#34;SNIP&#34;,
+		&#34;AWS_SECRET&#34;: &#34;SNIP&#34;,
+		&#34;BUCKET_NAME&#34;: &#34;SNIP&#34;,
+		&#34;gzip&#34;: True
+	},
+	partitions=10,
+	required_files=[&#34;s3lineoutput.py&#34;],
+	reduce_output_stream=s3_line_output_stream
+	).wait()
+
+	&lt;/pre&gt;
+
+	&lt;p&gt;Bonus - &lt;a href=&#34;https://gist.github.com/3941935&#34;&gt;MagicList&lt;/a&gt; - Memory efficient way to store and process potentially infinite lists.&lt;/p&gt;
+
+	&lt;p&gt;We used Disco to compute numbers for a series of blogposts on &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDN Planet&lt;/a&gt;. For this analysis it was painful process for me to manually launch Disco clusters, which lead me to create the helper scripts.&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;Part 1 : &lt;a href=&#34;http://www.cdnplanet.com/blog/google-dns-opendns-and-cdn-performance/&#34;&gt;Google DNS, OpenDNS and CDN performance&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;Part 2 : &lt;a href=&#34;http://www.cdnplanet.com/blog/which-cdns-support-edns-client-subnet/&#34;&gt;Which CDNs support edns-client-subnet?&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;Part 3 : &lt;a href=&#34;http://www.cdnplanet.com/blog/real-world-cdn-performance-googledns-opendns-users/&#34;&gt;Real-world CDN performance for Google DNS and OpenDNS users&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;h3&gt;Shameless plug&lt;/h3&gt;
+
+	&lt;a href=&#34;http://www.turbobytes.com/&#34;&gt;&lt;strong&gt;Turbobytes, multi-CDN made easy&lt;/strong&gt;&lt;/a&gt;
+
+	&lt;p&gt;Have your static content delivered by 6 global content delivery networks, not just 1. Turbobytes&#39; platform closely monitors CDN performance and makes sure your content is always delivered by the fastest CDN, automatically.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>4 reasons why I love my ISP</title>
+      <link>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</link>
+      <pubDate>Mon, 28 Nov 2011 18:52:26 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</guid>
+      <description>&lt;p&gt;I&#39;ve been using &lt;a href=&#34;http://www.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; for years, and I absolutely love their service (and especially the transparent proxy). Here are some of the reasons why :-&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Censorship&lt;/del&gt; &lt;strong&gt;Protecting me from bad stuff&lt;/strong&gt; - Interwebs has a lot of &#34;bad&#34; things out there. My ISP takes good care of me by not letting me access things I am not supposed to see... Even sites not explicitly blocked by court-order. I don&#39;t know what I would do without them. My head would probably explode if I saw porn, and my feelings would get hurt if I came across certain types of political messages..&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Transparent proxy&lt;/del&gt; &lt;strong&gt;Web slow down machine&lt;/strong&gt; - Buddha &lt;a href=&#34;http://thinkexist.com/quotation/the_greatest_prayer_is/165541.html&#34;&gt;teaches&lt;/a&gt; us &lt;em&gt;&#34;The greatest prayer is patience&#34;&lt;/em&gt;. A very special offering of True ISP is that it reminds us to be patient in this fast-paced world. True&#39;s Web slow down machine &lt;a href=&#34;/check-if-you-are-behind-a-transparent-proxy.html&#34; title=&#34;Check if you are behind a transparent proxy&#34;&gt;sits between&lt;/a&gt; users&#39; connection to other servers. One of its features is to slow down access... It employs several brilliant methods to accomplish this :-
+	&lt;ul&gt;
+		&lt;li&gt;Not keeping connections alive - This is the most important factor in slowing down pageloads. True does not keep connections to remote hosts alive, thus making sure you have to establish a fresh connection with each request to a server overseas. No matter how small the file, a request to the USA will take a minimum 500ms.&lt;/li&gt;
+		&lt;li&gt;Making &lt;a href=&#34;http://www.cdnplanet.com/blog/tune-tcp-initcwnd-for-optimum-performance/&#34; title=&#34;Tuning initcwnd for optimum performance&#34;&gt;TCP optimizations&lt;/a&gt; useless, since the slow down machine is the one that actually makes connections to remote hosts.&lt;/li&gt;
+		&lt;li&gt;Overriding destination IP - True doesn&#39;t care about what IP your computer wanted to connect to, your computer could be wrong. It sees the &lt;em&gt;Host&lt;/em&gt; header from the request, does its own DNS lookups and routes you to the correct server. Even if you wanted to override this for development, True correctly sends you to production server. True knows development/staging servers are full of bugs, so requests should always go to production.&lt;/li&gt;
+		&lt;li&gt;512 kbps upload speed is sufficient for everyone. If you need to upload something big, why not get your lazy ass out, buy a CD and mail it!&lt;/li&gt;
+		&lt;li&gt;Sharing is caring - My ISP oversells available bandwidth by a huge margin. Teaches us the importance of sharing&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Privacy&lt;/del&gt; &lt;strong&gt;People impersonator&lt;/strong&gt; - Your life is boring? True has a solution! It will &lt;a href=&#34;/twitter-logged-me-as-someone-else-privacy-fail.html&#34; title=&#34;Twitter logged me as someone else! Privacy FAIL!&#34;&gt;automagically log you&lt;/a&gt; in as someone else so you can get a glimpse into their exciting lives.&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Incompetence&lt;/del&gt; &lt;strong&gt;Motivator&lt;/strong&gt; - Living in Thailand, I am ashamed that I don&#39;t read Thai yet, in part due to my own laziness. True gives you an &lt;a href=&#34;/truewifinet-big-fail-for-usability.html&#34; title=&#34;truewifi.net == big FAIL for usability&#34;&gt;incentive&lt;/a&gt;.&lt;/p&gt;
+
+&lt;small&gt;edited by Michael van Poppel&lt;/small&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>DFP now officially supports asynchronous rendering!</title>
+      <link>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</link>
+      <pubDate>Thu, 27 Oct 2011 12:29:52 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</guid>
+      <description>Yesterday, DFP launched &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=181071&#34;&gt;asynchronous ad loading&lt;/a&gt;. For the past few months ive &lt;a href=&#34;/optimizing-dfp-performance.html&#34; title=&#34;Optimizing DFP performance&#34;&gt;been&lt;/a&gt; &lt;a href=&#34;/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34; title=&#34;Complete Asynchronous ad loading using DFP and LABjs&#34;&gt;trying&lt;/a&gt; to load ads in a manner where it doesn&#39;t affect rest of the page load, this new development is like a dream come true.
+
+&lt;iframe width=&#34;480&#34; height=&#34;244&#34; src=&#34;http://www.youtube.com/embed/bA-Qgl7JqlQ&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+(The tests above were run on &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;webpagetest.org&lt;/a&gt; on IE8 at Dulles, VA)
+
+Thank you Google! You just made my day.
+</description>
+    </item>
+    
+    <item>
+      <title>Check if you are behind a transparent proxy</title>
+      <link>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</link>
+      <pubDate>Tue, 11 Oct 2011 19:38:50 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</guid>
+      <description>Many Asian ISPs do not provide &lt;em&gt;clean&lt;/em&gt; internet. They route all HTTP sessions thru a &lt;a href=&#34;http://en.wikipedia.org/wiki/Proxy_server#Transparent_proxies&#34;&gt;transparent proxy&lt;/a&gt;.
+
+Here is a simple way to check if you are behind one.
+
+&lt;pre  style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+sajal@sajal-laptop:~$ ping -c 4 www.cdnplanet.com
+PING www.cdnplanet.com (107.20.181.99) 56(84) bytes of data.
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=1 ttl=42 time=314 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=2 ttl=42 time=313 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=3 ttl=42 time=312 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=4 ttl=42 time=312 ms
+
+--- www.cdnplanet.com ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms
+rtt min/avg/max/mdev = 312.195/313.229/314.137/0.889 ms
+&lt;/pre&gt;
+&lt;pre  style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+sajal@sajal-laptop:~$ ab http://www.cdnplanet.com/
+This is ApacheBench, Version 2.3 &lt;$Revision: 655654 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.cdnplanet.com (be patient).....done
+
+
+Server Software:        Apache
+Server Hostname:        www.cdnplanet.com
+Server Port:            80
+
+Document Path:          /
+Document Length:        13084 bytes
+
+Concurrency Level:      1
+Time taken for tests:   0.944 seconds
+Complete requests:      1
+Failed requests:        0
+Write errors:           0
+Total transferred:      13296 bytes
+HTML transferred:       13084 bytes
+Requests per second:    1.06 [#/sec] (mean)
+Time per request:       943.539 [ms] (mean)
+Time per request:       943.539 [ms] (mean, across all concurrent requests)
+Transfer rate:          13.76 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:       21   21   0.0     21      21
+Processing:   922  922   0.0    922     922
+Waiting:      611  611   0.0    611     611
+Total:        944  944   0.0    944     944
+sajal@sajal-laptop:~$ 
+
+&lt;/pre&gt;
+
+My ping time to &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDN Planet&lt;/a&gt; is 312ms, but the connection was established in just 21ms !!!!11!!1
+
+Reasons for doing so involve : Censorship, big brother snooping, caching, &lt;a href=&#34;/twitter-logged-me-as-someone-else-privacy-fail.html&#34;&gt;hijacking users sessions&lt;/a&gt; , and probably more ...
+</description>
+    </item>
+    
+    <item>
+      <title>Evaluating few CDN options</title>
+      <link>http://www.sajalkayan.com/evaluating-few-cdn-options.html</link>
+      <pubDate>Fri, 10 Jun 2011 21:10:53 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/evaluating-few-cdn-options.html</guid>
+      <description>Recently, I was evaluating CDN options for a client with some unique challenges. We ended up using Amazon CloudFront, but ill detail the options we looked at and what let us to this decision.
+
+Some things to note:-
+&lt;ul&gt;
+	&lt;li&gt;We would serve CSS, JS, Images referred to from stylesheets and some website images thru the CDN.&lt;/li&gt;
+	&lt;li&gt;Due to the nature(trust me) of the site we expect a higher than normal miss rate. The access is spread across a wide number of urls, some may get lower hits.&lt;/li&gt;
+	&lt;li&gt;Speed is important. Website should be fast(er) from everywhere. The most important regions in order of priority are US, EU, AU and ROTW with US being most important.&lt;/li&gt;
+	&lt;li&gt;Anything on the site can change anytime, there is no build process as such. Any object anywhere can change, and change must be visible ASAP.&lt;/li&gt;
+	&lt;li&gt;Developers/designers shouldn&#39;t be harassed to purge a file if they change something.&lt;/li&gt;
+	&lt;li&gt;CDN data usage : ~100 GB per month&lt;/li&gt;
+&lt;/ul&gt;
+
+The providers we looked at :-
+
+&lt;strong&gt;&lt;a href=&#34;http://www.maxcdn.com/features/network&#34;&gt;MaxCDN&lt;/a&gt;: Almost sealed the deal.&lt;/strong&gt;
+
+Pros:-
+&lt;ul&gt;
+	&lt;li&gt;Cheap : $40 for first TB (must use in a year) + $99 per additional TB . On current usage rates this comes to say 0.04+ /GB.&lt;/li&gt;
+	&lt;li&gt;* Anycast/BGP routing : No way bad &lt;a href=&#34;/in-a-cdnd-world-opendns-is-the-enemy.html&#34;&gt;DNS server can mess up&lt;/a&gt; routing.&lt;/li&gt;
+	&lt;li&gt;Nice control panel, has a purge all option for just in case. Purges take effect almost instantly.&lt;/li&gt;
+	&lt;li&gt;Handles gzip well.&lt;/li&gt;
+	&lt;li&gt;Can have separate cache timings for caching in Browser and caching at CDN. - i.e. We can say not cache a file in browser level, but cache at CDN and purge when theres a change made.&lt;/li&gt;
+&lt;/ul&gt;
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;http://www.maxcdn.com/features/network&#34;&gt;Poor global coverage&lt;/a&gt;. - No POP/Edge in Asia/AU - Deal Breaker&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;Pages loaded same speed when testing from AU with or without CDN.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;&lt;a href=&#34;http://www.edgecast.com/&#34;&gt;EdgeCast&lt;/a&gt;: Looked good at first, but poor gziping.&lt;/strong&gt;
+
+Pros:-
+&lt;ul&gt;
+	&lt;li&gt;Impressive list of networks&lt;/li&gt;
+	&lt;li&gt;Highly configurable control panel.&lt;/li&gt;
+	&lt;li&gt;Can have separate cache timings for caching in Browser and caching at CDN. - i.e. We can say not cache a file in browser level, but cache at CDN and purge when theres a change made.&lt;/li&gt;
+&lt;/ul&gt;
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Gzippable files will not be gzipped for cache misses. - Deal Breaker&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;Request from Edge server to origin is uncompressed.&lt;/li&gt;
+	&lt;li&gt;Expensive and wants higher commitments.&lt;/li&gt;
+	&lt;li&gt;DNS Based routing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;&lt;a href=&#34;http://www.us.cdnetworks.com/&#34;&gt;CDNetworks&lt;/a&gt;: Didn&#39;t look past price&lt;/strong&gt;
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Ridiculously high price - Dealbreaker&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;&lt;a href=&#34;http://aws.amazon.com/cloudfront/&#34;&gt;Amazon CloudFront&lt;/a&gt;: WIN&lt;/strong&gt;
+
+Pros:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Testing showed our pages to be fastest from all regions when using cloudfront&lt;/strong&gt;. YMMV&lt;/li&gt;
+	&lt;li&gt;No commitments - $0.15 - $0.2/GB (depends on where user accesses from) + negligible per request fee&lt;/li&gt;
+	&lt;li&gt;Client is already AWS user, one less account to maintain.&lt;/li&gt;
+	&lt;li&gt;No need to send gazillion emails to gazillions of people to get started. No bargaining.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;No POP/Edge in AU (but has in Singapore, Hong Kong and Tokyo)&lt;/li&gt;
+	&lt;li&gt;DNS based routing.&lt;/li&gt;
+	&lt;li&gt;Charges fee per request and per invalidation(purge) request.&lt;/li&gt;
+	&lt;li&gt;No control panel, invalidation requests need to be done by API only.&lt;/li&gt;
+	&lt;li&gt;Does not do gzipping, but honours Vary header and serves correct version based on what user asks.&lt;/li&gt;
+	&lt;li&gt;Can&#39;t use querystring parameters for CDN cachebusting. CloudFront ignores querystrings.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+Sidenote : Requests from CloudFront to origin are HTTP 1.0 . Nginx by default does not serve gzip to 1.0 request. &lt;a href=&#34;http://wiki.nginx.org/HttpGzipModule#gzip_http_version&#34;&gt;gzip_http_version&lt;/a&gt;  setting must be changed in order to use nginx as origin for CloudFront.
+
+
+The system we architected adds something based on the file mtime as a part of the URL, so now we don&#39;t need to any purges at the CDN. Also now we can have far future expires on all CDN&#39;d objects cause if something changes, the URL would automagically change.
+
+For us, the price and features are important, but whats more important is the results. We went with the provider with lesser features just because our pages loaded fastest with them.
+</description>
+    </item>
+    
+    <item>
+      <title>Attention skeptics: Web Performance Optimization works!</title>
+      <link>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</link>
+      <pubDate>Sat, 14 May 2011 14:39:14 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</guid>
+      <description>Today, I was looking into web performance issues for a new client who wishes to remain anonymous and saw an interesting example of value provided by improving performance.
+
+One of the first things I do when looking into a new site is look at Google Analytics to understand a little about the sites visitors. This helps in prioritizing changes which affects the majority of users.
+
+An interesting observation :-
+
+&lt;strong&gt;Pageviews for all visitors&lt;/strong&gt;
+&lt;a href=&#34;http://i.ticdn.com/sajal/page-views.png&#34; target=&#34;_blank&#34; title=&#34;Pageviews for all visitors&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/page-views-s.png&#34; alt=&#34;Pageviews for all visitors&#34; /&gt;&lt;/a&gt;
+
+&lt;strong&gt;Average Pageviews for all visitors&lt;/strong&gt;
+&lt;a href=&#34;http://i.ticdn.com/sajal/avg-page-views.png&#34; target=&#34;_blank&#34; title=&#34;Average Pageviews for all visitors&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/avg-page-views-s.png&#34; alt=&#34;Average Pageviews for all visitors&#34; /&gt;&lt;/a&gt;
+
+Adsense revenue also followed a similar path. -- Screenshot not available
+
+The reason for this effect was a simple database indexing tweak which sped up the backend performance of a very important action page on the site.
+
+The site in question is a web application where user inputs something and gets some result. It is not a content site where pageview/user could have increased due to some interesting content being added or something. The only change was indexing of a column which should have an index right from the start.
+
+&lt;em&gt;DISCLAIMER: I did not have any role in the above improvement. This was done before my involvement. Perhaps this convinced the client to hire me. Screenshots/info shared with clients permission.&lt;/em&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Dear Google: W-W-W-WHY Y-YOU DO DAT?</title>
+      <link>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</link>
+      <pubDate>Sat, 12 Mar 2011 19:01:28 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</guid>
+      <description>&lt;img src=&#34;http://i.ticdn.com/sajal/documentwrite-W-W-W-WHY-Y-YOU-DO-DAT.jpg&#34; alt=&#34;document.write() .. why?&#34; /&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Complete Asynchronous ad loading using DFP and LABjs</title>
+      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <pubDate>Wed, 02 Mar 2011 18:43:51 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
+
+&lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
+
+One of the biggest challenges when optimizing performance of websites is third party content - specifically advertisements.
+
+Most ad networks and servers use evil document.write() in their JavaScript(and even nested document.writes) which block further rendering of the page until their code has completed execution. In this blogpost, I&#39;ll show how you can use &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=90777&#34;&gt;DFP&#39;s iframe tagging&lt;/a&gt;(read warnings there) combined with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt; and little bit of JavaScript hackery to make any ad load asynchronously with negligible impact on rest of the pageload.
+
+Attention Deficit Disorder version : &lt;a href=&#34;/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;Before&lt;/a&gt; - &lt;a href=&#34;/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;After&lt;/a&gt;
+
+NOTE: Use the method below entirely at your own risk! Use only if you know what you are doing...
+
+&lt;h3&gt;Current blocking method&lt;/h3&gt;
+
+DFP has an experimental method to load ads called iframe tagging. The JS looks like this :-
+
+The Bootstrap: In &amp;lt;head&amp;gt; (Does not have to be in &amp;lt;head&amp;gt; but before the first &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; call) :-
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+&amp;lt;script type=&#39;text/javascript&#39; src=&#39;http://partner.googleadservices.com/gampad/google_service.js&#39;&amp;gt;
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
+GS_googleEnableAllServices();
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GA_googleUseIframeRendering();
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+
+Then wherever we want the ads to display, we put something like this :-
+
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GA_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90);
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+
+With this method, the bootstrap does some blocking. First it loads a JavaScript then the following functions document.write another &amp;lt;script&amp;gt; tag which must load sequentially again. The &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; function is relatively inexpensive. All it seems to do is document.write an iframe with various targeting information as parameters in the URL and does not block further rendering. The advantage of iframe tagging is that slow ad networks don&#39;t fuck up your page. But the bootstrap is very expensive as shown in this waterfall chart.
+
+&lt;a href=&#34;/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;This&lt;/a&gt; is what it looks like.
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-async/normal.png&#34; alt=&#34;normal DFP iframe bootstrap&#34; title=&#34;normal DFP iframe bootstrap&#34; height=&#34;186&#34; width=&#34;485&#34; /&gt;
+
+&lt;h3&gt;The hack&lt;/h3&gt;
+
+Last few days, I&#39;ve been playing a little with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt;, specifically its &lt;a href=&#34;http://gist.github.com/603980&#34; title=&#34;Snippet to load LABjs itself dynamically&#34;&gt;complete async loader&lt;/a&gt;.
+
+After playing with LABjs, ive come up with the following LABjs snippet :-
+
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+      // intercepts the script inserted via document.write and loads it via LABjs
+      function docwrt(str){
+        var script = str.replace(/(.*)\=\&#34;/g, &#39;&#39;).replace(/\&#34;(.*)/g, &#39;&#39;);
+        $LAB.script(script).wait(function(){
+          GA_googleUseIframeRendering();
+          // following function makes the magic happen!
+          function Wrapper_googleFillSlotWithSize(pubid, slotname, width, height, target){
+            var docwrttemp = function(str){
+              target = document.getElementById(target);
+              target.innerHTML = str;
+            };  
+            document.write = docwrttemp;
+            GA_googleFillSlotWithSize(pubid, slotname, width, height);
+          }
+          // usage of the new wrapper here &#34;leaderboard&#34; and &#34;skyscraper&#34; are target div ids
+          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90, &#34;leaderboard&#34;);
+          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_sky&#34;, 160, 600, &#34;skyscraper&#34;);
+        });
+      }
+
+      document.write = docwrt; //intercepts document.write from below script
+      $LAB.script(&#34;http://partner.googleadservices.com/gampad/google_service.js&#34;).wait(function(){
+        GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
+        GS_googleEnableAllServices();
+      });
+
+&lt;/pre&gt;
+
+(note: Since I&#39;m lazy, I haven&#39;t restored &lt;em&gt;document.write&lt;/em&gt; back to its original glory.)
+
+Here &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; is a wrapper around &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; which takes a 5th argument - &lt;em&gt;target&lt;/em&gt; - This is the id of &amp;lt;div&amp;gt; where we want to show the ad.
+
+&lt;a href=&#34;/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; is a sample page using this hack. Id appreciate it if I get some feedback about this method via comments below. As I said earlier, use your own better judgment before using this snippet in production. I welcome criticism but will not accept blame if this doesn&#39;t work for you. 
+
+In my simple example, it may seem it takes longer to fully load the page, but if you have many other things on the page, the overall effect will be better with this hack. Moreover, if you are already using LABjs on your site, this is a no-brainer. With this method, even if Google is inaccessible(for whatever reasons) it wont &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;SPOF&lt;/a&gt; your page.
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/dfp-async/video.mp4&#34;&gt;Slow motion video&lt;/a&gt; of pageloads on IE8:-
+
+&lt;iframe title=&#34;YouTube video player&#34; width=&#34;500&#34; height=&#34;311&#34; src=&#34;http://www.youtube.com/embed/Vz2unMmBN_8&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+Generated via &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;webpagetest.org&lt;/a&gt;
+
+Left is normal method, right is hacked version.
+
+Currently tested on IE(7 thru 9), Firefox 3.6.11, Chrome 10.0.648.45 dev and an unknown version of Safari.
+
+&lt;h3&gt;Conclusions...&lt;/h3&gt;
+
+The world would be a much better place without the evil document.write(). Google should know better. They should make a function like &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; by default.
+</description>
+    </item>
+    
+    <item>
+      <title>Internet connectivity in Myanmar (Burma)</title>
+      <link>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</link>
+      <pubDate>Mon, 21 Feb 2011 09:21:09 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</guid>
+      <description>Last weekend ( Feb 19th &amp; 20th) I was in Yangon for &lt;a href=&#34;http://www.barcampyangon.org/&#34;&gt;BarCamp Yangon&lt;/a&gt;.
+
+It probably had an attendance of &amp;gt; 4k participants... Probably one of the largest BarCamps ever,  despite the fact that the internet connectivity in Myanmar sucks big time.... Really unusable... 
+
+I used internet at the free &#34;wifi&#34; internet at the hotel and the wifi arranged by the organizers. Both places, the speeds I&#39;ve seen range from 0 kbps to ~50 kbps.... most of the time around 0 kbps :P
+
+&lt;h3&gt;Internet access&lt;/h3&gt;
+
+Most locals use internet at cafes/internet shops. The average shop would have 512 kbps connection shared between 15 to 20 computers charging 300 to 500 MKY ( US$ 0.3 to 0.5 ) per hour for usage. Some give discount if you bring your own laptop, some don&#39;t. I didn&#39;t get a chance to visit a cafe, this is based on what people told me.
+
+Most geeks have a computer at home, very few have laptops. ADSL is available but is very expensive. It costs &gt; $1000 setup fee + $120/month for a mere 512 kbps. Only the very rich people can afford it.
+
+Mobile internet was unheard of until few weeks ago. They don&#39;t have gprs there, but recently they launched 3G and CDMA for wireless internet. CDMA would charge around $0.10/minute for 1 or 2 mbps (don&#39;t remember clearly).
+
+Out of the few sites i tried opening, only Facebook seemed to be usable. This is due to the &lt;a href=&#34;http://www.youtube.com/watch?v=51JGykHrwZA&#34; title=&#34;David Wei and Changhao Jiang (Facebook Inc.) - Frontend Performance Engineering in Facebook&#34;&gt;enormous effort&lt;/a&gt; they invest in &lt;a href=&#34;/tag/site-performance&#34;&gt;frontend performance&lt;/a&gt;. Google search was also fast, but none of the sites in the results seemed to open.
+
+The average DNS query took me 2+ seconds to resolve. DNS access is limited to the ISPs crappy nameserver, I couldn&#39;t use opendns or any external nameservers.
+
+Almost all local sites are hosted outside of Myanmar cause domestic connectivity is as bad as international routes. Server co-location fees are 10x in Burma than in America.
+
+&lt;h3&gt;Censorship&lt;/h3&gt;
+
+I didn&#39;t use the internet much... but here is what I found.
+
+Among the sites/services blocked :-
+
+&lt;ul&gt;
+&lt;li&gt;My secret project - Details/screenshot below&lt;/li&gt;
+&lt;li&gt;Twitter - Blocked normally, but works using https or apps.&lt;/li&gt;
+&lt;li&gt;Gmail - works on browser but IMAP doesn&#39;t work at all... The most surprising aspect of it is that 99% of ppl there use gmail.&lt;/li&gt;
+&lt;li&gt;SSH - connections to port 22 are completely blocked, but I&#39;ve been told that setting ssh server on port 443 works fine. I used &lt;a href=&#34;http://www.splitbrain.org/blog/2008-11/02-dns_tunneling_made_simple&#34;&gt;DNS tunnel&lt;/a&gt; and it kinda worked occasionally for emergency usage - after trying for 10 - 15 mins i could get 1 min or so of connectivity.&lt;/li&gt;
+&lt;li&gt;gtalk - Using Pidgin  - doesn&#39;t work at all.&lt;/li&gt;
+&lt;/ul&gt;
+
+I am building a new webservice called www.{secret}.com . Hardly anyone knows about it. Its got only 3 users, and has nothing to do with Burma. That site was somehow blocked in Burma (only one ISP). I cant understand how {secret} could trigger any phrase based blocklists or something.. Makes me feel important if governments block my site...
+
+My moment of pride :-
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/blocked-classified-big.png&#34; title=&#34;secret project blocked in burma&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/blocked-classified-small.png&#34; alt=&#34;secret project blocked in burma&#34; /&gt;&lt;/a&gt;
+
+&lt;h3&gt;Summary&lt;/h3&gt;
+
+BarCamp Yangoon 2011 was probably the biggest barcamp ever with about 4500 to 5000 participants (with about 20 - 30 foreigners traveling in from abroad). An interesting activity was file swapping. There were about 20 - 30 computers setup with shared folders which participants used to exchange software/music/etc. 
+
+Based on a simple survey, everyone uses Firefox. Very few people use Linux. Windows is very popular due to rampant piracy.
+
+I was considering giving a talk on web performance optimization on day 2 of the event, but didn&#39;t go thru with it cause an American expat covered the topic well on day 1.
+
+One thing that I should have done would be to download all the &lt;a href=&#34;http://velocityconf.com/&#34;&gt;Velocity Conference&lt;/a&gt; videos and pass it around... unfortunately it occurred to me to late. Ill try to arrange it now...
+
+The country has great people... It can succeed in this digital age if only America and other western countries lift sanctions on Burma..
+</description>
+    </item>
+    
+    <item>
+      <title>DreamHost: Best customer service ever!</title>
+      <link>http://www.sajalkayan.com/dreamhost-best-customer-service-ever.html</link>
+      <pubDate>Wed, 12 Jan 2011 17:46:08 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/dreamhost-best-customer-service-ever.html</guid>
+      <description>&lt;blockquote&gt;&lt;em&gt;Please wait for a site operator to respond.
+
+You are now chatting with &#39;Brandon&#39;
+
+Brandon: Hi, how may I help you?
+
+sajal: hi this is a clients account where im supposed to setup the VPS. its been almost a day since the VPS was requested.... when can i expect it to be provisioned? it still tells me &#34;You currently have 1 pending VPS web server order in our queue.&#34;
+
+Brandon: Unfortunately it can take up to a couple of days at times. If you&#39;d like to have this expedited, please submit a ticket via &#34;Support&#34; &gt; &#34;Contact Support&#34;
+
+sajal: wow.. couple of days.. seems like i made a mistake recommending dreamhost... let me try the support ticket... hope any issues with hosting in the future also dont take couple of days...
+
+Brandon: Thanks, take care.
+
+Chat session has been terminated by the site operator.&lt;/em&gt;&lt;/blockquote&gt;
+
+
+Don&#39;t get it? couple of days to provision a damn VPS? I am used to getting physical dedicated servers provisioned at Softlayer in &lt; 4  hours. Amazon EC2 instances in &lt; 1 minute...
+
+The only reason im using DreamHost is cause this is a clients project where fancy panels for domains, settings, etc would be easily user maintainable. 
+</description>
+    </item>
+    
+    <item>
+      <title>SimpleCDN goes down - a case for using multiple CDN providers</title>
+      <link>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
+      <pubDate>Sat, 11 Dec 2010 21:24:49 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
+      <description>CDN provider &lt;a href=&#34;http://www.simplecdn.com/&#34;&gt;SimpleCDN&lt;/a&gt; has been down since last few days, with their customers venting their anger via online channels such as &lt;a href=&#34;http://search.twitter.com/search?q=SimpleCDN&#34;&gt;twitter&lt;/a&gt;.
+
+To know more about what a CDN is, please read &lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;this post&lt;/a&gt;.
+
+The reason given by them :-
+
+&lt;blockquote&gt;&lt;em&gt;Dear SimpleCDN Customer,
+
+I am writing this letter to update you on a situation that has been developing for the past 72 hours between SimpleCDN and our technology and infrastructure providers, SoftLayer and Hosting Services, Inc.
+
+Two days ago these organizations decided to immediately terminate our contract and suspend service on much of our infrastructure in Dallas, Seattle and Washington, D.C. This infrastructure constitutes the majority of our delivery network for our value services, including on-demand and live streaming services. 
+
+[...]&lt;/em&gt;&lt;/blockquote&gt;
+
+Their full statement can be read at &lt;a href=&#34;http://admin.simplecdn.com/&#34;&gt;http://admin.simplecdn.com/&lt;/a&gt;. Quite likely this won&#39;t be the permanent url for their rant.
+
+My first thought was that they didn&#39;t pay their bills.. but this &lt;a href=&#34;http://twitter.com/#!/SimpleCDN/status/13688306478882816&#34;&gt;doesn&#39;t seem&lt;/a&gt; to be the case here. I&#39;d speculate that this is related to DMCA or even some connection to Wikileaks. We need Softlayer&#39;s side of the story to make an opinion. I&#39;m a Softlayer user for few years, I refuse to believe it that they did it for competitive advantage. There is more to it!
+
+MaxCDN has &lt;a href=&#34;http://blog.maxcdn.com/news/maxcdn-offers-easy-transition-for-stranded-simplecdn-customers/&#34; title=&#34;MaxCDN Offers Easy Transition for Stranded SimpleCDN Customers&#34;&gt;stepped in&lt;/a&gt; to help stranded SimpleCDN customers to get their sites up asap at lower costs.
+
+So... let me be &lt;a href=&#34;http://www.youtube.com/watch?v=cY_oKve-bH0&#34;&gt;Captain Hindsight&lt;/a&gt; here and say what SimpleCDN users should have done all along.
+
+&lt;strong&gt;Keep a hot spare CDN ready to be deployed at a moments notice.&lt;/strong&gt;
+
+There are many CDN services, like &lt;a href=&#34;http://www.softlayer.com/cloudlayer/cdn/&#34;&gt;Softlayer&lt;/a&gt;, &lt;a href=&#34;http://aws.amazon.com/cloudfront/&#34;&gt;CloudFront&lt;/a&gt;, etc which have pay as you go plans, no upfront or monthly costs. Sign up for them, set up your zones, and keep the required CNAMEs handy. If your prime CDN provider goes under, has high latency, or any other issue, switching to these alternate CDNs is simply a change in the DNS zone. This could be automated with &lt;a href=&#34;http://aws.amazon.com/route53/&#34;&gt;Amazon Route 53&lt;/a&gt;.
+
+Very easy to implement for origin pull, for uploaded content it doesn&#39;t hurt to store your content on multiple services for redundancy.
+
+Had the users kept a hot spare CDN provider ready, it would have taken them 5 mins (plus the DNS propagation time) to switch to another provider.
+
+In most cases, where only css, javascript, images are served by the CDN, frequent users such as admins would have these files in their browser cache and may not feel that anything is broken. For such situations, the answer is &lt;a href=&#34;http://blog.patrickmeenan.com/2010/08/passive-vs-active-performance.html&#34; title=&#34;Passive vs Active performance monitoring&#34;&gt;passive monitoring&lt;/a&gt;.
+
+Bottomline: Everything FAILs.... eventually...
+
+Notes:-
+&lt;ul&gt;
+    &lt;li&gt;This blog is hosted at softlayer&lt;/li&gt;
+    &lt;li&gt;This blog uses MaxCDN&lt;/li&gt;
+    &lt;li&gt;This blog uses Softlayer&#39;s CDN service&lt;/li&gt;
+    &lt;li&gt;Before today i hadn&#39;t heard about SimpleCDN&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;UPDATED: 11:20 (EST) Dec 15&lt;/strong&gt;
+
+The only 2 statements by SoftLayer on this issue comes in the form of tweets.
+
+&lt;em&gt;FYI, our privacy policy prevents us from discussing customer issues in public. We definitely can&#39;t discuss customers of customers.&lt;/em&gt; - &lt;a href=&#34;http://twitter.com/#!/SoftLayer/status/14822398792564736&#34;&gt;twitter&lt;/a&gt;
+
+&lt;em&gt;@simplecdn happy to have you as a direct customer. Send over your requirements so we can price it out for you. ^SK&lt;/em&gt; - &lt;a href=&#34;http://twitter.com/#!/SoftLayer/status/15059240414609408&#34;&gt;twitter&lt;/a&gt;
+
+IMHO the second tweet is rubbing salt on SimpleCDN&#39;s wound.
+
+It is common for companies under legal threat to not make any statements which may or maynot be used against them during litigation.
+
+</description>
+    </item>
+    
+    <item>
+      <title>Twitter logged me as someone else! Privacy FAIL!</title>
+      <link>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</link>
+      <pubDate>Wed, 27 Oct 2010 17:16:48 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
+      <description>A while ago, clicking on the &#34;tweet&#34; button of a &lt;a href=&#34;http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/&#34;&gt;funny FAIL&lt;/a&gt; in &lt;a href=&#34;http://www.google.com/reader/&#34;&gt;Google Reader&lt;/a&gt; gave me the scare of my life. 
+
+First reaction: How did my twitter theme change?
+Second reaction: When did i start tweeting/reading in Thai?
+Third reaction: When did I change into a &lt;a href=&#34;http://a2.twimg.com/profile_images/994651514/32086_403053037679_556887679_4991310_709940_n_bigger.jpg&#34;&gt;pretty girl&lt;/a&gt;?
+
+I was logged in as someone else! Thats probably what brain transplant(when possible) would feel like...
+
+In other words, the transparent proxy at &lt;a href=&#34;http://www.thailandinternet.com/&#34; title=&#34;really crappy internet provider in Thailand&#34;&gt;True&lt;/a&gt; simply fucked up... can&#39;t do anything about it. There is probably someone else in Thailand having the time of his/her life browsing into my account and poking into my disgusting life...
+
+So, the solution for me would be to use a secure tunnel bypassing True&#39;s evil session hijacking transparent proxy all together.. Which is kinda illegal I&#39;ve been told... and also who will protect me from all the porn(and evil propaganda) on the interwebs ;)
+
+@kiqq_3112 : Ive tried to censor sensitive stuff from the screenshots, if you are offended by anything, give me a shout out ill remove it. Just wanted to show how serious is this issue.
+
+Click on the images to see full size full page... (Private tweets were censored)
+
+1) Woah I&#39;m not me I&#39;m her?!?!?!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;306&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+2) I can tweet as her!! (Note: I didn&#39;t actually click the tweet button)
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;142&#34; width=&#34;505&#34;/&gt;&lt;/a&gt;
+
+3) Spy on DMs!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;249&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+4) Replies Page..
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/replies.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/replies-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;251&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+5) Change settings..
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/settings.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/settings-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;388&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+6) Change password!!!!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/Password.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/Password-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;419&#34; width=&#34;381&#34;/&gt;&lt;/a&gt;
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/twitter-sec.zip&#34;&gt;Download all images&lt;/a&gt;
+Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do such things. My photoshop skills are not good enough to be able to fake these. Moreover I don&#39;t even own a copy of photoshop.
+</description>
+    </item>
+    
+    <item>
+      <title>Whos.amung.us goes down taking out numerous client websites</title>
+      <link>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</link>
+      <pubDate>Sun, 12 Sep 2010 17:04:54 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</guid>
+      <description>Realtime web analytics service &lt;a href=&#34;http://whos.amung.us/&#34;&gt;whos.amung.us&lt;/a&gt; has been completely down for at least the last 3 hours (as of sept 12 4:28pm UTC). Thousands of webmasters (myself included) use this widget to gather realtime traffic stats for websites. The current outage has caused big problems to the sites implementing this widget.
+
+Lets look at their widget implementation.
+
+&lt;code lang=&#34;html&#34;&gt;
+&amp;lt;script type=&#34;text/javascript&#34; src=&#34;http://widgets.amung.us/small.js&#34;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;WAU_small(&#39;unique-site-tag&#39;)&amp;lt;/script&amp;gt;
+&lt;/code&gt;
+This is bad!
+
+The base javascript uses document.write, hence cant be made to load asynchronously. Moreover, they write an &lt;em&gt;img&lt;/em&gt; tag into the document which too must be be loaded before the window.onload event can be triggered.
+
+This incident was somehow not critical FAIL for me cause I am aware about &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;frontend SPOF&lt;/a&gt; issues and placed this widget just before &amp;lt;/body&amp;gt;, so it didn&#39;t completely mess with my page, but still caused the following problems.
+&lt;ol&gt;
+	&lt;li&gt;Delayed the window.onload event, delaying executing of other scripts made to run after onload.&lt;/li&gt;
+	&lt;li&gt;Showed &#34;waiting for .... &#34; in the status bar of the browsers for a long time before timing out, indicating to the user that the page is still not ready.&lt;/li&gt;
+	&lt;li&gt;Makes Google think your site is really slow and doesn&#39;t deserve to rank!&lt;/li&gt;&lt;/ol&gt;
+
+Now, for webmasters not aware about these issues the problems is possibly critical. In case the widget code is &lt;strong&gt;before&lt;/strong&gt; the main content of their site, they are in for a hard time. Their site would stop loading at the point the widget is located in the html, giving the users an impression that the website is &lt;em&gt;broken&lt;/em&gt;.
+
+I understand that today is a Sunday, and not all the engineers/OPs can be on standby 100% of the time to fix these issues. Downtime is inevitable, but when you FAIL, don&#39;t take your customers/users down with you. Their javascript serving server was still more stable than the server. &lt;a href=&#34;http://www.webpagetest.org/result/100912_7b6ecd8e647bd261a200da177953de1a/1/details/&#34;&gt;Here is a Webpagetest.org result for my site&lt;/a&gt; during the outage. Its the dynamic counter image which SPOF&#39;d.
+
+If they must use document.write, write a div, give it a name, and attach the image into it using dom manipulation &lt;strong&gt;after the window.onload&lt;/strong&gt;.
+
+Moreover, when the servers come under high load, there should be a mechanism to FAIL early with an appropriate status code.
+
+Respect your users, don&#39;t take them for granted!
+
+&lt;em&gt;Disclaimer: My current secret project is somewhat related to real-time analytics.&lt;/em&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Optimizing DFP performance</title>
+      <link>http://www.sajalkayan.com/optimizing-dfp-performance.html</link>
+      <pubDate>Fri, 10 Sep 2010 18:09:35 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/optimizing-dfp-performance.html</guid>
+      <description>Ive been using &lt;a href=&#34;https://www.google.com/dfp/&#34;&gt;DFP&lt;/a&gt; (DoubleClick for Publishers - formerly Google Ad Manager) to serve ads as it has some certain features I really need.
+
+The downside of using DFP is that its browser side performance sucks big time. On my site, I use the experimental Iframe tagging, which basically writes an iframe in place of the ad and loads the third party ad codes into it. This runs asynchronously and is nice, but the DFP&#39;s bootstrap javascript blocks rendering and it needs to load 3 javascript files from Google serially. This bootstrap must be available before trying to fill an ad slot.
+
+&lt;h3&gt;The Goal&lt;/h3&gt;
+
+Show the story title and body to the user As Soon As Possible
+
+&lt;h3&gt;The Problem&lt;/h3&gt;
+
+The instructions of implementing the Iframe tagging is as such.
+
+In the &amp;lt;head&amp;gt;...&amp;lt;/head&amp;gt; section :-
+
+&lt;code lang=&#34;html&#34;&gt;
+&amp;lt;!-- PUT THIS TAG IN THE head SECTION --&amp;gt;
+&amp;lt;script src=&#34;http://partner.googleadservices.com/gampad/google_service.js&#34; type=&#34;text/javascript&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;
+GS_googleAddAdSenseService(&#34;ca-pub-xxxxxxxxxxxxxxxx&#34;); 
+GS_googleEnableAllServices();
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;
+GA_googleUseIframeRendering();
+&amp;lt;/script&amp;gt;
+&amp;lt;!-- END OF TAG FOR head SECTION --&amp;gt;
+&lt;/code&gt;
+
+And where the ad slot needs to be displayed always in the &amp;lt;body&amp;gt;...&amp;lt;/body&amp;gt;:-
+
+&lt;code lang=&#34;html&#34;&gt;
+&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;
+GA_googleFillSlotWithSize(&#34;ca-pub-xxxxxxxxxxxxxxxx&#34;, &#34;slot_name&#34;, 728, 90);
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;
+
+The resulting waterfall chart of this method :-
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-before.png&#34; alt=&#34;DFP before&#34; height=&#34;240&#34; width=&#34;404&#34; /&gt;
+
+Requests #3, #4 and #5 is the bootstrap for DFP. The green line indicates the first paint event.
+
+It is clear that 
+&lt;ol&gt;
+	&lt;li&gt;The browser needs to make 3 sequential requests&lt;/li&gt;
+	&lt;li&gt;Until these 3 javascripts are downloaded and parsed, the rendering cannot begin. - The user is affectively staring at a blank screen.&lt;/li&gt;
+	&lt;li&gt;The browser is doing nothing else while downloading these files.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;The Workaround&lt;/h3&gt;
+
+I was going to mark this section as a &#34;solution&#34; to the problem... but it isint. The page is still susceptible to &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;frontend SPOF&lt;/a&gt; .. That is if the servers hosting the DFP JavaScripts is unaccessible, that calls for a terrible user experience on my site.
+
+What I did was simply moved the bootstrap to just before the first time the &lt;em&gt;GA_googleFillSlotWithSize()&lt;/em&gt; function was called. i.e. move the bootstrap from the &amp;lt;head&amp;gt; to the &amp;lt;body&amp;gt; part of the page.
+
+The waterfall chart for this is :-
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-after.png&#34; alt=&#34;DFP after&#34; height=&#34;223&#34; width=&#34;472&#34; /&gt;
+
+Requests #3, #7 and #8 is the bootstrap for DFP. The green line indicates the first paint event.
+
+It is clear that 
+&lt;ol&gt;
+	&lt;li&gt;The browser still needs to make 3 sequential requests&lt;/li&gt;
+	&lt;li&gt;While the bootstrap was loading, the user can see the header of the site, providing visual feedback that something is happening. - The &lt;em&gt;start render&lt;/em&gt; did not have to wait.&lt;/li&gt;
+	&lt;li&gt;The browser is downloading images, etc referred to earlier while downloading the bootstrap.&lt;/li&gt;
+	&lt;li&gt;There is 200ms improvement in the time at which the user can start reading the story.&lt;/li&gt;
+&lt;/ol&gt;
+
+Here is a video comparing the 2 loading methods :-
+
+&lt;object width=&#34;480&#34; height=&#34;295&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/YF9-Us8xAVM?fs=1&amp;amp;hl=en_US&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/YF9-Us8xAVM?fs=1&amp;amp;hl=en_US&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;295&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+
+If anyone has better ways to embed DFP, please let me know via comments below.
+
+&lt;h3&gt;The Solutions&lt;/h3&gt;
+
+There are 2 ways to solve this
+&lt;ul&gt;
+	&lt;li&gt;Have source ordered HTML where the adcodes are always after the content in the HTML source of the page. This ensures that the user can start reading while DFP does its blocking thing. - A site redesign is in planning and that would implement this step.&lt;/li&gt;
+	&lt;li&gt;DFP changes the way it works... by replacing the evil document.write with DOM manipulation techniques so the scripts can be loaded asynchronously.&lt;/li&gt;
+&lt;/ul&gt;
+
+So next time if a third party script provider tells you that certain code &lt;strong&gt;must&lt;/strong&gt; be in the &amp;lt;head&amp;gt; of the HTML, don&#39;t believe them and question them.
+
+PS: All tests were done from ie7 from Dulles, VA using &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;WebPageTest.org&lt;/a&gt;, ie8 also showed similar behavior.
+
+&lt;h3&gt;Shameless Plug&lt;/h3&gt;
+I am available for &lt;a href=&#34;/web-speed-consulting-services&#34;&gt;consulting on web speed issues&lt;/a&gt;, contact details in the right sidebar.
+
+&lt;strong&gt;UPDATE: I am now using &lt;a href=&#34;http://www.aaronpeters.nl/blog/non-blocking-google-adsense-ads-improve-page-speed&#34;&gt;Aaron&#39;s adsense hack&lt;/a&gt; to defer DFP below the content. Thanks Aaron&lt;/strong&gt;
+&lt;strong&gt;UPDATE 2: New Post: &lt;a href=&#34;/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34;&gt;Complete Asynchronous ad loading using DFP and LABjs&lt;/a&gt;&lt;/strong&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Twitter finally gets something right - Tweet Button</title>
+      <link>http://www.sajalkayan.com/twitter-finally-gets-something-right-tweet-button.html</link>
+      <pubDate>Fri, 13 Aug 2010 14:35:42 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/twitter-finally-gets-something-right-tweet-button.html</guid>
+      <description>FAILing all the time is not new for Twitter, in fact they are the masters of FAIL. Twitter FAILs so often that seeing the obnoxious FAIL WHALE on a daily basis has become a way of life for most of us. Twitter is so experienced in the art of FAIL, that they are aware and &lt;a href=&#34;http://www.youtube.com/watch?v=_7KdeUIvlvw&#34;&gt;experienced&lt;/a&gt; in causes of FAIL and how to mitigate its effects.
+
+Recently Twitter, for the first time ever, launched the &lt;a href=&#34;http://twitter.com/goodies/tweetbutton&#34;&gt;official Tweet button&lt;/a&gt; which one can put on their websites to allow the user to tweet easily and view the twitter based popularity of the page they are currently reading.
+
+So whats new about this? 3rd providers like &lt;a href=&#34;http://tweetmeme.com/&#34;&gt;TweetMeme&lt;/a&gt; have had this functionality for years now. Let me explain ...
+
+Firstly Twitters implementation of the Button
+
+&lt;code&gt;
+&amp;lt;a href=&#34;http://twitter.com/share&#34; class=&#34;twitter-share-button&#34; data-count=&#34;vertical&#34;&amp;gt;Tweet&amp;lt;/a&amp;gt;
+&amp;lt;script type=&#34;text/javascript&#34; src=&#34;http://platform.twitter.com/widgets.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;
+
+Look closely, there is an &amp;lt;a&amp;gt; tag which sets the &lt;em&gt;class&lt;/em&gt; attribute, and then a &amp;lt;script&amp;gt; tag, which makes the magic happen. Take a look into their &lt;a href=&#34;http://platform.twitter.com/widgets.js&#34; rel=&#34;nofollow&#34;&gt;JavaScript&lt;/a&gt;, there are no nasty &lt;em&gt;document.write&lt;/em&gt;s in it. In fact, all it does is look for objects with the &lt;em&gt;twitter-share-button&lt;/em&gt; class and then that object accordingly. Now, if the &amp;lt;script&amp;gt; is placed just after &amp;lt;a&amp;gt; as advised by Twitter, the page load blocks while the JavaScript is downloaded and parsed, this in certain cases may drive away impatient users who don&#39;t like waiting for stupid buttons to load before they can interact with rest of the page.
+
+Since Twitter&#39;s JavaScript doesn&#39;t use &lt;em&gt;document.write&lt;/em&gt;, the &amp;lt;script&amp;gt; can be included anywhere in the html provided it is after the &amp;lt;a&amp;gt; tag. the ideal position would be to place it just before &amp;lt;/body&amp;gt;. The result, adding this 3rd party widget induces no additional block in the rendering of the page. Implementing the Tweet Button in this manner has negligible impact on pageload.
+
+This is how your page would look.
+
+&lt;code lang=&#34;html&#34;&gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+[...]
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+[...]
+&amp;lt;a href=&#34;http://twitter.com/share&#34; class=&#34;twitter-share-button&#34; data-count=&#34;vertical&#34;&amp;gt;Tweet&amp;lt;/a&amp;gt;
+[...]
+&amp;lt;script type=&#34;text/javascript&#34; src=&#34;http://platform.twitter.com/widgets.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+&lt;/code&gt;
+
+To make it asynchronous, the &amp;lt;script&amp;gt; tag can be implemented as such :-
+
+&lt;code&gt;
+&amp;lt;script id=&#34;deferedjs&#34; type=&#34;text/javascript&#34;&amp;gt;
+var b = document.createElement(&#39;script&#39;);
+b.type = &#39;text/javascript&#39;;
+b.src = (&#39;http://platform.twitter.com/widgets.js&#39;);
+var a=document.getElementById(&#34;deferedjs&#34;);
+a.parentNode.insertBefore(b,a);
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;
+
+Now thats is truly non-blocking un-intrusive implementation of the button. It doesn&#39;t block the &lt;em&gt;onload&lt;/em&gt; event uselessly.
+
+Now, Twitter didn&#39;t include these methods in the documentation probably because they didn&#39;t want to scare away regular bloggers and webmasters who aren&#39;t as paranoid about client side performance as some of us.
+
+The Tweet Button uses &lt;a href=&#34;http://www.akamai.com/&#34;&gt;Akamai CDN&lt;/a&gt; to serve the assets, which is considered super stable. Currently sets an expires header of 1 hour (which I presume will be changed to far-future once things stabilize) and to top it off, it provides webmasters with an elegant JavaScript  which can be implemented such that the base page suffers very little(if any) even if their CDN goes down.
+
+More experienced webmasters can even bundle this JavaScript into their own code, provided they regularly track changes and re-bundle often to avoid undesired consequences.
+
+Now, see &lt;a href=&#34;http://help.tweetmeme.com/2009/04/06/tweetmeme-button/&#34;&gt;TweetMeme&#39;s implementation&lt;/a&gt; :-
+
+&lt;code&gt;
+&amp;lt;script type=&#34;text/javascript&#34; src=&#34;http://tweetmeme.com/i/scripts/button.js&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&lt;/code&gt;
+
+Just take a look into their &lt;a href=&#34;http://tweetmeme.com/i/scripts/button.js&#34; rel=&#34;nofollow&#34;&gt;JavaScript&lt;/a&gt;. It uses a &lt;em&gt;document.write&lt;/em&gt; to write an Iframe. The JavaScript has to be downloaded, then parsed, then executed exactly at the moment it needs to be placed in sync with the rendering of the DOM. There is no way that I know of to make this truly asynchronous besides putting their script inside another iframe (which makes one additional request to your server).
+
+TweetMeme hosts the javascript on their own servers, if their server is slow, the whole pageload would suffer. To top it off there is no way where a webmaster can take precautions against it.
+
+My intention was not to single out TweetMeme, almost all 3rd party widgets make their code such that each of them are &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;frontend SPOF&lt;/a&gt; for the websites that use them.
+
+Moral of the story is that it is the responsibility of a 3rd party service providers to make their FAIL shouldn&#39;t make their users sites to FAIL completely.
+</description>
+    </item>
+    
+  </channel>
+</rss>

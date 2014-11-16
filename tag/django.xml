@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Django on Sajal Kayan </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://www.sajalkayan.com/tag/django.xml</link>
+    <language>en-us</language>
+    
+    
+    <updated>Sun, 30 Nov 2008 19:42:39 &#43;0000</updated>
+    
+    <item>
+      <title>I &lt;3 Django</title>
+      <link>http://www.sajalkayan.com/i-django.html</link>
+      <pubDate>Sun, 30 Nov 2008 19:42:39 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/i-django.html</guid>
+      <description>Last month(November) had been quite busy for me, had many things going on including :-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;My new Secret Project&lt;/strong&gt; : Its a new &lt;a href=&#34;http://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; based web project, if all goes as per plan I take over the world and declare windows illegal ;)&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Visa issues&lt;/strong&gt; : Apparently the process for a Non-Immigrant visa in Thailand is not an easy route.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Thai Political Uncertainty&lt;/strong&gt; : The drama is simply too irresistible to not follow, constant fights, arguments and lame comments from both sides (pro-govt and PAD)&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Trip to India&lt;/strong&gt; : I had gone on a short trip to India on Social visit in the beginning of the month.&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.thaindian.com/newsportal/tag/mumbai-terror-attack&#34;&gt;&lt;strong&gt;Mumbai Terror Attacks&lt;/strong&gt;&lt;/a&gt; : The bastards struck the Indian financial capital of Mumbai. Even though the 62 hour long ordeal is over now, the blame game drama has begun and would make major news for months to come.&lt;/li&gt;
+&lt;/ul&gt;
+So... apologies to my regular readers (just in case there are any besides me) just had too many things shoved into one month.
+
+A couple of months ago I &lt;a href=&#34;/messing-with-ror.html&#34;&gt;wrote about how I had finally chosen Ruby on Rails over Django&lt;/a&gt;. Well... at the time of writing I hadnt taken a serious look at Django. Soon after making the post i decided to give Django a second look. The more i dugg, the deeper I fell in love Django and Python. I have &lt;a href=&#34;http://proteus-tech.com/&#34;&gt;Ben&lt;/a&gt; and &lt;a href=&#34;http://www.kirit.com/&#34;&gt;Kirit&lt;/a&gt; who I can regularly irriate with n00b questions, the &lt;a href=&#34;http://groups.google.com/group/django-users&#34;&gt;Django-Users group&lt;/a&gt; is quite active and the &lt;a href=&#34;http://docs.djangoproject.com/en/dev/&#34;&gt;Django documentation&lt;/a&gt; is just awesome. Django truly rocks.
+
+About my new secret project, it is a website about -SNIP- and I aim it to be one of the authorative websites in it domains. The topic of the site is not one I am an expert in, however that shouldnt be an issue. The website is located at -SNIP- . For this project &lt;a href=&#34;http://www.archit.in/&#34;&gt;Archit&lt;/a&gt; is helping with css n stuff for free :) .
+
+As expressed above, the website is made using Django, and is un early development stages and even while development the data entry is already in progress. It would eventually become a really huge database.
+
+The best thing i liked about Django is that you can import the Django enviornment in any regular external script and have access to all the functions, models defined in your project. You even have access to all the django APIs within your project. See &lt;a href=&#34;http://www.cotellese.net/2007/09/27/running-external-scripts-against-django-models/&#34;&gt;this awesome post&lt;/a&gt; for more info of what im saying. I modified it a little to suit my project.
+&lt;pre lang=&#34;python&#34;&gt;#for portability
+project = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(project)
+os.environ[&#39;DJANGO_SETTINGS_MODULE&#39;] =&#39;topsecretproject.settings&#39;
+from django.core.management import setup_environ
+from topsecretproject import settings
+from topsecretproject.app.models import model1, model2
+setup_environ(settings)
+
+data = model1.objects.all()
+#... and so onn....&lt;/pre&gt;
+Tools used : &lt;a href=&#34;http://www.postgresql.org/&#34;&gt;Postgres&lt;/a&gt;, &lt;a href=&#34;http://git.or.cz/&#34;&gt;git&lt;/a&gt;, &lt;a href=&#34;http://github.com/&#34;&gt;github&lt;/a&gt;, &lt;a href=&#34;http://projects.gnome.org/gedit/&#34;&gt;gedit&lt;/a&gt;, &lt;a href=&#34;http://www.activestate.com/Products/komodo_ide/&#34;&gt;Komodo IDE&lt;/a&gt;(looks nice but free trial gonna run out soon :( ), &lt;a href=&#34;http://www.ubuntu.com/&#34;&gt;Ubuntu&lt;/a&gt;(my notebook), &lt;a href=&#34;http://www.centos.org/&#34;&gt;CentOS&lt;/a&gt;(development server - crappy VPS)
+
+Since this project is being built from the ground up, I have full control of everything. Keeping both &lt;strong&gt;usability and &lt;a href=&#34;/category/seo&#34;&gt;Search Engine Optimization&lt;/a&gt;&lt;/strong&gt; in mind and not really feeling like there is a compromise in any.
+
+Perhaps in a couple of weeks the site would be somewhat presentable, then id discuss various aspects about the code and techniques im using in keeping the site SEOed. Its too early to talk about it at the moment.
+
+Disclaimer : &lt;em&gt;No windows users were harmed during the production of this post.&lt;/em&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

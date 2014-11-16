@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Drupal vs Joomla - The SEO viewpoint - Part 1 URLs &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Drupal vs Joomla - The SEO viewpoint - Part 1 URLs</h1>
+  <span class="post-date">Sun, Feb 17, 2008</span>
+      Last month I started using Drupal and explained how <a href="/drupal-rulez-joomls-sux.html"><strong>Drupal is better</strong> in terms of organizing content when compared to Joomla</a>. Today I am going to explain some <strong>SEO benifits of using Drupal over Joomla</strong>.
+
+This is the first part of a series and I will blog about <strong>Search Engine Friendly URLs</strong> today:-
+
+We all know that search engines does not like pages with meaningless querystrings.
+
+By default, both the CMSs produce alternate URLs with all sorts of numbers and things in the querystring. Both have a feature to produce neat URLs which removes the querystring and adds the numbers as the foldernames within the URL. This makes use of an <strong>.htaccess file</strong>.
+
+<!--more-->Using the bundled <a href="http://drupal.org/node/15365" title="How to make clean URL using Drupal">Clean URLs</a> basically removes the "?q=" portion. so an article URL which would otherwise have been "http://www.example.com/?q=node/83" would now become "http://www.example.com/node/83". Nice and Easy. Content is always 1 folder deep where the foldername "node" has absolutely no significance.
+
+<strong>Joomla however makes multiple URLs for the same content</strong>. If once content is linked from different places in different ways, it would make many links with different ItemIDs all pointing to the same content. Default URL structure for Joomla! "http://www.example.com/index.php?option=com_content&amp;task=view&amp;id=17&amp;Itemid=26" it would get rewritten to "http://www.example.com/content/view/17/26/" . In this case the ItemID "26" may changed based on how your user found the page. Here the content is always 3 folders deep and the words "content" and "view" does absolutely nothing to describe the page in question.
+
+Additional tools do exists lets compare the options available for both these CMSs...
+
+For Drupal <strong>Path</strong> (A <strong>core module</strong>) :  Basically what Path does is it allows you to list old urls from our example "node/83" and make an alias to say "blue-widgets/pricing.html" so the whole URL looks like "http://www.example.com/blue-widgets/pricing.html". Now this tells the Search Engines(and the users) that the page in question deals about the pricing of Blue Widgets.
+
+For Joomla : Error no such extension found ;)
+
+3rd Party Addons :
+
+Drupal has <a href="http://drupal.org/project/pathauto">Pathauto</a>:This module is very robust, user friendly, feature rich and powerful. You can specify custom URLs based on various criteria depending on content type, taxonomy terms and even custom fields within a content. I was surprised tofind that this even <strong>removes useless words from the URI</strong>. example a content with the title "Thailand: For All Seasons &amp; Reasons!" got the URL "/thailand-all-seasons-reasons.html" aint that wonderful?
+
+<strong>Joomla has</strong> (among others) <strong><a href="http://extensions.joomla.org/component/option,com_mtree/task,viewlink/link_id,2524/Itemid,35/" title="NuSEF same as OpenSEF">OpenSEF</a></strong> : This has some nice features, but not as powerfull or even user friendly as Pathauto. Here all you only have is few limited options spread across dozens of config pages. If you wanted custom components to work, you have to find (beg/borrow/steal) a <strong>customized sef_ext.php script</strong> for that particular component, not very cool thing to do. In Drupal you can set these things within pathauto only, indipendant of the modules. One thing good about OpenSEF is that it takes care of the duplicate content problem I mentioned earlier, but the downside is that it might not work how it was supposed to work as each URL would now get bound to a particular ItemID.
+
+Some might call me biased towards Drupal, but the bottom line is that <strong><a href="/drupal-rulez-joomls-sux.html" title="Drupal vs Joomla">Drupal rocks and Joomla Sux! </a></strong>
+
+Part 1 of the Series. More to follow later on various other aspects on <strong>Drupal and Joomla from an SEO viewpoint</strong> . Subscribe to my <a href="/feed" title="RSS Feed">feed</a> to stay updated.
+
+      
+      <div>
+  Tags:  
+    <a href="tag/cms/">CMS</a> </li>
+   
+    <a href="tag/drupal/">Drupal</a> </li>
+   
+    <a href="tag/joomla/">Joomla</a> </li>
+   
+    <a href="tag/seo/">SEO</a> </li>
+   <br />
+  Categories:  
+    <a href="category/drupal/">Drupal</a> </li>
+   
+    <a href="category/seo/">SEO</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Drupal vs Joomla - The SEO viewpoint - Part 1 URLs';
+		var disqus_url = 'http://www.sajalkayan.com\/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

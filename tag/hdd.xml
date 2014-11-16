@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Hdd on Sajal Kayan </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://www.sajalkayan.com/tag/hdd.xml</link>
+    <language>en-us</language>
+    
+    
+    <updated>Sun, 20 Sep 2009 09:47:24 &#43;0000</updated>
+    
+    <item>
+      <title>I, me and Solid State Drives</title>
+      <link>http://www.sajalkayan.com/i-me-and-solid-state-drives.html</link>
+      <pubDate>Sun, 20 Sep 2009 09:47:24 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/i-me-and-solid-state-drives.html</guid>
+      <description>Let me first explain my set-up before the upgrade. I use 2 computers, 1 desktop at office and a laptop at home or while traveling.
+
+Laptop : Lenovo; core 2; 2 GB RAM; regular 5.4k rpm hard disk. Purchased abt 1.5 years ago.
+
+Desktop : (costed same as laptop but purchased only 3 or 4 months ago) i7 CPU 920  @ 2.67GHz ; 6 GB DDR3 ; a kickass motherboard; 1TB Seagate HDD (ST31000528AS) - 7.2k rpm
+
+After using the Desktop for most of the work, I was no more able to work from the Laptop which was significantly slower than the desktop. Having used &lt;a href=&#34;http://en.wikipedia.org/wiki/Solid-state_drive&#34;&gt;&lt;strong&gt;Solid State Drive (SSD)&lt;/strong&gt;&lt;/a&gt; on my server for few months as Mysql data directory, I decided to see how it could improve things on the laptop.
+
+Over the last few months, I had saved enough to treat myself to some gadgets :)
+
+&lt;img src=&#34;http://techplore.com/technology/wp-content/uploads/2009/06/Intel-X25-M-80GB-SSD.jpg&#34; alt=&#34;Intel X25-M 80GB SSD&#34; /&gt;
+
+On reaching Fortune mall, I couldn&#39;t find SSDs anywhere, no store there had heard of &#34;Solid State Disk&#34; or &#34;SSD&#34;. In fact one shopkeeper thought I wanted to buy SD cards. I only upgraded the memory to 4 GB. After this upgrade, things didn&#39;t speed up much, just that it didn&#39;t lag anymore after opening loads of applications.
+
+I had lost all hope... and even started thinking in what other way to spend my gadget budget when Twitter came to the rescue in the form of a &lt;a rel=&#34;nofollow&#34; href=&#34;http://twitter.com/smartbrain/statuses/3925803217&#34;&gt;reply&lt;/a&gt; from a columnist which said &#34;&lt;em&gt;@sajal at fortune jet has some, but for components, zeer is better these days i feel. It swings.&lt;/em&gt;&#34; .
+
+Getting my hopes up.. I went to that shop, they had options between Intel X25-M(&lt;a href=&#34;http://en.wikipedia.org/wiki/Multi-level_cell&#34;&gt;MLC&lt;/a&gt;) and few OCI brands. Since I don&#39;t care about diskspace, I was actually looking for X25-E(&lt;a href=&#34;http://en.wikipedia.org/wiki/Single-level_cell&#34;&gt;SLC&lt;/a&gt;) which is in my server, but they hadn&#39;t heard of it here in Bangkok, so I settled for a &lt;a title=&#34;nice review&#34; href=&#34;http://techreport.com/articles.x/15433&#34;&gt;80 GB X25-M&lt;/a&gt; costing me 13,500 Baht (approx 400 USD). Decision to go for Intel was highly influenced by &lt;em&gt;AnandTech&#39;s&lt;/em&gt; &lt;a href=&#34;http://anandtech.com/storage/showdoc.aspx?i=3631&#34;&gt;reviews&lt;/a&gt;. &lt;em&gt;AnandTech&lt;/em&gt; has series of articles and benchmarks on SSD performance and benchmarks for various applications. (Dear &lt;em&gt;AnandTech&lt;/em&gt; : Will you give me a job? All i need is a chance to play with cool things :P )
+
+Disadvantages of using SSD in laptop:-
+&lt;ol&gt;
+	&lt;li&gt;Unlike before, now you can&#39;t feel the vibration, noise from the drive, hence you don&#39;t &#34;feel&#34; when your disk is being accessed or is it idling.&lt;/li&gt;
+	&lt;li&gt;The disk activity LED hardly lights up... SSDs idle much more than regular disk since the requested data is returned immediately, thus the transaction is completed before the LED can light up fully.&lt;/li&gt;
+	&lt;li&gt;The laptop(running Ubuntu 9.04) boots up in &amp;lt; 20 seconds including me logging in. This doesnt give me enough time to get coffee, pee, etc after reaching home and pushing the on switch.&lt;/li&gt;
+	&lt;li&gt;It is slightly thinner than a regular 2.5&#34; notebook HDD, hence it is placed in my laptop at a very slight angle. Maybe later i should put in a metal sheet or something to compensate.&lt;/li&gt;
+&lt;/ol&gt;
+Now, the performance of my laptop is in fact slightly better than the desktop. I am looking forward to the day when SSDs get more commoditized and we start seeing them compete with regular HDD in terms of cost per GB. - If i had the kind of money, id load up 10 64 GB Intel X25-Es in my main desktop :D
+
+My conclusion is that the main bottleneck in laptops is Disk I/O. I guess within a year or sooner, we will see most mid-segment laptops coming with SSDs instead of currently HDD.
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Secure Proxy using Squid &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Secure Proxy using Squid</h1>
+  <span class="post-date">Sat, Jan 5, 2008</span>
+      Had originally posted this on Friday, September 29th, 2006 during the peak of Takhsin's rampant blocking of websites and the blocking proxies were messing up often blocking un-blocked pages also.
+
+It is very important to use a secure proxy if you browse the web from unsecure Networks.
+The basic requirements are a Linux box in a location which is secure and another PC Linux or windows which may be in the unsecure location.
+
+NOTE : Please excuse my newbieness. I do not provide any kind of waranty on this article, only hope that it may be useful or interesting to you.
+
+For this article, the squid was setup on a CentOS based server and accessed from FC5 based notebook using Mozilla Firefox. The settings would be simillar for other distributions/ browsers.
+
+This method is not to be used illegally to view government blocked websites. Please follow laws of the country you reside in.<!--more-->
+
+On CentOS it is very easy to install squid using yum (note you must be root to continue with the instalation)
+<blockquote><em>yum install squid</em></blockquote>
+On Debian based system :-
+<blockquote><em>apt-get install squid</em></blockquote>
+For others/slackware :-
+
+Download squid source file as a gzipped tar ball (squid-x.y-STABLE.tar.gz) available at http://www.squid-cache.org/ or from ftp://www.squid-cache.org/pub. Then run the following commands
+<blockquote><em>tar -xvzf squid-*-src.tar.gz</em>
+<em>cd squid -*</em>
+<em>./configure</em>
+<em>make</em>
+<em>make install</em></blockquote>
+This by default, will install in “/usr/local/squid”.
+
+There are some basic configurations which you may need to edit.
+By default the squid config file is located in /etc/squid/squid.conf on centos with squid installed using yum. Config file may be located at /usr/local/squid/etc/squid.conf if you have installed manually.
+
+Start Squid on CentOS
+<blockquote><em>/etc/init.d/squid start</em></blockquote>
+Squid is now ready to serve as proxy only to local host and is listening on port 3128
+
+Now you have squid listening to localhost only. We need to make a tunnel from the server to the PC.
+Note for windows users reffer to <a href="http://web.archive.org/web/20070505081807/http://www.jfitz.com/tips/putty_config.html" target="_blank" title="Secure tunnel on windows using putty ">putty configuration guide</a>
+to do this on a FC5 (Fedora core instructions may be similar for other distributions) be root(or superuser) and run the following command.
+<blockquote><em>ssh -L 8080:localhost:3128 someserver.com -l username</em></blockquote>
+Replace the someserver.com with the DNS name or IP of your newly setup proxy server.
+In case the SSHD on your server listens to aa port other than port 22, you may need to enter the following command
+<blockquote><em>ssh -L 8080:localhost:3128 someserver.com -p 1022 -l username</em></blockquote>
+In the above example:-
+8080 is a free unused port on your PC. We will tunnel this port to squid.
+localhost is your PC
+3128 is the port on the proxy server where squid is listening to.
+someserver.com is your proxy servers hostname or IP address.
+1022 is the port on your server where SSHD listens to.
+username is your username on the server
+
+After entering the ssh command, you will get a prompt asking for a password. Enter the password for ‘username’.
+
+Open Mozilla Firefox
+Click Edit the preferences. Then click on the box Connection Settings
+Choose Manual proxy configuration.
+Under HTTP proxy type in localhost. For port type in 8080 (change it as per your tunnel settingings)
+Then click OK
+
+You should now be able to use the Web browser to surf the net using browsing the web without fear of packets being sniffed.
+This only encrypts the information exchanged between your workstation and the proxy server. The information from your proxy to the website you are browsing can still be sniffed, so to be on the safe side use https when browsing sites which support it.
+
+      
+      <div>
+  Tags:  
+    <a href="tag/censorship/">censorship</a> </li>
+   
+    <a href="tag/linux/">Linux</a> </li>
+   
+    <a href="tag/proxy/">proxy</a> </li>
+   
+    <a href="tag/security/">security</a> </li>
+   
+    <a href="tag/squid/">squid</a> </li>
+   
+    <a href="tag/ssh/">ssh</a> </li>
+   
+    <a href="tag/tunnel/">tunnel</a> </li>
+   <br />
+  Categories:  
+    <a href="category/linux/">Linux</a> </li>
+   
+    <a href="category/tutorials/">Tutorials</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Secure Proxy using Squid';
+		var disqus_url = 'http://www.sajalkayan.com\/secure-proxy-using-squid.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

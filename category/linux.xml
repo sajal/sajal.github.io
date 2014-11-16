@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Linux on Sajal Kayan </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://www.sajalkayan.com/category/linux.xml</link>
+    <language>en-us</language>
+    
+    
+    <updated>Tue, 30 Oct 2012 13:13:59 &#43;0000</updated>
+    
+    <item>
+      <title>Disco &#43; EC2 spot instance = WIN</title>
+      <link>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
+      <pubDate>Tue, 30 Oct 2012 13:13:59 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
+      <description>&lt;p&gt;tl;dr version : &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;This&lt;/a&gt; is how I spent a Saturday evening.&lt;/p&gt;
+
+	&lt;p&gt;&amp;lt;blink&amp;gt;&lt;strong&gt;Warning&lt;/strong&gt;: If you like to write Java, stop reading now. Go back to using Hadoop. It&#39;s a much more mature project.&amp;lt;/blink&amp;gt;&lt;/p&gt;
+
+	&lt;p&gt;As a part of my &lt;a href=&#34;http://www.turbobytes.com/&#34; title=&#34;multi-cdn service&#34;&gt;job&lt;/a&gt;, I do a lot of number processing. Over the course of last few weeks, I shifted to doing most of it using &lt;a href=&#34;http://research.google.com/archive/mapreduce.html&#34;&gt;MapReduce&lt;/a&gt; using &lt;a href=&#34;http://discoproject.org/&#34;&gt;Disco&lt;/a&gt;. Its a wonderful approach to processing big data where the time to process data is directly proportional to the amount of hardware you throw at it and the quantity of data. The amount of data to be processed can (in theory) be unlimited. While I don&#39;t do anything of Google scale, I deal with &lt;em&gt;Small Big Data&lt;/em&gt;. My datasets for an individual job would probably not exceed 1 GB. I can currently afford to continue not use MapReduce, but as my data set grows, I would &lt;em&gt;have to&lt;/em&gt; do distributed computing, so better start early.&lt;/p&gt;
+
+	&lt;h3&gt;Getting started with Disco&lt;/h3&gt;
+
+	&lt;p&gt;If you, like me, had given up on MapReduce in the past after trying to deal with administrating Hadoop, now is a great time to look into Disco. Installation is pretty easy. &lt;a href=&#34;http://discoproject.org/doc/disco/start/download.html&#34;&gt;Follow the docs&lt;/a&gt;. Within 5 minutes I was writing Jobs in python to process data, would have been faster if I knew before-hand that SSH daemon should be listening on port 22.&lt;/p&gt;
+
+	&lt;p&gt;Python for user scripts + Erlang for backend == match made in heaven&lt;/p&gt;
+
+	&lt;h3&gt;Enter disposable Disco&lt;/h3&gt;
+
+	&lt;p&gt;I made a &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;set of python scripts&lt;/a&gt; to launch and manage Disco clusters on EC2 where there is no need for any data to be stored. In my usecase, the input is read from Amazon S3 and output goes back into S3.
+
+	&lt;p&gt;There are some issues with running disco on EC2.&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;Must have ssh/keys setup such that Master can ssh into slaves.&lt;/li&gt;
+		&lt;li&gt;Must have a file with &lt;em&gt;erlang cookie&lt;/em&gt; with same contents on all slaves&lt;/li&gt;
+		&lt;li&gt;Must inform master the &lt;em&gt;hostnames&lt;/em&gt; of the slaves. FQDN or anything with a dot gets rejected&lt;/li&gt;
+		&lt;li&gt;The default root directories have very limited storage space, usually 8GB&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;p&gt;disposabledisco takes care of the above things and more. Everything needed to run the cluster is defined in a config file. First generate a sample config file.&lt;/p&gt;
+
+	&lt;pre&gt;
+python create_config.py &gt; config.json
+	&lt;/pre&gt;
+
+	&lt;p&gt;This creates a new file with some pre-populated values. For my case the config file looks like this(some info masked)&lt;/p&gt;
+
+	&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+{
+    &#34;AWS_SECRET&#34;: &#34;SNIPPED&#34;, 
+    &#34;ADDITIONAL_PACKAGES&#34;: [
+        &#34;git&#34;, 
+        &#34;libwww-perl&#34;, 
+        &#34;mongodb-clients&#34;, 
+        &#34;python-numpy&#34;, 
+        &#34;python-scipy&#34;, 
+        &#34;libzmq-dev&#34;, 
+        &#34;s3cmd&#34;, 
+        &#34;ntp&#34;, 
+        &#34;libguess1&#34;, 
+        &#34;python-dnspython&#34;, 
+        &#34;python-dateutil&#34;, 
+        &#34;pigz&#34;
+    ], 
+    &#34;SLAVE_MULTIPLIER&#34;: 1, 
+    &#34;PIP_REQUIREMENTS&#34;: [
+        &#34;iso8601&#34;,
+        &#34;pygeoip&#34;
+    ], 
+    &#34;MASTER_MULTIPLIER&#34;: 1, 
+    &#34;MGMT_KEY&#34;: &#34;ssh-rsa SNIPPED\n&#34;, 
+    &#34;SECURITY_GROUPS&#34;: [&#34;disco&#34;], 
+    &#34;BASE_PACKAGES&#34;: [
+        &#34;python-pip&#34;, 
+        &#34;python-dev&#34;, 
+        &#34;lighttpd&#34;
+    ], 
+    &#34;TAG_KEY&#34;: &#34;disposabledisco&#34;, 
+    &#34;NUM_SLAVES&#34;: 30, 
+    &#34;KEY_NAME&#34;: &#34;SNIPPED&#34;, 
+    &#34;AWS_ACCESS&#34;: &#34;SNIPPED&#34;, 
+    &#34;INSTANCE_TYPE&#34;: &#34;c1.medium&#34;, 
+    &#34;AMI&#34;: &#34;ami-6d3f9704&#34;, 
+    &#34;MAX_BID&#34;: &#34;0.04&#34;,
+    &#34;POST_INIT&#34;: &#34;echo \&#34;[default]\naccess_key = SNIPPED\nsecret_key = SNIPPED\&#34; &gt; /tmp/s3cfg\ncd /tmp\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIPASNum.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIP.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoLiteCity.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIPRegion.dat.gz\ngunzip *.gz\nchown disco:disco *.dat\n\n&#34;
+}
+	&lt;/pre&gt;
+
+	&lt;p&gt;This tells disposabledisco that I want a cluster with 1 master and 30 slaces all of type &lt;em&gt;c1.medium&lt;/em&gt;, and use &lt;em&gt;ami-6d3f9704&lt;/em&gt; as the starting point. It lists out the packages to be installed via apt-get and python dependencies to be installed using PIP. You can link to external tar, git repo, etc. Basically anything pip allows after &lt;em&gt;pip install&lt;/em&gt;&lt;/p&gt;
+
+	&lt;p&gt;The &lt;em&gt;POST_INIT&lt;/em&gt; portion is bash script that runs as root after rest of the install. In my case I am downloading and uncompressing different GeoIP databases archived in a S3 bucket for use from within disco jobs.&lt;/p&gt;
+
+	&lt;p&gt;Once the config file is ready run the following command many times. The output is fairly verbose.&lt;/p&gt;
+
+	&lt;pre&gt;
+python create_cluster.py config.json
+	&lt;/pre&gt;
+
+	&lt;p&gt;Why many times? Cause there is no state stored in the system. All state is managed using EC2 tags. This is what the script does on each run&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;Check if master is running. If not request a spot instance for it (and kill any zombie slaves lying around from previous runs).&lt;/li&gt;
+		&lt;li&gt;
+			If master us up and running.
+			&lt;ul&gt;
+				&lt;li&gt;Print the ssh command needed to setup port forwarding. After running the given ssh command you can see http://localhost:8090 on the browser to see disco&#39;s UI in all its glory.&lt;/li&gt;
+				&lt;li&gt;print the command to export DISCO_PROXY so you can create jobs locally&lt;/li&gt;
+				&lt;li&gt;Check inventory of slaves. A slave can have 3 statuses. 1) &lt;em&gt;pending&lt;/em&gt; - spot instance requested. 2) &lt;em&gt;running&lt;/em&gt; - the instance is running. 3) &lt;em&gt;bootstrapped&lt;/em&gt; - slave is completely setup and can be added to master.&lt;/li&gt;
+				&lt;li&gt;If total number of slaves is less than &lt;em&gt;NUM_SLAVES&lt;/em&gt; launch the remaining&lt;/li&gt;
+				&lt;li&gt;Try and bootstrap any &lt;em&gt;running&lt;/em&gt; instances. If bootstrap was successful, change the EC2 tag.&lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/li&gt;
+		&lt;li&gt;Finally, update the master&#39;s disco config. Telling it hostnames of instances to use and number of workers.&lt;/li&gt;
+		&lt;li&gt;???&lt;/li&gt;
+		&lt;li&gt;Profit&lt;/li&gt;
+	&lt;/ul&gt;
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/disco-cluster-small.png&#34; width=&#34;500&#34; height=&#34;377&#34; alt=&#34;Cloudwatch showing 31 instances&#34; title=&#34;Cloudwatch showing 31 instances&#34; /&gt;
+
+	&lt;p&gt;Many steps involve EC2 provisioning spot instances, waiting for instance to get initialized, etc..&lt;/p&gt;
+
+	&lt;p&gt;To help with shipping output to S3, I made some output classes for Disco&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&#34;https://gist.github.com/3919506&#34;&gt;S3Output&lt;/a&gt; - Each key, value returned creates a new file in S3 with the key as S3 key and value as String thats dumped inside it. So, one key should be yielded only once from reduce.&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&#34;https://gist.github.com/3975607&#34;&gt;S3LineOutput&lt;/a&gt; Similar to S3Output, but now it stores the output, and joins the output as one big file. has options for sorting, unique, etc. &lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;p&gt;Both these functions can be configured gzip the contents before uploading.&lt;/p&gt;
+
+	&lt;p&gt;As far as input is concerned, I send it a list of signed S3 urls. (Sidenote: It seems disco cannot handle https inputs at the moment, so I use http). A sample job run might look like.. &lt;/p&gt;
+
+	&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+def get_urls():
+    urls = []
+    for k in bucket.list(prefix=&#34;processed&#34;):
+        if k.name.endswith(&#34;gz&#34;):
+            urls += [k.generate_url(3660).replace(&#34;https&#34;, &#34;http&#34;)]
+    return urls
+
+MyExampleJob().run(
+	input=get_urls(),
+	params={
+		&#34;AWS_KEY&#34;: &#34;SNIP&#34;,
+		&#34;AWS_SECRET&#34;: &#34;SNIP&#34;,
+		&#34;BUCKET_NAME&#34;: &#34;SNIP&#34;,
+		&#34;gzip&#34;: True
+	},
+	partitions=10,
+	required_files=[&#34;s3lineoutput.py&#34;],
+	reduce_output_stream=s3_line_output_stream
+	).wait()
+
+	&lt;/pre&gt;
+
+	&lt;p&gt;Bonus - &lt;a href=&#34;https://gist.github.com/3941935&#34;&gt;MagicList&lt;/a&gt; - Memory efficient way to store and process potentially infinite lists.&lt;/p&gt;
+
+	&lt;p&gt;We used Disco to compute numbers for a series of blogposts on &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDN Planet&lt;/a&gt;. For this analysis it was painful process for me to manually launch Disco clusters, which lead me to create the helper scripts.&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;Part 1 : &lt;a href=&#34;http://www.cdnplanet.com/blog/google-dns-opendns-and-cdn-performance/&#34;&gt;Google DNS, OpenDNS and CDN performance&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;Part 2 : &lt;a href=&#34;http://www.cdnplanet.com/blog/which-cdns-support-edns-client-subnet/&#34;&gt;Which CDNs support edns-client-subnet?&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;Part 3 : &lt;a href=&#34;http://www.cdnplanet.com/blog/real-world-cdn-performance-googledns-opendns-users/&#34;&gt;Real-world CDN performance for Google DNS and OpenDNS users&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;h3&gt;Shameless plug&lt;/h3&gt;
+
+	&lt;a href=&#34;http://www.turbobytes.com/&#34;&gt;&lt;strong&gt;Turbobytes, multi-CDN made easy&lt;/strong&gt;&lt;/a&gt;
+
+	&lt;p&gt;Have your static content delivered by 6 global content delivery networks, not just 1. Turbobytes&#39; platform closely monitors CDN performance and makes sure your content is always delivered by the fastest CDN, automatically.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Simple command to &#34;watch&#34; the webserver access log</title>
+      <link>http://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html</link>
+      <pubDate>Fri, 02 Apr 2010 14:34:16 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html</guid>
+      <description>I am often curious as to what bots are going on my site at any given moment. So much so that I devote one terminal tab to running this script.
+
+save the following as say bot.sh and make it executable :-
+
+&lt;pre lang=&#34;bash&#34;&gt;#!/bin/bash
+watch &#34;grep $1 /path/to/access.log | tail -15&#34;&lt;/pre&gt;
+note: the number after tail can be adjusted depending on your terminal size...
+
+Run it on the server as :-
+
+&lt;pre lang=&#34;shell&#34;&gt;[user@server ~]# ./bot.sh Googlebot&lt;/pre&gt;
+
+OR
+
+&lt;pre lang=&#34;shell&#34;&gt;[user@server ~]# ./bot.sh msnbot&lt;/pre&gt;
+
+OR
+
+&lt;pre lang=&#34;shell&#34;&gt;[user@server ~]# ./bot.sh &lt;suspicious ip address&gt;&lt;/pre&gt;
+
+and so on....
+
+&lt;strong&gt;UPDATE&lt;/strong&gt;: Better &lt;a href=&#34;/simple-command-to-watch-the-webserver-access-log.html#comment-1039&#34;&gt;alternative&lt;/a&gt; by &lt;a href=&#34;http://whsgroup.ath.cx/&#34;&gt;willwill&lt;/a&gt;. Save as bot.sh:-
+&lt;pre lang=&#34;bash&#34;&gt;#!/bin/bash
+watch &#34;tail -f /path/to/access.log | grep $1&#34;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A beautiful video about LINUX</title>
+      <link>http://www.sajalkayan.com/a-beautiful-video-about-linux.html</link>
+      <pubDate>Thu, 25 Dec 2008 12:49:11 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/a-beautiful-video-about-linux.html</guid>
+      <description>&lt;object width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/7BOCfzkXJOc&amp;hl=en&amp;fs=1&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/7BOCfzkXJOc&amp;hl=en&amp;fs=1&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Make your own cheap charlie CDN</title>
+      <link>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
+      <pubDate>Sat, 28 Jun 2008 05:26:21 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
+      <description>&lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network&#34; target=&#34;_self&#34;&gt;CDN&lt;/a&gt; stands for Content Delivery(or Distribution) Network. It is a network of servers usually located in various geographic locations to improve the availability and access speed of a website (or webapp or other media). The main use of CDNs were during the nineteens when inter-continental access was slow, scarce and expensive. Origin server could be in the silicon valley, users from UK would access the node located in UK, so in theory only once the page would be downloaded from the US server to the UK server. Thus allowing the UK visitors to access the page locally resulting in a huge saving in inter-continental bandwidth costs and improved access times for the end users.
+
+CDNs are traditionally a very expensive solution to implement if using any of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network#Commercial_CDNs&#34;&gt;established providers&lt;/a&gt;. The solution in itself is not very complex. I am in the process of implementing my very own CDN. The benefits are simple.
+&lt;ul&gt;
+	&lt;li&gt;It would reduce load on the origin server&lt;/li&gt;
+	&lt;li&gt;Faster access if user downloads pages from a server closer to them&lt;/li&gt;
+	&lt;li&gt;Since load on origin server is low, faster access even if cache needs to be refreshed&lt;/li&gt;
+&lt;/ul&gt;
+Some major portions of the CDN I am looking to implement
+&lt;ol&gt;
+	&lt;li&gt;&lt;strong&gt;Origin Server(s)&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Geo targeting DNS servers&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Squid Cache&lt;/strong&gt; - Set as Reverse Proxy or web accelerator&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!--more--&gt;&lt;strong&gt;Origin Server&lt;/strong&gt; : This at the moment is a single server, which may be increased to run mysql and apache on separate boxes to increase productivity. This is up and running and in production.
+
+&lt;strong&gt;Geo targeting DNS servers&lt;/strong&gt; : A perl script making use of Geo::IP and Net::DNS::Nameserver modules to resolve the query based on the origin country of the requester. The DNS script is in very early development. At the moment it is basically the example usage of Net::DNS::Nameserver with the Geo::IP loosely implemented. Need to implement some way of using config files which flush every 10 minutes, so I can use a series of servers runing this script and changes in config can be done on one server and rsynced across all nameservers running this script. The perl script is attached in the end. It would resolve foo.example.com differently if the request came from Malaysia.
+&lt;strong&gt;
+Squid Cache&lt;/strong&gt; : Squid cache is an Free proxy server which can be setup as a Reverse proxy. Users would query this proxy for pages and the proxy would deliver content, flushing the cache based on the rules defined in the squid.conf file and/or the expires headers tag set by the origin server. It can be setup such that different filetypes are cached in a different manner. Different url patterns need to be cached differently. Queries to some URL patterns by logged-in(based on cookies) users should be direct from origin server. These configurations are a little complicated. My plan for this configuration is attached in the end.
+
+The Geo Dns and Squid would be installed on cheap VPS in a few countries. Will start with one to see how well it scales.
+
+EDIT 1 : Playing with &lt;a href=&#34;http://varnish.projects.linpro.no/&#34;&gt;Varnish&lt;/a&gt; at the moment, considering it over squid.
+
+The Geo Dns perl script :
+&lt;pre lang=&#34;perl&#34;&gt;#!/usr/bin/perl
+
+use Geo::IP;
+use Net::DNS::Nameserver;
+use strict;
+use warnings;
+
+sub reply_handler {
+my ($qname, $qclass, $qtype, $peerhost,$query) = @_;
+my ($rcode, @ans, @auth, @add);
+
+my $gi = Geo::IP-&amp;gt;new(GEOIP_STANDARD);
+print &#34;Received query from $peerhost\n&#34;;
+my $ip =  substr $peerhost, 7;
+my $country = $gi-&amp;gt;country_code_by_addr($ip);
+print &#34;--$ip--$country \n\n&#34;;
+$query-&amp;gt;print;
+
+if ($qtype eq &#34;A&#34; &amp;amp;&amp;amp; $qname eq &#34;foo.example.com&#34; ) {
+my ($ttl, $rdata) = (3600, &#34;10.1.2.3&#34;);
+if ($country eq &#34;MY&#34; ) {
+$rdata = &#34;10.1.2.4&#34;;
+}
+push @ans, Net::DNS::RR-&amp;gt;new(&#34;$qname $ttl $qclass $qtype $rdata&#34;);
+$rcode = &#34;NOERROR&#34;;
+}elsif( $qname eq &#34;foo.example.com&#34; ) {
+$rcode = &#34;NOERROR&#34;;
+
+}else{
+$rcode = &#34;NXDOMAIN&#34;;
+}
+
+# mark the answer as authoritive (by setting the &#39;aa&#39; flag
+return ($rcode, \@ans, \@auth, \@add, { aa =&amp;gt; 1 });
+}
+
+my $ns = Net::DNS::Nameserver-&amp;gt;new(
+LocalPort    =&amp;gt; 53,
+ReplyHandler =&amp;gt; \&amp;amp;reply_handler,
+
+Verbose      =&amp;gt; 1,
+) || die &#34;couldn&#39;t create nameserver object\n&#34;;
+
+$ns-&amp;gt;main_loop;&lt;/pre&gt;
+My idea for squid.conf :
+&lt;pre lang=&#34;html&#34;&gt;1) Forward proxy :-
+
+Allow following IPs to browse any website without any caching... allow https also...
+
+a.b.c.d
+w.x.y.z
+127.0.0.1 (ill do a ssh tunnel)
+
+2) Reverse proxy :-
+
+Rules (to be followed serially, if rule 3 and 5 both match, rule 3 should be used):-
+
+1) All urls ending in the following must be cached for minimum 5 days or expires headder. dont even check to see if file has updated.
+
+.jpg, .gif, .css, .js, .swf, .png  (not case sensitive )
+
+2) POST should never be cached
+
+3) Few URLs should be cached for 30 mins (minimum/maximum) no matter what the expires headder says.
+
+http://www.mysite.com/urla/
+http://www.mysite.com/urlc.html
+etc...
+
+4) Requests to http://www.mysite.com/sectiona/* :-
+
+* If user has following cookies pass them direct hint : &#34;acl cookie_test req_header Cookie ﻿^.*(comment_author_|wordpress|wp-postpass_).*$&#34;
+* http://www.mysite.com/sectiona/sub-section1/* : 30 mins cache no matter what!
+* If requester is Googlebot : serve from cache only if it the copy in cache is 5 mins old. else update the cache.
+* for other users cache urls ending in .html for 60 mins , rest for 20 mins
+
+5) Requests to http://www.mysite.com/sectionb/*
+
+* no cache unless images.
+* Allow access only if user has a particular cookie e.g. secret_word=another_word
+
+6) urls which are NOT in point 4 or 5 :-
+
+* If users have cookie eg. no_cache then pass direct
+* 5 min cache for http://www.mysite.com/sectionc/*
+* Cache the shit out of everything else for 30 mins
+
+Special Instructions : If origin server is unreachable then show cached result, no matter what. The first cache server is a VPS running ubuntu server with 128 megs of dedicated non-burstable ram and has 4.3 GB diskspace left. resources can be upgraded on request. Where I have mentioned &#34;no matter what&#34; i dont want the proxy server bothering the origin server at all. The origin and proxies will be located far geographically so connection between them may not be optimal.
+
+In case squid allows for URL rewriting, i would like to also map for example :-
+us.mysite.com -&amp;gt; www.mysite.com
+
+so if user can access the same stuff by going to www.mysite.com or even us.mysite.com
+
+Also if URL rewriting is possible in Squid, in the future id like to be able to map ... http://www.mysite.com/subfolder as http://somesite.com/subfolder and http://www.mysite.com/anotherfolder as http://anothersite.com/anotherfolder
+
+Also.. if squid supports ssl, would it be possible to use https (and also install some certificate on the squid) then users connection to and from the proxy is encrypted if needed, but the connection between squid and origin server is plaintext ?&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Open letter to Thailand&#39;s Software Bullies</title>
+      <link>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</link>
+      <pubDate>Sat, 21 Jun 2008 04:04:26 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</guid>
+      <description>Kind attn : &lt;strong&gt;Microsoft&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+Kind attn : &lt;strong&gt;Lenovo&lt;/strong&gt; Thailand (Sorry cant find name of contact on your site)
+Kind attn : Prasert Charoonpaisal - General Manager - Personal Systems Group (PSG) - &lt;strong&gt;HP&lt;/strong&gt; Thailand
+Kind attn : Corporate Communications Dept. - &lt;strong&gt;Sony&lt;/strong&gt; Thai Co., Ltd.
+Kind attn : &lt;strong&gt;Asus&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+Kind attn : Acer Head Office - &lt;strong&gt;Acer&lt;/strong&gt; Computer Co., Ltd.
+Kind attn : &lt;strong&gt;Benq&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+
+Dear Sirs or Madams,
+
+This is to bring to your notice that almost all notebooks available in Thailand come bundled with windows preloaded.
+
+I had purchased a Sony VAIO 3 or 4 years ago which came bundled with Windows XP. Due to quality problems in the software provided, I had to switch over to a different Operating System. I have no claims on the licensing fee of the inferior software provided to me as during the time of purchase I had intended to use it, and I did for quite a while.
+
+Now, the time has come for me to purchase a new notebook. A self conducted study at fortune town on June 20th 2008 reviled that almost &lt;strong&gt;all notebooks came with Windows pre-installed and the license bundled&lt;/strong&gt;. On asking any of the vendors that I don&#39;t want to pay for the license, I was informed it is impossible. The very limited selection of notebooks which do come without Windows pre-installed are bottom of the line models which are usually outdated or very heavy.
+
+&lt;strong&gt;My questions to all of the addresses&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Do you assume a non-windows user to not be able to afford your mid-segment notebooks?&lt;/li&gt;
+	&lt;li&gt;Is your intention to force Linux users into buying a Windows license?&lt;/li&gt;
+	&lt;li&gt;Is this an effort to form a cartel against Linux?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to all the notebook vendors&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Do you refund any difference amount in case the buyer does not use the license?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to Lenovo&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Lenovo USA does offer an interesting range of notebooks without Windows. Does Lenovo Thailand do the same?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to Microsoft :-&lt;/strong&gt;
+&lt;ol&gt;
+	&lt;li&gt;Do you refund any unused windows License?&lt;/li&gt;
+	&lt;li&gt;I am aware of the software piracy issues in Thailand, but have you ever conducted a study as to how many non-windows users own a windows license? Do you reduce this number when publishing piracy rates?&lt;/li&gt;
+&lt;/ol&gt;
+Please respond, via comment form below in English only. The replies would help me decide weather or not to get a new notebook here in Thailand or order it in the States or Singapore, potentially making the Thai Government suffer a loss of tax revenue.
+
+PS : Apologies to other companies who fit my criteria and I missed them out! They are also free to respond.
+
+Regards,
+Sajal Kayan
+
+Update 1 : Thanks to &lt;a href=&#34;http://twitter.com/bact&#34;&gt;@&lt;/a&gt;&lt;a href=&#34;http://bact.blogspot.com/&#34;&gt;bact&lt;/a&gt; for translating to Thai and &lt;a href=&#34;http://www.blognone.com/node/8123&#34;&gt;publishing on blognone&lt;/a&gt;.
+
+Update 2 : Online discussions at &lt;a href=&#34;http://www.blognone.com/node/8117&#34;&gt;blognone&lt;/a&gt; and &lt;a href=&#34;http://forum.ubuntuclub.com/hardware/linux-notebooks/&#34;&gt;ubuntuclub&lt;/a&gt;.
+</description>
+    </item>
+    
+    <item>
+      <title>My history</title>
+      <link>http://www.sajalkayan.com/my-history.html</link>
+      <pubDate>Mon, 14 Apr 2008 17:02:35 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/my-history.html</guid>
+      <description>Stolen idea from &lt;a href=&#34;http://sugree.com/node/114&#34; title=&#34;Sugree&#39;s history&#34; target=&#34;_blank&#34;&gt;Sugree&lt;/a&gt;...
+&lt;pre lang=&#34;Bash&#34;&gt;[sajal@localhost ~]$ history|awk &#39;{a[$2]++} END{for(i in a){printf &#34;%5d\t%s\n&#34;,a[i],i}}&#39;|sort -rn|head
+239   ./autofollow.pl
+149   ssh
+96   ping
+56   df
+51   cd
+43   ls
+36   su
+23   GET
+22   ./gtalk.pl
+18   whois
+[sajal@localhost ~]$&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Why cant FOSS succeed in India?</title>
+      <link>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</link>
+      <pubDate>Mon, 18 Feb 2008 20:29:27 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</guid>
+      <description>Recently Julie posted an interesting article called &#34;&lt;a href=&#34;http://goeastyoungwoman.wordpress.com/2008/02/17/open-source-development-women-and-asians-last/&#34;&gt;&lt;em&gt;open source development: women and Asians last&lt;/em&gt;&lt;/a&gt;&#34;. This attributes the main reason for Women and Asian people&#39;s lesser involvement in Open Source development to be its confrontational nature. It does make sense to an extent as far as Thailand is concerned, Thai people generally try to avoid confrontations. Women on the other hand is a species I can never understand.
+
+IMHO, the main issue is software piracy. The uninformed tend to think that &lt;strong&gt;Free Software == Cheap Software&lt;/strong&gt;. Cheap as in low quality. Proprietary software comes at a big price tag, so it must be good? A couple of months ago I visited a lawyer in Thailand and i booted my notebook(loaded with Fedora 7) to show him something. This person immediately remarked &#34;&lt;em&gt;Is that Vista?&lt;/em&gt;&#34; I told him &#34;&lt;em&gt;NO, Its Linux&lt;/em&gt;.&#34;. He found it hard to digest that I was running a far superior GUI than his crappy XP and it was Free. He replied &#34;&lt;strong&gt;&lt;em&gt;Isint Linux same like DOS?&lt;/em&gt;&lt;/strong&gt;&#34;. This person in question is quite computer literate, did his Masters in the States, manages his own website which by the way runs on an open source script uses open source PHP and MYSQL software and is probably hosted on a server running open source Linux. These people are so into the marketing BS coming from software vendors that they &lt;strong&gt;outright reject &lt;em&gt;Free Software&lt;/em&gt;&lt;/strong&gt;.&lt;!--more--&gt;
+
+Let me share a personal story. While I was studying at Darjeeling in India, we used to have 3 months long winter vacations with nothing much to do. I decided to investigate what this Linux hype is all about. Picked up a book on Red Hat which came with a FREE CD of the OS (download was out of the question on crappy and expensive dial-up connections). Tried installing Red Hat, installation(step by step from the book) was smooth (and easier) however, on booting, I just couldn&#39;t get the GUI up and running. There was some compatibility issues with the graphics adapter. (No GUI)==(noob cant connect to the net to get help). Asked around, even the techie who set-up our PC, the computer shop, nobody had even heard of Linux. The techie always moved around armed with a CD case full of pirated CDs of Windows, Office and all kinds of bloatwares. He had also memorized the CD keys by now. So... No one to help me out with the Linux issues, except for the internet. I logged on to the net from a friends place, checked on the forums for help, made some trips from forum discussions at a friends place and my home, tried some stuff, but in vein. Finally found one person who could get my PC booted, but unfortunately he lived in Delhi(I was in &lt;strike&gt;Calcutta&lt;/strike&gt; Kolkata) and wanted a return train ticket from Delhi to Calcutta as the fee :D . Finally I gave up on Linux and loaded up Windows again. Led to next few years of being a miserable windows user, even proceeded onto visual basic development and later into .NET. Had I found someone to help me out all those years ago, with all the free time in hand I could have become a Linux Ninja and probably contributed something back to the community. I am a Linux user now, but have been one for only the last couple of years, that too now I don&#39;t have time to code or learn a lot of new stuff.
+
+Now, had software piracy not been so prevalent in India, a lot of people would have to start using Linux out of necessary, the techie would at least have been able to solve my issue and the Linux community would have probably got one more minion on their side.
+
+I am sure such kinds of stories are not rare in a country like India. Another issue in India is poverty. Most schools and colleges charge a very reasonable fee and thus their computer labs are probably funded by Microsoft who make sure their proprietary software is the only software the kids would have an exposure to. They learn to use this platform, grow up on it, become a yet another MS developer working for some HUGE company for peanuts and get consumed in the Rat Race.
+
+Most of the Open Source development is done by hobbyists. In India a coder would need to work overtime to put food on the table, there is no time left for hobbies, probably at the end of the day the sight of a computer might disgust some. There are also some open source development which comes out of professional interests, as per me &lt;a href=&#34;http://www.asterisk.org/&#34; target=&#34;_blank&#34;&gt;Asterisk&lt;/a&gt; would be a classic example. A lot of Asterisk development is going on in India due to the shear demand of cheap and reliable VOIP solutions for the Call Centers and BPOs. But what about other areas?
+
+Even the a big news wire website of India use Microsoft&#39;s servers with &lt;strong&gt;ASP platform&lt;/strong&gt;(they probably paid &amp;gt; $10,000 for the horrible custom CMS) to serve their pages and it was &lt;strong&gt;down for 2 days&lt;/strong&gt; leaving news websites and newspapers deprived of news articles. &lt;strong&gt;Try selling an open source content management system to them!&lt;/strong&gt;
+
+&lt;strong&gt;The bottom line is that the NON-ACCEPTABILITY of Open Source Solutions in the business world is the main reason for less action in Asia.&lt;/strong&gt; This has to change first!
+
+Do note that I may have exaggerated a little to make my points, I know for a fact that in the last few years &lt;strong&gt;India is coming up on the Open Source radar&lt;/strong&gt;.
+
+Interesting Articles-Seems &lt;strong&gt;India has changed since i left&lt;/strong&gt; :-
+&lt;ul&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.informationweek.com/story/showArticle.jhtml?articleID=47900215&amp;amp;tid=5979&#34; target=&#34;_blank&#34;&gt;Why The Open-Source Model Can Work In India&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://knowledge.wharton.upenn.edu/india/article.cfm?articleid=4250&#34; target=&#34;_blank&#34;&gt;Will India Become the New Vanguard of the Open Source Movement?&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.news.com/India-leader-advocates-open-source/2100-1016_3-1011255.html&#34; target=&#34;_blank&#34;&gt;India leader advocates open source&lt;/a&gt; - Note APJ is now the ex Indian President - &lt;em&gt;Missile man of India&lt;/em&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://news.bbc.co.uk/2/hi/technology/4764565.stm&#34; target=&#34;_blank&#34;&gt;India lays down &#39;open&#39; challenge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Yet another PC - Mac video</title>
+      <link>http://www.sajalkayan.com/yet-another-pc-mac-videos.html</link>
+      <pubDate>Thu, 17 Jan 2008 14:07:15 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/yet-another-pc-mac-videos.html</guid>
+      <description>&lt;object width=&#34;425&#34; height=&#34;355&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/Pa1RCg-Ccp0&amp;rel=1&#34;&gt;&lt;/param&gt;&lt;param name=&#34;wmode&#34; value=&#34;transparent&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/Pa1RCg-Ccp0&amp;rel=1&#34; type=&#34;application/x-shockwave-flash&#34; wmode=&#34;transparent&#34; width=&#34;425&#34; height=&#34;355&#34;&gt;&lt;/embed&gt;&lt;/object&gt;&lt;br&gt;
+Seems some people just wont stop making us laugh and bring out the truth. A couple of months ago I showed my Fedora 7 loaded notebook to someone (who has both mac and a windows workstations). She immediately  commented.. &#34;ohh that looks like a mix of mac and windows.&#34;. I guess this video explains it.
+</description>
+    </item>
+    
+    <item>
+      <title>Linux at NYSE</title>
+      <link>http://www.sajalkayan.com/linux-at-nyse.html</link>
+      <pubDate>Thu, 10 Jan 2008 12:53:17 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/linux-at-nyse.html</guid>
+      <description>This would be one of my favourites at &lt;a href=&#34;http://ars.userfriendly.org/cartoons/?id=20071216&#34; target=&#34;_blank&#34;&gt;UserFriendly&lt;/a&gt;
+
+&lt;a href=&#34;http://www.userfriendly.org/cartoons/archives/07dec/uf011016.gif&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;http://www.userfriendly.org/cartoons/archives/07dec/uf011016.gif&#34; alt=&#34;Linux at NYSE : No one likes a crash&#34; border=&#34;0&#34; hspace=&#34;0&#34; vspace=&#34;0&#34; width=&#34;500&#34; /&gt;&lt;/a&gt;
+
+&lt;a href=&#34;http://www.userfriendly.org/cartoons/archives/07dec/uf011016.gif&#34; target=&#34;_blank&#34;&gt;Click to Enlarge&lt;/a&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Secure Proxy using Squid</title>
+      <link>http://www.sajalkayan.com/secure-proxy-using-squid.html</link>
+      <pubDate>Sat, 05 Jan 2008 05:16:52 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
+      <description>Had originally posted this on Friday, September 29th, 2006 during the peak of Takhsin&#39;s rampant blocking of websites and the blocking proxies were messing up often blocking un-blocked pages also.
+
+It is very important to use a secure proxy if you browse the web from unsecure Networks.
+The basic requirements are a Linux box in a location which is secure and another PC Linux or windows which may be in the unsecure location.
+
+NOTE : Please excuse my newbieness. I do not provide any kind of waranty on this article, only hope that it may be useful or interesting to you.
+
+For this article, the squid was setup on a CentOS based server and accessed from FC5 based notebook using Mozilla Firefox. The settings would be simillar for other distributions/ browsers.
+
+This method is not to be used illegally to view government blocked websites. Please follow laws of the country you reside in.&lt;!--more--&gt;
+
+On CentOS it is very easy to install squid using yum (note you must be root to continue with the instalation)
+&lt;blockquote&gt;&lt;em&gt;yum install squid&lt;/em&gt;&lt;/blockquote&gt;
+On Debian based system :-
+&lt;blockquote&gt;&lt;em&gt;apt-get install squid&lt;/em&gt;&lt;/blockquote&gt;
+For others/slackware :-
+
+Download squid source file as a gzipped tar ball (squid-x.y-STABLE.tar.gz) available at http://www.squid-cache.org/ or from ftp://www.squid-cache.org/pub. Then run the following commands
+&lt;blockquote&gt;&lt;em&gt;tar -xvzf squid-*-src.tar.gz&lt;/em&gt;
+&lt;em&gt;cd squid -*&lt;/em&gt;
+&lt;em&gt;./configure&lt;/em&gt;
+&lt;em&gt;make&lt;/em&gt;
+&lt;em&gt;make install&lt;/em&gt;&lt;/blockquote&gt;
+This by default, will install in “/usr/local/squid”.
+
+There are some basic configurations which you may need to edit.
+By default the squid config file is located in /etc/squid/squid.conf on centos with squid installed using yum. Config file may be located at /usr/local/squid/etc/squid.conf if you have installed manually.
+
+Start Squid on CentOS
+&lt;blockquote&gt;&lt;em&gt;/etc/init.d/squid start&lt;/em&gt;&lt;/blockquote&gt;
+Squid is now ready to serve as proxy only to local host and is listening on port 3128
+
+Now you have squid listening to localhost only. We need to make a tunnel from the server to the PC.
+Note for windows users reffer to &lt;a href=&#34;http://web.archive.org/web/20070505081807/http://www.jfitz.com/tips/putty_config.html&#34; target=&#34;_blank&#34; title=&#34;Secure tunnel on windows using putty &#34;&gt;putty configuration guide&lt;/a&gt;
+to do this on a FC5 (Fedora core instructions may be similar for other distributions) be root(or superuser) and run the following command.
+&lt;blockquote&gt;&lt;em&gt;ssh -L 8080:localhost:3128 someserver.com -l username&lt;/em&gt;&lt;/blockquote&gt;
+Replace the someserver.com with the DNS name or IP of your newly setup proxy server.
+In case the SSHD on your server listens to aa port other than port 22, you may need to enter the following command
+&lt;blockquote&gt;&lt;em&gt;ssh -L 8080:localhost:3128 someserver.com -p 1022 -l username&lt;/em&gt;&lt;/blockquote&gt;
+In the above example:-
+8080 is a free unused port on your PC. We will tunnel this port to squid.
+localhost is your PC
+3128 is the port on the proxy server where squid is listening to.
+someserver.com is your proxy servers hostname or IP address.
+1022 is the port on your server where SSHD listens to.
+username is your username on the server
+
+After entering the ssh command, you will get a prompt asking for a password. Enter the password for ‘username’.
+
+Open Mozilla Firefox
+Click Edit the preferences. Then click on the box Connection Settings
+Choose Manual proxy configuration.
+Under HTTP proxy type in localhost. For port type in 8080 (change it as per your tunnel settingings)
+Then click OK
+
+You should now be able to use the Web browser to surf the net using browsing the web without fear of packets being sniffed.
+This only encrypts the information exchanged between your workstation and the proxy server. The information from your proxy to the website you are browsing can still be sniffed, so to be on the safe side use https when browsing sites which support it.
+</description>
+    </item>
+    
+  </channel>
+</rss>

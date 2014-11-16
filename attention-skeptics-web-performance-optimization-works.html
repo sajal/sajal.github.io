@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Attention skeptics: Web Performance Optimization works! &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Attention skeptics: Web Performance Optimization works!</h1>
+  <span class="post-date">Sat, May 14, 2011</span>
+      Today, I was looking into web performance issues for a new client who wishes to remain anonymous and saw an interesting example of value provided by improving performance.
+
+One of the first things I do when looking into a new site is look at Google Analytics to understand a little about the sites visitors. This helps in prioritizing changes which affects the majority of users.
+
+An interesting observation :-
+
+<strong>Pageviews for all visitors</strong>
+<a href="http://i.ticdn.com/sajal/page-views.png" target="_blank" title="Pageviews for all visitors"><img src="http://i.ticdn.com/sajal/page-views-s.png" alt="Pageviews for all visitors" /></a>
+
+<strong>Average Pageviews for all visitors</strong>
+<a href="http://i.ticdn.com/sajal/avg-page-views.png" target="_blank" title="Average Pageviews for all visitors"><img src="http://i.ticdn.com/sajal/avg-page-views-s.png" alt="Average Pageviews for all visitors" /></a>
+
+Adsense revenue also followed a similar path. -- Screenshot not available
+
+The reason for this effect was a simple database indexing tweak which sped up the backend performance of a very important action page on the site.
+
+The site in question is a web application where user inputs something and gets some result. It is not a content site where pageview/user could have increased due to some interesting content being added or something. The only change was indexing of a column which should have an index right from the start.
+
+<em>DISCLAIMER: I did not have any role in the above improvement. This was done before my involvement. Perhaps this convinced the client to hire me. Screenshots/info shared with clients permission.</em>
+
+      
+      <div>
+  Tags:  
+    <a href="tag/google-analytics/">google analytics</a> </li>
+   
+    <a href="tag/site-performance/">site performance</a> </li>
+   <br />
+  Categories:  
+    <a href="category/monetizing/">Monetizing</a> </li>
+   
+    <a href="category/webmaster-things/">Webmaster Things</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Attention skeptics: Web Performance Optimization works!';
+		var disqus_url = 'http://www.sajalkayan.com\/attention-skeptics-web-performance-optimization-works.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

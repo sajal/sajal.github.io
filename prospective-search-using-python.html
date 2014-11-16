@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Prospective search using python &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Prospective search using python</h1>
+  <span class="post-date">Wed, Jul 22, 2009</span>
+      <strong><a href="http://en.wikipedia.org/wiki/Prospective_search" rel="nofollow">Prospective search</a></strong>, or <strong>persistent search</strong>, is a relatively less common method of implementing search where the list of keywords is defined, and when provided a single document it determines the list of keywords applicable to it.
+
+This is different from traditional (or "retrospective") search, where many documents are stored into an indexed and when provided with a search term, the search engine returns the list of documents which best match the query.
+
+The best real world examples would be how Google News Alerts(or IMHO categorization/clustering in Google News) works. When a new news story is found by Google, it makes more sense to run a prospective search on the news story to find which alert subscriptions (or news category) it belongs to, rather than searching for all the alerts repeatedly on their entire index.
+
+Lucene has a <a href="http://lucene.apache.org/java/2_4_0/api/org/apache/lucene/index/memory/MemoryIndex.html">MemoryIndex</a> class for just this purpose, ive made a simple implementation in python using <a href="http://lucene.apache.org/pylucene/">pylucene</a>. MemoryIndex is a special class in lucene for on-the-fly searching. It can contain only one doccument which may have more than one field. This is ideal for prospective search.
+
+Installation and setup of pylucene is out of scope of this post... <a href="http://lucene.apache.org/pylucene/documentation/install.html">RTFM</a>! (do note u need to edit the MakeFile)
+<pre lang="python">import sys, os, lucene, time, threading
+
+def ProspectiveSearch(body, terms):
+    lucene.initVM(lucene.CLASSPATH)
+    index = lucene.MemoryIndex()
+    index.addField("content", body, lucene.StandardAnalyzer())
+    parser = lucene.QueryParser("content", lucene.StandardAnalyzer())
+    matches = []
+    for term in terms:
+        score=index.search(parser.parse(term))
+        if score &gt; 0:
+            matches += [term]
+    return matches</pre>
+sample usage :-
+<pre lang="python">body = "hi my name is sajal kayan"
+terms = ["sajal", "good", "boy", "name", "sajal AND NOT kayan", "sajal AND kayan"]
+matches = ProspectiveSearch(body, terms)</pre>
+In this case returns ['sajal', 'name', 'sajal AND kayan']
+
+Note:initVM() is <a href="http://stackoverflow.com/questions/548493/jcc-initvm-doesnt-return-when-modwsgi-is-configured-as-daemon-mode">giving problems</a> on mod_wsgi
+
+On my computer, this is the benchmark i noticed for a 244 word content.
+<ul>
+	<li>1,492 queries : 0.79 seconds (for whole script only 248ms for the search loop)</li>
+	<li>14,920 queries : 1.519 seconds</li>
+	<li>74,600 queries : 3.425 seconds</li>
+	<li>149,200 queries : 5.552 seconds</li>
+	<li>298,400 queries : 10.328 seconds</li>
+</ul>
+If you know a better method to achieve prospective search in python do let me know. Would also be interested to know if any RPC based search software does this.
+
+      
+      <div>
+  Tags:  
+    <a href="tag/python/">Python</a> </li>
+   
+    <a href="tag/search/">search</a> </li>
+   <br />
+  Categories:  
+    <a href="category/python/">Python</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Prospective search using python';
+		var disqus_url = 'http://www.sajalkayan.com\/prospective-search-using-python.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

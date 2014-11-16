@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Mysql on Sajal Kayan </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://www.sajalkayan.com/tag/mysql.xml</link>
+    <language>en-us</language>
+    
+    
+    <updated>Tue, 19 Feb 2008 19:22:33 &#43;0000</updated>
+    
+    <item>
+      <title>Piwik the Google Analytics Killer!</title>
+      <link>http://www.sajalkayan.com/piwik-the-google-analytics-killer.html</link>
+      <pubDate>Tue, 19 Feb 2008 19:22:33 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/piwik-the-google-analytics-killer.html</guid>
+      <description>Just today &lt;a href=&#34;http://www.lopsta.com/2008/02/19/open-source-web-analytics/&#34; target=&#34;_blank&#34;&gt;Jan told me&lt;/a&gt; about &lt;a href=&#34;http://piwik.org&#34; target=&#34;_blank&#34;&gt;Piwik&lt;/a&gt;. At first glance it looks quite neat and developer friendly. The idea seems to be to make an &lt;strong&gt;Open Source alternative to Google Analytics&lt;/strong&gt; and the &lt;a href=&#34;http://piwik.org/blog/2008/02/why-is-piwik-better-than-the-competition/&#34; target=&#34;_blank&#34;&gt;advantages&lt;/a&gt; seems to be many. Piwik is the new version of &lt;a href=&#34;http://www.phpmyvisites.us/&#34;&gt;phpMyVisites&lt;/a&gt; and is supported by &lt;a href=&#34;http://www.openads.org/&#34; target=&#34;_blank&#34;&gt;OpenAds&lt;/a&gt; (a very powerful Open Source Ad server)
+
+Piwik like Google Analytics &lt;strong&gt;uses javascript to collect users data&lt;/strong&gt; and is not dependent on the web servers access.log file, thus &lt;strong&gt;100% eliminating the chances of any bad bot activity to be mistaken for a user&lt;/strong&gt;. Piwik can also be hosted independently on a separate server or in my case a separate country.
+
+My sites are hosted outside Thailand and a lot of the users come from Thailand. Thai ISPs for some strange reason &lt;strong&gt;diverts all international traffic thru their caching transparent proxy servers&lt;/strong&gt;. This does screw up both my awstats data as well as Google Analytics reports. Would hosting piwik within Thailand would get me closest to the analytics I need?
+
+Another advantage I see is since it is open source and API friendly, I can perhaps tweak it to show reffers from Google Search, Google News Search, Google Blog Search as separate search engines. And all of this in real time, not having to wait for Google to update the stats. Self hosted also keeps your visitors data secure and you dont have to live in the fear of a third party snooping on what you don&#39;t want them to know.&lt;!--more--&gt;
+
+Below are some sample graphs/charts from Piwik&#39;s homepage.
+&lt;ul&gt;
+&lt;li&gt;Last 30 days visits &lt;embed src=&#34;http://piwik.org/demo/libs/open-flash-chart/open-flash-chart.swf?data=http%3A%2F%2Fpiwik.org%2Fdemo%2F%3Fmodule%3DVisitsSummary%26action%3DgetLastVisitsGraph%26idSite%3D1%26period%3Dday%26date%3Dprevious30%26viewDataTable%3DgenerateDataChartEvolution&#34; quality=&#34;high&#34; bgcolor=&#34;#FFFFFF&#34; name=&#34;open-flash-chart&#34; allowscriptaccess=&#34;sameDomain&#34; type=&#34;application/x-shockwave-flash&#34; pluginspage=&#34;http://www.macromedia.com/go/getflashplayer&#34; id=&#34;VisitsSummarygetLastVisitsGraphChart&#34; align=&#34;middle&#34; height=&#34;150&#34; width=&#34;100%&#34;&gt;&lt;/embed&gt;&lt;/li&gt;
+&lt;li&gt;Browsers families - bar chart &lt;embed src=&#34;http://piwik.org/demo/libs/open-flash-chart/open-flash-chart.swf?data=http%3A%2F%2Fpiwik.org%2Fdemo%2F%3Fmodule%3DUserSettings%26action%3DgetBrowserType%26idSite%3D1%26period%3Dday%26date%3Dyesterday%26filter_excludelowpop_default%3Dfalse%26filter_excludelowpop_value_default%3Dfalse%26totalRows%3D5%26show_search%3Dfalse%26show_offset_information%3Dfalse%26show_exclude_low_population%3Dfalse%26enable_sort%3D1%26viewDataTable%3DgenerateDataChartVerticalBar&#34; quality=&#34;high&#34; bgcolor=&#34;#FFFFFF&#34; name=&#34;open-flash-chart&#34; allowscriptaccess=&#34;sameDomain&#34; type=&#34;application/x-shockwave-flash&#34; pluginspage=&#34;http://www.macromedia.com/go/getflashplayer&#34; id=&#34;UserSettingsgetBrowserTypeChart&#34; align=&#34;middle&#34; height=&#34;250&#34; width=&#34;100%&#34;&gt;&lt;/embed&gt;&lt;/li&gt;
+&lt;li&gt;Countries - pie chart&lt;embed src=&#34;http://piwik.org/demo/libs/open-flash-chart/open-flash-chart.swf?data=http%3A%2F%2Fpiwik.org%2Fdemo%2F%3Fmodule%3DUserCountry%26action%3DgetCountry%26idSite%3D1%26period%3Dday%26date%3Dyesterday%26filter_excludelowpop_default%3Dfalse%26filter_excludelowpop_value_default%3Dfalse%26totalRows%3D12%26show_search%3Dfalse%26show_offset_information%3Dfalse%26show_exclude_low_population%3Dfalse%26enable_sort%3D1%26viewDataTable%3DgenerateDataChartPie&#34; quality=&#34;high&#34; bgcolor=&#34;#FFFFFF&#34; name=&#34;open-flash-chart&#34; allowscriptaccess=&#34;sameDomain&#34; type=&#34;application/x-shockwave-flash&#34; pluginspage=&#34;http://www.macromedia.com/go/getflashplayer&#34; id=&#34;UserCountrygetCountryChart&#34; align=&#34;middle&#34; height=&#34;250&#34; width=&#34;100%&#34;&gt;&lt;/embed&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+All graphs and stats generated by Piwik can be embedded into a web page or blog easily. The presentation is also pretty, gives me an idea to include it on my advertise page.
+</description>
+    </item>
+    
+  </channel>
+</rss>

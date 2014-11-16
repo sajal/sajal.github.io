@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Ruby class to fetch suggested keywords &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Ruby class to fetch suggested keywords</h1>
+  <span class="post-date">Sun, Aug 3, 2008</span>
+      I have recently <a href="http://twitter.com/sajal/statuses/872225824">ditched Perl and fell for Ruby</a>. 
+
+Here is a Ruby class which gets suggested keywords from yahoo API and presents it in a comma separated list. This might be useful for people who use Ruby to upload/edit multiple posts and need to tag them automagically.
+
+This might be awfully simple for the hardcore guys, but for a noob like me, had I come across this example earlier it would have saved me an hour or so. Here it goes...
+
+The Class :-
+<pre lang="ruby"># A ruby class to fetch suggested keywords using Yahoo's term Extraction API
+ require 'rubygems'
+require 'xmlsimple'
+require 'net/http'
+
+class Tagger
+  def content
+    @content
+  end
+  def content=(content)
+    @content = content
+  end
+    def appid
+    @appid
+  end
+  def appid=(appid)
+    @appid = appid
+  end
+  def initialize
+
+  end
+  def fetch
+          url = URI.parse('http://search.yahooapis.com/ContentAnalysisService/V1/termExtraction')
+      post_args = {
+            'appid' =&gt; appid,
+            'context' =&gt; content,
+            'output' =&gt; "xml"
+      }
+      resp1, xml_data = Net::HTTP.post_form(url, post_args)
+      keywords = ""
+      data = XmlSimple.xml_in(xml_data)
+      data['Result'].each do |item|
+      keywords = keywords + item + ", "
+      end
+      return keywords
+  end
+end</pre>
+Download the class <a href="/wp-content/uploads/2008/08/tagger.rb">here</a>
+Sample usage :
+<pre lang="ruby">require 'tagger'
+tagg = Tagger.new
+tagg.appid =     'GO_GET_YOUR_OWN!'
+tagg.content = "The content of the post....."
+puts tagg.fetch</pre>
+
+The appid is available from the <a href="http://developer.yahoo.com/wsregapp/">Yahoo Developer Network</a>
+Limitations : Maximum 5000 queries per day per IP.
+
+      
+      <div>
+  Tags:  
+    <a href="tag/keywords/">keywords</a> </li>
+   
+    <a href="tag/ruby/">Ruby</a> </li>
+   
+    <a href="tag/tags/">tags</a> </li>
+   
+    <a href="tag/yahoo/">yahoo</a> </li>
+   <br />
+  Categories:  
+    <a href="category/ruby/">Ruby</a> </li>
+   
+    <a href="category/tutorials/">Tutorials</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Ruby class to fetch suggested keywords';
+		var disqus_url = 'http://www.sajalkayan.com\/ruby-class-fetch-suggested-keywords.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

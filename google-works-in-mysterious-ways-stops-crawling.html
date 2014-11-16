@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Google works in mysterious ways - Stops Crawling &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Google works in mysterious ways - Stops Crawling</h1>
+  <span class="post-date">Fri, Jan 4, 2008</span>
+      I am running the website <a href="http://www.thaindian.com" title="Indians in Thailand">thaindian.com</a> which on September of 2007 finally(after 3 attempts) got <strong>approved as a <a href="http://news.google.com/news?q=site%3Athaindian.com">Google news search source</a></strong>. Since then we have seen a steady increase in traffic at the portal. We partnered with a news agency for latest Indian news also and they have been providing good content. Since <strong>content is still the king</strong>(some might argue), it was going good for us.
+<p style="text-align: center"><img src="http://traffic.alexa.com/graph?c=1&amp;f=555555&amp;u=thaindian.com&amp;r=6m&amp;y=r&amp;z=3&amp;h=300&amp;w=500" alt="Notice the low traffic in december begining." title="Notice the low traffic in december begining." border="0" width="500" height="300" /></p>
+Sometime in November, we suddenly increased the rate of putting new content (from approx <strong>30 articles/week</strong> to about <strong>200 articles/day</strong>) this got a HUGE surge in traffic. My <a href="http://en.wikipedia.org/wiki/WAMP">WAMP</a> setup couldn't handle it, Apache would restart for no apparent reason. I sent in motion to get myself a <a href="http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29">LAMP</a> server.
+
+On about November 26th or 27th, our news stories stopped being picked up by Google News. Even the main pages which were re-cached often were now outdated in Google's cache. At this moment I had assumed that <em>Google is penalizing me for running a bad server</em>. On about December 1st I moved the site over to the LAMP setup. The site loaded fast, no issues, but the almighty Bot wasn't still happy. I re-did some HTML, optimized even further, a couple of days passed, still situation got worse. At this time I had a new far fetched theory; <em>Perhaps G was penalizing me for adding too many(200/day) stories without getting more inbound links</em>.<!--more-->
+
+A couple of days went by, my eyes were glued to the terminal window where i was religiously watching the access.log for any Googlebot activity real time. Posted my issues on multiple forums and mailing lists, still no help. to take steps further, I learnt a new command <a href="http://ngrep.sourceforge.net/">ngrep</a>, a tcpdump like tool which is used to monitor network activity in realtime.
+
+Ngrep-ing the Googlebot IP(yes at that point only one IP was trying to access my site) for a couple of days, <strong>I got to the conclusion that there was some networking issues between Googlebot and my server.</strong> The GET from google came in and then the series of packets were sent during the duration of next 2 to 5 minutes. The first packet sent instantly but the following packets were taking time. I could confirm that this wasnt a php/apache issue as the content was gziped, the first packet will be sent only if the processing of the whole page is complete. On closer observation, I figured that on many occasions the same packet was being resent over and over again. Now this finally gave me some insight into what was happening; <strong>Packet loss!</strong>
+
+Googling around, I got to some forums where packet loss was being discussed, used ping flooding to find the optimum MTU which was 528, anything higher resulted in packet loss. Changed MTU of eth0 to 528 and immediately Googlebot started showing the love it once used to, my 2 week long ordeal was over. It was something like I had just turned on the magic switch. The crawl rate went from 1 request every 3 or 4 minutes to 4 to 6 requests a minute. The same days news articles was immediately shown on Google News.
+
+The weird part is that both the WAMP and LAMP setups are 2 different physical servers hosted by 2 different ISPs in 2 different datacenters but using the same backbone and both these ISPs say that none of their other customers were having any issues.
+
+Recently I solved another issue with Google News not picking up images accompanying the News items, but I'll blog about that another day. Right now my caffeine levels are low and I must hit the sack.
+
+<strong>EDIT 1st Feb 2008 : Couple of weeks ago I changed the MTU back to 1500 and its working fine... I guess it was a temporary bug... The data center guys have no clue.</strong>
+
+<strong>EDIT 16th Feb 2008 : Returned home late at night Saturday night and saw no news stories on news.google.com for last 9 hours. Did some testings, reduction of MTU to 500 again seemed to be the only solution.</strong>
+
+      
+      <div>
+  Tags:  
+    <a href="tag/crawl/">crawl</a> </li>
+   
+    <a href="tag/google-news/">google news</a> </li>
+   
+    <a href="tag/mtu/">MTU</a> </li>
+   <br />
+  Categories:  
+    <a href="category/seo/">SEO</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Google works in mysterious ways - Stops Crawling';
+		var disqus_url = 'http://www.sajalkayan.com\/google-works-in-mysterious-ways-stops-crawling.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

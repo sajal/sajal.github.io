@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Evaluating few CDN options &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Evaluating few CDN options</h1>
+  <span class="post-date">Fri, Jun 10, 2011</span>
+      Recently, I was evaluating CDN options for a client with some unique challenges. We ended up using Amazon CloudFront, but ill detail the options we looked at and what let us to this decision.
+
+Some things to note:-
+<ul>
+	<li>We would serve CSS, JS, Images referred to from stylesheets and some website images thru the CDN.</li>
+	<li>Due to the nature(trust me) of the site we expect a higher than normal miss rate. The access is spread across a wide number of urls, some may get lower hits.</li>
+	<li>Speed is important. Website should be fast(er) from everywhere. The most important regions in order of priority are US, EU, AU and ROTW with US being most important.</li>
+	<li>Anything on the site can change anytime, there is no build process as such. Any object anywhere can change, and change must be visible ASAP.</li>
+	<li>Developers/designers shouldn't be harassed to purge a file if they change something.</li>
+	<li>CDN data usage : ~100 GB per month</li>
+</ul>
+
+The providers we looked at :-
+
+<strong><a href="http://www.maxcdn.com/features/network">MaxCDN</a>: Almost sealed the deal.</strong>
+
+Pros:-
+<ul>
+	<li>Cheap : $40 for first TB (must use in a year) + $99 per additional TB . On current usage rates this comes to say 0.04+ /GB.</li>
+	<li>* Anycast/BGP routing : No way bad <a href="/in-a-cdnd-world-opendns-is-the-enemy.html">DNS server can mess up</a> routing.</li>
+	<li>Nice control panel, has a purge all option for just in case. Purges take effect almost instantly.</li>
+	<li>Handles gzip well.</li>
+	<li>Can have separate cache timings for caching in Browser and caching at CDN. - i.e. We can say not cache a file in browser level, but cache at CDN and purge when theres a change made.</li>
+</ul>
+
+Cons:-
+<ul>
+	<li><strong><a href="http://www.maxcdn.com/features/network">Poor global coverage</a>. - No POP/Edge in Asia/AU - Deal Breaker</strong></li>
+	<li>Pages loaded same speed when testing from AU with or without CDN.</li>
+</ul>
+
+<strong><a href="http://www.edgecast.com/">EdgeCast</a>: Looked good at first, but poor gziping.</strong>
+
+Pros:-
+<ul>
+	<li>Impressive list of networks</li>
+	<li>Highly configurable control panel.</li>
+	<li>Can have separate cache timings for caching in Browser and caching at CDN. - i.e. We can say not cache a file in browser level, but cache at CDN and purge when theres a change made.</li>
+</ul>
+
+Cons:-
+<ul>
+	<li><strong>Gzippable files will not be gzipped for cache misses. - Deal Breaker</strong></li>
+	<li>Request from Edge server to origin is uncompressed.</li>
+	<li>Expensive and wants higher commitments.</li>
+	<li>DNS Based routing</li>
+</ul>
+
+<strong><a href="http://www.us.cdnetworks.com/">CDNetworks</a>: Didn't look past price</strong>
+
+Cons:-
+<ul>
+	<li><strong>Ridiculously high price - Dealbreaker</strong></li>
+</ul>
+
+<strong><a href="http://aws.amazon.com/cloudfront/">Amazon CloudFront</a>: WIN</strong>
+
+Pros:-
+<ul>
+	<li><strong>Testing showed our pages to be fastest from all regions when using cloudfront</strong>. YMMV</li>
+	<li>No commitments - $0.15 - $0.2/GB (depends on where user accesses from) + negligible per request fee</li>
+	<li>Client is already AWS user, one less account to maintain.</li>
+	<li>No need to send gazillion emails to gazillions of people to get started. No bargaining.</li>
+</ul>
+
+
+
+Cons:-
+<ul>
+	<li>No POP/Edge in AU (but has in Singapore, Hong Kong and Tokyo)</li>
+	<li>DNS based routing.</li>
+	<li>Charges fee per request and per invalidation(purge) request.</li>
+	<li>No control panel, invalidation requests need to be done by API only.</li>
+	<li>Does not do gzipping, but honours Vary header and serves correct version based on what user asks.</li>
+	<li>Can't use querystring parameters for CDN cachebusting. CloudFront ignores querystrings.</li>
+</ul>
+
+
+
+Sidenote : Requests from CloudFront to origin are HTTP 1.0 . Nginx by default does not serve gzip to 1.0 request. <a href="http://wiki.nginx.org/HttpGzipModule#gzip_http_version">gzip_http_version</a>  setting must be changed in order to use nginx as origin for CloudFront.
+
+
+The system we architected adds something based on the file mtime as a part of the URL, so now we don't need to any purges at the CDN. Also now we can have far future expires on all CDN'd objects cause if something changes, the URL would automagically change.
+
+For us, the price and features are important, but whats more important is the results. We went with the provider with lesser features just because our pages loaded fastest with them.
+
+      
+      <div>
+  Tags:  
+    <a href="tag/pagespeed/">pagespeed</a> </li>
+   
+    <a href="tag/site-performance/">site performance</a> </li>
+   <br />
+  Categories:  
+    <a href="category/webmaster-things/">Webmaster Things</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Evaluating few CDN options';
+		var disqus_url = 'http://www.sajalkayan.com\/evaluating-few-cdn-options.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

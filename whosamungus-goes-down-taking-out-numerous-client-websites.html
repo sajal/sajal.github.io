@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Whos.amung.us goes down taking out numerous client websites &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+      No Windows, No Gates, It is OPEN; No Bill, It is FREE
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Whos.amung.us goes down taking out numerous client websites</h1>
+  <span class="post-date">Sun, Sep 12, 2010</span>
+      Realtime web analytics service <a href="http://whos.amung.us/">whos.amung.us</a> has been completely down for at least the last 3 hours (as of sept 12 4:28pm UTC). Thousands of webmasters (myself included) use this widget to gather realtime traffic stats for websites. The current outage has caused big problems to the sites implementing this widget.
+
+Lets look at their widget implementation.
+
+<code lang="html">
+&lt;script type="text/javascript" src="http://widgets.amung.us/small.js"&gt;&lt;/script&gt;&lt;script type="text/javascript"&gt;WAU_small('unique-site-tag')&lt;/script&gt;
+</code>
+This is bad!
+
+The base javascript uses document.write, hence cant be made to load asynchronously. Moreover, they write an <em>img</em> tag into the document which too must be be loaded before the window.onload event can be triggered.
+
+This incident was somehow not critical FAIL for me cause I am aware about <a href="http://www.stevesouders.com/blog/2010/06/01/frontend-spof/">frontend SPOF</a> issues and placed this widget just before &lt;/body&gt;, so it didn't completely mess with my page, but still caused the following problems.
+<ol>
+	<li>Delayed the window.onload event, delaying executing of other scripts made to run after onload.</li>
+	<li>Showed "waiting for .... " in the status bar of the browsers for a long time before timing out, indicating to the user that the page is still not ready.</li>
+	<li>Makes Google think your site is really slow and doesn't deserve to rank!</li></ol>
+
+Now, for webmasters not aware about these issues the problems is possibly critical. In case the widget code is <strong>before</strong> the main content of their site, they are in for a hard time. Their site would stop loading at the point the widget is located in the html, giving the users an impression that the website is <em>broken</em>.
+
+I understand that today is a Sunday, and not all the engineers/OPs can be on standby 100% of the time to fix these issues. Downtime is inevitable, but when you FAIL, don't take your customers/users down with you. Their javascript serving server was still more stable than the server. <a href="http://www.webpagetest.org/result/100912_7b6ecd8e647bd261a200da177953de1a/1/details/">Here is a Webpagetest.org result for my site</a> during the outage. Its the dynamic counter image which SPOF'd.
+
+If they must use document.write, write a div, give it a name, and attach the image into it using dom manipulation <strong>after the window.onload</strong>.
+
+Moreover, when the servers come under high load, there should be a mechanism to FAIL early with an appropriate status code.
+
+Respect your users, don't take them for granted!
+
+<em>Disclaimer: My current secret project is somewhat related to real-time analytics.</em>
+
+      
+      <div>
+  Tags:  
+    <a href="tag/site-performance/">site performance</a> </li>
+   <br />
+  Categories:  
+    <a href="category/webmaster-things/">Webmaster Things</a> </li>
+   <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Whos.amung.us goes down taking out numerous client websites';
+		var disqus_url = 'http://www.sajalkayan.com\/whosamungus-goes-down-taking-out-numerous-client-websites.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>

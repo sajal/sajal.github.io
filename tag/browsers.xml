@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Browsers on Sajal Kayan </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://www.sajalkayan.com/tag/browsers.xml</link>
+    <language>en-us</language>
+    
+    
+    <updated>Tue, 02 Sep 2008 19:51:11 &#43;0000</updated>
+    
+    <item>
+      <title>Has Chrome killed Firefox?</title>
+      <link>http://www.sajalkayan.com/has-chrome-killed-firefox.html</link>
+      <pubDate>Tue, 02 Sep 2008 19:51:11 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/has-chrome-killed-firefox.html</guid>
+      <description>&lt;strong&gt;... well not yet...&lt;/strong&gt;
+
+Just a while ago, &lt;a href=&#34;http://www.thaindian.com/newsportal/sci-tech/download-google-chrome_10091512.html&#34;&gt;Google launched their own browser Chrome&lt;/a&gt;. It does look good, has many cool features, more secure, more stable, but still a beta. And this time its really a beta. Currently its available only for windows, however the main point is that its opensource and a Linux and Mac builds are expected soon.
+
+My 5 minute experience with Chrome.
+
+Screen 1 &amp;gt; Every thing looks good...
+
+&lt;a rel=&#34;lightbox&#34; href=&#34;/screen1.png&#34;&gt;&lt;img src=&#34;/screen1_s.png&#34; alt=&#34;Chrome Screenshot&#34; width=&#34;500&#34; height=&#34;375&#34; /&gt;&lt;/a&gt;
+
+Screen 2 &amp;gt; Overflow!!
+
+&lt;a rel=&#34;lightbox&#34; href=&#34;/screen2.png&#34;&gt;&lt;img src=&#34;/screen2_s.png&#34; alt=&#34;Chrome Screenshot&#34; width=&#34;500&#34; height=&#34;375&#34; /&gt;&lt;/a&gt;
+
+And No! I dont use windows! &lt;del datetime=&#34;2008-09-02T19:36:40+00:00&#34;&gt;Just fired up VMware with Windoze XP to test Chrome&lt;/del&gt;
+
+PS : If anyone got &lt;strong&gt;Chrome working with wine on Linux&lt;/strong&gt; do gimme a buzz. Would like to know.
+</description>
+    </item>
+    
+  </channel>
+</rss>

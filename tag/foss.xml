@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+      <title>Foss on Sajal Kayan </title>
+      <generator uri="https://hugo.spf13.com">Hugo</generator>
+    <link>http://www.sajalkayan.com/tag/foss.xml</link>
+    <language>en-us</language>
+    
+    
+    <updated>Sat, 07 Feb 2009 05:39:58 &#43;0000</updated>
+    
+    <item>
+      <title>The Good, The Bad and The Greedy!</title>
+      <link>http://www.sajalkayan.com/the-good-the-bad-and-the-greedy.html</link>
+      <pubDate>Sat, 07 Feb 2009 05:39:58 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/the-good-the-bad-and-the-greedy.html</guid>
+      <description>Usually wanting money is a good thing. It makes us work harder. Greed is actually a good thing. It is the only line of defense between working hard and being a full time couch potato. Occasionally greed makes us do things... really evil things..
+
+&lt;strong&gt;The Good Greed :&lt;/strong&gt; FOSS (Free and Open Source Software) is the perfect example of the good greed. The developers are usually not concerned about the community, they have their own personal greedy reason for contributing to a project. The reasons may be many including(but not limited to) :
+&lt;ol&gt;
+	&lt;li&gt;They develop it just cause they wanna use it.&lt;/li&gt;
+	&lt;li&gt;Money - Contribute code because someone is paying you to do so or that you would be able to sell services based on it&lt;/li&gt;
+	&lt;li&gt;Bragging rights - to raise social status, a pay raise, etc...&lt;/li&gt;
+	&lt;li&gt;Joy&lt;/li&gt;
+	&lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;
+As you see all the above reasons are selfish greedy reasons and its not a bad thing.
+
+&lt;strong&gt;The Bad Greed :&lt;/strong&gt; Listing some of them who are at the top of my mind.
+
+Most&lt;strong&gt; Propriety Software Vendors&lt;/strong&gt; (out of scope of this post to name them all, use your your imagination) - For these people the primary greed is to sell their software to the most number of &#34;&lt;strong&gt;consumers&lt;/strong&gt;&#34; and the highest possible price. This is where &#34;&lt;strong&gt;best performing&lt;/strong&gt;&#34; gets substituted for &#34;&lt;strong&gt;best selling&lt;/strong&gt;&#34;. The software provided is usually capable of performing better or having more features, but these are locked and made available to &#34;consumers&#34; who pay more.
+
+Moreover, the source code for these softwares is mostly not available to the &#34;consumers&#34; so they get away with &#34;selling&#34; any crap they want. Most of the money spent by the &#34;consumers&#34; is spent on legal issues, marketing, propoganda, adverts, yatches and corporate retreats. A lot of the effort put by developers is actually spent on restricting &#34;consumers&#34; from performing tasks on their software rather than adding more functionality.
+
+&lt;strong&gt;Telcom Operators&lt;/strong&gt; : These people are supposed to sell bandwidth, thats it. I realized thats so untrue after a recent event where the speaker was from a leading smartphone software manufacturer that the telcom networks make most of their money from VAS (Value Added Services). The downside is it adds value but not for the &#34;consumers&#34; but rather than the bank balance of the company. They charge ridiculous prices for simple things like ringtone downloads, etc where the cost of the bandwidth would be negligible compared to the total fees charged. Well thats not too bad, but the really bad part is they would do everything in their power to prevent their &#34;consumers&#34; from getting these content from elsewhere because then they would charge only for the bandwidth.
+
+&lt;strong&gt;Device Manufacturers&lt;/strong&gt; : I am talking about especially about Smartphones here. These people manufacture these wonderful devices, but not to simply sell it at a profit. They want to be able to bundle as much VAS(see previous paragraph) on it as possible. The most common form of their evilness is joining up with a telcom operator exclusively to offer the device along with a plan.
+
+Take the example of Google&#39;s Android based phone. The device is available in the United States at the price of $177.99 (roughly 6,302.39 Baht) with a plan from T-Mobile and for $399 (roughly 13,971.07 Baht). These phones are available only to T-Mobile customers and are locked to this network. The rest of the world is too foreign to make use of this. A recent trip to Pantip Plaza(Bangkok&#39;s IT shopping Mall) showed a retailer selling the G1 for 19,900 Baht (Roughly $568.32) without any warranty. This device was unlocked(probably illegally) and most probably it is illegal to use the device with any other SIM card other than T-Mobile&#39;s. A portion of the price you pay for the device is probably going towards the lawyers who helped placed this ristriction in the first place.
+
+There are many more examples, but the above ones are about the ones I feel strongest about.
+
+&lt;strong&gt;So the in the bad greed, the &#34;consumers&#34; actually pay a lot of money to have their freedom taken away from them and become slaves.&lt;/strong&gt;
+
+Coming from a Business family background, we were always tought that &#34;Buyer is God&#34; ... Apparently nowdays it isint true...
+
+
+The bottomline is that Greed may or maynot be a bad thing, it is how you make it work for you. So from now on, be proud of your greediness and use it in your advantage to do better things. The next time someone blames you for being too greedy, your reaction to it would be totally based on how you utilize the greed.
+
+For me, my biggest greed would be freedom. I am greedy for it and will not let anyone tell me otherwise.
+
+Yours Greedily,
+Sajal
+</description>
+    </item>
+    
+    <item>
+      <title>Piwik the Google Analytics Killer!</title>
+      <link>http://www.sajalkayan.com/piwik-the-google-analytics-killer.html</link>
+      <pubDate>Tue, 19 Feb 2008 19:22:33 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/piwik-the-google-analytics-killer.html</guid>
+      <description>Just today &lt;a href=&#34;http://www.lopsta.com/2008/02/19/open-source-web-analytics/&#34; target=&#34;_blank&#34;&gt;Jan told me&lt;/a&gt; about &lt;a href=&#34;http://piwik.org&#34; target=&#34;_blank&#34;&gt;Piwik&lt;/a&gt;. At first glance it looks quite neat and developer friendly. The idea seems to be to make an &lt;strong&gt;Open Source alternative to Google Analytics&lt;/strong&gt; and the &lt;a href=&#34;http://piwik.org/blog/2008/02/why-is-piwik-better-than-the-competition/&#34; target=&#34;_blank&#34;&gt;advantages&lt;/a&gt; seems to be many. Piwik is the new version of &lt;a href=&#34;http://www.phpmyvisites.us/&#34;&gt;phpMyVisites&lt;/a&gt; and is supported by &lt;a href=&#34;http://www.openads.org/&#34; target=&#34;_blank&#34;&gt;OpenAds&lt;/a&gt; (a very powerful Open Source Ad server)
+
+Piwik like Google Analytics &lt;strong&gt;uses javascript to collect users data&lt;/strong&gt; and is not dependent on the web servers access.log file, thus &lt;strong&gt;100% eliminating the chances of any bad bot activity to be mistaken for a user&lt;/strong&gt;. Piwik can also be hosted independently on a separate server or in my case a separate country.
+
+My sites are hosted outside Thailand and a lot of the users come from Thailand. Thai ISPs for some strange reason &lt;strong&gt;diverts all international traffic thru their caching transparent proxy servers&lt;/strong&gt;. This does screw up both my awstats data as well as Google Analytics reports. Would hosting piwik within Thailand would get me closest to the analytics I need?
+
+Another advantage I see is since it is open source and API friendly, I can perhaps tweak it to show reffers from Google Search, Google News Search, Google Blog Search as separate search engines. And all of this in real time, not having to wait for Google to update the stats. Self hosted also keeps your visitors data secure and you dont have to live in the fear of a third party snooping on what you don&#39;t want them to know.&lt;!--more--&gt;
+
+Below are some sample graphs/charts from Piwik&#39;s homepage.
+&lt;ul&gt;
+&lt;li&gt;Last 30 days visits &lt;embed src=&#34;http://piwik.org/demo/libs/open-flash-chart/open-flash-chart.swf?data=http%3A%2F%2Fpiwik.org%2Fdemo%2F%3Fmodule%3DVisitsSummary%26action%3DgetLastVisitsGraph%26idSite%3D1%26period%3Dday%26date%3Dprevious30%26viewDataTable%3DgenerateDataChartEvolution&#34; quality=&#34;high&#34; bgcolor=&#34;#FFFFFF&#34; name=&#34;open-flash-chart&#34; allowscriptaccess=&#34;sameDomain&#34; type=&#34;application/x-shockwave-flash&#34; pluginspage=&#34;http://www.macromedia.com/go/getflashplayer&#34; id=&#34;VisitsSummarygetLastVisitsGraphChart&#34; align=&#34;middle&#34; height=&#34;150&#34; width=&#34;100%&#34;&gt;&lt;/embed&gt;&lt;/li&gt;
+&lt;li&gt;Browsers families - bar chart &lt;embed src=&#34;http://piwik.org/demo/libs/open-flash-chart/open-flash-chart.swf?data=http%3A%2F%2Fpiwik.org%2Fdemo%2F%3Fmodule%3DUserSettings%26action%3DgetBrowserType%26idSite%3D1%26period%3Dday%26date%3Dyesterday%26filter_excludelowpop_default%3Dfalse%26filter_excludelowpop_value_default%3Dfalse%26totalRows%3D5%26show_search%3Dfalse%26show_offset_information%3Dfalse%26show_exclude_low_population%3Dfalse%26enable_sort%3D1%26viewDataTable%3DgenerateDataChartVerticalBar&#34; quality=&#34;high&#34; bgcolor=&#34;#FFFFFF&#34; name=&#34;open-flash-chart&#34; allowscriptaccess=&#34;sameDomain&#34; type=&#34;application/x-shockwave-flash&#34; pluginspage=&#34;http://www.macromedia.com/go/getflashplayer&#34; id=&#34;UserSettingsgetBrowserTypeChart&#34; align=&#34;middle&#34; height=&#34;250&#34; width=&#34;100%&#34;&gt;&lt;/embed&gt;&lt;/li&gt;
+&lt;li&gt;Countries - pie chart&lt;embed src=&#34;http://piwik.org/demo/libs/open-flash-chart/open-flash-chart.swf?data=http%3A%2F%2Fpiwik.org%2Fdemo%2F%3Fmodule%3DUserCountry%26action%3DgetCountry%26idSite%3D1%26period%3Dday%26date%3Dyesterday%26filter_excludelowpop_default%3Dfalse%26filter_excludelowpop_value_default%3Dfalse%26totalRows%3D12%26show_search%3Dfalse%26show_offset_information%3Dfalse%26show_exclude_low_population%3Dfalse%26enable_sort%3D1%26viewDataTable%3DgenerateDataChartPie&#34; quality=&#34;high&#34; bgcolor=&#34;#FFFFFF&#34; name=&#34;open-flash-chart&#34; allowscriptaccess=&#34;sameDomain&#34; type=&#34;application/x-shockwave-flash&#34; pluginspage=&#34;http://www.macromedia.com/go/getflashplayer&#34; id=&#34;UserCountrygetCountryChart&#34; align=&#34;middle&#34; height=&#34;250&#34; width=&#34;100%&#34;&gt;&lt;/embed&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+All graphs and stats generated by Piwik can be embedded into a web page or blog easily. The presentation is also pretty, gives me an idea to include it on my advertise page.
+</description>
+    </item>
+    
+    <item>
+      <title>Why cant FOSS succeed in India?</title>
+      <link>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</link>
+      <pubDate>Mon, 18 Feb 2008 20:29:27 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</guid>
+      <description>Recently Julie posted an interesting article called &#34;&lt;a href=&#34;http://goeastyoungwoman.wordpress.com/2008/02/17/open-source-development-women-and-asians-last/&#34;&gt;&lt;em&gt;open source development: women and Asians last&lt;/em&gt;&lt;/a&gt;&#34;. This attributes the main reason for Women and Asian people&#39;s lesser involvement in Open Source development to be its confrontational nature. It does make sense to an extent as far as Thailand is concerned, Thai people generally try to avoid confrontations. Women on the other hand is a species I can never understand.
+
+IMHO, the main issue is software piracy. The uninformed tend to think that &lt;strong&gt;Free Software == Cheap Software&lt;/strong&gt;. Cheap as in low quality. Proprietary software comes at a big price tag, so it must be good? A couple of months ago I visited a lawyer in Thailand and i booted my notebook(loaded with Fedora 7) to show him something. This person immediately remarked &#34;&lt;em&gt;Is that Vista?&lt;/em&gt;&#34; I told him &#34;&lt;em&gt;NO, Its Linux&lt;/em&gt;.&#34;. He found it hard to digest that I was running a far superior GUI than his crappy XP and it was Free. He replied &#34;&lt;strong&gt;&lt;em&gt;Isint Linux same like DOS?&lt;/em&gt;&lt;/strong&gt;&#34;. This person in question is quite computer literate, did his Masters in the States, manages his own website which by the way runs on an open source script uses open source PHP and MYSQL software and is probably hosted on a server running open source Linux. These people are so into the marketing BS coming from software vendors that they &lt;strong&gt;outright reject &lt;em&gt;Free Software&lt;/em&gt;&lt;/strong&gt;.&lt;!--more--&gt;
+
+Let me share a personal story. While I was studying at Darjeeling in India, we used to have 3 months long winter vacations with nothing much to do. I decided to investigate what this Linux hype is all about. Picked up a book on Red Hat which came with a FREE CD of the OS (download was out of the question on crappy and expensive dial-up connections). Tried installing Red Hat, installation(step by step from the book) was smooth (and easier) however, on booting, I just couldn&#39;t get the GUI up and running. There was some compatibility issues with the graphics adapter. (No GUI)==(noob cant connect to the net to get help). Asked around, even the techie who set-up our PC, the computer shop, nobody had even heard of Linux. The techie always moved around armed with a CD case full of pirated CDs of Windows, Office and all kinds of bloatwares. He had also memorized the CD keys by now. So... No one to help me out with the Linux issues, except for the internet. I logged on to the net from a friends place, checked on the forums for help, made some trips from forum discussions at a friends place and my home, tried some stuff, but in vein. Finally found one person who could get my PC booted, but unfortunately he lived in Delhi(I was in &lt;strike&gt;Calcutta&lt;/strike&gt; Kolkata) and wanted a return train ticket from Delhi to Calcutta as the fee :D . Finally I gave up on Linux and loaded up Windows again. Led to next few years of being a miserable windows user, even proceeded onto visual basic development and later into .NET. Had I found someone to help me out all those years ago, with all the free time in hand I could have become a Linux Ninja and probably contributed something back to the community. I am a Linux user now, but have been one for only the last couple of years, that too now I don&#39;t have time to code or learn a lot of new stuff.
+
+Now, had software piracy not been so prevalent in India, a lot of people would have to start using Linux out of necessary, the techie would at least have been able to solve my issue and the Linux community would have probably got one more minion on their side.
+
+I am sure such kinds of stories are not rare in a country like India. Another issue in India is poverty. Most schools and colleges charge a very reasonable fee and thus their computer labs are probably funded by Microsoft who make sure their proprietary software is the only software the kids would have an exposure to. They learn to use this platform, grow up on it, become a yet another MS developer working for some HUGE company for peanuts and get consumed in the Rat Race.
+
+Most of the Open Source development is done by hobbyists. In India a coder would need to work overtime to put food on the table, there is no time left for hobbies, probably at the end of the day the sight of a computer might disgust some. There are also some open source development which comes out of professional interests, as per me &lt;a href=&#34;http://www.asterisk.org/&#34; target=&#34;_blank&#34;&gt;Asterisk&lt;/a&gt; would be a classic example. A lot of Asterisk development is going on in India due to the shear demand of cheap and reliable VOIP solutions for the Call Centers and BPOs. But what about other areas?
+
+Even the a big news wire website of India use Microsoft&#39;s servers with &lt;strong&gt;ASP platform&lt;/strong&gt;(they probably paid &amp;gt; $10,000 for the horrible custom CMS) to serve their pages and it was &lt;strong&gt;down for 2 days&lt;/strong&gt; leaving news websites and newspapers deprived of news articles. &lt;strong&gt;Try selling an open source content management system to them!&lt;/strong&gt;
+
+&lt;strong&gt;The bottom line is that the NON-ACCEPTABILITY of Open Source Solutions in the business world is the main reason for less action in Asia.&lt;/strong&gt; This has to change first!
+
+Do note that I may have exaggerated a little to make my points, I know for a fact that in the last few years &lt;strong&gt;India is coming up on the Open Source radar&lt;/strong&gt;.
+
+Interesting Articles-Seems &lt;strong&gt;India has changed since i left&lt;/strong&gt; :-
+&lt;ul&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.informationweek.com/story/showArticle.jhtml?articleID=47900215&amp;amp;tid=5979&#34; target=&#34;_blank&#34;&gt;Why The Open-Source Model Can Work In India&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://knowledge.wharton.upenn.edu/india/article.cfm?articleid=4250&#34; target=&#34;_blank&#34;&gt;Will India Become the New Vanguard of the Open Source Movement?&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.news.com/India-leader-advocates-open-source/2100-1016_3-1011255.html&#34; target=&#34;_blank&#34;&gt;India leader advocates open source&lt;/a&gt; - Note APJ is now the ex Indian President - &lt;em&gt;Missile man of India&lt;/em&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://news.bbc.co.uk/2/hi/technology/4764565.stm&#34; target=&#34;_blank&#34;&gt;India lays down &#39;open&#39; challenge&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
