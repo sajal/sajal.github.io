@@ -3,7 +3,7 @@
   <channel>
       <title>True on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/true.xml</link>
+    <link>http://sajal.github.io/tag/true.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>In a CDN&#39;d world, OpenDNS is the enemy!</title>
-      <link>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</link>
+      <link>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</link>
       <pubDate>Mon, 17 May 2010 17:19:30 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
+      <guid>http://sajal.github.io/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
       <description>While many people are happy with using DNS service providers such as OpenDNS, Google, etc... I will show you here why they may not produce optimal results.
 
 The way most &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDNs&lt;/a&gt; work is by using DNS routing. When a user attempts to resolve a hostname, the CDN&#39;s DNS server responds with an IP which is closest based on the IP address of the requester. A more detailed insight into the workings of a CDN can be found on an earlier post &#34;&lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34;&gt;Make your own cheap charlie CDN&lt;/a&gt;&#34;
@@ -265,10 +265,10 @@ EDIT 5: Added link to Bill Fumerola’s explanation of the problem.
     
     <item>
       <title>Facebook.com banned in Thailand?</title>
-      <link>http://www.sajalkayan.com/facebook-banned-thailand.html</link>
+      <link>http://sajal.github.io/facebook-banned-thailand.html</link>
       <pubDate>Fri, 15 Aug 2008 09:24:18 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/facebook-banned-thailand.html</guid>
+      <guid>http://sajal.github.io/facebook-banned-thailand.html</guid>
       <description>Since the past few hours, it appears to me that True ISP of Thailand is trying to block one of the most popular socual networking site Facebook. The situation is not as serious as the title makes it sound.... but what the he_l it would be reality when someone at the ministry logs into it for the first time....
 
 On attempting to open any page within facebook we get the friendly message which looks very much like it is generated from True&#39;s stupid transparent proxy.
@@ -289,10 +289,10 @@ Now, didn&#39;t some lawmaker dude say that its illegal to connect via proxies o
     
     <item>
       <title>truewifi.net == big FAIL for usability</title>
-      <link>http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html</link>
+      <link>http://sajal.github.io/truewifinet-big-fail-for-usability.html</link>
       <pubDate>Thu, 10 Apr 2008 10:44:08 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html</guid>
+      <guid>http://sajal.github.io/truewifinet-big-fail-for-usability.html</guid>
       <description>Today I got myself a true wifi package for 500 Baht/month. Its quite nice as our new office doesn&#39;t have a fixed line yet... and true wifi&#39;s signal reaches here....
 
 I logged in to truewifi.net today to change my password, and found that everything is in Thai, that&#39;s not bad as Thai people prefer reading in Thai. I looked around, couldn&#39;t find a language switch until i found this in the top right corner.

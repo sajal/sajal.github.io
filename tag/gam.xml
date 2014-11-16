@@ -3,7 +3,7 @@
   <channel>
       <title>Gam on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/gam.xml</link>
+    <link>http://sajal.github.io/tag/gam.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Future releases of Firefox to speed page load time considerably?</title>
-      <link>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
+      <link>http://sajal.github.io/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
       <pubDate>Wed, 20 Jan 2010 14:29:58 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
+      <guid>http://sajal.github.io/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
       <description>Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
 
 Especially when within one ad code, I have a default ad code and that too has a default. This means, when an impression is trying to be filled, the ad network decides, if they can fill the impression based on parameters I set or not. If not, then they pass the impression down the chain to another network. It goes on until the end network. In my case the chain is mostly 3 networks. I cant increase it as it results in a poorer user experience.

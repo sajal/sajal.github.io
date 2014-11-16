@@ -3,7 +3,7 @@
   <channel>
       <title>Gadgets on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/category/gadgets.xml</link>
+    <link>http://sajal.github.io/category/gadgets.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>I, me and Solid State Drives</title>
-      <link>http://www.sajalkayan.com/i-me-and-solid-state-drives.html</link>
+      <link>http://sajal.github.io/i-me-and-solid-state-drives.html</link>
       <pubDate>Sun, 20 Sep 2009 09:47:24 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/i-me-and-solid-state-drives.html</guid>
+      <guid>http://sajal.github.io/i-me-and-solid-state-drives.html</guid>
       <description>Let me first explain my set-up before the upgrade. I use 2 computers, 1 desktop at office and a laptop at home or while traveling.
 
 Laptop : Lenovo; core 2; 2 GB RAM; regular 5.4k rpm hard disk. Purchased abt 1.5 years ago.

@@ -3,7 +3,7 @@
   <channel>
       <title>Vista on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/vista.xml</link>
+    <link>http://sajal.github.io/tag/vista.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Typical interaction of Windows Vista</title>
-      <link>http://www.sajalkayan.com/typical-interaction-of-windows-vista.html</link>
+      <link>http://sajal.github.io/typical-interaction-of-windows-vista.html</link>
       <pubDate>Mon, 27 Apr 2009 08:37:26 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/typical-interaction-of-windows-vista.html</guid>
+      <guid>http://sajal.github.io/typical-interaction-of-windows-vista.html</guid>
       <description>Vista : Are you sure?
 User : Yes
 Vista : Are you sure about being sure?

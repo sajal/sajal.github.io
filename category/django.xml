@@ -3,7 +3,7 @@
   <channel>
       <title>Django on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/category/django.xml</link>
+    <link>http://sajal.github.io/category/django.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>I &lt;3 Django</title>
-      <link>http://www.sajalkayan.com/i-django.html</link>
+      <link>http://sajal.github.io/i-django.html</link>
       <pubDate>Sun, 30 Nov 2008 19:42:39 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/i-django.html</guid>
+      <guid>http://sajal.github.io/i-django.html</guid>
       <description>Last month(November) had been quite busy for me, had many things going on including :-
 &lt;ul&gt;
 	&lt;li&gt;&lt;strong&gt;My new Secret Project&lt;/strong&gt; : Its a new &lt;a href=&#34;http://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; based web project, if all goes as per plan I take over the world and declare windows illegal ;)&lt;/li&gt;

@@ -3,7 +3,7 @@
   <channel>
       <title>Thailand on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/category/thailand.xml</link>
+    <link>http://sajal.github.io/category/thailand.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>4 reasons why I love my ISP</title>
-      <link>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</link>
+      <link>http://sajal.github.io/4-reasons-why-i-love-my-isp.html</link>
       <pubDate>Mon, 28 Nov 2011 18:52:26 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</guid>
+      <guid>http://sajal.github.io/4-reasons-why-i-love-my-isp.html</guid>
       <description>&lt;p&gt;I&#39;ve been using &lt;a href=&#34;http://www.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; for years, and I absolutely love their service (and especially the transparent proxy). Here are some of the reasons why :-&lt;/p&gt;
 
 &lt;p&gt;&lt;del&gt;Censorship&lt;/del&gt; &lt;strong&gt;Protecting me from bad stuff&lt;/strong&gt; - Interwebs has a lot of &#34;bad&#34; things out there. My ISP takes good care of me by not letting me access things I am not supposed to see... Even sites not explicitly blocked by court-order. I don&#39;t know what I would do without them. My head would probably explode if I saw porn, and my feelings would get hurt if I came across certain types of political messages..&lt;/p&gt;
@@ -39,10 +39,10 @@
     
     <item>
       <title>Check if you are behind a transparent proxy</title>
-      <link>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</link>
+      <link>http://sajal.github.io/check-if-you-are-behind-a-transparent-proxy.html</link>
       <pubDate>Tue, 11 Oct 2011 19:38:50 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</guid>
+      <guid>http://sajal.github.io/check-if-you-are-behind-a-transparent-proxy.html</guid>
       <description>Many Asian ISPs do not provide &lt;em&gt;clean&lt;/em&gt; internet. They route all HTTP sessions thru a &lt;a href=&#34;http://en.wikipedia.org/wiki/Proxy_server#Transparent_proxies&#34;&gt;transparent proxy&lt;/a&gt;.
 
 Here is a simple way to check if you are behind one.
@@ -105,10 +105,10 @@ Reasons for doing so involve : Censorship, big brother snooping, caching, &lt;a 
     
     <item>
       <title>Twitter logged me as someone else! Privacy FAIL!</title>
-      <link>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</link>
+      <link>http://sajal.github.io/twitter-logged-me-as-someone-else-privacy-fail.html</link>
       <pubDate>Wed, 27 Oct 2010 17:16:48 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
+      <guid>http://sajal.github.io/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
       <description>A while ago, clicking on the &#34;tweet&#34; button of a &lt;a href=&#34;http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/&#34;&gt;funny FAIL&lt;/a&gt; in &lt;a href=&#34;http://www.google.com/reader/&#34;&gt;Google Reader&lt;/a&gt; gave me the scare of my life. 
 
 First reaction: How did my twitter theme change?
@@ -156,10 +156,10 @@ Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do 
     
     <item>
       <title>BarCampBKK3 - my experience!</title>
-      <link>http://www.sajalkayan.com/barcampbkk3-my-experience.html</link>
+      <link>http://sajal.github.io/barcampbkk3-my-experience.html</link>
       <pubDate>Mon, 25 May 2009 12:20:51 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/barcampbkk3-my-experience.html</guid>
+      <guid>http://sajal.github.io/barcampbkk3-my-experience.html</guid>
       <description>Last weekend(23rd and 24th May) I attended &lt;a href=&#34;http://www.barcampbangkok.org/&#34;&gt;&lt;strong&gt;BarCamp Bangkok 3&lt;/strong&gt;&lt;/a&gt;, it was an awesome experience... In this blogpost i intend to outline some of the interesting aspects of it from my viewpoint.
 
 &lt;a href=&#34;http://www.flickr.com/photos/newdavich/3557413836/&#34;&gt;&lt;img src=&#34;http://farm4.static.flickr.com/3652/3557413836_397383f4d8_m.jpg&#34; alt=&#34;Barcampbkk3 sign board&#34; width=&#34;240&#34; height=&#34;180&#34; /&gt;&lt;/a&gt;
@@ -215,10 +215,10 @@ Blogs : &lt;a href=&#34;http://blogsearch.google.com/blogsearch?q=barcampbkk3&#3
     
     <item>
       <title>No farting!</title>
-      <link>http://www.sajalkayan.com/no-farting.html</link>
+      <link>http://sajal.github.io/no-farting.html</link>
       <pubDate>Tue, 14 Oct 2008 04:54:38 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/no-farting.html</guid>
+      <guid>http://sajal.github.io/no-farting.html</guid>
       <description>&lt;img src=&#34;http://farm4.static.flickr.com/3005/2940911370_48a3f61d6f.jpg?v=0&#34; alt=&#34;No Farting!&#34; width=&#34;375&#34; height=&#34;500&#34; /&gt;
 
 A view of the dashboard of a taxi in Bangkok
@@ -227,10 +227,10 @@ A view of the dashboard of a taxi in Bangkok
     
     <item>
       <title>Facebook.com banned in Thailand?</title>
-      <link>http://www.sajalkayan.com/facebook-banned-thailand.html</link>
+      <link>http://sajal.github.io/facebook-banned-thailand.html</link>
       <pubDate>Fri, 15 Aug 2008 09:24:18 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/facebook-banned-thailand.html</guid>
+      <guid>http://sajal.github.io/facebook-banned-thailand.html</guid>
       <description>Since the past few hours, it appears to me that True ISP of Thailand is trying to block one of the most popular socual networking site Facebook. The situation is not as serious as the title makes it sound.... but what the he_l it would be reality when someone at the ministry logs into it for the first time....
 
 On attempting to open any page within facebook we get the friendly message which looks very much like it is generated from True&#39;s stupid transparent proxy.
@@ -251,10 +251,10 @@ Now, didn&#39;t some lawmaker dude say that its illegal to connect via proxies o
     
     <item>
       <title>Open letter to Thailand&#39;s Software Bullies</title>
-      <link>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</link>
+      <link>http://sajal.github.io/open-letter-to-thailands-software-bullies.html</link>
       <pubDate>Sat, 21 Jun 2008 04:04:26 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</guid>
+      <guid>http://sajal.github.io/open-letter-to-thailands-software-bullies.html</guid>
       <description>Kind attn : &lt;strong&gt;Microsoft&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
 Kind attn : &lt;strong&gt;Lenovo&lt;/strong&gt; Thailand (Sorry cant find name of contact on your site)
 Kind attn : Prasert Charoonpaisal - General Manager - Personal Systems Group (PSG) - &lt;strong&gt;HP&lt;/strong&gt; Thailand
@@ -305,10 +305,10 @@ Update 2 : Online discussions at &lt;a href=&#34;http://www.blognone.com/node/81
     
     <item>
       <title>truewifi.net == big FAIL for usability</title>
-      <link>http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html</link>
+      <link>http://sajal.github.io/truewifinet-big-fail-for-usability.html</link>
       <pubDate>Thu, 10 Apr 2008 10:44:08 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html</guid>
+      <guid>http://sajal.github.io/truewifinet-big-fail-for-usability.html</guid>
       <description>Today I got myself a true wifi package for 500 Baht/month. Its quite nice as our new office doesn&#39;t have a fixed line yet... and true wifi&#39;s signal reaches here....
 
 I logged in to truewifi.net today to change my password, and found that everything is in Thai, that&#39;s not bad as Thai people prefer reading in Thai. I looked around, couldn&#39;t find a language switch until i found this in the top right corner.
@@ -327,10 +327,10 @@ The good part is they don&#39;t have any blinking things on it yet.
     
     <item>
       <title>Blognone.com gets English Language sub-forum</title>
-      <link>http://www.sajalkayan.com/blognonecom-gets-english-language-sub-forum.html</link>
+      <link>http://sajal.github.io/blognonecom-gets-english-language-sub-forum.html</link>
       <pubDate>Wed, 05 Mar 2008 09:52:08 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/blognonecom-gets-english-language-sub-forum.html</guid>
+      <guid>http://sajal.github.io/blognonecom-gets-english-language-sub-forum.html</guid>
       <description>Yesterday &lt;a href=&#34;http://www.isriya.com/&#34; target=&#34;_blank&#34;&gt;mk&lt;/a&gt; of &lt;a href=&#34;http://www.blognone.com&#34; target=&#34;_blank&#34;&gt;blognone.com&lt;/a&gt; &lt;a href=&#34;http://www.blognone.com/node/7150&#34; target=&#34;_blank&#34;&gt;announced the launch&lt;/a&gt; of a new &lt;a href=&#34;http://www.blognone.com/english&#34; target=&#34;_blank&#34;&gt;sub-forum to conduct discussions in English&lt;/a&gt; Language on the site which is otherwise in Thai.
 
 The Announcement :-

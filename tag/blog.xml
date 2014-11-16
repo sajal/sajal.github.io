@@ -3,7 +3,7 @@
   <channel>
       <title>Blog on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/blog.xml</link>
+    <link>http://sajal.github.io/tag/blog.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Im still alive!</title>
-      <link>http://www.sajalkayan.com/im-still-alive.html</link>
+      <link>http://sajal.github.io/im-still-alive.html</link>
       <pubDate>Thu, 20 Mar 2008 04:46:59 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/im-still-alive.html</guid>
+      <guid>http://sajal.github.io/im-still-alive.html</guid>
       <description>As some of you may have noticed (or not!) I haven&#39;t updated my blog in the last 11 days... Maybe someone gets the wrong idea that I was kidnapped by some M$ goons and brainwashed or something. This post simple proves that I am still here and here to stay!
 
 Just some of my projects are taking a lot of my time. I have the following planned out for my blog.

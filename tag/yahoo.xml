@@ -3,7 +3,7 @@
   <channel>
       <title>Yahoo on Sajal Kayan </title>
       <generator uri="https://hugo.spf13.com">Hugo</generator>
-    <link>http://www.sajalkayan.com/tag/yahoo.xml</link>
+    <link>http://sajal.github.io/tag/yahoo.xml</link>
     <language>en-us</language>
     
     
@@ -11,10 +11,10 @@
     
     <item>
       <title>Ruby class to fetch suggested keywords</title>
-      <link>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</link>
+      <link>http://sajal.github.io/ruby-class-fetch-suggested-keywords.html</link>
       <pubDate>Sun, 03 Aug 2008 22:53:12 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</guid>
+      <guid>http://sajal.github.io/ruby-class-fetch-suggested-keywords.html</guid>
       <description>I have recently &lt;a href=&#34;http://twitter.com/sajal/statuses/872225824&#34;&gt;ditched Perl and fell for Ruby&lt;/a&gt;. 
 
 Here is a Ruby class which gets suggested keywords from yahoo API and presents it in a comma separated list. This might be useful for people who use Ruby to upload/edit multiple posts and need to tag them automagically.
@@ -74,10 +74,10 @@ Limitations : Maximum 5000 queries per day per IP.
     
     <item>
       <title>Extract info from flickr using Flickr::API in Perl</title>
-      <link>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
+      <link>http://sajal.github.io/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
       <pubDate>Sat, 01 Mar 2008 18:09:21 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
+      <guid>http://sajal.github.io/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
       <description>Today i learnt a neat trick. It it took me more time to make the script than it would have taken me to do the task manually.. the old fashioned way.. but it would save me(and hopefully you) a lot of time in the future. &lt;a href=&#34;http://www.flickr.com/services/api/&#34; title=&#34;Flickr API&#34;&gt;Flickr does have a nice API&lt;/a&gt; with many methods, almost everything which can be done via flickr website can be done using this API. You would need to have a &lt;a href=&#34;http://www.flickr.com/services/api/keys/&#34;&gt;Flickr API key&lt;/a&gt; to use this script.
 
 The objective : To generate some html code based on the images in &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/sets/72157604016439437/&#34; title=&#34;Indian Ambassador visits 41st Bangkok Gems &amp;amp; Jewelry Fair &#34; target=&#34;_blank&#34;&gt;one particular set&lt;/a&gt; in my &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/&#34; target=&#34;_blank&#34;&gt;flickr account&lt;/a&gt; and to &lt;a href=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; title=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; target=&#34;_blank&#34;&gt;display them&lt;/a&gt; in a nice manner(well better than earlier ;) ) using &lt;a href=&#34;http://www.huddletogether.com/projects/lightbox2/&#34; target=&#34;_blank&#34;&gt;Lightbox2&lt;/a&gt;
@@ -156,10 +156,10 @@ The HTML output of this script :-
     
     <item>
       <title>How to Negotiate - Tips for Yahoo!</title>
-      <link>http://www.sajalkayan.com/how-to-negotiate-tips-for-yahoo.html</link>
+      <link>http://sajal.github.io/how-to-negotiate-tips-for-yahoo.html</link>
       <pubDate>Mon, 11 Feb 2008 14:04:18 &#43;0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/how-to-negotiate-tips-for-yahoo.html</guid>
+      <guid>http://sajal.github.io/how-to-negotiate-tips-for-yahoo.html</guid>
       <description>Awesome video reached homepage of &lt;a href=&#34;http://www.lopsta.com/2008/02/13/50-diggs-zu-verschenken/&#34; target=&#34;_blank&#34;&gt;digg&lt;/a&gt; from 2 separate links!
 &lt;object width=&#39;425&#39; height=&#39;345&#39; id=&#39;FiveminPlayer&#39;&gt;&lt;param name=&#39;allowfullscreen&#39; value=&#39;true&#39;/&gt;&lt;param name=&#39;allowScriptAccess&#39; value=&#39;always&#39;/&gt;&lt;param name=&#39;movie&#39; value=&#39;http://www.5min.com/Embeded/5794173/&#39;/&gt;&lt;embed src=&#39;http://www.5min.com/Embeded/5794173/&#39; type=&#39;application/x-shockwave-flash&#39; width=&#39;425&#39; height=&#39;345&#39; allowfullscreen=&#39;true&#39; allowScriptAccess=&#39;always&#39;&gt;&lt;/embed&gt;&lt;/object&gt;
 </description>
