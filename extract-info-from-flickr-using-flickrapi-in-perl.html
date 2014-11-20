@@ -65,7 +65,20 @@
     <div class="content container">
 <div class="post">
   <h1>Extract info from flickr using Flickr::API in Perl</h1>
-  <span class="post-date">Sat, Mar 1, 2008</span>
+  <span class="post-date">
+    Sat, Mar 1, 2008
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Extract info from flickr using Flickr::API in Perl" 
+      data-url="http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html"
+      >
+      Tweet
+    </a>
+    
+  </span>
       Today i learnt a neat trick. It it took me more time to make the script than it would have taken me to do the task manually.. the old fashioned way.. but it would save me(and hopefully you) a lot of time in the future. <a href="http://www.flickr.com/services/api/" title="Flickr API">Flickr does have a nice API</a> with many methods, almost everything which can be done via flickr website can be done using this API. You would need to have a <a href="http://www.flickr.com/services/api/keys/">Flickr API key</a> to use this script.
 
 The objective : To generate some html code based on the images in <a href="http://www.flickr.com/photos/sajalkayan/sets/72157604016439437/" title="Indian Ambassador visits 41st Bangkok Gems &amp; Jewelry Fair " target="_blank">one particular set</a> in my <a href="http://www.flickr.com/photos/sajalkayan/" target="_blank">flickr account</a> and to <a href="http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html" title="http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html" target="_blank">display them</a> in a nice manner(well better than earlier ;) ) using <a href="http://www.huddletogether.com/projects/lightbox2/" target="_blank">Lightbox2</a>
@@ -176,6 +189,9 @@ The HTML output of this script :-
 		else if (w.attachEvent) { w.attachEvent("onload",go); }
 		}(window, document, 'script'));
 
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
       
 </div>

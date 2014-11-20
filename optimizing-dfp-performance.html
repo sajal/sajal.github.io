@@ -65,7 +65,20 @@
     <div class="content container">
 <div class="post">
   <h1>Optimizing DFP performance</h1>
-  <span class="post-date">Fri, Sep 10, 2010</span>
+  <span class="post-date">
+    Fri, Sep 10, 2010
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Optimizing DFP performance" 
+      data-url="http://www.sajalkayan.com/optimizing-dfp-performance.html"
+      >
+      Tweet
+    </a>
+    
+  </span>
       Ive been using <a href="https://www.google.com/dfp/">DFP</a> (DoubleClick for Publishers - formerly Google Ad Manager) to serve ads as it has some certain features I really need.
 
 The downside of using DFP is that its browser side performance sucks big time. On my site, I use the experimental Iframe tagging, which basically writes an iframe in place of the ad and loads the third party ad codes into it. This runs asynchronously and is nice, but the DFP's bootstrap javascript blocks rendering and it needs to load 3 javascript files from Google serially. This bootstrap must be available before trying to fill an ad slot.
@@ -190,6 +203,9 @@ I am available for <a href="/web-speed-consulting-services">consulting on web sp
 		else if (w.attachEvent) { w.attachEvent("onload",go); }
 		}(window, document, 'script'));
 
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
       
 </div>

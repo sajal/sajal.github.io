@@ -65,7 +65,20 @@
     <div class="content container">
 <div class="post">
   <h1>Make your own cheap charlie CDN</h1>
-  <span class="post-date">Sat, Jun 28, 2008</span>
+  <span class="post-date">
+    Sat, Jun 28, 2008
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Make your own cheap charlie CDN" 
+      data-url="http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html"
+      >
+      Tweet
+    </a>
+    
+  </span>
       <a href="http://en.wikipedia.org/wiki/Content_Delivery_Network" target="_self">CDN</a> stands for Content Delivery(or Distribution) Network. It is a network of servers usually located in various geographic locations to improve the availability and access speed of a website (or webapp or other media). The main use of CDNs were during the nineteens when inter-continental access was slow, scarce and expensive. Origin server could be in the silicon valley, users from UK would access the node located in UK, so in theory only once the page would be downloaded from the US server to the UK server. Thus allowing the UK visitors to access the page locally resulting in a huge saving in inter-continental bandwidth costs and improved access times for the end users.
 
 CDNs are traditionally a very expensive solution to implement if using any of the <a href="http://en.wikipedia.org/wiki/Content_Delivery_Network#Commercial_CDNs">established providers</a>. The solution in itself is not very complex. I am in the process of implementing my very own CDN. The benefits are simple.
@@ -233,6 +246,9 @@ Also.. if squid supports ssl, would it be possible to use https (and also instal
 		else if (w.attachEvent) { w.attachEvent("onload",go); }
 		}(window, document, 'script'));
 
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
       
 </div>
