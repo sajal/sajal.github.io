@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Fun with MultiPath TCP &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+<script>
+(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3020223-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+        Likes to make all the things faster.
+      </p>
+      <p>CTO at <a href="http://www.turbobytes.com/">TurboBytes</a></p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2014. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Fun with MultiPath TCP</h1>
+  <span class="post-date">
+    Sat, Nov 22, 2014
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Fun with MultiPath TCP" 
+      data-url="http://www.sajalkayan.com/post/fun-with-mptcp.html"
+      >
+      Tweet
+    </a>
+    
+  </span>
+      
+
+<p>Over the last few months I&rsquo;ve been playing with <a href="http://multipath-tcp.org/">MultiPath TCP</a> and in this post I will show how I use it to leverage my humble <a href="http://trueonline.truecorp.co.th/">True ADSL</a> line at home.</p>
+
+<p>For performance and security reasons, I tunnel all my traffic thru a VPN. This is not necessarily to circumvent censorship, but to circumvent the <a href="http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html">evil transparent proxies</a> my ISP puts in middle. The total bandwidth available is ~10 mbps down / ~1 mbps up.</p>
+
+<h2 id="toc_0">Introduction to MultiPath TCP</h2>
+
+<p>MultiPath TCP is an interesting effort to use multiple interfaces/networks for any single TCP connection. A Linux kernel implementation is being developed at <a href="http://multipath-tcp.org/">multipath-tcp.org</a>. Its main use cases are for mobile (transition between Wi-Fi and 3G) and datacenters. I exploit it to get better Internet browsing experience.</p>
+
+<h2 id="toc_1">Old way</h2>
+
+<p><a href="/images/ssh_tun.svg"><img src="/images/ssh_tun.svg" alt="Simple SSH Tunnel" title="Simple SSH Tunnel" \></a></p>
+
+<ol>
+<li>SSH tunnel to EC2 instance in Singapore. Browser configured to use this tunnel as proxy</li>
+<li>SSH tunnel to EC2 instance in us-east (for accessing geo-blocked services)</li>
+</ol>
+
+<p>Main drawback : If my ISP has issues talking to AWS, then I&rsquo;m totally screwed. This happened a month or so ago where most links coming into True was severely limited, however link from <a href="https://www.digitalocean.com/?refcode=f92c3276603e" rel="nofollow">Digital Ocean</a> to True was healthy. I had to manually change my tunnels to a $5 Digital Ocean instance.</p>
+
+<h2 id="toc_2">New way</h2>
+
+<p><a href="/images/mptcp_tun.svg"><img src="/images/mptcp_tun.svg" alt="MPTCP Tunnel" title="MPTCP Tunnel" \></a></p>
+
+<p>Note: This is a constantly evolving setup as I find new things to play with.</p>
+
+<p>Infrastructure involved :-</p>
+
+<ul>
+<li><strong><a href="http://www.pcengines.ch/apu.htm">PC Engines APU system board</a></strong> - Replaces router. All magic happens here. <em>gateway</em></li>
+<li><strong>ADSL modem</strong> in bridge mode.</li>
+<li><strong>EC2 instance in Singapore</strong> - The main proxy endpoint. Runs <a href="https://github.com/shadowsocks/shadowsocks-go">shadowsocks</a> server over MPTCP kernel. <em>destination, jumpbox</em></li>
+<li><strong>EC2 instance in us-west</strong> - The proxy endpoint for US geo blocked traffic. Runs shadowsocks server over MPTCP kernel. <em>destination</em></li>
+<li><strong>Digital Ocean instance in Singapore</strong> - An alternate path to reach the EC2 instance(s) <em>jumpbox</em></li>
+<li><strong>VPS in <a href="http://www.cattelecom.com/">CAT</a> datacenter</strong> in Thailand - Another alternate path. All Thai ISPs usually have good connectivity to CAT. <em>jumpbox</em></li>
+<li><strong>Android phone</strong> - With Dtac 3G for extra boost when needed. USB tethering. Bandwidth fluctuates a lot. I typically use it to get a boost in my upload bandwidth which is generally 100 kbps to 8 mbps.</li>
+</ul>
+
+<p>All TCP Traffic is intercepted by the APU using iptables, diverted to <a href="http://darkk.net.ru/redsocks/">redsocks</a>, which sends it to the shadowsocks client, which sends it to the shadowsocks server running in EC2 Singapore. This socks connection has several ways to communicate with the EC2 instance.</p>
+
+<pre><code>APU &lt;--&gt; True ADSL Directly &lt;--&gt; EC2  
+APU &lt;--&gt; True ADSL Directly over OpenVPN/UDP &lt;--&gt; EC2  
+APU &lt;--&gt; True ADSL &lt;--&gt; via CAT VPS over OpenVPN/UDP &lt;--&gt; EC2  
+APU &lt;--&gt; True ADSL &lt;--&gt; via DO Singapore over OpenVPN/UDP &lt;--&gt; EC2  
+APU &lt;--&gt; Dtac 3G Directly &lt;--&gt; EC2 (Optional/ondemand)
+</code></pre>
+
+<p>Now I have 5 possible paths. MPTCP kernel creates a TCP connection over each available path and bonds them together and exposes it as a single TCP connection to the application. Packets are sent over paths that currently have the lowest delay. Now my available bandwidth is not impacted by congestion over some of these paths. All paths need to be congested for me to have a bad day&hellip; Also some path might have good uplink, some might have good downlink, with MPTCP you mix the best of both&hellip;</p>
+
+<p>Example <code>bmon</code> stats when downloading a large file (I removed irreverent interfaces.)
+<pre style="overflow-x:scroll;overflow-wrap: normal;white-space: pre;" id="bmon">
+  #   Interface                RX Rate         RX #     TX Rate         TX #
+─────────────────────────────────────────────────────────────────────────────
+xxx (source: local)
+  0   tun1                     621.28KiB        628      38.82KiB        636
+  3   tun3                     200.22KiB        198       9.42KiB        149
+  5   ppp0                       1.07MiB       1018     119.42KiB        980
+  9   tun0                      90.06KiB         90       5.94KiB         97
+</pre></p>
+
+<h3 id="toc_3">Configurations</h3>
+
+<h4 id="toc_4">Jumpbox</h4>
+
+<p>Jumpbox is pretty basic setup. It&rsquo;s role is to provide additional gateways which MPTCP uses to build additional paths.</p>
+
+<p>OpenVPN server configured normally. Set to not redirect default gateway. In my current setup I need to ensure that the server assigns the same IP to my client. This is not really that crucial, but it keeps things simple. Its important to configure each jumpbox to use a different IP range.</p>
+
+<p><code>net.ipv4.ip_forward</code> needs to be set to 1 to allow forwarding. In fact almost all boxes in the setup need this.</p>
+
+<p>iptables rules needed :-</p>
+
+<pre><code>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables -t filter -A FORWARD -i tun0 -j ACCEPT
+iptables -t filter -A FORWARD -o tun0 -j ACCEPT
+</code></pre>
+
+<p>Replace the <code>tun0</code> and <code>eth0</code> to suit your environment.</p>
+
+<h4 id="toc_5">Destination</h4>
+
+<p>A destination server is remote end of our socks tunnel. It&rsquo;s job is to service the socks connections patching them to the real destination.</p>
+
+<p>This needs to run a <a href="http://multipath-tcp.org/pmwiki.php/Users/HowToInstallMPTCP?">MultiPath TCP kernel</a>. On EC2 it is pretty simple. Launch an Ubuntu 14.04 instance with a <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">pv-grub AKI</a>. Then follow the <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html">apt-repository installation method</a>. And ensure the grub loads the MPTCP kernel as its first choice.</p>
+
+<p>Next we also need shadowsocks server running. <a href="https://github.com/shadowsocks/shadowsocks-go/blob/master/README.md">RTFM</a> its pretty simple. Before using shadowsocks I was using a simple <code>ssh -D</code> tunnel, but I found it to be inefficient. Often times one large transfer would make all other TCP streams <em>stuck</em>. Perhaps this has something to do with the fact that with SSH everything is happening over a single TCP stream whereas shadowsocks makes a new socks connection dedicated to each TCP connection.</p>
+
+<h4 id="toc_6">Gateway</h4>
+
+<p>The gateway is the most complicated component. Running stock Debian wheezy with MPTCP kernel installed via their <a href="http://multipath-tcp.org/pmwiki.php/Users/AptRepository">apt repository</a>. A lot of services run here. I will not elaborate on some of them.</p>
+
+<p><strong>dbcpd</strong> - Assign LAN users with IP</p>
+
+<p><strong>bind</strong> - For DNS recursion. Since we tunnel most traffic to Singapore, I also set bind to send DNS queries thru OpenVPN.</p>
+
+<p><strong>iptables</strong> - I use iptables to do the NAT. NAT all UDP packets to OpenVPN. Send all outgoing TCP connections to redsocks.</p>
+
+<pre style="overflow-x:scroll;overflow-wrap: normal;white-space: pre;">
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*nat
+:PREROUTING ACCEPT [378881:57485495]
+:INPUT ACCEPT [210208:17266788]
+:OUTPUT ACCEPT [4099955:310913862]
+:POSTROUTING ACCEPT [3239510:252587265]
+:REDSOCKS - [0:0]
+-A PREROUTING -i br0 -p tcp -j REDSOCKS
+-A PREROUTING -i br0 -j REDSOCKS
+-A POSTROUTING -o tun1 -j MASQUERADE
+-A POSTROUTING -o tun0 -j MASQUERADE
+-A POSTROUTING -o tun2 -j MASQUERADE
+-A POSTROUTING -o eth0 -j MASQUERADE
+-A REDSOCKS -d 0.0.0.0/8 -j RETURN
+-A REDSOCKS -d 10.0.0.0/8 -j RETURN
+-A REDSOCKS -d 127.0.0.0/8 -j RETURN
+-A REDSOCKS -d 169.254.0.0/16 -j RETURN
+-A REDSOCKS -d 172.16.0.0/12 -j RETURN
+-A REDSOCKS -d 192.168.0.0/16 -j RETURN
+-A REDSOCKS -d 224.0.0.0/4 -j RETURN
+-A REDSOCKS -d 240.0.0.0/4 -j RETURN
+-A REDSOCKS -d a.b.c.d/32 -j RETURN
+-A REDSOCKS -d e.f.g.h/32 -j RETURN
+-A REDSOCKS -d i.j.k.l/32 -j RETURN
+-A REDSOCKS -d m.n.o.p/32 -j RETURN
+-A REDSOCKS -d q.r.s.t/32 -j RETURN
+-A REDSOCKS -s 192.168.5.1/32 -j RETURN
+-A REDSOCKS -s 192.168.5.1/32 -j RETURN
+-A REDSOCKS -s 192.168.1.2/32 -j RETURN
+-A REDSOCKS -s 192.168.5.32/27 -p tcp -j REDIRECT --to-ports 12345
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*filter
+:INPUT ACCEPT [115657469:73738905421]
+:FORWARD ACCEPT [64078:47442189]
+:OUTPUT ACCEPT [122121802:63701527314]
+-A FORWARD -i eth1 -j ACCEPT
+-A FORWARD -o eth1 -j ACCEPT
+-A FORWARD -i br0 -j ACCEPT
+-A FORWARD -o br0 -j ACCEPT
+-A FORWARD -i eth0 -j ACCEPT
+-A FORWARD -o eth0 -j ACCEPT
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*mangle
+:PREROUTING ACCEPT [118734314:74507536093]
+:INPUT ACCEPT [115635709:73734306355]
+:FORWARD ACCEPT [3100331:759352048]
+:OUTPUT ACCEPT [122104929:63698976437]
+:POSTROUTING ACCEPT [125198421:64456746251]
+-A PREROUTING ! -d 192.168.5.0/24 -i br0 -j MARK --set-xmark 0x1/0xffffffff
+-A PREROUTING -d 10.8.0.10/32 -i br0 -j MARK --set-xmark 0x3/0xffffffff
+-A PREROUTING -d 192.168.10.1/32 -i br0 -j MARK --set-xmark 0x2/0xffffffff
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+</pre>
+
+<p>Note: <em>a.b.c.d</em>, <em>e.f.g.h</em>, <em>i.j.k.l</em>, <em>m.n.o.p</em> and <em>q.r.s.t</em> are public internet ips that I don&rsquo;t want redsocks to intercept.</p>
+
+<p>Interfaces</p>
+
+<ul>
+<li>br0 - LAN</li>
+<li>tun[0-3] - Various Jumpboxes. OpenVPN tunnels.</li>
+</ul>
+
+<p>Also, each interface is maintains its own <a href="http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting">routing tables</a> using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/sh</span>
+ip rule add from 10.8.0.20 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip route add 10.8.0.0/24 dev tun0 scope link table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip route add default via 10.8.0.21 dev tun0 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+</pre></div>
+
+<p>The fwmark is added so if in future I want to pipe different traffic to go thru this interface I can set the corresponding iptables rule.</p>
+
+<p>All local services are scoped to listen only on local interfaces to avoid random people connecting to local services.</p>
+
+<p><strong>redsocks</strong> - Accepts intercepted connections and pipes it off to shadowsocks client</p>
+
+<p><strong>shadowsocks client</strong> - sends all TCP connections to shadowsocks servers running in EC2 Singapore and US. By default intercepted traffic is sent to Singapore, however any application on any computer in the network could be set to explicitly use any of the available proxies.</p>
+
+<p><strong>wvdial</strong> - To dial the ADSL connection which is itself behind a <a href="http://en.wikipedia.org/wiki/Carrier-grade_NAT">Carrier-grade NAT</a>. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/bash</span>
+
+<span style="color: #996633">IP</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span>/sbin/ip route | grep -v default | grep ppp0 | cut -d <span style="background-color: #fff0f0">&quot; &quot;</span> -f 1<span style="background-color: #fff0f0">`</span>
+<span style="color: #996633">COUNT</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span><span style="color: #007020">echo</span> <span style="color: #996633">$IP</span> | wc -l<span style="background-color: #fff0f0">`</span>
+
+<span style="color: #007020">echo</span> <span style="color: #996633">$IP</span> <span style="color: #996633">$COUNT</span>
+<span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #996633">$COUNT</span> -eq <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #333333">]</span> 
+<span style="color: #008800; font-weight: bold">then</span>
+  ping -c <span style="color: #6600EE; font-weight: bold">10</span> <span style="color: #996633">$IP</span> &gt; /dev/null
+  <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #996633">$?</span> -eq <span style="color: #6600EE; font-weight: bold">0</span> <span style="color: #333333">]</span>
+  <span style="color: #008800; font-weight: bold">then</span>
+    <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 is up&quot;</span>
+  <span style="color: #008800; font-weight: bold">else</span>
+    <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 is down&quot;</span>
+    <span style="color: #007020">kill</span> -SIGHUP <span style="background-color: #fff0f0">`</span>pgrep pppd<span style="background-color: #fff0f0">`</span>
+    beep -l 25
+  <span style="color: #008800; font-weight: bold">fi</span>
+<span style="color: #008800; font-weight: bold">else</span>
+  <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 not found?!?!?!?1&quot;</span>
+<span style="color: #008800; font-weight: bold">fi</span>
+</pre></div>
+
+<p>The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. <code>SIGHUP</code> signals pppd to handup and redial. I don&rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.</p>
+
+<h2 id="toc_7">Missing parts</h2>
+
+<p>There are some issues I am having that I need to sort out work-around for.</p>
+
+<ul>
+<li><strong>Default connection unstable</strong>. If the initial syn packet for ppp0 (my default interface) fails, then the connection cant be established. I need to look deeper into MPTCP docs to figure out how to make it such that if the initial TCP connection setup fails on ppp0 then make it try tun0, tun1 and so on.</li>
+<li><strong>Connection fairness</strong>. Sometimes if I am doing a big upload, everything else (like browsing websites) seems too slow. The upload is hogging all the available uplink, which is already too tiny. I have my suspicions on buffer bloat&hellip;</li>
+<li><strong>Higher uplink usage</strong>. When downloading something, I see ~10% upload traffic corresponding to it. This is lot higher than a simple setup. I need to investigate deeper whats causing it. Perhaps MPTCP or the socks setup or OpenVPN. The <a href="#bmon">example bmon stats</a> above show this as well 119.42KiB uplink while downloading @ 1.07MiB.</li>
+<li><strong>EC2 bandwidth is expensive</strong>. I would like to use Digital Ocean boxes for socks proxies. This is a little tricky since DO does not allow loading custom kernels. I need to figure out <a href="https://en.wikipedia.org/wiki/Kexec">kexec</a> to make this possible. Unsure if this way is stable&hellip;</li>
+<li><strong>Advanced routing</strong>. I would like to programatically decide which external IP should go thru which proxy. For example most Thai IPs I would like to go direct. Some American destinations should go thru the US proxy, rest thru Singapore proxy. Perhaps in future add an European proxy.. Currently the only way to use the American proxy is to explicitly configure a particular application to use socks proxy.</li>
+<li><strong>UDP tunneling</strong>. UDP traffic currently goes directly using a single OpenVPN session. There is no load-balancing being performed on it. I would like to switch to a different socks client/server. One that does <a href="http://compgroups.net/comp.protocols.tcp-ip/how-socks-5-udp-associate-works/2603784">UDP associate</a>.</li>
+</ul>
+
+<h2 id="toc_8">Future path enhancements</h2>
+
+<p>More paths can be added to get better throughput.</p>
+
+<ul>
+<li>3G dongles from various providers.</li>
+<li>The shitty Wi-Fi that your apartment/office provides.</li>
+<li>More ADSL/Cable connections from diverse providers with different backbones.</li>
+</ul>
+
+<h2 id="toc_9">Conclusion</h2>
+
+<p>MPTCP is a fantastic piece of technology. Hat-tip to everyone who <a href="http://multipath-tcp.org/mptcp_stats/authors.html">contributed</a> to it. The PC Engines ALU box is also awesome. Decent x86_64 box consuming only about 6 to 12W power.</p>
+
+<p>In the future I will do a walk-thru type post on how to setup a <a href="http://www.raspberrypi.org/">Raspberry Pi</a> as a one-arm gateway doing a subset of what I described above. The most challenging part is getting a MPTCP enabled kernel on the pi, which requires kernel patching and compiling. The throughput will likely be very limited because MPTCP has a higher CPU overhead than regular TCP.</p>
+
+      
+      <div>
+  Tags:  
+    <a href="tag/mptcp">mptcp</a> </li>
+   
+    <a href="tag/tcp">tcp</a> </li>
+   
+    <a href="tag/network">network</a> </li>
+   <br />
+  Categories:  <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Fun with MultiPath TCP';
+		var disqus_url = 'http://www.sajalkayan.com\/post\/fun-with-mptcp.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>
+      
+</div>
+</div>
+
+  </body>
+</html>
