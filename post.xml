@@ -7,7 +7,133 @@
     <language>en-us</language>
     
     
-    <updated>Sat, 22 Nov 2014 12:46:11 &#43;0000</updated>
+    <updated>Wed, 25 Feb 2015 18:14:00 &#43;0000</updated>
+    
+    <item>
+      <title>Running Go programs on $15 device - Beyond Hello World</title>
+      <link>http://www.sajalkayan.com/post/golang-openwrt-mips.html</link>
+      <pubDate>Wed, 25 Feb 2015 18:14:00 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/golang-openwrt-mips.html</guid>
+      <description>
+
+&lt;p&gt;I recently purchased a &lt;a href=&#34;http://wiki.openwrt.org/toh/nexx/wt1520&#34;&gt;WT1520&lt;/a&gt; router for $15 from Aliexpress to play with. I have a project in mind which would require few nodes running my custom Go code spread out throughout the world. A Raspberry Pi (almost $40 if you include SD card, etc) fits perfectly for my purpose, but I am looking to be cheap. Not to be dissing on the pi, its awesome and LOT more powerful than the WT1520, I&amp;rsquo;m just trying to find the cheapest device for my purpose.
+&lt;figure&gt;
+    &lt;img src=&#34;/images/wt1520-raspi.jpg&#34; alt=&#34;Raspberry Pi and WT1520 doing the same thing&#34; title=&#34;Raspberry Pi and WT1520 doing the same thing&#34; \&gt;
+    &lt;figcaption&gt;Raspberry Pi ($35+) and WT1520 ($15 shipped) doing the same thing&lt;/figcaption&gt;
+&lt;/figure&gt;
+Having no experience with OpenWrt, this &lt;a href=&#34;http://akagi201.org/blog/golang-on-openwrt/&#34;&gt;blog post&lt;/a&gt; (sidenote: our blogs look similar) helped a lot to get Hello World running.&lt;/p&gt;
+
+&lt;h2 id=&#34;toc_0&#34;&gt;My Build Steps&lt;/h2&gt;
+
+&lt;p&gt;I couldn&amp;rsquo;t use the &lt;a href=&#34;https://github.com/GeertJohan/openwrt-go&#34;&gt;gccgo fork&lt;/a&gt; directly because support for my architecture was added at a later stage, so I had to clone the upstream master and patch it.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;git clone git://git.openwrt.org/openwrt.git
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;openwrt
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make menuconfig
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make -j8
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;My resulting config : &lt;a href=&#34;https://gist.github.com/sajal/f509183ac691a32e6065&#34;&gt;https://gist.github.com/sajal/f509183ac691a32e6065&lt;/a&gt;
+Ive removed usb and wifi related things to keep the image small. It seems eglibc uses lot more space.&lt;/p&gt;
+
+&lt;p&gt;This builds gccgo 4.8.3 (Go 1.1.2 implementation). gcc 4.9.x is also available in menuconfig but &lt;a href=&#34;https://dev.openwrt.org/ticket/18611&#34;&gt;build fails&lt;/a&gt;. Even then Go 1.2 is still ancient.&lt;/p&gt;
+
+&lt;p&gt;Building hello world is simple&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;alias &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;gccgo&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;gccgo -o hello ~/hello.go -static-libgo
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;^ resulting in 2.6 MB binary&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;So far so good&amp;hellip; But my real code is not so simple. It is a file with main, which imports another package which imports another package.&lt;/p&gt;
+
+&lt;p&gt;In the following example, the project in question is a very rough draft, and the code is not public at the moment. Sorry.&lt;/p&gt;
+
+&lt;p&gt;I have a file called minion.go which id like to build.&lt;/p&gt;
+
+&lt;p&gt;Lets try to build it the same way as before.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gccgo -o minion minion.go -static-libgo
+minion.go:9:38: error: import file &#39;github.com/turbobytes/dnsdebug/utils&#39; not found
+  &amp;quot;github.com/turbobytes/dnsdebug/utils&amp;quot;
+                                      ^
+minion.go:93:18: error: reference to undefined name &#39;dnsdebug&#39;
+  resolver := new(dnsdebug.Resolver)
+                  ^
+minion.go:93:26: error: expected type
+  resolver := new(dnsdebug.Resolver)
+                          ^
+minion.go:101:10: error: reference to undefined name &#39;dnsdebug&#39;
+   cfg := dnsdebug.GetTLSConfig(caFile, certificateFile, privateKeyFile)
+          ^
+$ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hmm. gccgo does not resolve packages, and we cant make the Go provided toolchain to build using our MIPS gccgo&amp;hellip; so lets see what the Go toolchain does when using normal gccgo.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+sajal@sajal-lappy:~/go/src/github.com/turbobytes/dnsdebug$ go build -x -compiler=gccgo minion.go 
+WORK=/tmp/go-build071420589
+mkdir -p $WORK/github.com/miekg/dns/_obj/
+mkdir -p $WORK/github.com/miekg/
+cd /home/sajal/go/src/github.com/miekg/dns
+gccgo -I $WORK -c -g -m64 -fgo-pkgpath=github.com/miekg/dns -fgo-relative-import-path=_/home/sajal/go/src/github.com/miekg/dns -o $WORK/github.com/miekg/dns/_obj/dns.o ./client.go ./clientconfig.go ./defaults.go ./dns.go ./dnssec.go ./edns.go ./format.go ./keygen.go ./kscan.go ./labels.go ./msg.go ./nsecx.go ./privaterr.go ./rawmsg.go ./scanner.go ./server.go ./sig0.go ./singleinflight.go ./tlsa.go ./tsig.go ./types.go ./udp.go ./udp_linux.go ./update.go ./xfr.go ./zgenerate.go ./zscan.go ./zscan_rr.go
+ar cru $WORK/github.com/miekg/libdns.a $WORK/github.com/miekg/dns/_obj/dns.o
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/utils/_obj/
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug/utils
+gccgo -I $WORK -I /home/sajal/go/pkg/gccgo_linux_amd64 -c -g -m64 -fgo-pkgpath=github.com/turbobytes/dnsdebug/utils -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug/utils -o $WORK/github.com/turbobytes/dnsdebug/utils/_obj/dnsdebug.o ./rpc.go ./tls.go
+ar cru $WORK/github.com/turbobytes/dnsdebug/libutils.a $WORK/github.com/turbobytes/dnsdebug/utils/_obj/dnsdebug.o
+mkdir -p $WORK/command-line-arguments/_obj/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug
+gccgo -I $WORK -I /home/sajal/go/pkg/gccgo_linux_amd64 -c -g -m64 -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug -o $WORK/command-line-arguments/_obj/main.o ./minion.go
+ar cru $WORK/libcommand-line-arguments.a $WORK/command-line-arguments/_obj/main.o
+cd .
+gccgo -o minion $WORK/command-line-arguments/_obj/main.o -Wl,-( -m64 $WORK/github.com/turbobytes/dnsdebug/libutils.a $WORK/github.com/miekg/libdns.a -lpthread -Wl,-E -Wl,-)
+sajal@sajal-lappy:~/go/src/github.com/turbobytes/dnsdebug$
+&lt;/pre&gt;
+
+&lt;p&gt;Using the hints from there&amp;hellip; This is what I translated it to after a lot of trial and error.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+WORK=`mktemp -d`
+mkdir -p $WORK/obj
+mkdir -p $WORK/github.com/miekg/
+cd /home/sajal/go/src/github.com/miekg/dns
+gccgo -I $WORK -c -g -fgo-pkgpath=github.com/miekg/dns -fgo-relative-import-path=_/home/sajal/go/src/github.com/miekg/dns -o $WORK/obj/dns.o ./client.go ./clientconfig.go ./defaults.go ./dns.go ./dnssec.go ./edns.go ./format.go ./keygen.go ./kscan.go ./labels.go ./msg.go ./nsecx.go ./privaterr.go ./rawmsg.go ./scanner.go ./server.go ./singleinflight.go ./tlsa.go ./tsig.go ./types.go ./udp.go ./udp_linux.go ./update.go ./xfr.go ./zgenerate.go ./zscan.go ./zscan_rr.go
+mipsel-openwrt-linux-gnu-objcopy -j .go_export $WORK/obj/dns.o $WORK/github.com/miekg/dns.gox
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug/utils
+gccgo -I $WORK  -c -g -fgo-pkgpath=github.com/turbobytes/dnsdebug/utils -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug/utils -o $WORK/obj/dnsdebug.o ./rpc.go ./tls.go
+mipsel-openwrt-linux-gnu-objcopy -j .go_export $WORK/obj/dnsdebug.o $WORK/github.com/turbobytes/dnsdebug/utils.gox
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug
+gccgo -I $WORK  -c -g  -o $WORK/obj/minion.o ./minion.go
+gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-libgo
+&lt;/pre&gt;
+
+&lt;p&gt;It took me a while to figure out that I needed to export the .gox files to be able to build code that depended on other packages.&lt;/p&gt;
+
+&lt;p&gt;Note: I had to adjust code a bit to support the ancient Go implementation&amp;hellip; Specifically the TLS implementation and cipher suits.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file minion
+minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;uses shared libs&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; GNU/Linux 2.6.16, not stripped
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh minion
+-rwxrwxr-x &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 9.3M Feb &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;26&lt;/span&gt; 00:25 minion
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;OpenWrt creates a 14MB tempfs, so this barely fits into /tmp of the WT1520, but works as expected. Striping it makes it unusable&amp;hellip; The binary is too big to persist on the device, but it could be programmed to download binary fresh from some server on reboot. Not entirely sure I&amp;rsquo;d use this approach for production.&lt;/p&gt;
+
+&lt;p&gt;I think this is the cheapest off the shelf device that a Go program can run on productively.&lt;/p&gt;
+
+&lt;p&gt;Dear Gophers: Please implement MIPS architecture within the gc toolchain so that I can build apps for these cheap devices as easily as for ARM.&lt;/p&gt;
+
+&lt;p&gt;Next up, I will try to get my hands on &lt;a href=&#34;http://wiki.openwrt.org/toh/cloudengines/pogo-v4&#34;&gt;pogoplug&lt;/a&gt; . Amazon &lt;a href=&#34;http://www.amazon.com/Pogoplug-Backup-and-Sharing-Device/dp/B005GM1Q1O/ref=sr_1_1?ie=UTF8&amp;amp;qid=1424886725&amp;amp;sr=8-1&amp;amp;keywords=pogoplug+mobile&#34;&gt;has it&lt;/a&gt; for $13.69, but after including shipping and taxes it comes out to $51.30. And it doesn&amp;rsquo;t seem to be something that will always be readily available at such low prices.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Using MultiPath TCP to enhance home networks</title>
@@ -184,11 +310,12 @@ COMMIT
 
 &lt;p&gt;Also, each interface is maintains its own &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting&#34;&gt;routing tables&lt;/a&gt; using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.&lt;/p&gt;
 
-&lt;p&gt;#!/bin/sh
-ip rule add from 10.8.0.20 table 2 || true
-ip route add 10.8.0.0/24 dev tun0 scope link table 2 || true
-ip route add default via 10.8.0.21 dev tun0 table 2 || true
-ip rule add fwmark 3 table 2 || true&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/sh&lt;/span&gt;
+ip rule add from 10.8.0.20 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add 10.8.0.0/24 dev tun0 scope link table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add default via 10.8.0.21 dev tun0 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip rule add fwmark &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The fwmark is added so if in future I want to pipe different traffic to go thru this interface I can set the corresponding iptables rule.&lt;/p&gt;
 
@@ -200,26 +327,27 @@ ip rule add fwmark 3 table 2 || true&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;wvdial&lt;/strong&gt; - To dial the ADSL connection which is itself behind a &lt;a href=&#34;http://en.wikipedia.org/wiki/Carrier-grade_NAT&#34;&gt;Carrier-grade NAT&lt;/a&gt;. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.&lt;/p&gt;
 
-&lt;p&gt;#!/bin/bash&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/bash&lt;/span&gt;
 
-&lt;p&gt;IP=&lt;code&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &amp;quot; &amp;quot; -f 1&lt;/code&gt;
-COUNT=&lt;code&gt;echo $IP | wc -l&lt;/code&gt;&lt;/p&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;IP&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f 1&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;COUNT&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; | wc -l&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
 
-&lt;p&gt;echo $IP $COUNT
-if [ $COUNT -eq 1 ]
-then
-  ping -c 10 $IP &amp;gt; /dev/null
-  if [ $? -eq 0 ]
-  then
-    echo &amp;ldquo;ppp0 is up&amp;rdquo;
-  else
-    echo &amp;ldquo;ppp0 is down&amp;rdquo;
-    kill -SIGHUP &lt;code&gt;pgrep pppd&lt;/code&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt; 
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+  ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &amp;gt; /dev/null
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$?&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is up&amp;quot;&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is down&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;kill&lt;/span&gt; -SIGHUP &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;pgrep pppd&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
     beep -l 25
-  fi
-else
-  echo &amp;ldquo;ppp0 not found?!?!?!?1&amp;rdquo;
-fi&lt;/p&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+  &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 not found?!?!?!?1&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. &lt;code&gt;SIGHUP&lt;/code&gt; signals pppd to handup and redial. I don&amp;rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.&lt;/p&gt;
 
@@ -983,43 +1111,6 @@ Click on the images to see full size full page... (Private tweets were censored)
 
 &lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/twitter-sec.zip&#34;&gt;Download all images&lt;/a&gt;
 Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do such things. My photoshop skills are not good enough to be able to fake these. Moreover I don&#39;t even own a copy of photoshop.
-</description>
-    </item>
-    
-    <item>
-      <title>Whos.amung.us goes down taking out numerous client websites</title>
-      <link>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</link>
-      <pubDate>Sun, 12 Sep 2010 17:04:54 &#43;0000</pubDate>
-      
-      <guid>http://www.sajalkayan.com/whosamungus-goes-down-taking-out-numerous-client-websites.html</guid>
-      <description>Realtime web analytics service &lt;a href=&#34;http://whos.amung.us/&#34;&gt;whos.amung.us&lt;/a&gt; has been completely down for at least the last 3 hours (as of sept 12 4:28pm UTC). Thousands of webmasters (myself included) use this widget to gather realtime traffic stats for websites. The current outage has caused big problems to the sites implementing this widget.
-
-Lets look at their widget implementation.
-
-&lt;code lang=&#34;html&#34;&gt;
-&amp;lt;script type=&#34;text/javascript&#34; src=&#34;http://widgets.amung.us/small.js&#34;&amp;gt;&amp;lt;/script&amp;gt;&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;WAU_small(&#39;unique-site-tag&#39;)&amp;lt;/script&amp;gt;
-&lt;/code&gt;
-This is bad!
-
-The base javascript uses document.write, hence cant be made to load asynchronously. Moreover, they write an &lt;em&gt;img&lt;/em&gt; tag into the document which too must be be loaded before the window.onload event can be triggered.
-
-This incident was somehow not critical FAIL for me cause I am aware about &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;frontend SPOF&lt;/a&gt; issues and placed this widget just before &amp;lt;/body&amp;gt;, so it didn&#39;t completely mess with my page, but still caused the following problems.
-&lt;ol&gt;
-	&lt;li&gt;Delayed the window.onload event, delaying executing of other scripts made to run after onload.&lt;/li&gt;
-	&lt;li&gt;Showed &#34;waiting for .... &#34; in the status bar of the browsers for a long time before timing out, indicating to the user that the page is still not ready.&lt;/li&gt;
-	&lt;li&gt;Makes Google think your site is really slow and doesn&#39;t deserve to rank!&lt;/li&gt;&lt;/ol&gt;
-
-Now, for webmasters not aware about these issues the problems is possibly critical. In case the widget code is &lt;strong&gt;before&lt;/strong&gt; the main content of their site, they are in for a hard time. Their site would stop loading at the point the widget is located in the html, giving the users an impression that the website is &lt;em&gt;broken&lt;/em&gt;.
-
-I understand that today is a Sunday, and not all the engineers/OPs can be on standby 100% of the time to fix these issues. Downtime is inevitable, but when you FAIL, don&#39;t take your customers/users down with you. Their javascript serving server was still more stable than the server. &lt;a href=&#34;http://www.webpagetest.org/result/100912_7b6ecd8e647bd261a200da177953de1a/1/details/&#34;&gt;Here is a Webpagetest.org result for my site&lt;/a&gt; during the outage. Its the dynamic counter image which SPOF&#39;d.
-
-If they must use document.write, write a div, give it a name, and attach the image into it using dom manipulation &lt;strong&gt;after the window.onload&lt;/strong&gt;.
-
-Moreover, when the servers come under high load, there should be a mechanism to FAIL early with an appropriate status code.
-
-Respect your users, don&#39;t take them for granted!
-
-&lt;em&gt;Disclaimer: My current secret project is somewhat related to real-time analytics.&lt;/em&gt;
 </description>
     </item>
     

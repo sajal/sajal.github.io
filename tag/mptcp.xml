@@ -184,11 +184,12 @@ COMMIT
 
 &lt;p&gt;Also, each interface is maintains its own &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting&#34;&gt;routing tables&lt;/a&gt; using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.&lt;/p&gt;
 
-&lt;p&gt;#!/bin/sh
-ip rule add from 10.8.0.20 table 2 || true
-ip route add 10.8.0.0/24 dev tun0 scope link table 2 || true
-ip route add default via 10.8.0.21 dev tun0 table 2 || true
-ip rule add fwmark 3 table 2 || true&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/sh&lt;/span&gt;
+ip rule add from 10.8.0.20 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add 10.8.0.0/24 dev tun0 scope link table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add default via 10.8.0.21 dev tun0 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip rule add fwmark &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The fwmark is added so if in future I want to pipe different traffic to go thru this interface I can set the corresponding iptables rule.&lt;/p&gt;
 
@@ -200,26 +201,27 @@ ip rule add fwmark 3 table 2 || true&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;wvdial&lt;/strong&gt; - To dial the ADSL connection which is itself behind a &lt;a href=&#34;http://en.wikipedia.org/wiki/Carrier-grade_NAT&#34;&gt;Carrier-grade NAT&lt;/a&gt;. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.&lt;/p&gt;
 
-&lt;p&gt;#!/bin/bash&lt;/p&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/bash&lt;/span&gt;
 
-&lt;p&gt;IP=&lt;code&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &amp;quot; &amp;quot; -f 1&lt;/code&gt;
-COUNT=&lt;code&gt;echo $IP | wc -l&lt;/code&gt;&lt;/p&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;IP&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f 1&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;COUNT&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; | wc -l&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
 
-&lt;p&gt;echo $IP $COUNT
-if [ $COUNT -eq 1 ]
-then
-  ping -c 10 $IP &amp;gt; /dev/null
-  if [ $? -eq 0 ]
-  then
-    echo &amp;ldquo;ppp0 is up&amp;rdquo;
-  else
-    echo &amp;ldquo;ppp0 is down&amp;rdquo;
-    kill -SIGHUP &lt;code&gt;pgrep pppd&lt;/code&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt; 
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+  ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &amp;gt; /dev/null
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$?&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is up&amp;quot;&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is down&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;kill&lt;/span&gt; -SIGHUP &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;pgrep pppd&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
     beep -l 25
-  fi
-else
-  echo &amp;ldquo;ppp0 not found?!?!?!?1&amp;rdquo;
-fi&lt;/p&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+  &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 not found?!?!?!?1&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. &lt;code&gt;SIGHUP&lt;/code&gt; signals pppd to handup and redial. I don&amp;rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.&lt;/p&gt;
 

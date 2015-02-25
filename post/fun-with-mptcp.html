@@ -256,11 +256,12 @@ COMMIT
 
 <p>Also, each interface is maintains its own <a href="http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting">routing tables</a> using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.</p>
 
-<p>#!/bin/sh
-ip rule add from 10.8.0.20 table 2 || true
-ip route add 10.8.0.0/24 dev tun0 scope link table 2 || true
-ip route add default via 10.8.0.21 dev tun0 table 2 || true
-ip rule add fwmark 3 table 2 || true</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/sh</span>
+ip rule add from 10.8.0.20 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip route add 10.8.0.0/24 dev tun0 scope link table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip route add default via 10.8.0.21 dev tun0 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+</pre></div>
 
 <p>The fwmark is added so if in future I want to pipe different traffic to go thru this interface I can set the corresponding iptables rule.</p>
 
@@ -272,26 +273,27 @@ ip rule add fwmark 3 table 2 || true</p>
 
 <p><strong>wvdial</strong> - To dial the ADSL connection which is itself behind a <a href="http://en.wikipedia.org/wiki/Carrier-grade_NAT">Carrier-grade NAT</a>. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.</p>
 
-<p>#!/bin/bash</p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/bash</span>
 
-<p>IP=<code>/sbin/ip route | grep -v default | grep ppp0 | cut -d &quot; &quot; -f 1</code>
-COUNT=<code>echo $IP | wc -l</code></p>
+<span style="color: #996633">IP</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span>/sbin/ip route | grep -v default | grep ppp0 | cut -d <span style="background-color: #fff0f0">&quot; &quot;</span> -f 1<span style="background-color: #fff0f0">`</span>
+<span style="color: #996633">COUNT</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span><span style="color: #007020">echo</span> <span style="color: #996633">$IP</span> | wc -l<span style="background-color: #fff0f0">`</span>
 
-<p>echo $IP $COUNT
-if [ $COUNT -eq 1 ]
-then
-  ping -c 10 $IP &gt; /dev/null
-  if [ $? -eq 0 ]
-  then
-    echo &ldquo;ppp0 is up&rdquo;
-  else
-    echo &ldquo;ppp0 is down&rdquo;
-    kill -SIGHUP <code>pgrep pppd</code>
+<span style="color: #007020">echo</span> <span style="color: #996633">$IP</span> <span style="color: #996633">$COUNT</span>
+<span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #996633">$COUNT</span> -eq <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #333333">]</span> 
+<span style="color: #008800; font-weight: bold">then</span>
+  ping -c <span style="color: #6600EE; font-weight: bold">10</span> <span style="color: #996633">$IP</span> &gt; /dev/null
+  <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #996633">$?</span> -eq <span style="color: #6600EE; font-weight: bold">0</span> <span style="color: #333333">]</span>
+  <span style="color: #008800; font-weight: bold">then</span>
+    <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 is up&quot;</span>
+  <span style="color: #008800; font-weight: bold">else</span>
+    <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 is down&quot;</span>
+    <span style="color: #007020">kill</span> -SIGHUP <span style="background-color: #fff0f0">`</span>pgrep pppd<span style="background-color: #fff0f0">`</span>
     beep -l 25
-  fi
-else
-  echo &ldquo;ppp0 not found?!?!?!?1&rdquo;
-fi</p>
+  <span style="color: #008800; font-weight: bold">fi</span>
+<span style="color: #008800; font-weight: bold">else</span>
+  <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 not found?!?!?!?1&quot;</span>
+<span style="color: #008800; font-weight: bold">fi</span>
+</pre></div>
 
 <p>The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. <code>SIGHUP</code> signals pppd to handup and redial. I don&rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.</p>
 
