@@ -7,7 +7,130 @@
     <language>en-us</language>
     
     
-    <updated>Wed, 25 Feb 2015 18:14:00 &#43;0000</updated>
+    <updated>Sun, 15 Mar 2015 20:43:00 &#43;0000</updated>
+    
+    <item>
+      <title>http/2 is stricter than http/1.1</title>
+      <link>http://www.sajalkayan.com/post/http2-wordcount.html</link>
+      <pubDate>Sun, 15 Mar 2015 20:43:00 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/http2-wordcount.html</guid>
+      <description>&lt;p&gt;I am starting to read the &lt;a href=&#34;https://tools.ietf.org/html/draft-ietf-httpbis-http2-17&#34;&gt;draft http/2 spec&lt;/a&gt; and realized its quite strict and leaves little to interpreter&amp;rsquo;s imagination.&lt;/p&gt;
+
+&lt;p&gt;Here are the wordcounts for various specs for following words : &lt;em&gt;MUST&lt;/em&gt;, &lt;em&gt;REQUIRED&lt;/em&gt;, &lt;em&gt;SHALL&lt;/em&gt;, &lt;em&gt;SHOULD&lt;/em&gt;, &lt;em&gt;RECOMMENDED&lt;/em&gt;, &lt;em&gt;MAY&lt;/em&gt;, &lt;em&gt;OPTIONAL&lt;/em&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;RFC&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Total&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;MUST&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;SHOULD&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;MAY&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;SHALL&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;REQUIRED&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;RECOMMENDED&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;OPTIONAL&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;rfc2616 (http/1.1)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;799&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;348 (43.55%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;256 (32.04%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;180 (22.53%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;rfc723[0-5] (superseeds rfc2616)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;668&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;344 (51.50%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;163 (24.40%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;126 (18.86%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;http2-17 (http/2)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;296&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;219 (73.99%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;31 (10.47%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;41 (13.65%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;To be fair&amp;hellip; http/2 spec does not divulge into header behavior, caching, etc. &lt;em&gt;SHALL&lt;/em&gt;, &lt;em&gt;REQUIRED&lt;/em&gt;, &lt;em&gt;RECOMMENDED&lt;/em&gt; and &lt;em&gt;OPTIONAL&lt;/em&gt; were only found in the &lt;a href=&#34;https://tools.ietf.org/html/draft-ietf-httpbis-http2-17#section-2.2&#34;&gt;section&lt;/a&gt; defining the keywords.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;The key words &amp;quot;MUST&amp;quot;, &amp;quot;MUST NOT&amp;quot;, &amp;quot;REQUIRED&amp;quot;, &amp;quot;SHALL&amp;quot;, &amp;quot;SHALL NOT&amp;quot;,
+&amp;quot;SHOULD&amp;quot;, &amp;quot;SHOULD NOT&amp;quot;, &amp;quot;RECOMMENDED&amp;quot;, &amp;quot;MAY&amp;quot;, and &amp;quot;OPTIONAL&amp;quot; in this
+document are to be interpreted as described in RFC 2119 [RFC2119].
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I did not include HTTP/1 for this comparison because the spec did not seem to use upper cased keywords.&lt;/p&gt;
+
+&lt;p&gt;Quick and dirty python script to do the word counts.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;re&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;httplib2&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Http
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;collections&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; defaultdict
+
+h &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Http()
+
+WORDS &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MUST&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;REQUIRED&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;SHALL&amp;quot;&lt;/span&gt;,
+   &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;SHOULD&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;RECOMMENDED&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MAY&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;OPTIONAL&amp;quot;&lt;/span&gt;]
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;get_counts&lt;/span&gt;(string, counts):
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; w &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; re&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;\W&amp;#39;&lt;/span&gt;, string):
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; w:
+            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; W &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; WORDS:
+                &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; W &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; w:
+                    counts[w] &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; counts
+
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;count_url&lt;/span&gt;(url, counts):
+    r,c &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; h&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;request(url)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; get_counts(c, counts)
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;summarize&lt;/span&gt;(counts):
+    total &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; k &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; counts&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys():
+        total &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; counts[k]
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;dict&lt;/span&gt;(counts)
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;total&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; total
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mustpct&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MUST&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100.0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; total
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;shouldpct&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;SHOULD&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100.0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; total
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;maypct&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MAY&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100.0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; total
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; counts 
+
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; __name__ &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;:
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;rfc2616&amp;quot;&lt;/span&gt; , summarize(count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;http://tools.ietf.org/html/rfc2616&amp;quot;&lt;/span&gt;, defaultdict(&lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;)))
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7230&amp;quot;&lt;/span&gt;, defaultdict(&lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;))
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7231&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7232&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7233&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7234&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7235&amp;quot;&lt;/span&gt;, counts)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;rfc723[0-5]&amp;quot;&lt;/span&gt;, summarize(counts)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;draft-ietf-httpbis-http2-17&amp;quot;&lt;/span&gt;, summarize(count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/id/draft-ietf-httpbis-http2-17.txt&amp;quot;&lt;/span&gt;, defaultdict(&lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;)))
+&lt;/pre&gt;&lt;/div&gt;
+</description>
+    </item>
     
     <item>
       <title>Running Go programs on $15 device - Beyond Hello World</title>
@@ -1060,57 +1183,6 @@ IMHO the second tweet is rubbing salt on SimpleCDN&#39;s wound.
 
 It is common for companies under legal threat to not make any statements which may or maynot be used against them during litigation.
 
-</description>
-    </item>
-    
-    <item>
-      <title>Twitter logged me as someone else! Privacy FAIL!</title>
-      <link>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</link>
-      <pubDate>Wed, 27 Oct 2010 17:16:48 &#43;0000</pubDate>
-      
-      <guid>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
-      <description>A while ago, clicking on the &#34;tweet&#34; button of a &lt;a href=&#34;http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/&#34;&gt;funny FAIL&lt;/a&gt; in &lt;a href=&#34;http://www.google.com/reader/&#34;&gt;Google Reader&lt;/a&gt; gave me the scare of my life. 
-
-First reaction: How did my twitter theme change?
-Second reaction: When did i start tweeting/reading in Thai?
-Third reaction: When did I change into a &lt;a href=&#34;http://a2.twimg.com/profile_images/994651514/32086_403053037679_556887679_4991310_709940_n_bigger.jpg&#34;&gt;pretty girl&lt;/a&gt;?
-
-I was logged in as someone else! Thats probably what brain transplant(when possible) would feel like...
-
-In other words, the transparent proxy at &lt;a href=&#34;http://www.thailandinternet.com/&#34; title=&#34;really crappy internet provider in Thailand&#34;&gt;True&lt;/a&gt; simply fucked up... can&#39;t do anything about it. There is probably someone else in Thailand having the time of his/her life browsing into my account and poking into my disgusting life...
-
-So, the solution for me would be to use a secure tunnel bypassing True&#39;s evil session hijacking transparent proxy all together.. Which is kinda illegal I&#39;ve been told... and also who will protect me from all the porn(and evil propaganda) on the interwebs ;)
-
-@kiqq_3112 : Ive tried to censor sensitive stuff from the screenshots, if you are offended by anything, give me a shout out ill remove it. Just wanted to show how serious is this issue.
-
-Click on the images to see full size full page... (Private tweets were censored)
-
-1) Woah I&#39;m not me I&#39;m her?!?!?!
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;306&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
-
-2) I can tweet as her!! (Note: I didn&#39;t actually click the tweet button)
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;142&#34; width=&#34;505&#34;/&gt;&lt;/a&gt;
-
-3) Spy on DMs!
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;249&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
-
-4) Replies Page..
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/replies.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/replies-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;251&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
-
-5) Change settings..
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/settings.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/settings-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;388&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
-
-6) Change password!!!!
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/Password.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/Password-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;419&#34; width=&#34;381&#34;/&gt;&lt;/a&gt;
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/twitter-sec.zip&#34;&gt;Download all images&lt;/a&gt;
-Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do such things. My photoshop skills are not good enough to be able to fake these. Moreover I don&#39;t even own a copy of photoshop.
 </description>
     </item>
     
