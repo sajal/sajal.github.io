@@ -80,7 +80,7 @@
 document are to be interpreted as described in RFC 2119 [RFC2119].
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;I did not include HTTP/1 for this comparison because the spec did not seem to use upper cased keywords.&lt;/p&gt;
+&lt;p&gt;I did not include HTTP/1 for this comparison because the spec does not seem to use upper cased keywords.&lt;/p&gt;
 
 &lt;p&gt;Quick and dirty python script to do the word counts.&lt;/p&gt;
 
