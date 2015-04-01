@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       Since the past few hours, it appears to me that True ISP of Thailand is trying to block one of the most popular socual networking site Facebook. The situation is not as serious as the title makes it sound.... but what the he_l it would be reality when someone at the ministry logs into it for the first time....
@@ -140,6 +141,19 @@ Now, didn't some lawmaker dude say that its illegal to connect via proxies or su
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/facebook-banned-thailand.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

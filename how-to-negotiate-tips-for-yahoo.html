@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       Awesome video reached homepage of <a href="http://www.lopsta.com/2008/02/13/50-diggs-zu-verschenken/" target="_blank">digg</a> from 2 separate links!
@@ -127,6 +128,19 @@
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/how-to-negotiate-tips-for-yahoo.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

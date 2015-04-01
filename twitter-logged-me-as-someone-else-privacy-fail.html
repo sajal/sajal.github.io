@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       A while ago, clicking on the "tweet" button of a <a href="http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/">funny FAIL</a> in <a href="http://www.google.com/reader/">Google Reader</a> gave me the scare of my life. 
@@ -169,6 +170,19 @@ Disclaimer: I haven't broken into anyone else's account, I don't do such things.
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/twitter-logged-me-as-someone-else-privacy-fail.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

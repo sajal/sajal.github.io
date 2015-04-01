@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       Yesterday was<strong> Google Dance day</strong> and the SEOs are perhaps still dancing today (Tuesday in US). Some say that <strong>page rank is useless</strong>, but i tend to believe it has some relevance. At least it is an <strong>indicative of the link authority of the site</strong>.
@@ -128,6 +129,19 @@ Pagerank updates may not have finished, the results mentioned here may change. I
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/seos-dance-with-google-tuesday-26th-feburary-2008.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

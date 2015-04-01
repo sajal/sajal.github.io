@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       Today I got myself a true wifi package for 500 Baht/month. Its quite nice as our new office doesn't have a fixed line yet... and true wifi's signal reaches here....
@@ -140,6 +141,19 @@ The good part is they don't have any blinking things on it yet.
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/truewifinet-big-fail-for-usability.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

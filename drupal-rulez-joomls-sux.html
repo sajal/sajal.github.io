@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       <img src="/wp-content/uploads/2008/02/drupliconsmall.png" alt="Drupal Logo" align="left" border="0" vspace="10" hspace="10" />I am perhaps the newest entrant to the growing number of Drupal fanboys in Thailand. From what Ive seen most geeks in Thailand use drupal, usually for community building projects and also for personal blogs.
@@ -159,6 +160,19 @@ Enough of ranting for today, back to kicking myself in the ass for not starting 
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/drupal-rulez-joomls-sux.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

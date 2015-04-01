@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about <a href="/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html" title="Search Engine Friendly URLs in Joomla and Drupal">Search Engine Friendly URLs</a>, this part will talk about meta tags.
@@ -160,6 +161,19 @@ Source : <a href="http://en.wikipedia.org/wiki/Meta_element#The_description_attr
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

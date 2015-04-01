@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       Yesterday, DFP launched <a href="http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&answer=181071">asynchronous ad loading</a>. For the past few months ive <a href="/optimizing-dfp-performance.html" title="Optimizing DFP performance">been</a> <a href="/complete-asynchronous-ad-loading-using-dfp-and-labjs.html" title="Complete Asynchronous ad loading using DFP and LABjs">trying</a> to load ads in a manner where it doesn't affect rest of the page load, this new development is like a dream come true.
@@ -131,6 +132,19 @@ Thank you Google! You just made my day.
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/dfp-now-officially-supports-asynchronous-rendering.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

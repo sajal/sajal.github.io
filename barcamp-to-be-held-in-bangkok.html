@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       A little excited about <a href="http://www.barcampbangkok.org/" target="_blank">BarCamp Bangkok</a>. Never participated in any in-the-flesh Geek meet. In touch with JFXBurns and <a href="http://sugree.com/" title="Sugree's Blog" target="_blank">Sugree</a> who are working hard behind the scene and proposed <a href="http://sugree.com/node/19" target="_blank">Indus as a possible venue</a> for the event. The date has been (kinda) finalized for 26th January (Also India's Republic Day ).
@@ -132,6 +133,19 @@ So same day about one month from now, Ill have many things to do. Attend flag ho
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/barcamp-to-be-held-in-bangkok.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

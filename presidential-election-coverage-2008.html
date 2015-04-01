@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       <OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" WIDTH="384" HEIGHT="304"> <PARAM NAME=movie VALUE="http://www.tsgvid.com/video/main.swf"> <PARAM NAME=flashvars VALUE="firstname=Sajal&lastname=Kayan&urlfin=http%3A%2F%2Fwww.tsgnet.com%2Fpres.php?id=357563%26altf=Tbkbm%26altl=Lbzbo%26lap=2"> <PARAM NAME="BGCOLOR" VALUE="#999999" /> <PARAM NAME="allowScriptAccess" VALUE="always" /> <EMBED src="http://www.tsgvid.com/video/main.swf" quality=high WIDTH="384" HEIGHT="304" ALIGN="" TYPE="application/x-shockwave-flash" FLASHVARS="firstname=Sajal&lastname=Kayan&urlfin=http%3A%2F%2Fwww.tsgnet.com%2Fpres.php?id=357563%26altf=Tbkbm%26altl=Lbzbo%26lap=2" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer" BGCOLOR="#999999" ALLOWSCRIPTACCESS="ALWAYS"> </EMBED> </OBJECT>
@@ -120,6 +121,19 @@
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/presidential-election-coverage-2008.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       I run a news.google.com published website. Recently we ran a story titled "<a href="http://www.thaindian.com/newsportal/thailand/5000-undergarment-workers-storm-government-house_10080116.html"><strong>5000 undergarment workers storm Government House</strong></a>". The source of this story is National News Bureau, Public Relations Department of Thailand (Who has now pulled off the story).
@@ -142,6 +143,19 @@ Edit2: Very <a href="http://www.bangkokbugle.com/2008/08/thai-website-threatened
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/leading-thai-undergarment-company-threatnes-the-press.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>

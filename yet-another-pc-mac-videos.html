@@ -85,6 +85,7 @@
       >
       Vote on HN
     </a>
+    <span id="redditbutton"></span>
     
   </span>
       <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/Pa1RCg-Ccp0&rel=1"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/Pa1RCg-Ccp0&rel=1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object><br>
@@ -131,6 +132,19 @@ Seems some people just wont stop making us laugh and bring out the truth. A coup
 window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
 </script>
 <script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/yet-another-pc-mac-videos.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
       
 </div>
 </div>
