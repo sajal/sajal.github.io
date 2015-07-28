@@ -7,7 +7,165 @@
     <language>en-us</language>
     
     
-    <updated>Sun, 15 Mar 2015 20:43:00 &#43;0000</updated>
+    <updated>Tue, 28 Jul 2015 15:50:09 &#43;0000</updated>
+    
+    <item>
+      <title>Writing Android apps with Go bindings</title>
+      <link>http://www.sajalkayan.com/post/android-apps-golang.html</link>
+      <pubDate>Tue, 28 Jul 2015 15:50:09 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/android-apps-golang.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;tl;dr version&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;One of the new features of upcoming Go 1.5 release is the awesome tooling around building Android (and iOS) apps using Go code.&lt;/p&gt;
+
+&lt;p&gt;Recently after playing with &lt;a href=&#34;https://play.google.com/store/apps/details?id=org.golang.ivy&#34;&gt;Ivy&lt;/a&gt; - an app made by Go mobile team - I wanted to give it a go (pun intended). Ivy is supposedly written in pure Go, unfortunately the source of it&amp;rsquo;s mobile implementation is not open yet.&lt;/p&gt;
+
+&lt;p&gt;Since I don&amp;rsquo;t know Java, my original goal was to try and make the whole app in Go, but thats not really possible. So I ended up using Java for UI and &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.turbobytes.dig&#34;&gt;here is the result&lt;/a&gt;. No iOS version yet because i don&amp;rsquo;t own a mac.&lt;/p&gt;
+
+&lt;p&gt;First lets get our tooling in order&amp;hellip; (Instructions for Ubuntu - adapt for your distro/OS)&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&#34;https://golang.org/dl/&#34;&gt;downloaded&lt;/a&gt; and extracted &lt;code&gt;go1.5beta2&lt;/code&gt; to /home/sajal/gobeta because I didnt want to mess up my existing 1.4.2 environment.&lt;/p&gt;
+
+&lt;p&gt;Now install gomobile&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+go get golang.org/x/mobile/cmd/gomobile
+gomobile init  &lt;span style=&#34;color: #888888&#34;&gt;#This expects go 1.5 to be in PATH which we solved in the first step.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Then I played with some example apps.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/mobile/example/basic/
+gomobile build .
+adb install basic.apk
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Works on mobile&amp;hellip; the only problem is that &lt;a href=&#34;https://github.com/golang/mobile/blob/master/example/basic/main.go&#34;&gt;this&lt;/a&gt; is OpenGL stuff which I am totally clueless about.. So until the source of Ivy is released, I&amp;rsquo;d have to make the UI in Java&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;First project DNS debugger. Much of the &lt;a href=&#34;https://github.com/turbobytes/pulse&#34;&gt;Go code&lt;/a&gt; was written for &lt;a href=&#34;https://pulse.turbobytes.com/&#34;&gt;TurboBytes Pulse&lt;/a&gt; already&amp;hellip; Lets reuse this&amp;hellip;.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind &lt;/span&gt;github.com/turbobytes/pulse/utils
+panic: unsupported seqType: interface&lt;span style=&#34;color: #333333&#34;&gt;{}&lt;/span&gt; / *types.Interface
+
+goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;running&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
+golang.org/x/mobile/bind.seqType&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd498, 0xc8261c8e60, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/bind/seq.go:72 +0xaf8
+golang.org/x/mobile/bind.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*goGen&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.genStruct&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab31730, 0xc8261ba7d0, 0xc8261c8dc0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:185 +0xfd4
+golang.org/x/mobile/bind.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*goGen&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.gen&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab31730, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:424 +0x98b
+golang.org/x/mobile/bind.GenGo&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd220, 0xc82ab66338, 0xc82015f780, 0xc8201ea780, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/bind/bind.go:47 +0x195
+main.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*binder&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.GenGo.func1&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd220, 0xc82ab66338, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:158 +0x4d
+main.writeFile&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab88740, 0x35, 0xc82ab31910, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:211 +0x35b
+main.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*binder&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.GenGo&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab6d8c0, 0xc8201526a0, 0x1c, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:160 +0x414
+main.goAndroidBind&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc820176000, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind_androidapp.go:31 +0x12d
+main.runBind&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc8cba0, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:89 +0x26c
+main.main&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/main.go:63 +0x495
+
+goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;17&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;syscall, locked to thread&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
+runtime.goexit&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
+    /home/sajal/gobeta/src/runtime/asm_amd64.s:1696 +0x1
+sajal@sajal-lappy:/tmp&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Woops&amp;hellip; any package exporting interface{} (and uint16 which the dns library needs) types cant be used by gomobile bind &amp;hellip;.FAIL&lt;/p&gt;
+
+&lt;p&gt;Solution: I wrote package &lt;a href=&#34;https://github.com/turbobytes/pulse/blob/master/digdroid/digdroid.go&#34;&gt;github.com/turbobytes/pulse/digdroid&lt;/a&gt; with a proxy function that returns a struct with only strings. No interfaces.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; digdroid
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;type&lt;/span&gt; DNSResult &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;struct&lt;/span&gt; {
+    Err    &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+    Output &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+    Rtt    &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+}
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; RunDNS(host, target, qtypestr &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;, norec &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;bool&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;DNSResult
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind  &lt;/span&gt;github.com/turbobytes/pulse/digdroid
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh
+total 2.8M
+-rw-rw-r-- &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 2.8M Jul &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt; 22:04 digdroid.aar
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file digdroid.aar 
+digdroid.aar: Zip archive data, at least v2.0 to extract
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;unzip -l digdroid.aar
+Archive:  digdroid.aar
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;  1980-00-00 00:00   AndroidManifest.xml
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;  1980-00-00 00:00   proguard.txt
+     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9009&lt;/span&gt;  1980-00-00 00:00   classes.jar
+  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9395848&lt;/span&gt;  1980-00-00 00:00   jni/armeabi-v7a/libgojni.so
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   R.txt
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   res/
+---------                     -------
+  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9404981&lt;/span&gt;                     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;6&lt;/span&gt; files
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This results in creation of a file &lt;code&gt;digdroid.aar&lt;/code&gt; which can be used as dependency in Android Studio. &lt;code&gt;jni/armeabi-v7a/libgojni.so&lt;/code&gt; inside &lt;code&gt;digdroid.aar&lt;/code&gt; is the actual Go library.&lt;/p&gt;
+
+&lt;p&gt;Next we move to Java territory.&lt;/p&gt;
+
+&lt;p&gt;I installed &lt;a href=&#34;http://developer.android.com/tools/studio/index.html&#34;&gt;Android Studio&lt;/a&gt;, setup a new project, made basic UI and an Activity.&lt;/p&gt;
+
+&lt;p&gt;Include &lt;code&gt;digdroid.aar&lt;/code&gt; into the project. Instructions from the &lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;docs&lt;/a&gt;:-&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;For example, in Android Studio (1.2+), an AAR file can be imported using the module import wizard (File &amp;gt; New &amp;gt; New Module &amp;gt; Import .JAR or .AAR package), and setting it as a new dependency (File &amp;gt; Project Structure &amp;gt; Dependencies). This requires &amp;lsquo;javac&amp;rsquo; (version 1.7+) and Android SDK (API level 9 or newer) to build the library for Android. The environment variable ANDROID_HOME must be set to the path to Android SDK.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Once thats done, I could access the Go library from anywhere simply by importing &lt;code&gt;go.digdroid.Digdroid&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Example usage of above Go code from Java
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;DNSResult&lt;/span&gt; result &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;RunDNS&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;www.example.com.&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;8.8.8.8:53&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;A&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;);&lt;/span&gt;
+String output &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getOutput&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+String rtt &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getRtt&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+String err &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getErr&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;gomobile bind&lt;/code&gt; created the getters and setters for free&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;One downside is &lt;code&gt;gomobile bind&lt;/code&gt; only created binary for armv7. So the project no longer works on the emulator which is x86. But almost all android devices are arm, so its not really a big issue.&lt;/p&gt;
+
+&lt;p&gt;To update &lt;code&gt;digdroid.aar&lt;/code&gt; simply build a new one and replace the &lt;code&gt;digdroid.aar&lt;/code&gt; file within the Android Studio source tree.&lt;/p&gt;
+
+&lt;p&gt;One thing&amp;hellip; For some reason the built apk was including extra permissions that I didn&amp;rsquo;t really need. Solution declare those extra permissions in the manifest in a special manner so it gets removed when being built.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;uses-permission&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.WRITE_EXTERNAL_STORAGE&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:maxSdkVersion=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;18&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;uses-permission&lt;/span&gt; &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.READ_PHONE_STATE&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;uses-permission&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.READ_EXTERNAL_STORAGE&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:maxSdkVersion=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;18&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Since I added these with &lt;code&gt;tools:node=&amp;quot;remove&amp;quot;&lt;/code&gt; the builder will remove it from the apk. If I did not do that then the builder would add them into the final apk for some reason&amp;hellip; Nobody asked for these permissions and they are not relevant to the code.&lt;/p&gt;
+
+&lt;p&gt;PS: I understand there is a cost associated with jumping language boundaries. This is just a fun little project. I am desperately waiting for some easier way to write apps completely in Go without bindings. I am even willing to dabble with QT stuff (or similar) if someone can show me how to build it in Go for mobile. Besides, for networked functions, few microseconds cost for jumping languages is negligible compared to the cost of making the actual network requests which can be 10s of milliseconds or more.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Play store listing: &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.turbobytes.dig&#34;&gt;https://play.google.com/store/apps/details?id=com.turbobytes.dig&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Android Project Source : &lt;a href=&#34;https://github.com/sajal/digdroid&#34;&gt;https://github.com/sajal/digdroid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Go package : &lt;a href=&#34;http://godoc.org/github.com/turbobytes/pulse/digdroid&#34;&gt;http://godoc.org/github.com/turbobytes/pulse/digdroid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Awesomest DNS library : &lt;a href=&#34;https://github.com/miekg/dns&#34;&gt;https://github.com/miekg/dns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TurboBytes Pulse : &lt;a href=&#34;https://pulse.turbobytes.com/&#34;&gt;https://pulse.turbobytes.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>http/2 is stricter than http/1.1</title>
@@ -1120,69 +1278,6 @@ Chat session has been terminated by the site operator.&lt;/em&gt;&lt;/blockquote
 Don&#39;t get it? couple of days to provision a damn VPS? I am used to getting physical dedicated servers provisioned at Softlayer in &lt; 4  hours. Amazon EC2 instances in &lt; 1 minute...
 
 The only reason im using DreamHost is cause this is a clients project where fancy panels for domains, settings, etc would be easily user maintainable. 
-</description>
-    </item>
-    
-    <item>
-      <title>SimpleCDN goes down - a case for using multiple CDN providers</title>
-      <link>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
-      <pubDate>Sat, 11 Dec 2010 21:24:49 &#43;0000</pubDate>
-      
-      <guid>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
-      <description>CDN provider &lt;a href=&#34;http://www.simplecdn.com/&#34;&gt;SimpleCDN&lt;/a&gt; has been down since last few days, with their customers venting their anger via online channels such as &lt;a href=&#34;http://search.twitter.com/search?q=SimpleCDN&#34;&gt;twitter&lt;/a&gt;.
-
-To know more about what a CDN is, please read &lt;a href=&#34;/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;this post&lt;/a&gt;.
-
-The reason given by them :-
-
-&lt;blockquote&gt;&lt;em&gt;Dear SimpleCDN Customer,
-
-I am writing this letter to update you on a situation that has been developing for the past 72 hours between SimpleCDN and our technology and infrastructure providers, SoftLayer and Hosting Services, Inc.
-
-Two days ago these organizations decided to immediately terminate our contract and suspend service on much of our infrastructure in Dallas, Seattle and Washington, D.C. This infrastructure constitutes the majority of our delivery network for our value services, including on-demand and live streaming services. 
-
-[...]&lt;/em&gt;&lt;/blockquote&gt;
-
-Their full statement can be read at &lt;a href=&#34;http://admin.simplecdn.com/&#34;&gt;http://admin.simplecdn.com/&lt;/a&gt;. Quite likely this won&#39;t be the permanent url for their rant.
-
-My first thought was that they didn&#39;t pay their bills.. but this &lt;a href=&#34;http://twitter.com/#!/SimpleCDN/status/13688306478882816&#34;&gt;doesn&#39;t seem&lt;/a&gt; to be the case here. I&#39;d speculate that this is related to DMCA or even some connection to Wikileaks. We need Softlayer&#39;s side of the story to make an opinion. I&#39;m a Softlayer user for few years, I refuse to believe it that they did it for competitive advantage. There is more to it!
-
-MaxCDN has &lt;a href=&#34;http://blog.maxcdn.com/news/maxcdn-offers-easy-transition-for-stranded-simplecdn-customers/&#34; title=&#34;MaxCDN Offers Easy Transition for Stranded SimpleCDN Customers&#34;&gt;stepped in&lt;/a&gt; to help stranded SimpleCDN customers to get their sites up asap at lower costs.
-
-So... let me be &lt;a href=&#34;http://www.youtube.com/watch?v=cY_oKve-bH0&#34;&gt;Captain Hindsight&lt;/a&gt; here and say what SimpleCDN users should have done all along.
-
-&lt;strong&gt;Keep a hot spare CDN ready to be deployed at a moments notice.&lt;/strong&gt;
-
-There are many CDN services, like &lt;a href=&#34;http://www.softlayer.com/cloudlayer/cdn/&#34;&gt;Softlayer&lt;/a&gt;, &lt;a href=&#34;http://aws.amazon.com/cloudfront/&#34;&gt;CloudFront&lt;/a&gt;, etc which have pay as you go plans, no upfront or monthly costs. Sign up for them, set up your zones, and keep the required CNAMEs handy. If your prime CDN provider goes under, has high latency, or any other issue, switching to these alternate CDNs is simply a change in the DNS zone. This could be automated with &lt;a href=&#34;http://aws.amazon.com/route53/&#34;&gt;Amazon Route 53&lt;/a&gt;.
-
-Very easy to implement for origin pull, for uploaded content it doesn&#39;t hurt to store your content on multiple services for redundancy.
-
-Had the users kept a hot spare CDN provider ready, it would have taken them 5 mins (plus the DNS propagation time) to switch to another provider.
-
-In most cases, where only css, javascript, images are served by the CDN, frequent users such as admins would have these files in their browser cache and may not feel that anything is broken. For such situations, the answer is &lt;a href=&#34;http://blog.patrickmeenan.com/2010/08/passive-vs-active-performance.html&#34; title=&#34;Passive vs Active performance monitoring&#34;&gt;passive monitoring&lt;/a&gt;.
-
-Bottomline: Everything FAILs.... eventually...
-
-Notes:-
-&lt;ul&gt;
-    &lt;li&gt;This blog is hosted at softlayer&lt;/li&gt;
-    &lt;li&gt;This blog uses MaxCDN&lt;/li&gt;
-    &lt;li&gt;This blog uses Softlayer&#39;s CDN service&lt;/li&gt;
-    &lt;li&gt;Before today i hadn&#39;t heard about SimpleCDN&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;strong&gt;UPDATED: 11:20 (EST) Dec 15&lt;/strong&gt;
-
-The only 2 statements by SoftLayer on this issue comes in the form of tweets.
-
-&lt;em&gt;FYI, our privacy policy prevents us from discussing customer issues in public. We definitely can&#39;t discuss customers of customers.&lt;/em&gt; - &lt;a href=&#34;http://twitter.com/#!/SoftLayer/status/14822398792564736&#34;&gt;twitter&lt;/a&gt;
-
-&lt;em&gt;@simplecdn happy to have you as a direct customer. Send over your requirements so we can price it out for you. ^SK&lt;/em&gt; - &lt;a href=&#34;http://twitter.com/#!/SoftLayer/status/15059240414609408&#34;&gt;twitter&lt;/a&gt;
-
-IMHO the second tweet is rubbing salt on SimpleCDN&#39;s wound.
-
-It is common for companies under legal threat to not make any statements which may or maynot be used against them during litigation.
-
 </description>
     </item>
     

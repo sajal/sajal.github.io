@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Writing Android apps with Go bindings &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+<script>
+(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3020223-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+        Likes to make all the things faster.
+      </p>
+      <p>CTO at <a href="http://www.turbobytes.com/">TurboBytes</a></p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2015. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Writing Android apps with Go bindings</h1>
+  <span class="post-date">
+    Tue, Jul 28, 2015
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Writing Android apps with Go bindings" 
+      data-url="http://www.sajalkayan.com/post/android-apps-golang.html"
+      >
+      Tweet
+    </a>
+    <a 
+      href="http://news.ycombinator.com/submit"
+      class="hn-share-button"
+      data-title="Writing Android apps with Go bindings"
+      data-url="http://www.sajalkayan.com/post/android-apps-golang.html"
+      >
+      Vote on HN
+    </a>
+    <span id="redditbutton"></span>
+    
+  </span>
+      <p><a href="https://godoc.org/golang.org/x/mobile/cmd/gomobile">tl;dr version</a></p>
+
+<p>One of the new features of upcoming Go 1.5 release is the awesome tooling around building Android (and iOS) apps using Go code.</p>
+
+<p>Recently after playing with <a href="https://play.google.com/store/apps/details?id=org.golang.ivy">Ivy</a> - an app made by Go mobile team - I wanted to give it a go (pun intended). Ivy is supposedly written in pure Go, unfortunately the source of it&rsquo;s mobile implementation is not open yet.</p>
+
+<p>Since I don&rsquo;t know Java, my original goal was to try and make the whole app in Go, but thats not really possible. So I ended up using Java for UI and <a href="https://play.google.com/store/apps/details?id=com.turbobytes.dig">here is the result</a>. No iOS version yet because i don&rsquo;t own a mac.</p>
+
+<p>First lets get our tooling in order&hellip; (Instructions for Ubuntu - adapt for your distro/OS)</p>
+
+<p>I <a href="https://golang.org/dl/">downloaded</a> and extracted <code>go1.5beta2</code> to /home/sajal/gobeta because I didnt want to mess up my existing 1.4.2 environment.</p>
+
+<p>Now install gomobile</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
+go get golang.org/x/mobile/cmd/gomobile
+gomobile init  <span style="color: #888888">#This expects go 1.5 to be in PATH which we solved in the first step.</span>
+</pre></div>
+
+<p>Then I played with some example apps.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
+<span style="color: #007020">cd</span> <span style="color: #996633">$GOPATH</span>/src/golang.org/x/mobile/example/basic/
+gomobile build .
+adb install basic.apk
+</pre></div>
+
+<p>Works on mobile&hellip; the only problem is that <a href="https://github.com/golang/mobile/blob/master/example/basic/main.go">this</a> is OpenGL stuff which I am totally clueless about.. So until the source of Ivy is released, I&rsquo;d have to make the UI in Java&hellip;</p>
+
+<p>First project DNS debugger. Much of the <a href="https://github.com/turbobytes/pulse">Go code</a> was written for <a href="https://pulse.turbobytes.com/">TurboBytes Pulse</a> already&hellip; Lets reuse this&hellip;.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
+<span style="color: #996633">$ ANDROID_HOME</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;/home/sajal/Android/Sdk/&quot;</span> gomobile <span style="color: #007020">bind </span>github.com/turbobytes/pulse/utils
+panic: unsupported seqType: interface<span style="color: #333333">{}</span> / *types.Interface
+
+goroutine <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #333333">[</span>running<span style="color: #333333">]</span>:
+golang.org/x/mobile/bind.seqType<span style="color: #333333">(</span>0x7ff3da1cd498, 0xc8261c8e60, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/bind/seq.go:72 +0xaf8
+golang.org/x/mobile/bind.<span style="color: #333333">(</span>*goGen<span style="color: #333333">)</span>.genStruct<span style="color: #333333">(</span>0xc82ab31730, 0xc8261ba7d0, 0xc8261c8dc0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:185 +0xfd4
+golang.org/x/mobile/bind.<span style="color: #333333">(</span>*goGen<span style="color: #333333">)</span>.gen<span style="color: #333333">(</span>0xc82ab31730, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:424 +0x98b
+golang.org/x/mobile/bind.GenGo<span style="color: #333333">(</span>0x7ff3da1cd220, 0xc82ab66338, 0xc82015f780, 0xc8201ea780, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/bind/bind.go:47 +0x195
+main.<span style="color: #333333">(</span>*binder<span style="color: #333333">)</span>.GenGo.func1<span style="color: #333333">(</span>0x7ff3da1cd220, 0xc82ab66338, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:158 +0x4d
+main.writeFile<span style="color: #333333">(</span>0xc82ab88740, 0x35, 0xc82ab31910, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:211 +0x35b
+main.<span style="color: #333333">(</span>*binder<span style="color: #333333">)</span>.GenGo<span style="color: #333333">(</span>0xc82ab6d8c0, 0xc8201526a0, 0x1c, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:160 +0x414
+main.goAndroidBind<span style="color: #333333">(</span>0xc820176000, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind_androidapp.go:31 +0x12d
+main.runBind<span style="color: #333333">(</span>0xc8cba0, 0x0, 0x0<span style="color: #333333">)</span>
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:89 +0x26c
+main.main<span style="color: #333333">()</span>
+    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/main.go:63 +0x495
+
+goroutine <span style="color: #6600EE; font-weight: bold">17</span> <span style="color: #333333">[</span>syscall, locked to thread<span style="color: #333333">]</span>:
+runtime.goexit<span style="color: #333333">()</span>
+    /home/sajal/gobeta/src/runtime/asm_amd64.s:1696 +0x1
+sajal@sajal-lappy:/tmp<span style="color: #996633">$ </span>
+</pre></div>
+
+<p>Woops&hellip; any package exporting interface{} (and uint16 which the dns library needs) types cant be used by gomobile bind &hellip;.FAIL</p>
+
+<p>Solution: I wrote package <a href="https://github.com/turbobytes/pulse/blob/master/digdroid/digdroid.go">github.com/turbobytes/pulse/digdroid</a> with a proxy function that returns a struct with only strings. No interfaces.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008800; font-weight: bold">package</span> digdroid
+<span style="color: #008800; font-weight: bold">type</span> DNSResult <span style="color: #008800; font-weight: bold">struct</span> {
+    Err    <span style="color: #333399; font-weight: bold">string</span>
+    Output <span style="color: #333399; font-weight: bold">string</span>
+    Rtt    <span style="color: #333399; font-weight: bold">string</span>
+}
+
+<span style="color: #008800; font-weight: bold">func</span> RunDNS(host, target, qtypestr <span style="color: #333399; font-weight: bold">string</span>, norec <span style="color: #333399; font-weight: bold">bool</span>) <span style="color: #333333">*</span>DNSResult
+</pre></div>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #996633">$ ANDROID_HOME</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;/home/sajal/Android/Sdk/&quot;</span> gomobile <span style="color: #007020">bind  </span>github.com/turbobytes/pulse/digdroid
+<span style="color: #996633">$ </span>ls -lh
+total 2.8M
+-rw-rw-r-- <span style="color: #6600EE; font-weight: bold">1</span> sajal sajal 2.8M Jul <span style="color: #6600EE; font-weight: bold">28</span> 22:04 digdroid.aar
+<span style="color: #996633">$ </span>file digdroid.aar 
+digdroid.aar: Zip archive data, at least v2.0 to extract
+<span style="color: #996633">$ </span>unzip -l digdroid.aar
+Archive:  digdroid.aar
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+       <span style="color: #6600EE; font-weight: bold">99</span>  1980-00-00 00:00   AndroidManifest.xml
+       <span style="color: #6600EE; font-weight: bold">25</span>  1980-00-00 00:00   proguard.txt
+     <span style="color: #6600EE; font-weight: bold">9009</span>  1980-00-00 00:00   classes.jar
+  <span style="color: #6600EE; font-weight: bold">9395848</span>  1980-00-00 00:00   jni/armeabi-v7a/libgojni.so
+        <span style="color: #6600EE; font-weight: bold">0</span>  1980-00-00 00:00   R.txt
+        <span style="color: #6600EE; font-weight: bold">0</span>  1980-00-00 00:00   res/
+---------                     -------
+  <span style="color: #6600EE; font-weight: bold">9404981</span>                     <span style="color: #6600EE; font-weight: bold">6</span> files
+<span style="color: #996633">$ </span>
+</pre></div>
+
+<p>This results in creation of a file <code>digdroid.aar</code> which can be used as dependency in Android Studio. <code>jni/armeabi-v7a/libgojni.so</code> inside <code>digdroid.aar</code> is the actual Go library.</p>
+
+<p>Next we move to Java territory.</p>
+
+<p>I installed <a href="http://developer.android.com/tools/studio/index.html">Android Studio</a>, setup a new project, made basic UI and an Activity.</p>
+
+<p>Include <code>digdroid.aar</code> into the project. Instructions from the <a href="https://godoc.org/golang.org/x/mobile/cmd/gomobile">docs</a>:-</p>
+
+<blockquote>
+<p>For example, in Android Studio (1.2+), an AAR file can be imported using the module import wizard (File &gt; New &gt; New Module &gt; Import .JAR or .AAR package), and setting it as a new dependency (File &gt; Project Structure &gt; Dependencies). This requires &lsquo;javac&rsquo; (version 1.7+) and Android SDK (API level 9 or newer) to build the library for Android. The environment variable ANDROID_HOME must be set to the path to Android SDK.</p>
+</blockquote>
+
+<p>Once thats done, I could access the Go library from anywhere simply by importing <code>go.digdroid.Digdroid</code></p>
+
+<p>Example usage of above Go code from Java
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">DNSResult</span> result <span style="color: #333333">=</span> Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">RunDNS</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;www.example.com.&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;8.8.8.8:53&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;A&quot;</span><span style="color: #333333">,</span> <span style="color: #008800; font-weight: bold">false</span><span style="color: #333333">);</span>
+String output <span style="color: #333333">=</span> result<span style="color: #333333">.</span><span style="color: #0000CC">getOutput</span><span style="color: #333333">();</span>
+String rtt <span style="color: #333333">=</span> result<span style="color: #333333">.</span><span style="color: #0000CC">getRtt</span><span style="color: #333333">();</span>
+String err <span style="color: #333333">=</span> result<span style="color: #333333">.</span><span style="color: #0000CC">getErr</span><span style="color: #333333">();</span>
+</pre></div></p>
+
+<p><code>gomobile bind</code> created the getters and setters for free&hellip;</p>
+
+<p>One downside is <code>gomobile bind</code> only created binary for armv7. So the project no longer works on the emulator which is x86. But almost all android devices are arm, so its not really a big issue.</p>
+
+<p>To update <code>digdroid.aar</code> simply build a new one and replace the <code>digdroid.aar</code> file within the Android Studio source tree.</p>
+
+<p>One thing&hellip; For some reason the built apk was including extra permissions that I didn&rsquo;t really need. Solution declare those extra permissions in the manifest in a special manner so it gets removed when being built.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007700">&lt;uses-permission</span>
+    <span style="color: #0000CC">android:name=</span><span style="background-color: #fff0f0">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span>
+    <span style="color: #0000CC">android:maxSdkVersion=</span><span style="background-color: #fff0f0">&quot;18&quot;</span>
+    <span style="color: #0000CC">tools:node=</span><span style="background-color: #fff0f0">&quot;remove&quot;</span><span style="color: #007700">/&gt;</span>
+<span style="color: #007700">&lt;uses-permission</span> <span style="color: #0000CC">android:name=</span><span style="background-color: #fff0f0">&quot;android.permission.READ_PHONE_STATE&quot;</span> <span style="color: #0000CC">tools:node=</span><span style="background-color: #fff0f0">&quot;remove&quot;</span><span style="color: #007700">/&gt;</span>
+<span style="color: #007700">&lt;uses-permission</span>
+    <span style="color: #0000CC">android:name=</span><span style="background-color: #fff0f0">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span>
+    <span style="color: #0000CC">android:maxSdkVersion=</span><span style="background-color: #fff0f0">&quot;18&quot;</span>
+    <span style="color: #0000CC">tools:node=</span><span style="background-color: #fff0f0">&quot;remove&quot;</span><span style="color: #007700">/&gt;</span>
+</pre></div>
+
+<p>Since I added these with <code>tools:node=&quot;remove&quot;</code> the builder will remove it from the apk. If I did not do that then the builder would add them into the final apk for some reason&hellip; Nobody asked for these permissions and they are not relevant to the code.</p>
+
+<p>PS: I understand there is a cost associated with jumping language boundaries. This is just a fun little project. I am desperately waiting for some easier way to write apps completely in Go without bindings. I am even willing to dabble with QT stuff (or similar) if someone can show me how to build it in Go for mobile. Besides, for networked functions, few microseconds cost for jumping languages is negligible compared to the cost of making the actual network requests which can be 10s of milliseconds or more.</p>
+
+<ul>
+<li>Play store listing: <a href="https://play.google.com/store/apps/details?id=com.turbobytes.dig">https://play.google.com/store/apps/details?id=com.turbobytes.dig</a></li>
+<li>Android Project Source : <a href="https://github.com/sajal/digdroid">https://github.com/sajal/digdroid</a></li>
+<li>Go package : <a href="http://godoc.org/github.com/turbobytes/pulse/digdroid">http://godoc.org/github.com/turbobytes/pulse/digdroid</a></li>
+<li>Awesomest DNS library : <a href="https://github.com/miekg/dns">https://github.com/miekg/dns</a></li>
+<li>TurboBytes Pulse : <a href="https://pulse.turbobytes.com/">https://pulse.turbobytes.com/</a></li>
+</ul>
+
+      
+      <div>
+  Tags:  
+    <a href="/tag/android">android</a> </li>
+   
+    <a href="/tag/go">go</a> </li>
+   
+    <a href="/tag/golang">golang</a> </li>
+   
+    <a href="/tag/gomobile">gomobile</a> </li>
+   <br />
+  Categories:  <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Writing Android apps with Go bindings';
+		var disqus_url = 'http://www.sajalkayan.com\/post\/android-apps-golang.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>
+<script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/post\/android-apps-golang.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
+      
+</div>
+</div>
+
+  </body>
+</html>
