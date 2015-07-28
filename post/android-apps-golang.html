@@ -200,6 +200,8 @@ Archive:  digdroid.aar
 
 <p>Once thats done, I could access the Go library from anywhere simply by importing <code>go.digdroid.Digdroid</code></p>
 
+<p>Screenshot of steps involved in adding <code>digdroid.aar</code> into Android Studio : <a href="http://imgur.com/a/dEewm">http://imgur.com/a/dEewm</a></p>
+
 <p>Example usage of above Go code from Java
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">DNSResult</span> result <span style="color: #333333">=</span> Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">RunDNS</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;www.example.com.&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;8.8.8.8:53&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;A&quot;</span><span style="color: #333333">,</span> <span style="color: #008800; font-weight: bold">false</span><span style="color: #333333">);</span>
 String output <span style="color: #333333">=</span> result<span style="color: #333333">.</span><span style="color: #0000CC">getOutput</span><span style="color: #333333">();</span>
