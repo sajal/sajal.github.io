@@ -7,7 +7,41 @@
     <language>en-us</language>
     
     
-    <updated>Tue, 28 Jul 2015 15:50:09 &#43;0000</updated>
+    <updated>Tue, 26 Jan 2016 16:00:00 &#43;0000</updated>
+    
+    <item>
+      <title>Building binary executables for Android in Go</title>
+      <link>http://www.sajalkayan.com/post/go-android-binary.html</link>
+      <pubDate>Tue, 26 Jan 2016 16:00:00 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/go-android-binary.html</guid>
+      <description>&lt;p&gt;I have a use-case to run an &lt;em&gt;external&lt;/em&gt; Go binary from within an Android app. By &lt;em&gt;external&lt;/em&gt; i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire on the issue(android n00b here), which turned out to be a very simple problem.&lt;/p&gt;
+
+&lt;p&gt;First thing I tried was building normal &lt;code&gt;linux/arm&lt;/code&gt; binaries that I use for normal arm devices.
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;sajal@sajal-lappy:~&lt;span style=&#34;color: #996633&#34;&gt;$ GOARCH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;arm&amp;quot;&lt;/span&gt; go build /path/to/filewithmain.go
+&lt;/pre&gt;&lt;/div&gt;&lt;/p&gt;
+
+&lt;p&gt;The generated binary works in general&amp;hellip; until you try to access the net&amp;hellip; all socket communications are blocked. After trying few random things, I realized its due to me not using the NDK to build it&amp;hellip; The binary needs to be built with &lt;code&gt;android/arm&lt;/code&gt; target. &lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;gomobile&lt;/a&gt; to the rescue.&lt;/p&gt;
+
+&lt;p&gt;gomobile allows us to either &lt;a href=&#34;http://www.sajalkayan.com/post/android-apps-golang.html&#34;&gt;generate an &lt;code&gt;.aar&lt;/code&gt; library or an &lt;code&gt;.apk&lt;/code&gt;&lt;/a&gt;, both are not applicable here. Solution - use the toolchain gomobile installed but compile code by hand.&lt;/p&gt;
+
+&lt;p&gt;My compile command :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~$ GOMOBILE=&amp;quot;/home/sajal/go/pkg/gomobile&amp;quot; GOOS=android GOARCH=arm CC=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-gcc CXX=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-g++ CGO_ENABLED=1 GOARM=7 go build -p=8 -pkgdir=$GOMOBILE/pkg_android_arm -tags=&amp;quot;&amp;quot; -ldflags=&amp;quot;-extldflags=-pie&amp;quot; -o minion -x ~/go/src/github.com/turbobytes/pulse/minion.go
+sajal@sajal-lappy:~$ file minion
+minion: ELF 32-bit LSB  shared object, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), not stripped
+sajal@sajal-lappy:~$ ls -lh minion
+-rwxr-xr-x 1 sajal sajal 9.3M Jan 26 16:52 minion
+sajal@sajal-lappy:~$
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It took me a while to figure out the &lt;code&gt;-ldflags=&amp;quot;-extldflags=-pie&amp;quot;&lt;/code&gt; portion, without it my phone complains about binary not being in &lt;a href=&#34;https://en.wikipedia.org/wiki/Position-independent_code&#34;&gt;PIE format&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now need to wait for &lt;code&gt;android/368&lt;/code&gt; or &lt;code&gt;android/amd64&lt;/code&gt; support in gomobile so I can play with it in the emulator instead of real device&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;PS: I know what I am doing is probably an anti-pattern, but this is not a normal end user app. It would run on devices dedicated to this and I will sign and validate downloads.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Writing Android apps with Go bindings</title>
@@ -1251,35 +1285,6 @@ I was considering giving a talk on web performance optimization on day 2 of the 
 One thing that I should have done would be to download all the &lt;a href=&#34;http://velocityconf.com/&#34;&gt;Velocity Conference&lt;/a&gt; videos and pass it around... unfortunately it occurred to me to late. Ill try to arrange it now...
 
 The country has great people... It can succeed in this digital age if only America and other western countries lift sanctions on Burma..
-</description>
-    </item>
-    
-    <item>
-      <title>DreamHost: Best customer service ever!</title>
-      <link>http://www.sajalkayan.com/dreamhost-best-customer-service-ever.html</link>
-      <pubDate>Wed, 12 Jan 2011 17:46:08 &#43;0000</pubDate>
-      
-      <guid>http://www.sajalkayan.com/dreamhost-best-customer-service-ever.html</guid>
-      <description>&lt;blockquote&gt;&lt;em&gt;Please wait for a site operator to respond.
-
-You are now chatting with &#39;Brandon&#39;
-
-Brandon: Hi, how may I help you?
-
-sajal: hi this is a clients account where im supposed to setup the VPS. its been almost a day since the VPS was requested.... when can i expect it to be provisioned? it still tells me &#34;You currently have 1 pending VPS web server order in our queue.&#34;
-
-Brandon: Unfortunately it can take up to a couple of days at times. If you&#39;d like to have this expedited, please submit a ticket via &#34;Support&#34; &gt; &#34;Contact Support&#34;
-
-sajal: wow.. couple of days.. seems like i made a mistake recommending dreamhost... let me try the support ticket... hope any issues with hosting in the future also dont take couple of days...
-
-Brandon: Thanks, take care.
-
-Chat session has been terminated by the site operator.&lt;/em&gt;&lt;/blockquote&gt;
-
-
-Don&#39;t get it? couple of days to provision a damn VPS? I am used to getting physical dedicated servers provisioned at Softlayer in &lt; 4  hours. Amazon EC2 instances in &lt; 1 minute...
-
-The only reason im using DreamHost is cause this is a clients project where fancy panels for domains, settings, etc would be easily user maintainable. 
 </description>
     </item>
     

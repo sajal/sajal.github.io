@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Building binary executables for Android in Go &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+<script>
+(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3020223-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+        Likes to make all the things faster.
+      </p>
+      <p>CTO at <a href="http://www.turbobytes.com/">TurboBytes</a></p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Building binary executables for Android in Go</h1>
+  <span class="post-date">
+    Tue, Jan 26, 2016
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Building binary executables for Android in Go" 
+      data-url="http://www.sajalkayan.com/post/go-android-binary.html"
+      >
+      Tweet
+    </a>
+    <a 
+      href="http://news.ycombinator.com/submit"
+      class="hn-share-button"
+      data-title="Building binary executables for Android in Go"
+      data-url="http://www.sajalkayan.com/post/go-android-binary.html"
+      >
+      Vote on HN
+    </a>
+    <span id="redditbutton"></span>
+    
+  </span>
+      <p>I have a use-case to run an <em>external</em> Go binary from within an Android app. By <em>external</em> i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire on the issue(android n00b here), which turned out to be a very simple problem.</p>
+
+<p>First thing I tried was building normal <code>linux/arm</code> binaries that I use for normal arm devices.
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sajal@sajal-lappy:~<span style="color: #996633">$ GOARCH</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;arm&quot;</span> go build /path/to/filewithmain.go
+</pre></div></p>
+
+<p>The generated binary works in general&hellip; until you try to access the net&hellip; all socket communications are blocked. After trying few random things, I realized its due to me not using the NDK to build it&hellip; The binary needs to be built with <code>android/arm</code> target. <a href="https://godoc.org/golang.org/x/mobile/cmd/gomobile">gomobile</a> to the rescue.</p>
+
+<p>gomobile allows us to either <a href="http://www.sajalkayan.com/post/android-apps-golang.html">generate an <code>.aar</code> library or an <code>.apk</code></a>, both are not applicable here. Solution - use the toolchain gomobile installed but compile code by hand.</p>
+
+<p>My compile command :-</p>
+
+<pre><code>sajal@sajal-lappy:~$ GOMOBILE=&quot;/home/sajal/go/pkg/gomobile&quot; GOOS=android GOARCH=arm CC=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-gcc CXX=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-g++ CGO_ENABLED=1 GOARM=7 go build -p=8 -pkgdir=$GOMOBILE/pkg_android_arm -tags=&quot;&quot; -ldflags=&quot;-extldflags=-pie&quot; -o minion -x ~/go/src/github.com/turbobytes/pulse/minion.go
+sajal@sajal-lappy:~$ file minion
+minion: ELF 32-bit LSB  shared object, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), not stripped
+sajal@sajal-lappy:~$ ls -lh minion
+-rwxr-xr-x 1 sajal sajal 9.3M Jan 26 16:52 minion
+sajal@sajal-lappy:~$
+</code></pre>
+
+<p>It took me a while to figure out the <code>-ldflags=&quot;-extldflags=-pie&quot;</code> portion, without it my phone complains about binary not being in <a href="https://en.wikipedia.org/wiki/Position-independent_code">PIE format</a>.</p>
+
+<p>Now need to wait for <code>android/368</code> or <code>android/amd64</code> support in gomobile so I can play with it in the emulator instead of real device&hellip;</p>
+
+<p>PS: I know what I am doing is probably an anti-pattern, but this is not a normal end user app. It would run on devices dedicated to this and I will sign and validate downloads.</p>
+
+      
+      <div>
+  Tags:  
+    <a href="/tag/android">android</a> </li>
+   
+    <a href="/tag/go">go</a> </li>
+   
+    <a href="/tag/golang">golang</a> </li>
+   
+    <a href="/tag/gomobile">gomobile</a> </li>
+   
+    <a href="/tag/binary">binary</a> </li>
+   <br />
+  Categories:  <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Building binary executables for Android in Go';
+		var disqus_url = 'http://www.sajalkayan.com\/post\/go-android-binary.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>
+<script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+reddit_url='http://www.sajalkayan.com\/post\/go-android-binary.html';
+
+window.onload = function() {
+    var oScript = document.createElement("script");
+    document.write = function(text) {
+        document.getElementById("redditbutton").innerHTML += text;
+    };
+    oScript.src = "//www.redditstatic.com/button/button1.js";
+    document.body.appendChild(oScript);
+};
+</script>
+
+      
+</div>
+</div>
+
+  </body>
+</html>
