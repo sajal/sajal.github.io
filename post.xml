@@ -15,7 +15,7 @@
       <pubDate>Tue, 26 Jan 2016 16:00:00 &#43;0000</pubDate>
       
       <guid>http://www.sajalkayan.com/post/go-android-binary.html</guid>
-      <description>&lt;p&gt;I have a use-case to run an &lt;em&gt;external&lt;/em&gt; Go binary from within an Android app. By &lt;em&gt;external&lt;/em&gt; i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire on the issue(android n00b here), which turned out to be a very simple problem.&lt;/p&gt;
+      <description>&lt;p&gt;I have a use-case to run an &lt;em&gt;external&lt;/em&gt; Go binary from within an Android app. By &lt;em&gt;external&lt;/em&gt; i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple &lt;strike&gt;problem&lt;/strike&gt; solution.&lt;/p&gt;
 
 &lt;p&gt;First thing I tried was building normal &lt;code&gt;linux/arm&lt;/code&gt; binaries that I use for normal arm devices.
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;sajal@sajal-lappy:~&lt;span style=&#34;color: #996633&#34;&gt;$ GOARCH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;arm&amp;quot;&lt;/span&gt; go build /path/to/filewithmain.go
@@ -40,6 +40,8 @@ sajal@sajal-lappy:~$
 &lt;p&gt;Now need to wait for &lt;code&gt;android/368&lt;/code&gt; or &lt;code&gt;android/amd64&lt;/code&gt; support in gomobile so I can play with it in the emulator instead of real device&amp;hellip;&lt;/p&gt;
 
 &lt;p&gt;PS: I know what I am doing is probably an anti-pattern, but this is not a normal end user app. It would run on devices dedicated to this and I will sign and validate downloads.&lt;/p&gt;
+
+&lt;p&gt;PSS: I figured this out by mucking around with gomobile using the &lt;code&gt;-x&lt;/code&gt; option.&lt;/p&gt;
 </description>
     </item>
     

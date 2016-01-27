@@ -88,7 +88,7 @@
     <span id="redditbutton"></span>
     
   </span>
-      <p>I have a use-case to run an <em>external</em> Go binary from within an Android app. By <em>external</em> i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire on the issue(android n00b here), which turned out to be a very simple problem.</p>
+      <p>I have a use-case to run an <em>external</em> Go binary from within an Android app. By <em>external</em> i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple <strike>problem</strike> solution.</p>
 
 <p>First thing I tried was building normal <code>linux/arm</code> binaries that I use for normal arm devices.
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sajal@sajal-lappy:~<span style="color: #996633">$ GOARCH</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;arm&quot;</span> go build /path/to/filewithmain.go
@@ -113,6 +113,8 @@ sajal@sajal-lappy:~$
 <p>Now need to wait for <code>android/368</code> or <code>android/amd64</code> support in gomobile so I can play with it in the emulator instead of real device&hellip;</p>
 
 <p>PS: I know what I am doing is probably an anti-pattern, but this is not a normal end user app. It would run on devices dedicated to this and I will sign and validate downloads.</p>
+
+<p>PSS: I figured this out by mucking around with gomobile using the <code>-x</code> option.</p>
 
       
       <div>
