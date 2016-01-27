@@ -85,7 +85,7 @@
       >
       Vote on HN
     </a>
-    <span id="redditbutton"></span>
+    
     
   </span>
       Today i learnt a neat trick. It it took me more time to make the script than it would have taken me to do the task manually.. the old fashioned way.. but it would save me(and hopefully you) a lot of time in the future. <a href="http://www.flickr.com/services/api/" title="Flickr API">Flickr does have a nice API</a> with many methods, almost everything which can be done via flickr website can be done using this API. You would need to have a <a href="http://www.flickr.com/services/api/keys/">Flickr API key</a> to use this script.
@@ -204,16 +204,9 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 </script>
 <script src="/hn.min.js" async defer></script>
 <script type="text/javascript">
-reddit_url='http://www.sajalkayan.com\/extract-info-from-flickr-using-flickrapi-in-perl.html';
 
-window.onload = function() {
-    var oScript = document.createElement("script");
-    document.write = function(text) {
-        document.getElementById("redditbutton").innerHTML += text;
-    };
-    oScript.src = "//www.redditstatic.com/button/button1.js";
-    document.body.appendChild(oScript);
-};
+
+
 </script>
 
       

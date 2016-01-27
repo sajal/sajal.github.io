@@ -85,7 +85,7 @@
       >
       Vote on HN
     </a>
-    <span id="redditbutton"></span>
+    
     
   </span>
       <p>I have a use-case to run an <em>external</em> Go binary from within an Android app. By <em>external</em> i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple <strike>problem</strike> solution.</p>
@@ -156,16 +156,9 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 </script>
 <script src="/hn.min.js" async defer></script>
 <script type="text/javascript">
-reddit_url='http://www.sajalkayan.com\/post\/go-android-binary.html';
 
-window.onload = function() {
-    var oScript = document.createElement("script");
-    document.write = function(text) {
-        document.getElementById("redditbutton").innerHTML += text;
-    };
-    oScript.src = "//www.redditstatic.com/button/button1.js";
-    document.body.appendChild(oScript);
-};
+
+
 </script>
 
       

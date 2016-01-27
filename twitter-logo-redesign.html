@@ -85,7 +85,7 @@
       >
       Vote on HN
     </a>
-    <span id="redditbutton"></span>
+    
     
   </span>
       <a href="/wp-content/uploads/2008/06/twitter.jpg"><img class="alignnone size-medium wp-image-90" title="New Twitter Logo" src="/wp-content/uploads/2008/06/twitter.jpg" border="0" alt="New Twitter Logo" width="210" height="49" /></a>
@@ -132,16 +132,9 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 </script>
 <script src="/hn.min.js" async defer></script>
 <script type="text/javascript">
-reddit_url='http://www.sajalkayan.com\/twitter-logo-redesign.html';
 
-window.onload = function() {
-    var oScript = document.createElement("script");
-    document.write = function(text) {
-        document.getElementById("redditbutton").innerHTML += text;
-    };
-    oScript.src = "//www.redditstatic.com/button/button1.js";
-    document.body.appendChild(oScript);
-};
+
+
 </script>
 
       

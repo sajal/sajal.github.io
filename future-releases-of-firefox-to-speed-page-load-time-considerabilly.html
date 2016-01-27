@@ -85,7 +85,7 @@
       >
       Vote on HN
     </a>
-    <span id="redditbutton"></span>
+    
     
   </span>
       Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
@@ -187,16 +187,9 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 </script>
 <script src="/hn.min.js" async defer></script>
 <script type="text/javascript">
-reddit_url='http://www.sajalkayan.com\/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html';
 
-window.onload = function() {
-    var oScript = document.createElement("script");
-    document.write = function(text) {
-        document.getElementById("redditbutton").innerHTML += text;
-    };
-    oScript.src = "//www.redditstatic.com/button/button1.js";
-    document.body.appendChild(oScript);
-};
+
+
 </script>
 
       

@@ -85,7 +85,7 @@
       >
       Vote on HN
     </a>
-    <span id="redditbutton"></span>
+    
     
   </span>
       Realtime web analytics service <a href="http://whos.amung.us/">whos.amung.us</a> has been completely down for at least the last 3 hours (as of sept 12 4:28pm UTC). Thousands of webmasters (myself included) use this widget to gather realtime traffic stats for websites. The current outage has caused big problems to the sites implementing this widget.
@@ -151,16 +151,9 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 </script>
 <script src="/hn.min.js" async defer></script>
 <script type="text/javascript">
-reddit_url='http://www.sajalkayan.com\/whosamungus-goes-down-taking-out-numerous-client-websites.html';
 
-window.onload = function() {
-    var oScript = document.createElement("script");
-    document.write = function(text) {
-        document.getElementById("redditbutton").innerHTML += text;
-    };
-    oScript.src = "//www.redditstatic.com/button/button1.js";
-    document.body.appendChild(oScript);
-};
+
+
 </script>
 
       

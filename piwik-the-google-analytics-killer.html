@@ -85,7 +85,7 @@
       >
       Vote on HN
     </a>
-    <span id="redditbutton"></span>
+    
     
   </span>
       Just today <a href="http://www.lopsta.com/2008/02/19/open-source-web-analytics/" target="_blank">Jan told me</a> about <a href="http://piwik.org" target="_blank">Piwik</a>. At first glance it looks quite neat and developer friendly. The idea seems to be to make an <strong>Open Source alternative to Google Analytics</strong> and the <a href="http://piwik.org/blog/2008/02/why-is-piwik-better-than-the-competition/" target="_blank">advantages</a> seems to be many. Piwik is the new version of <a href="http://www.phpmyvisites.us/">phpMyVisites</a> and is supported by <a href="http://www.openads.org/" target="_blank">OpenAds</a> (a very powerful Open Source Ad server)
@@ -147,16 +147,9 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 </script>
 <script src="/hn.min.js" async defer></script>
 <script type="text/javascript">
-reddit_url='http://www.sajalkayan.com\/piwik-the-google-analytics-killer.html';
 
-window.onload = function() {
-    var oScript = document.createElement("script");
-    document.write = function(text) {
-        document.getElementById("redditbutton").innerHTML += text;
-    };
-    oScript.src = "//www.redditstatic.com/button/button1.js";
-    document.body.appendChild(oScript);
-};
+
+
 </script>
 
       
