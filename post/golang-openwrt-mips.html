@@ -1,3 +1,11 @@
+<!--
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+
+
+- -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
@@ -195,7 +203,7 @@ gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-
 <div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #996633">$ </span>file minion
 minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked <span style="color: #333333">(</span>uses shared libs<span style="color: #333333">)</span>, <span style="color: #008800; font-weight: bold">for</span> GNU/Linux 2.6.16, not stripped
 <span style="color: #996633">$ </span>ls -lh minion
--rwxrwxr-x <span style="color: #6600EE; font-weight: bold">1</span> sajal sajal 9.3M Feb <span style="color: #6600EE; font-weight: bold">26</span> 00:25 minion
+- -rwxrwxr-x <span style="color: #6600EE; font-weight: bold">1</span> sajal sajal 9.3M Feb <span style="color: #6600EE; font-weight: bold">26</span> 00:25 minion
 </pre></div>
 
 <p>OpenWrt creates a 14MB tempfs, so this barely fits into /tmp of the WT1520, but works as expected. Striping it makes it unusable&hellip; The binary is too big to persist on the device, but it could be programmed to download binary fresh from some server on reboot. Not entirely sure I&rsquo;d use this approach for production.</p>
@@ -257,3 +265,25 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
+<!--
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBAgAGBQJWtK0GAAoJEDlkkKy/FYKPJ64P/iRZaXlc3uIAnqZGisBr4rWV
+733hF2+zO0zrrQBvU45uxegvI5dBwzXRoeUpEemtD1mpYwn1bUqdl69UKYXvoLfa
+dYMoM8Zm05agi7zLFja6s2s2nWB1T/dqCwDg8s+Mz5XH2TlZecTwMGC2dzxjJjCg
+N6SI/tyEwdL+UR135Guf9Sl4JLVclvu01MIu9q8nZH/T575c9QRVt2pCaETLKagy
++PEF3lgwcFxAz3KbYckuOfPv5GJVMgR8JRg9HpE3dygSAb27O6KiYUyhOL7VOHhp
+J8NJ7MpJczISwao9WYp0tuaemp6PuUpOSDuTgTGjjnXkq5PeuZv24SGmAgrnaW2h
+LUIKb7f6OkzQnEtpv+EVXiiFd6J37wf5lnnkJXXaNVdfrZkkPWUfYBirb2ILL5HH
+Gtortk8wO0U+q98jC+zEqED3iOEKA94P2WdbBDsR7ptSE2gChBAxI70imH+0wefy
+dL+atvkV1bPLDaLdtiwcYHxlCLS1UEV0JQfJVz8H+MIa6e035DWtwpoaOPrv6MUV
+38uVgo/cx1Zv9mHan5GOnOHWdKgLxrsXqrnHD1JsGQ4f9k1H5NZvBpXYX5dTx5C4
+ECdYFlh3ZTqN66T8uCFydDX3Z4FnqGj57n5ApsznqC/6GNkTxoto66fbLoGcR/cP
+lxXrnkqy9L/q36TGNRIZ
+=EI50
+-----END PGP SIGNATURE-----
+
+-->
