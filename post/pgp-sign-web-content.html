@@ -1,0 +1,349 @@
+<!--
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Sign web content using PGP &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+<script>
+(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3020223-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+        Likes to make all the things faster.
+      </p>
+      <p>CTO at <a href="http://www.turbobytes.com/">TurboBytes</a></p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Sign web content using PGP</h1>
+  <span class="post-date">
+    Sat, Feb 6, 2016
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Sign web content using PGP" 
+      data-url="http://www.sajalkayan.com/post/pgp-sign-web-content.html"
+      >
+      Tweet
+    </a>
+    <a 
+      href="http://news.ycombinator.com/submit"
+      class="hn-share-button"
+      data-title="Sign web content using PGP"
+      data-url="http://www.sajalkayan.com/post/pgp-sign-web-content.html"
+      >
+      Vote on HN
+    </a>
+    
+    
+  </span>
+      <p>A lot of web-content these days passes thru untrusted intermediaries, especially plain text traffic which is often <a href="http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html">intercepted by ISP proxies</a> for caching (and other purposes ;) ). A compromise at these places <a href="http://www.telecomasia.net/content/true-internets-proxy-compromised">can subject your users to malicious payload</a>, mostly in the form of javascript.</p>
+
+<p>The obvious solution to these issues is to use TLS i.e. <code>https://</code> sites, which is more accessible these thanks to <a href="https://letsencrypt.org/">Lets Encrypt</a>. But even this does not give complete end-to-end coverage because many sites use a CDN who might unknowingly or maliciously tamper with the contents.</p>
+
+<p>One way to make such tampering detectable is to sign textual web-content using PGP. As a PoC, I have signed all html pages of this blog with a pgp signature. Go ahead, view source of this page, I&rsquo;ll wait&hellip;</p>
+
+<p>Bash script (<code>signhtml.sh</code>) to perform the signing :-</p>
+
+<pre><code>#!/bin/sh
+
+tmpfile=$(mktemp)
+echo &quot;using $tmpfile for $1&quot;
+echo &quot;https://keybase.io/sajal --&gt;&quot; &gt; $tmpfile #Optional text in commented area
+cat $1 &gt;&gt; $tmpfile
+echo &quot;
+&lt;!--&quot; &gt;&gt; $tmpfile
+gpg --digest-algo SHA256 --default-key BF15828F  --clearsign $tmpfile #Because im signing with non-default key
+echo &quot;&lt;!--&quot; &gt; $1
+cat &quot;$tmpfile.asc&quot; &gt;&gt; $1
+echo &quot;--&gt;&quot; &gt;&gt; $1
+rm $tmpfile
+rm &quot;$tmpfile.asc&quot;
+
+</code></pre>
+
+<p>Usage : <code>./signhtml.sh /path/to/file.html</code> . Obviously remove or adjust the <code>--default-key BF15828F</code> portion. This overwrites the existing html file without taking a backup&hellip; YOLO.</p>
+
+<p>Verify the contents using:-</p>
+
+<pre><code>$ gpg --recv-keys BF15828F
+gpg: requesting key BF15828F from hkp server keys.gnupg.net
+gpg: key BF15828F: public key &quot;Sajal Kayan &lt;sajal83@gmail.com&gt;&quot; imported
+gpg: no ultimately trusted keys found
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+$ curl http://www.sajalkayan.com/ | gpg --verify
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 29916  100 29916    0     0  1577k      0 --:--:-- --:--:-- --:--:-- 1623k
+gpg: Signature made Fri 05 Feb 2016 02:44:27 PM UTC using RSA key ID BF15828F
+gpg: Good signature from &quot;Sajal Kayan &lt;sajal83@gmail.com&gt;&quot;
+gpg:                 aka &quot;&lt;sajal@turbobytes.com&gt;&quot;
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A668 BBFE 438C BEDA 7BB6  3925 3964 90AC BF15 828F
+$ 
+</code></pre>
+
+<p>Now if your ISP is messing with the html body, the signature will not match. There is one caveat, if the injected contents is before or after the signed portion.</p>
+
+<p>Lets take this html payload</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007700">&lt;html&gt;</span>
+<span style="color: #007700">&lt;head&gt;</span>
+    <span style="color: #007700">&lt;title&gt;</span>Hello World<span style="color: #007700">&lt;/title&gt;</span>
+<span style="color: #007700">&lt;/head&gt;</span>
+<span style="color: #007700">&lt;body&gt;</span>
+Hello World
+<span style="color: #007700">&lt;/body&gt;</span>
+<span style="color: #007700">&lt;/html&gt;</span>
+</pre></div>
+
+<p>After signing it becomes :-</p>
+
+<pre><code>&lt;!--
+- -----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal --&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+Hello World
+&lt;/body&gt;
+&lt;/html&gt;
+
+&lt;!--
+- -----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBCAAGBQJWtil3AAoJEDlkkKy/FYKPuawQAIAZ72rb/B+W1d1XGkXfxE0m
+eUr3lE39FCLGJbroQyWzJFl3384EpDo9nSToN8y0ln6h1nohgykAma9YFAHMrRb1
+0+f8FvUzAMnyaT1xSVmke6zgA2/X0sPIhMDHTUDCgvSFOtk21RgVySpTJ584013u
+foroZxzloZz6vFAFh/OQhtoyaA8Br3dk0YleO5N/ApPsZZjC9hSiyfHh/kJr+71y
+d6Y+EWyR+XQDpjQtyZtQIu34zJYUCTn+0iWPTLmB3pn1jgWg7dfxqJq5XNHRE2Sj
+79vRQmQhzps3IYaWU+Ogauf59mVcgGV3GytL/xt5o9PsVi6g+Yo4l2xF8oC2EKwM
+JYqdsvWtFAk7guxf8v9kP5aUcuA0TnW/H9VVH6oWqHgQKqWYkOcMMrZDGr3aLRiV
+8mDQPP/iZgTlhI0s5Yrn7jBubHbM19qdqADHp+7Jr72qzQzDa0Qiblk4nGyEiYIg
+xGGbRfHfKThVajhx6y3ggdEP6DTHTcCNLItS7OQY3pocXszCGYd1IuLRPFjKoaGh
+td18ycpL2Dhq/HyOjIDcvyzliyU8YcqHFBQaWIhBw03hNFlgjUOedI/glU9IT6hY
+nPdDtji6rkfL55KbZrCbYQL6Ai4LQxLOJTCrzr8tu8tEfzK1lry9ztDgmn4R9XDv
+pssWJDftlfXtU4ncmdF2
+=MhMl
+- -----END PGP SIGNATURE-----
+- --&gt;
+</code></pre>
+
+<p>Anything injected before the first <code>&lt;!--</code> and the last <code>--&gt;</code> will not be validated, but that portion easy to visually inspect, or write some code to check if something has been added or not.</p>
+
+<p>Example of malicious stuff included which passes gpg verification.</p>
+
+<pre><code>&lt;script&gt;
+alert(&quot;all your head is belong to us&quot;);
+&lt;/script&gt;
+&lt;!--
+- -----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal --&gt;
+&lt;html&gt;
+&lt;head&gt;
+	&lt;title&gt;Hello World&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+Hello World
+&lt;/body&gt;
+&lt;/html&gt;
+
+&lt;!--
+- -----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBCAAGBQJWtil3AAoJEDlkkKy/FYKPuawQAIAZ72rb/B+W1d1XGkXfxE0m
+eUr3lE39FCLGJbroQyWzJFl3384EpDo9nSToN8y0ln6h1nohgykAma9YFAHMrRb1
+0+f8FvUzAMnyaT1xSVmke6zgA2/X0sPIhMDHTUDCgvSFOtk21RgVySpTJ584013u
+foroZxzloZz6vFAFh/OQhtoyaA8Br3dk0YleO5N/ApPsZZjC9hSiyfHh/kJr+71y
+d6Y+EWyR+XQDpjQtyZtQIu34zJYUCTn+0iWPTLmB3pn1jgWg7dfxqJq5XNHRE2Sj
+79vRQmQhzps3IYaWU+Ogauf59mVcgGV3GytL/xt5o9PsVi6g+Yo4l2xF8oC2EKwM
+JYqdsvWtFAk7guxf8v9kP5aUcuA0TnW/H9VVH6oWqHgQKqWYkOcMMrZDGr3aLRiV
+8mDQPP/iZgTlhI0s5Yrn7jBubHbM19qdqADHp+7Jr72qzQzDa0Qiblk4nGyEiYIg
+xGGbRfHfKThVajhx6y3ggdEP6DTHTcCNLItS7OQY3pocXszCGYd1IuLRPFjKoaGh
+td18ycpL2Dhq/HyOjIDcvyzliyU8YcqHFBQaWIhBw03hNFlgjUOedI/glU9IT6hY
+nPdDtji6rkfL55KbZrCbYQL6Ai4LQxLOJTCrzr8tu8tEfzK1lry9ztDgmn4R9XDv
+pssWJDftlfXtU4ncmdF2
+=MhMl
+- -----END PGP SIGNATURE-----
+- --&gt;
+&lt;script&gt;
+alert(&quot;all your base is belong to us&quot;);
+&lt;/script&gt;
+</code></pre>
+
+<p>Here is a complete verification script that includes test for tampering portions not covered by PGP. &ndash; <code>verifyhtml.sh</code>. Warning <code>awk</code> black magic ahead &ndash; copy/pasted snippets from the interwebs.</p>
+
+<pre><code>#!/bin/sh
+
+tmpfile=$(mktemp)
+#Download the file
+curl -o $tmpfile $1
+# checking if -----END PGP SIGNATURE----- armor is present
+# Need to check for this cause gpg still validates without it.
+result=`awk 'BEGIN{ found=0} /-----END PGP SIGNATURE-----/{found=1}  {if (found) print }' $tmpfile | wc -c`
+if [ &quot;$result&quot; -eq &quot;0&quot; ]; then
+	echo &quot;ABORTING: -----END PGP SIGNATURE----- has been removed!!!&quot;
+	exit 1
+else
+	echo &quot;-----END PGP SIGNATURE----- check passed&quot;
+fi
+
+#Check if end has been tampered
+result=`awk 'BEGIN{ found=0} /-----END PGP SIGNATURE-----/{found=1}  {if (found) print }' $tmpfile | sed -e 's/-----END PGP SIGNATURE-----//g' | sed -e 's/--&gt;//g' | tr -d &quot;[:space:]&quot; | wc -c`
+if [ &quot;$result&quot; -eq &quot;0&quot; ]; then
+	echo &quot;End not tampered&quot;
+else
+	echo &quot;ABORTING: Tampered at the end!!!&quot;
+	exit 1
+fi
+#Check if beginning has been tampered with.
+result=`sed -n '1,/BEGIN PGP SIGNED MESSAGE/p' $tmpfile | sed -e 's/-----BEGIN PGP SIGNED MESSAGE-----//g' | sed -e 's/&lt;!--//g' | tr -d &quot;[:space:]&quot; | wc -c`
+if [ &quot;$result&quot; -eq &quot;0&quot; ]; then
+	echo &quot;Begining not tampered&quot;
+else
+	echo &quot;ABORTING: Tampered at the beginning!!!&quot;
+	exit 1
+fi
+echo &quot;checking signature&quot;
+gpg --verify $tmpfile
+rm $tmpfile #Perhaps keep it for debugging purpose if gpg fails to verify.
+</code></pre>
+
+<p>Usage: <code>./verifyhtml.sh http://www.sajalkayan.com/</code> .</p>
+
+<p><em>Warning: I haven&rsquo;t tested this enough. This is not rock solid, i.e. the interceptor could edit the payload and sign it using another key, which could pass validations&hellip;</em></p>
+
+<p>Similar signing techniques could be used easily for <code>.js</code> and <code>.css</code> files. In my opinion popular third party embedded javascript files should be signed using PGP and users should verify and report if any discrepancy is found.</p>
+
+<p>PS: I am aware of the irony that I am talking about integrity of web payloads while not serving this blog over <code>https</code>. It is currently hosted using <a href="https://pages.github.com/">github pages</a> which <a href="https://github.com/isaacs/github/issues/156">does not support HTTPS for custom domains</a>. I will perhaps move it elsewhere to play with Let&rsquo;s Encrypt and http/2.</p>
+
+      
+      <div>
+  Tags:  
+    <a href="/tag/html">html</a> </li>
+   
+    <a href="/tag/pgp">pgp</a> </li>
+   <br />
+  Categories:  <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Sign web content using PGP';
+		var disqus_url = 'http://www.sajalkayan.com\/post\/pgp-sign-web-content.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>
+<script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+
+
+
+</script>
+
+      
+</div>
+</div>
+
+  </body>
+</html>
+<!--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBCAAGBQJWtjkcAAoJEDlkkKy/FYKPeZ8P/09BAirdW2f0AQEnWVPNpPIb
+jIRoc+botgCvOeVi6JRDojWBQQ7w68Gy0bxFnZRjginwtv3DIK0MkN1kY9JkZvZl
+LVifud2EezXIuEcqEh3UvAlneEQTdXS+6q7kSdwwNBuhXqzcDFLJkuzSpYqAbNwW
+wfZtnR4GjINHeN39UNMWBYK/KQI48xVQmRim38Q8hl8wqQBrgHvg4QI5WUYR62Ze
+sz5z04Mo9f6SF/4M0SnZJWZ6EvQSlwcKmu/3wvRJ/A8ZV2CSH2MXm9nkTzefPPKp
+XguDWsIXSzB1ZovpVkLCeo/pJPHbV40ZzSnBt9VxnsyWEMch+2S2JWFpebZXe9GA
+MK+opXYjhUqGFO6hGKZN7vWWGQdBj+JqX6Ny2XzhXITPGD+EKLhlvNm4Uf6pOvMN
+vnk5v3jvZb7zTfLePHJCpWVahLBTGy91UkRqPTTQYV5nW9WCl5xrH1znfCxo0MP4
+MtzdtREk5j/zfI6dS/n9VrTn/YD2tD5DWSE4yd6tn2kqdS9WW0THk31N3SJyN4+g
+ssoHC2oimflpZFnECTk0S1ixUtE3wxRA+bzhNi6KXj3HfregZw9XKBthtstKvPlt
+/U23KQrtDZPo8dL7du+zLmEhXrRmYg3lzMJBM+GkSCW0llXXwVgEaVu2eT35SYLn
+U4sipNEwPN9B8Fp9gx7s
+=hs/H
+-----END PGP SIGNATURE-----
+-->
