@@ -7,7 +7,167 @@
     <language>en-us</language>
     
     
-    <updated>Sat, 06 Feb 2016 18:18:00 &#43;0000</updated>
+    <updated>Sun, 18 Sep 2016 15:53:00 &#43;0000</updated>
+    
+    <item>
+      <title>Detecting presence using Bluetooth</title>
+      <link>http://www.sajalkayan.com/post/presence-bluetooth.html</link>
+      <pubDate>Sun, 18 Sep 2016 15:53:00 &#43;0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/presence-bluetooth.html</guid>
+      <description>
+
+&lt;p&gt;&lt;em&gt;How to programmatically detect whether I am at home or not?&lt;/em&gt; - That&amp;rsquo;s the problem I am currently trying to solve. In this post I will outline what methods I am using and what I have tried/considered.&lt;/p&gt;
+
+&lt;p&gt;I use this presence information to automatically switch off lights when I leave my home, and turn them on when I &lt;em&gt;return&lt;/em&gt;. By &lt;em&gt;return&lt;/em&gt; I mean when my state changes from &lt;em&gt;not-present&lt;/em&gt; to &lt;em&gt;present&lt;/em&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_0&#34;&gt;Previous Solution (Wi-Fi)&lt;/h4&gt;
+
+&lt;p&gt;For about a year, I used my phone being present on my Wi-Fi network as an indicator of my presence at home. This approach did not work well for me.&lt;/p&gt;
+
+&lt;p&gt;My router would assign a static IP to my phone using DHCP, and the result of a ping test would indicate my presence.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/bash&lt;/span&gt;
+
+ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; 192.168.x.x &amp;gt; /dev/null
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$?&lt;/span&gt; -eq  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+    &lt;span style=&#34;color: #888888&#34;&gt;#Sajal is at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    &lt;span style=&#34;color: #888888&#34;&gt;#Sajal is not at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;I have set my phone to stay on Wi-Fi even if it thinks Internet connectivity is not available. In spite of this, the phone would occasionally disconnect from Wi-Fi (or fail the ping test). Often, when I am at home the lights would go off, and I would need to fiddle with my phone to get it back on Wi-Fi. Almost every morning I would wake up and realize my living room lights are turned on, at some point during the night my code thought I sleep-walked out of my home and returned.&lt;/p&gt;
+
+&lt;p&gt;Also, it would take anywhere between 0 to 100 seconds for the phone to get back onto Wi-Fi once I returned home. This is annoying at night, especially if I have my hands full with groceries.&lt;/p&gt;
+
+&lt;p&gt;I altered this a bit by using arp instead of ping.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;$(&lt;/span&gt;arp -n | grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;xx:xx:xx:xx:xx:xx&amp;quot;&lt;/span&gt; | wc -l&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;)&lt;/span&gt; -eq  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+    &lt;span style=&#34;color: #888888&#34;&gt;#Sajal is at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    &lt;span style=&#34;color: #888888&#34;&gt;#Sajal is not at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;This provides some relief from intermittent Wi-Fi issues because it takes time for arp cache to flush out the information, but most of the problems of the ping method are still applicable.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_1&#34;&gt;Current Solution&lt;/h4&gt;
+
+&lt;p&gt;Currently I have a Raspberry Pi pinging my phone over Bluetooth to detect presence. All you need for this to work is your phone&amp;rsquo;s Bluetooth MAC address. The phone does not need to be in detectable/scanning mode, just that Bluetooth should be turned on.&lt;/p&gt;
+
+&lt;p&gt;I was originally skeptical about using Bluetooth. I did not expect the signal to cover my entire (1-bedroom) apartment, but turns out it works very well. Now my lights turn on even before I am done opening my door.&lt;/p&gt;
+
+&lt;p&gt;I have the following Go code running on a Raspberry Pi 3 (which has Bluetooth builtin).&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; (
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;flag&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;log&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;net/http&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;os/exec&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strings&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;
+)
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; l2ping(mac &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;bool&lt;/span&gt; {
+    log.Println(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Checking &amp;quot;&lt;/span&gt;, mac)
+    cmd &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; exec.Command(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;l2ping&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;-c&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;, mac)
+    err &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; cmd.Run()
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt; {
+        log.Println(err)
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;
+    }
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;true&lt;/span&gt;
+
+}
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; addr = flag.String(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;addr&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;:8081&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;address/port to listen on&amp;quot;&lt;/span&gt;)
+    flag.Parse()
+    http.HandleFunc(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(w http.ResponseWriter, r &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;http.Request) {
+        mac &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; strings.Split(r.URL.Path, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;)[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;]
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; mac &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt; {
+            w.WriteHeader(http.StatusBadRequest)
+            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt;
+        }
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; l2ping(mac) {
+            &lt;span style=&#34;color: #888888&#34;&gt;//TODO: Use 204 not 200&lt;/span&gt;
+            w.WriteHeader(http.StatusOK)
+            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt;
+        }
+        w.WriteHeader(http.StatusNotFound)
+    })
+    s &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;http.Server{
+        Addr:           &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;addr,
+        ReadTimeout:    &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; time.Second,
+        WriteTimeout:   &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; time.Second,
+        MaxHeaderBytes: &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;20&lt;/span&gt;,
+    }
+    log.Fatal(s.ListenAndServe())
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;And my bash script evolved to call the Go code using curl.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;$(&lt;/span&gt;curl --write-out %&lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;http_code&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt; --silent --output /dev/null http://192.168.x.x:8081/xx:xx:xx:xx:xx:xx&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;)&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;200&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+    &lt;span style=&#34;color: #888888&#34;&gt;#Sajal is at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    &lt;span style=&#34;color: #888888&#34;&gt;#Sajal is not at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Figuring out my phone&amp;rsquo;s Bluetooth MAC address was relatively straightforward.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Put your phone in detectable mode.&lt;/li&gt;
+&lt;li&gt;Scan available devices.&lt;/li&gt;
+&lt;li&gt;Test if it is pingable. Phone does not need to be detectable any more.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;hcitool scan
+Scanning ...
+    yy:yy:yy:yy:yy:yy   KDL-50W800C
+    xx:xx:xx:xx:xx:xx   G4
+pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;sudo l2ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; xx:xx:xx:xx:xx:xx
+Ping: xx:xx:xx:xx:xx:xx from zz:zz:zz:zz:zz:zz &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;data size 44&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt; ...
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;5.90ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;7.35ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;28.66ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;28.64ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; sent, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; received, 0% loss
+pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;p&gt;Apparently &lt;em&gt;KDL-50W800C&lt;/em&gt; is a Sony TV, perhaps belonging to a neighbour, I can&amp;rsquo;t ping it because it&amp;rsquo;s probably too far. The &lt;em&gt;G4&lt;/em&gt; is my phone.&lt;/p&gt;
+
+&lt;p&gt;This method has been in production for the last week, and only once did it give a false negative. My phone was running some upgrades and for some reason Bluetooth stopped working until I rebooted.&lt;/p&gt;
+
+&lt;h4 id=&#34;toc_2&#34;&gt;Whats next?&lt;/h4&gt;
+
+&lt;p&gt;In order to make the presence detection more robust, I am considering the following &lt;strong&gt;in addition&lt;/strong&gt; to the above&amp;hellip;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Somehow detect the presence of my &lt;a href=&#34;https://www.fitbit.com/chargehr&#34;&gt;Fitbit charge HR tracker&lt;/a&gt;. I can&amp;rsquo;t seem to figure out the MAC address of the tracker. If someone knows of a way let me know. Someone else &lt;a href=&#34;http://dotnet.work/2016/02/tracking-fitbit-presence-under-linux-raspberry-pi-2/&#34;&gt;blogged about&lt;/a&gt; using the bundled dongle for this, but it is very unreliable method. If the Fitbit is connected with the phone, &lt;a href=&#34;https://bitbucket.org/benallard/galileo/&#34;&gt;galileo&lt;/a&gt; will not be able to detect it.&lt;/li&gt;
+&lt;li&gt;Get a Bluetooth tag and attach to keychain. I see some commercially available tags (example &lt;a href=&#34;https://www.thetileapp.com/&#34;&gt;Tile&lt;/a&gt;), but these tags are meant to work with apps on phones. I don&amp;rsquo;t know if works on regular computers with Bluetooth dongles (Raspberry Pi).&lt;/li&gt;
+&lt;li&gt;Motion sensors. These would obviously not work when I am asleep or still&amp;hellip; But it&amp;rsquo;s something to look into, especially since I plan to use it for bathroom lights. Motion sensors might give me some sense of which room I am in, should I need that information for future projects.&lt;/li&gt;
+&lt;li&gt;Keycard holders. The type they use in hotels as a master switch for the room. The difference is in my case I would only use it as a signal for presence and not hardwire my mains thru it. Could be a simple mechanical switch wired to GPIO pins of a pi.&lt;/li&gt;
+&lt;li&gt;Door sensors. Might have some other useful applications as well.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;toc_3&#34;&gt;Discarded ideas&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Timer based presence. Assume me to be present from some specified time to another specified time.&lt;/li&gt;
+&lt;li&gt;GPS+phone based presence solution. At home the GPS is very inaccurate. I would need to add a huge error margin(few hundred meters - or higher if its rain-ey), effectively my system would think I am at home even if I am only in the general vicinity.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
     
     <item>
       <title>Sign web content using PGP</title>
@@ -1318,113 +1478,6 @@ The site in question is a web application where user inputs something and gets s
       
       <guid>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</guid>
       <description>&lt;img src=&#34;http://i.ticdn.com/sajal/documentwrite-W-W-W-WHY-Y-YOU-DO-DAT.jpg&#34; alt=&#34;document.write() .. why?&#34; /&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Complete Asynchronous ad loading using DFP and LABjs</title>
-      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
-      <pubDate>Wed, 02 Mar 2011 18:43:51 &#43;0000</pubDate>
-      
-      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
-      <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
-
-&lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
-
-One of the biggest challenges when optimizing performance of websites is third party content - specifically advertisements.
-
-Most ad networks and servers use evil document.write() in their JavaScript(and even nested document.writes) which block further rendering of the page until their code has completed execution. In this blogpost, I&#39;ll show how you can use &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=90777&#34;&gt;DFP&#39;s iframe tagging&lt;/a&gt;(read warnings there) combined with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt; and little bit of JavaScript hackery to make any ad load asynchronously with negligible impact on rest of the pageload.
-
-Attention Deficit Disorder version : &lt;a href=&#34;/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;Before&lt;/a&gt; - &lt;a href=&#34;/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;After&lt;/a&gt;
-
-NOTE: Use the method below entirely at your own risk! Use only if you know what you are doing...
-
-&lt;h3&gt;Current blocking method&lt;/h3&gt;
-
-DFP has an experimental method to load ads called iframe tagging. The JS looks like this :-
-
-The Bootstrap: In &amp;lt;head&amp;gt; (Does not have to be in &amp;lt;head&amp;gt; but before the first &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; call) :-
-&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
-&amp;lt;script type=&#39;text/javascript&#39; src=&#39;http://partner.googleadservices.com/gampad/google_service.js&#39;&amp;gt;
-&amp;lt;/script&amp;gt;
-&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
-GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
-GS_googleEnableAllServices();
-&amp;lt;/script&amp;gt;
-&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
-GA_googleUseIframeRendering();
-&amp;lt;/script&amp;gt;
-&lt;/pre&gt;
-
-Then wherever we want the ads to display, we put something like this :-
-
-&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
-&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
-GA_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90);
-&amp;lt;/script&amp;gt;
-&lt;/pre&gt;
-
-With this method, the bootstrap does some blocking. First it loads a JavaScript then the following functions document.write another &amp;lt;script&amp;gt; tag which must load sequentially again. The &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; function is relatively inexpensive. All it seems to do is document.write an iframe with various targeting information as parameters in the URL and does not block further rendering. The advantage of iframe tagging is that slow ad networks don&#39;t fuck up your page. But the bootstrap is very expensive as shown in this waterfall chart.
-
-&lt;a href=&#34;/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;This&lt;/a&gt; is what it looks like.
-
-&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-async/normal.png&#34; alt=&#34;normal DFP iframe bootstrap&#34; title=&#34;normal DFP iframe bootstrap&#34; height=&#34;186&#34; width=&#34;485&#34; /&gt;
-
-&lt;h3&gt;The hack&lt;/h3&gt;
-
-Last few days, I&#39;ve been playing a little with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt;, specifically its &lt;a href=&#34;http://gist.github.com/603980&#34; title=&#34;Snippet to load LABjs itself dynamically&#34;&gt;complete async loader&lt;/a&gt;.
-
-After playing with LABjs, ive come up with the following LABjs snippet :-
-
-&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
-      // intercepts the script inserted via document.write and loads it via LABjs
-      function docwrt(str){
-        var script = str.replace(/(.*)\=\&#34;/g, &#39;&#39;).replace(/\&#34;(.*)/g, &#39;&#39;);
-        $LAB.script(script).wait(function(){
-          GA_googleUseIframeRendering();
-          // following function makes the magic happen!
-          function Wrapper_googleFillSlotWithSize(pubid, slotname, width, height, target){
-            var docwrttemp = function(str){
-              target = document.getElementById(target);
-              target.innerHTML = str;
-            };  
-            document.write = docwrttemp;
-            GA_googleFillSlotWithSize(pubid, slotname, width, height);
-          }
-          // usage of the new wrapper here &#34;leaderboard&#34; and &#34;skyscraper&#34; are target div ids
-          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90, &#34;leaderboard&#34;);
-          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_sky&#34;, 160, 600, &#34;skyscraper&#34;);
-        });
-      }
-
-      document.write = docwrt; //intercepts document.write from below script
-      $LAB.script(&#34;http://partner.googleadservices.com/gampad/google_service.js&#34;).wait(function(){
-        GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
-        GS_googleEnableAllServices();
-      });
-
-&lt;/pre&gt;
-
-(note: Since I&#39;m lazy, I haven&#39;t restored &lt;em&gt;document.write&lt;/em&gt; back to its original glory.)
-
-Here &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; is a wrapper around &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; which takes a 5th argument - &lt;em&gt;target&lt;/em&gt; - This is the id of &amp;lt;div&amp;gt; where we want to show the ad.
-
-&lt;a href=&#34;/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; is a sample page using this hack. Id appreciate it if I get some feedback about this method via comments below. As I said earlier, use your own better judgment before using this snippet in production. I welcome criticism but will not accept blame if this doesn&#39;t work for you. 
-
-In my simple example, it may seem it takes longer to fully load the page, but if you have many other things on the page, the overall effect will be better with this hack. Moreover, if you are already using LABjs on your site, this is a no-brainer. With this method, even if Google is inaccessible(for whatever reasons) it wont &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;SPOF&lt;/a&gt; your page.
-
-&lt;a href=&#34;http://i.ticdn.com/sajal/dfp-async/video.mp4&#34;&gt;Slow motion video&lt;/a&gt; of pageloads on IE8:-
-
-&lt;iframe title=&#34;YouTube video player&#34; width=&#34;500&#34; height=&#34;311&#34; src=&#34;http://www.youtube.com/embed/Vz2unMmBN_8&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
-Generated via &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;webpagetest.org&lt;/a&gt;
-
-Left is normal method, right is hacked version.
-
-Currently tested on IE(7 thru 9), Firefox 3.6.11, Chrome 10.0.648.45 dev and an unknown version of Safari.
-
-&lt;h3&gt;Conclusions...&lt;/h3&gt;
-
-The world would be a much better place without the evil document.write(). Google should know better. They should make a function like &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; by default.
 </description>
     </item>
     
