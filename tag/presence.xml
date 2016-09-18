@@ -111,7 +111,7 @@ ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span
 }
 &lt;/pre&gt;&lt;/div&gt;
 
-&lt;p&gt;And my bash script evolved to call the Go code using curl.&lt;/p&gt;
+&lt;p&gt;I need to use this http API because the bash script runs on a device without Bluetooth support. My bash script evolved to call the Go code using curl.&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #888888&#34;&gt;#!/bin/bash&lt;/span&gt;
 
