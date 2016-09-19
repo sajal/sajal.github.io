@@ -231,7 +231,7 @@ pi@raspberrypi:~<span style="color: #996633">$ </span>
 <p>In order to make the presence detection more robust, I am considering the following <strong>in addition</strong> to the above&hellip;</p>
 
 <ol>
-<li>Somehow detect the presence of my <a href="https://www.fitbit.com/chargehr">Fitbit charge HR tracker</a>. I can&rsquo;t seem to figure out the MAC address of the tracker. If someone knows of a way let me know. Someone else <a href="http://dotnet.work/2016/02/tracking-fitbit-presence-under-linux-raspberry-pi-2/">blogged about</a> using the bundled dongle for this, but it is very unreliable method. If the Fitbit is connected with the phone, <a href="https://bitbucket.org/benallard/galileo/">galileo</a> will not be able to detect it.</li>
+<li>Somehow detect the presence of my <a href="https://www.fitbit.com/chargehr">Fitbit Charge HR tracker</a>. I can&rsquo;t seem to figure out the MAC address of the tracker. If someone knows of a way let me know. Someone else <a href="http://dotnet.work/2016/02/tracking-fitbit-presence-under-linux-raspberry-pi-2/">blogged about</a> using the bundled dongle for this, but it is very unreliable method. If the Fitbit is connected with the phone, <a href="https://bitbucket.org/benallard/galileo/">galileo</a> will not be able to detect it.</li>
 <li>Get a Bluetooth tag and attach to keychain. I see some commercially available tags (example <a href="https://www.thetileapp.com/">Tile</a>), but these tags are meant to work with apps on phones. I don&rsquo;t know if works on regular computers with Bluetooth dongles (Raspberry Pi).</li>
 <li>Motion sensors. These would obviously not work when I am asleep or still&hellip; But it&rsquo;s something to look into, especially since I plan to use it for bathroom lights. Motion sensors might give me some sense of which room I am in, should I need that information for future projects.</li>
 <li>Keycard holders. The type they use in hotels as a master switch for the room. The difference is in my case I would only use it as a signal for presence and not hardwire my mains thru it. Could be a simple mechanical switch wired to GPIO pins of a pi.</li>
@@ -244,6 +244,24 @@ pi@raspberrypi:~<span style="color: #996633">$ </span>
 <li>Timer based presence. Assume me to be present from some specified time to another specified time.</li>
 <li>GPS+phone based presence solution. At home the GPS is very inaccurate. I would need to add a huge error margin(few hundred meters - or higher if its rain-ey), effectively my system would think I am at home even if I am only in the general vicinity.</li>
 </ol>
+
+<h4 id="toc_4">UPDATE</h4>
+
+<p>I investigated more about the possibility of using my Fitbit Charge HR for presence. It is not a practical option. The pi can detect it, but if I open the Fitbit app on my phone, the Fitbit <a href="https://community.fitbit.com/t5/Web-API/Charge-HR-and-Bit-Finder-Geo-app/m-p/1106648#M4177">will stop advertisingg</a> until I either force close the Fitbit app, or turn off (and on) the Bluetooth functionality on the phone.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">pi@raspberrypi:~<span style="color: #996633">$ </span>sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
+LE Scan ...
+xx:xx:xx:xx:xx:xx <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+xx:xx:xx:xx:xx:xx Charge HR
+yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+pi@raspberrypi:~<span style="color: #996633">$ </span><span style="color: #888888">#Now open app on phone and sync</span>
+pi@raspberrypi:~<span style="color: #996633">$ </span>sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
+LE Scan ...
+zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+pi@raspberrypi:~<span style="color: #996633">$ </span>
+</pre></div>
 
       
       <div>
@@ -298,18 +316,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJX3rkkAAoJEDlkkKy/FYKPxecQAJYWF5PNowJQbgZ09NAhbQll
-SlyTsKhpOhSpoKuGPSTyaVcLYLUMYim6HDNilnUSRTWoSvhwgkHInzCbMmtpFXhT
-SjJMbg0F0NegoN9gmgr3Otjnmo1Uzw4UCWyaS0sFNeLaPxBs3kXZSfIfzh7TW0Ap
-Bpk2721F9srTJXKRRvLcwf8kDgbP3Ins4GkGY3CIfzR0KOdhFZQtI6SKdqY02FbV
-d/bvdILr2SYrMrdYyhYQlcFW0RciscdlkHh5VQ4yLr+4QfDwjMZEBBn3TRkzIc0U
-TYZQ7v6hLxn+51AEZMGy2bCgtlAf/I8lQjqiSlhEFhM0+sY7q+sb+22UYDWL/K2p
-bj2bwTufy/050chQ+HMIW9mAbN+z85gc/cpFe7brwZIIETfhhlCLl3gUpkACFlrw
-4mlj5SyGj4bsI6f86UtJ4yO7Lf50yrTJL0GQ3olx06yk1bJzi8CmQITN/hv3DgrK
-dg1kg9TXGTBf+KLot1k1wvUfOBmYIV7NlMZbh5fFrorro2Dya2czm/NaHNYcY+sX
-wPYfw6gzbIcQUh+eyMVpE7yMRF6VwzBNSQ/KQl1EdskwAoF2IH0C08mp1g6dcFhF
-EQIIuRiHyP0kJbwzNBwhG1R8LDLS+BR3pWRCoEUSap71FpY5Sr2PuH6v+nali8b/
-Dxo/E3Q1H5s1RJT1rFm+
-=y2Z4
+iQIcBAEBCAAGBQJX39fTAAoJEDlkkKy/FYKP8WsP/1BlWpM4Nbymepu6sycR1oB5
+/jlAhFKScOcNfaZ/NPdARaCRA0DmIlrQGm1tpUOwsX0O3jKNeakn3kh299Pgz2k3
+s7oqToyshk9ztKAPXcR3G5CsGhKdrT7AFIu/Cye3S8iLKA1sBPGdQKLxJc7o3srQ
+Gw8sWNHBeA/kHh6vngyocRQgFepRvhYvOLdQ/+nY6ujgkTsOiUczi9WnKmGQXNBz
+gNLhMhOVA95Lud9bKq9CSM1QlYdNYJ+3+0BGc3f3NAbSUfnFdAWguhKevHex3Qw0
+pexyn5p28yKkDpbNcwSIJM62HIbV5p+9a+LXuWNgsVvoA6XWVXvOhtXD0MVWN1NG
+WJKuyfI0vNvwcB/qQPht4GfnrS7BhOWQuAP2WF5FuLsrfZnL8FyPFDDKL4dQ9Tie
+frhIMeZBc9n5io1aootRKSW1gE7cVhS3bGlvs/2OcrpQDrH3kv74pjQChrysD40q
+u2cNflXDzSv0fv5CgitPOKhon/ON2HUR5Ow49OqPCdJNcWusoUBzIcC8jyMDZJHA
+igSs1xWh/GWzkaapk/gJEAtaTmX71GyEC/QKLv2QIK7SBEdK1HoaRKhyDJ9iHNdI
+oTZOzvXYon1/aLmqGXyUkuCfYjQeVni/bp/CNXMi8CKkgW9RCMxFjVTeoOUTVHoS
+aaZEAMPoPWgFkVrXbUtl
+=Xp02
 -----END PGP SIGNATURE-----
 -->
