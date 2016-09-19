@@ -169,7 +169,7 @@ pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
 
 &lt;h4 id=&#34;toc_4&#34;&gt;UPDATE&lt;/h4&gt;
 
-&lt;p&gt;I investigated more about the possibility of using my Fitbit Charge HR for presence. It is not a practical option. The pi can detect it, but if I open the Fitbit app on my phone, the Fitbit &lt;a href=&#34;https://community.fitbit.com/t5/Web-API/Charge-HR-and-Bit-Finder-Geo-app/m-p/1106648#M4177&#34;&gt;will stop advertisingg&lt;/a&gt; until I either force close the Fitbit app, or turn off (and on) the Bluetooth functionality on the phone.&lt;/p&gt;
+&lt;p&gt;I investigated more about the possibility of using my Fitbit Charge HR for presence. It is not a practical option. The pi can detect it, but if I open the Fitbit app on my phone, the Fitbit &lt;a href=&#34;https://community.fitbit.com/t5/Web-API/Charge-HR-and-Bit-Finder-Geo-app/m-p/1106648#M4177&#34;&gt;will stop advertising&lt;/a&gt; until I either force close the Fitbit app, or turn off (and on) the Bluetooth functionality on the phone.&lt;/p&gt;
 
 &lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;sudo timeout --signal SIGINT &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt; hcitool lescan
 LE Scan ...
