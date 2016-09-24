@@ -231,7 +231,7 @@ pi@raspberrypi:~<span style="color: #996633">$ </span>
 <p>In order to make the presence detection more robust, I am considering the following <strong>in addition</strong> to the above&hellip;</p>
 
 <ol>
-<li>Somehow detect the presence of my <a href="https://www.fitbit.com/chargehr">Fitbit Charge HR tracker</a>. I can&rsquo;t seem to figure out the MAC address of the tracker. If someone knows of a way let me know. Someone else <a href="http://dotnet.work/2016/02/tracking-fitbit-presence-under-linux-raspberry-pi-2/">blogged about</a> using the bundled dongle for this, but it is very unreliable method. If the Fitbit is connected with the phone, <a href="https://bitbucket.org/benallard/galileo/">galileo</a> will not be able to detect it.</li>
+<li>Somehow detect the presence of my <a href="https://www.fitbit.com/chargehr">Fitbit Charge HR tracker</a>. I <del>can&rsquo;t seem to</del> <a href="/post/fitbit-bluetooth-mac.html">can figure out the MAC address of the tracker</a>. <del>If someone knows of a way let me know.</del> Someone else <a href="http://dotnet.work/2016/02/tracking-fitbit-presence-under-linux-raspberry-pi-2/">blogged about</a> using the bundled dongle for this, but it is very unreliable method. If the Fitbit is connected with the phone, <a href="https://bitbucket.org/benallard/galileo/">galileo</a> will not be able to detect it.</li>
 <li>Get a Bluetooth tag and attach to keychain. I see some commercially available tags (example <a href="https://www.thetileapp.com/">Tile</a>), but these tags are meant to work with apps on phones. I don&rsquo;t know if works on regular computers with Bluetooth dongles (Raspberry Pi).</li>
 <li>Motion sensors. These would obviously not work when I am asleep or still&hellip; But it&rsquo;s something to look into, especially since I plan to use it for bathroom lights. Motion sensors might give me some sense of which room I am in, should I need that information for future projects.</li>
 <li>Keycard holders. The type they use in hotels as a master switch for the room. The difference is in my case I would only use it as a signal for presence and not hardwire my mains thru it. Could be a simple mechanical switch wired to GPIO pins of a pi.</li>
@@ -316,18 +316,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJX39iLAAoJEDlkkKy/FYKPbLIP/jZGN9QkN1vN6tfsGqw1NWPQ
-sVGZoXtYZpKgrQyfPrLuS2FyRnBO/PS7kuWJSVxA3Lprys5D4VubS7j8pR9K6g12
-B2McNSxUukP4AkHl8P5DsbVVELZVJ/grle5xbQt9iA4GLJp82QS9hxEcmIrSpYYh
-0IFIYYza06+b49l2pr1LSQdrDdKeiQpTSTLwMF8OmeZriUH76mFK7xtSmlU4WZMX
-WWK8kvUyjeo9u4BK0sbHnI8bwHkEzGdafGXuEGp+QFVtHAa+cB75PKHtZz4iSGsU
-is10801g3Dc9wJgH/qnI9dcl5BnpKiMF6gdJygAYWWmo7uM5u8O2kpitKwrsFaKH
-orfcqXKnbeAlfagt1cGuUeTd6LG74ZVMTxtsp/BD8xzf6F3PLNIgm9Vvq0jYnZMY
-Xl/NJ5sPjVZuqGM89qHmoUwOd+PrivKq+3RF69LXizLzP0+oEXA+6BTTExHUWnXw
-zHM+8cvSlgbyjb4sioRE0ZLGeUsIPQDhF5YPKA+8sSNMpVwOvsEBMYw7G8WU6yoh
-GIgNs2cg58Bmxnfz47ghfVZjSxu2DYmrFZvHZjhdCzOFLwmTaSJPn65tXnsXmQIw
-KgO8zcTDOGX8+8amu34pExRqC3uzQOkW+vJRSPOOmQpZhGkzljZWljHONix6pUlS
-IoNubhN3ZywTo7IHJlLS
-=k9eu
+iQIcBAEBCAAGBQJX5pxqAAoJEDlkkKy/FYKPlpEP/3CodRPX1NTxN1I8YU4zMrdV
+Qqvu5jUVu3j48B4UPmsHjfo0uv7hLnrykQ7w+/1SbNEY6KURwKvaQiQRXyYVjroi
+P4DXm/XsxDyI15hcKLr1p0aMEkygqjpLsTlXI/hj5denq7aP0gkBlfkS5dwbq9rc
+3Fz4Sf8gnbki45fb8le74fLcZDDqDK6ubzXWOB1OYpEnRZczYepvd5uHQPhkQpX2
+cgYeL1AdLHcfbm1fcjo4X+9v1z3v/Cem43eWj0vqx0swbRuZ5NSoMsDmI0TtmNBB
+npPMUu2PailUqzMyBuyvS9j6XWrsxUQl9swbF/6OILGOsU2OXWznU8bsWsqJhufs
+dgGUZe8E1SSwtX7A0/QnuLUJ9oo3iS6mCKbzm8ImVLLpCkq6BlcyorJJbm3kFJD8
+283r416Kk1aBYz7WyIFoxAyrjXJMYmpDG9HxZhSgEo33QxZAzlWbcC4zlHT9b3FG
+jgauJmf37wpiT6EuYcL4qdOgkE8DhVCgq6l9VTOzRGafyMVIB/TM5MVTQpUdDXQh
+TkET6p3r63v1bB+RRaCNKBDLM4xjTYe7fbJHo+mZL+7W4ZKzEOIO+07s3MpW2r46
+EjEeGKvipEhABbN9cBiKYt2RBb7nSE4cYC+C+8yT3mTkxlCKSyiAX6jpedBa99tF
+Psfx7rYdvTUjNpANBBeo
+=MQeq
 -----END PGP SIGNATURE-----
 -->

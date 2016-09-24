@@ -1,0 +1,320 @@
+<!--
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Figuring out MAC address of a fitbit tracker &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+<script>
+(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3020223-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+        Likes to make all the things faster.
+      </p>
+      <p>CTO at <a href="http://www.turbobytes.com/">TurboBytes</a></p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Figuring out MAC address of a fitbit tracker</h1>
+  <span class="post-date">
+    Sat, Sep 24, 2016
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Figuring out MAC address of a fitbit tracker" 
+      data-url="http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html"
+      >
+      Tweet
+    </a>
+    <a 
+      href="http://news.ycombinator.com/submit"
+      class="hn-share-button"
+      data-title="Figuring out MAC address of a fitbit tracker"
+      data-url="http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html"
+      >
+      Vote on HN
+    </a>
+    
+    
+  </span>
+      
+
+<p><a href="/post/presence-bluetooth.html">Last week I posted</a> about potentially using my fitbit Charge HR for presence, and was looking for some way to figure out its MAC address. Here are some ways to do it.</p>
+
+<h4 id="toc_0">BLE scan</h4>
+
+<p>First make sure the tracker is not connected to your phone. The simplest way is to turn off bluetooth on the phone (or force-close the fitbit app). Once this is done, the tracker not connected to any host app, starts advertising using bluetooth low energy.</p>
+
+<p>Then from some linux host with BLE enabled adapter (in my case raspberry pi 3 ) run a <code>lescan</code>.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">pi@raspberrypi:~<span style="color: #996633">$ </span>sudo hcitool lescan
+LE Scan ...
+xx:xx:xx:xx:xx:xx <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+12:34:56:78:9A:BC <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+12:34:56:78:9A:BC Charge HR
+^Cpi@raspberrypi:~<span style="color: #996633">$ </span>
+</pre></div>
+
+<p>Since there is only 1 Charge HR detected, I can be fairly confident that <code>12:34:56:78:9A:BC</code> belongs to me.</p>
+
+<h4 id="toc_1">Syncing using Galileo</h4>
+
+<p><a href="https://bitbucket.org/benallard/galileo/">Galileo</a> is project that allows you to sync your tracker using the bundled dongle that comes with fitbit. It&rsquo;s python and useful if you use linux since fitbit does not provide software for it.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sajal@sajal-lappy:~/path/to/galileo<span style="color: #996633">$ </span>./run --fitbit-server client.fitbit.com --force -v
+2016-09-24 22:07:11,549:INFO: Disconnecting from any connected trackers
+2016-09-24 22:07:13,555:INFO: Got an I/O Timeout <span style="color: #333333">(</span>&gt; 2000ms<span style="color: #333333">)</span> <span style="color: #008800; font-weight: bold">while</span> reading!
+2016-09-24 22:07:13,559:INFO: Discovering trackers to synchronize
+2016-09-24 22:07:13,565:INFO: Ignoring message: StartDiscovery
+2016-09-24 22:07:17,569:INFO: <span style="color: #6600EE; font-weight: bold">1</span> trackers discovered
+2016-09-24 22:07:17,569:INFO: Attempting to synchronize tracker BC9A78563412
+2016-09-24 22:07:17,575:INFO: Starting new HTTPS connection <span style="color: #333333">(</span>1<span style="color: #333333">)</span>: client.fitbit.com
+2016-09-24 22:07:24,401:INFO: Getting data from tracker
+2016-09-24 22:07:25,752:INFO: Sending tracker data to Fitbit
+2016-09-24 22:07:25,753:INFO: Starting new HTTPS connection <span style="color: #333333">(</span>1<span style="color: #333333">)</span>: client.fitbit.com
+2016-09-24 22:07:27,165:INFO: Successfully sent tracker data to Fitbit
+2016-09-24 22:07:27,165:INFO: Passing Fitbit response to tracker
+Tracker: BC9A78563412: Synchronisation successful
+</pre></div>
+
+<p>Note how <code>12:34:56:78:9A:BC</code> turns into <code>BC9A78563412</code>. The bytes are reversed.</p>
+
+<h4 id="toc_2">Using Fitbit API</h4>
+
+<p>Fetch the list of devices associated to your account using the <a href="https://dev.fitbit.com/docs/devices/">Fitbit devices API</a>.</p>
+
+<p><code>GET https://api.fitbit.com/1/user/-/devices.json</code></p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">[
+  {
+    <span style="color: #007700">&quot;battery&quot;</span>: <span style="background-color: #fff0f0">&quot;High&quot;</span>,
+    <span style="color: #007700">&quot;deviceVersion&quot;</span>: <span style="background-color: #fff0f0">&quot;Charge HR&quot;</span>,
+    <span style="color: #007700">&quot;features&quot;</span>: [
+      
+    ],
+    <span style="color: #007700">&quot;id&quot;</span>: <span style="background-color: #fff0f0">&quot;xxxxxxxxx&quot;</span>,
+    <span style="color: #007700">&quot;lastSyncTime&quot;</span>: <span style="background-color: #fff0f0">&quot;2016-09-24T22:07:26.000&quot;</span>,
+    <span style="color: #007700">&quot;mac&quot;</span>: <span style="background-color: #fff0f0">&quot;BC9A78563412&quot;</span>,
+    <span style="color: #007700">&quot;type&quot;</span>: <span style="background-color: #fff0f0">&quot;TRACKER&quot;</span>
+  }
+]
+</pre></div>
+
+<p>This again shows the reversed-byte MAC address in the <code>mac</code> field.</p>
+
+<p>I have updated my <a href="/post/presence-bluetooth.html#toc_1">presence script</a> to continuously run <code>hcitool lescan</code> and keep a map of devices available. This way if for some reason my phone&rsquo;s bluetooth drops out, I can keep track of myself using the Charge HR since it restarts advertisements once its link to the phone is broken.</p>
+
+<h4 id="toc_3">Presence server upgrade</h4>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008800; font-weight: bold">package</span> main
+
+<span style="color: #008800; font-weight: bold">import</span> (
+    <span style="background-color: #fff0f0">&quot;flag&quot;</span>
+    <span style="background-color: #fff0f0">&quot;log&quot;</span>
+    <span style="background-color: #fff0f0">&quot;net/http&quot;</span>
+    <span style="background-color: #fff0f0">&quot;os/exec&quot;</span>
+    <span style="background-color: #fff0f0">&quot;strings&quot;</span>
+    <span style="background-color: #fff0f0">&quot;sync&quot;</span>
+    <span style="background-color: #fff0f0">&quot;time&quot;</span>
+)
+
+<span style="color: #008800; font-weight: bold">var</span> (
+    blereg  = <span style="color: #007020">make</span>(<span style="color: #008800; font-weight: bold">map</span>[<span style="color: #333399; font-weight: bold">string</span>]time.Time)
+    blesync = <span style="color: #333333">&amp;</span>sync.RWMutex{}
+)
+
+<span style="color: #008800; font-weight: bold">func</span> updateble() {
+    log.Println(<span style="background-color: #fff0f0">&quot;updating ble table&quot;</span>)
+    cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;timeout&quot;</span>, <span style="background-color: #fff0f0">&quot;--signal&quot;</span>, <span style="background-color: #fff0f0">&quot;SIGINT&quot;</span>, <span style="background-color: #fff0f0">&quot;5&quot;</span>, <span style="background-color: #fff0f0">&quot;hcitool&quot;</span>, <span style="background-color: #fff0f0">&quot;lescan&quot;</span>)
+    b, _ <span style="color: #333333">:=</span> cmd.Output()
+    blesync.Lock()
+    <span style="color: #008800; font-weight: bold">defer</span> blesync.Unlock()
+    <span style="color: #008800; font-weight: bold">for</span> _, s <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> strings.Split(<span style="color: #007020">string</span>(b), <span style="background-color: #fff0f0">&quot;\n&quot;</span>) {
+        sp <span style="color: #333333">:=</span> strings.Split(s, <span style="background-color: #fff0f0">&quot; &quot;</span>)
+        <span style="color: #008800; font-weight: bold">if</span> <span style="color: #007020">len</span>(sp) &gt; <span style="color: #0000DD; font-weight: bold">1</span> {
+            log.Println(sp[<span style="color: #0000DD; font-weight: bold">0</span>])
+            blereg[sp[<span style="color: #0000DD; font-weight: bold">0</span>]] = time.Now()
+        }
+    }
+}
+
+<span style="color: #008800; font-weight: bold">func</span> l2ping(mac <span style="color: #333399; font-weight: bold">string</span>) <span style="color: #333399; font-weight: bold">bool</span> {
+    log.Println(<span style="background-color: #fff0f0">&quot;Checking &quot;</span>, mac)
+    cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;l2ping&quot;</span>, <span style="background-color: #fff0f0">&quot;-c&quot;</span>, <span style="background-color: #fff0f0">&quot;1&quot;</span>, mac)
+    err <span style="color: #333333">:=</span> cmd.Run()
+    <span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
+        log.Println(err)
+        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">false</span>
+    }
+    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">true</span>
+
+}
+
+<span style="color: #008800; font-weight: bold">func</span> main() {
+    <span style="color: #008800; font-weight: bold">var</span> addr = flag.String(<span style="background-color: #fff0f0">&quot;addr&quot;</span>, <span style="background-color: #fff0f0">&quot;:8081&quot;</span>, <span style="background-color: #fff0f0">&quot;address/port to listen on&quot;</span>)
+    <span style="color: #008800; font-weight: bold">go</span> <span style="color: #008800; font-weight: bold">func</span>() {
+        <span style="color: #008800; font-weight: bold">for</span> {
+            updateble()
+            time.Sleep(time.Second <span style="color: #333333">*</span> <span style="color: #0000DD; font-weight: bold">10</span>)
+        }
+    }()
+    flag.Parse()
+    http.HandleFunc(<span style="background-color: #fff0f0">&quot;/&quot;</span>, <span style="color: #008800; font-weight: bold">func</span>(w http.ResponseWriter, r <span style="color: #333333">*</span>http.Request) {
+        mac <span style="color: #333333">:=</span> strings.Split(r.URL.Path, <span style="background-color: #fff0f0">&quot;/&quot;</span>)[<span style="color: #0000DD; font-weight: bold">1</span>]
+        <span style="color: #008800; font-weight: bold">if</span> mac <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;&quot;</span> {
+            w.WriteHeader(http.StatusBadRequest)
+            <span style="color: #008800; font-weight: bold">return</span>
+        }
+        <span style="color: #888888">//Check blereg</span>
+        blesync.RLock()
+        dur <span style="color: #333333">:=</span> time.Since(blereg[mac])
+        blesync.RUnlock()
+        log.Println(dur)
+        <span style="color: #008800; font-weight: bold">if</span> dur &lt; time.Minute {
+            <span style="color: #888888">//BLE registry saw this mac within last minute</span>
+            w.WriteHeader(http.StatusNoContent)
+            <span style="color: #008800; font-weight: bold">return</span>
+        }
+        <span style="color: #008800; font-weight: bold">if</span> l2ping(mac) {
+            w.WriteHeader(http.StatusNoContent)
+            <span style="color: #008800; font-weight: bold">return</span>
+        }
+        w.WriteHeader(http.StatusNotFound)
+    })
+    s <span style="color: #333333">:=</span> <span style="color: #333333">&amp;</span>http.Server{
+        Addr:           <span style="color: #333333">*</span>addr,
+        ReadTimeout:    <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
+        WriteTimeout:   <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
+        MaxHeaderBytes: <span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #333333">&lt;&lt;</span> <span style="color: #0000DD; font-weight: bold">20</span>,
+    }
+    log.Fatal(s.ListenAndServe())
+}
+</pre></div>
+
+<p>This runs <code>hcitool lescan</code> in a loop making note of MACs discovered. When receiving a query it checks if the MAC was seen recently, if not then it tries to ping it on bluetooth classic. I could have use the <a href="https://godoc.org/github.com/paypal/gatt">gatt</a> library to continuously scan over BLE, but on initializing gatt, it takes over the HCI device completely making me unable to run the l2ping command. gatt does not have the capability to do Bluetooth stuff.</p>
+
+      
+      <div>
+  Tags:  
+    <a href="/tag/fitbit">fitbit</a> </li>
+   
+    <a href="/tag/bluetooth">bluetooth</a> </li>
+   
+    <a href="/tag/presence">presence</a> </li>
+   
+    <a href="/tag/go">go</a> </li>
+   <br />
+  Categories:  <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Figuring out MAC address of a fitbit tracker';
+		var disqus_url = 'http://www.sajalkayan.com\/post\/fitbit-bluetooth-mac.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>
+<script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+
+
+
+</script>
+
+      
+</div>
+</div>
+
+  </body>
+</html>
+<!--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBCAAGBQJX5pxqAAoJEDlkkKy/FYKPYWgP/iJaeX4JzVDyTcrvjD1tvqGo
+Pmkho9U/WYsR/aoTi9ED01/sGy62cNcC/XVoteedWDX9yNE7KaeoIAH2IBBaMnuy
+Ref1NcEvY4Q/TmRjGGaQY/Qn95jI89XaZXNEau6qoTS+7pLUutwY7cN/heOeR2kP
+iPqBjZU/j6X30isJufCdIeMDQvqx9MQRsPtTqsjADGMkIW1/tAMKAL+MMyc3VIB+
+SofC4W/T5R5KtQM7nKU4NBJz3yKk8quVjaVukixsQuve+0CyrjbDFCgsBp9UJX3e
+NIq9GMxiLsY0gSX7dPWKXmgpVU6vUGhhjgeHw+v58To0knkwPIJb8E5k8gwH06Ak
+x9l5rhgLNZ93GhTc+TzbxkMRxfF4P3X2SL6RlYiNzg7vE+rqmi+iYH8HPUGKCgib
+Un1lqthU+Njv9Buh1aypcxENgJIL6n4VmUVhooYGM8n7nwnebgRwBoYfYDCn2X/z
+wLstyZVG4SAvnNPrEYZIv5g95MpJ86ecxT3UCNT85gpZvB58gJ8gFl6B8lBbIRnX
+SEhEJ2/UaLnHKrMwoO0Eag2K71ni3e31cHnDTiyzp5obZYiAKvwZ8Q+58bwF+6sF
+PBQqSILselBDfMwrNFC02MlNq6W5Q4hR7IoN4w1FOKTw4YFzmuygILN6r/vOYHk+
+JTs4kzQQp3XWaPCpqrmX
+=g3LT
+-----END PGP SIGNATURE-----
+-->
