@@ -58,11 +58,11 @@ https://keybase.io/sajal -->
     <ul class="sidebar-nav">
       <li><a href="/">Home</a> </li>
       
-        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+        <li><a href="/about.html"> About me </a></li>
       
     </ul>
 
-    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -102,16 +102,18 @@ https://keybase.io/sajal -->
 </figure>
 Having no experience with OpenWrt, this <a href="http://akagi201.org/blog/golang-on-openwrt/">blog post</a> (sidenote: our blogs look similar) helped a lot to get Hello World running.</p>
 
-<h2 id="toc_0">My Build Steps</h2>
+<h2 id="my-build-steps">My Build Steps</h2>
 
 <p>I couldn&rsquo;t use the <a href="https://github.com/GeertJohan/openwrt-go">gccgo fork</a> directly because support for my architecture was added at a later stage, so I had to clone the upstream master and patch it.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #996633">$ </span>git clone git://git.openwrt.org/openwrt.git
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #996633">$ </span>git clone git://git.openwrt.org/openwrt.git
 <span style="color: #996633">$ </span><span style="color: #007020">cd </span>openwrt
 <span style="color: #996633">$ </span>curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
 <span style="color: #996633">$ </span>make menuconfig
 <span style="color: #996633">$ </span>make -j8
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>My resulting config : <a href="https://gist.github.com/sajal/f509183ac691a32e6065">https://gist.github.com/sajal/f509183ac691a32e6065</a>
 Ive removed usb and wifi related things to keep the image small. It seems eglibc uses lot more space.</p>
@@ -120,10 +122,12 @@ Ive removed usb and wifi related things to keep the image small. It seems eglibc
 
 <p>Building hello world is simple</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #996633">$ </span><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:<span style="color: #996633">$PATH</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #996633">$ </span><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:<span style="color: #996633">$PATH</span>
 <span style="color: #996633">$ </span><span style="color: #007020">alias </span><span style="color: #996633">gccgo</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&#39;</span>
 <span style="color: #996633">$ </span>gccgo -o hello ~/hello.go -static-libgo
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>^ resulting in 2.6 MB binary&hellip;</p>
 
@@ -197,11 +201,13 @@ gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-
 
 <p>Note: I had to adjust code a bit to support the ancient Go implementation&hellip; Specifically the TLS implementation and cipher suits.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #996633">$ </span>file minion
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #996633">$ </span>file minion
 minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked <span style="color: #333333">(</span>uses shared libs<span style="color: #333333">)</span>, <span style="color: #008800; font-weight: bold">for</span> GNU/Linux 2.6.16, not stripped
 <span style="color: #996633">$ </span>ls -lh minion
 - -rwxrwxr-x <span style="color: #6600EE; font-weight: bold">1</span> sajal sajal 9.3M Feb <span style="color: #6600EE; font-weight: bold">26</span> 00:25 minion
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>OpenWrt creates a 14MB tempfs, so this barely fits into /tmp of the WT1520, but works as expected. Striping it makes it unusable&hellip; The binary is too big to persist on the device, but it could be programmed to download binary fresh from some server on reboot. Not entirely sure I&rsquo;d use this approach for production.</p>
 
@@ -266,18 +272,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJYAnFlAAoJEDlkkKy/FYKPzhsP/0bUaGr/VJKcmca+POsey2hh
-k/8PCpdyOudNVHIVg9wYS2n3m7r1/0CJSQSMYXjPPiwVGuQjPus6aMftesTIEwA0
-JAIV/+VUQvW5Uj77t1RXOK7monu0k3HdJf776bw3uaNEjYKefDHF1YqScDZLeTTw
-p8nQaOYVLEwZt44viBlychY5G0Qi4YkaAbtL2e435jjd/msrQ5ahjH4nG51vxtEl
-o97PE6mod4Atz4Pm6RKp1xHWGSdFzBMhUy7hnPxDRNhgfeUyjospM18Mtq21+iJQ
-ty9EtNzubPy8hFlEf6UAOedsruKSYiR0+IdVw8yDaM+kslnzkkjyJuTQ+9Er0tvL
-wVSHlaAs7oKNq7q+aRSvLWDm6vfnKLRHbVttJnUIlAIUIIZ5sLFa9fzyseOQKInI
-DbRFCq1w8WOvx19mv5ZxBzEc9PVIvusg9AgEpbJcWqmB5O1Q/TK7V74bEHWZ8vUS
-03FHzKXv3bfttu/0nCEDkT/kxqJL4F6kcbZIXsQFyxhNGkziqei/FsmKKylRxh0k
-/hDudWlJjUl89eoJitjitq2uW5/DiygSWEBClpd9V80xKRkGPhYJ8DJPIncHOO1o
-gRAbyXGKg2xdg0B8hY0zq8pCTZLOwxxOtjIboInIftGs4lQlwf1Gf9+t8cOOjDU9
-21DcN9BeFPtyCB/Xe8fN
-=CwPI
+iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKPxCYQAJJ+ClUhL8msHAHA6R/5N5PJ
+kPKKyZH293Dblz1GDBHSTqa7HYS6XlAsXozr+i1XU6D8SVnJX1KdJ9Lte1vC6rlp
+96WSrU8bOl/QoevaVWU2XslHl8Wrk7njxTd5d64mtWb033fTUpMZOf1DcLV+PkmB
+93DbHySoyM/7znUA/JXa4IIiB5G/9tQACaCNJp2iqyw+pbo2QnGIQLOWuVgvWZLi
+LV9hRBYgUQv8Qi5md41BpsLn6Q3alks1vXDCRMm19a9D4lPekskL3FAlLCh/lzGf
+wD7g/629g+oLj8KHHrZTxB2v/gATXijq9AXEkMc3AZcZc3KiDFVhTffslH6eaeaT
+YwNGMamHbLFZrDABCUULhyq0fWwqk4H0XydHVZpuiYlsrhN87htwXD5NPGLFOrDy
+MuUNQaWKgeq17QsbISGiNZhDhf/SlUD3+XUadOgr1ZZk98dCxfX6BnkbEKzyERqL
+oJqzUAbJ2TjS7o44pjuYlazxkn9621xosrk2O5skdX8BN+7Yg+jwZpvWYy2sfLnI
+u4qTHbscBok3i9rrV+BGEhNXqIZB7u0O4d7hIuwliBITk7N3JZkCEm8sg6KT6ar5
+iS7VOOJL/O0PsxFVNvmNvUmhsvM6w5O47MTsfZdP1UX9a9VHjdEXV3QHd5ZPN0m8
+ntmyGAVUh9D29MN7Tinv
+=hZO5
 -----END PGP SIGNATURE-----
 -->

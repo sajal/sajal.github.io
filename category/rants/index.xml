@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rants on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/category/rants.xml</link>
+    <description>Recent content in Rants on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/category/rants.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>4 reasons why I love my ISP</title>
+      <link>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</link>
+      <pubDate>Mon, 28 Nov 2011 18:52:26 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</guid>
+      <description>&lt;p&gt;I&#39;ve been using &lt;a href=&#34;http://www.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; for years, and I absolutely love their service (and especially the transparent proxy). Here are some of the reasons why :-&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Censorship&lt;/del&gt; &lt;strong&gt;Protecting me from bad stuff&lt;/strong&gt; - Interwebs has a lot of &#34;bad&#34; things out there. My ISP takes good care of me by not letting me access things I am not supposed to see... Even sites not explicitly blocked by court-order. I don&#39;t know what I would do without them. My head would probably explode if I saw porn, and my feelings would get hurt if I came across certain types of political messages..&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Transparent proxy&lt;/del&gt; &lt;strong&gt;Web slow down machine&lt;/strong&gt; - Buddha &lt;a href=&#34;http://thinkexist.com/quotation/the_greatest_prayer_is/165541.html&#34;&gt;teaches&lt;/a&gt; us &lt;em&gt;&#34;The greatest prayer is patience&#34;&lt;/em&gt;. A very special offering of True ISP is that it reminds us to be patient in this fast-paced world. True&#39;s Web slow down machine &lt;a href=&#34;http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html&#34; title=&#34;Check if you are behind a transparent proxy&#34;&gt;sits between&lt;/a&gt; users&#39; connection to other servers. One of its features is to slow down access... It employs several brilliant methods to accomplish this :-
+	&lt;ul&gt;
+		&lt;li&gt;Not keeping connections alive - This is the most important factor in slowing down pageloads. True does not keep connections to remote hosts alive, thus making sure you have to establish a fresh connection with each request to a server overseas. No matter how small the file, a request to the USA will take a minimum 500ms.&lt;/li&gt;
+		&lt;li&gt;Making &lt;a href=&#34;http://www.cdnplanet.com/blog/tune-tcp-initcwnd-for-optimum-performance/&#34; title=&#34;Tuning initcwnd for optimum performance&#34;&gt;TCP optimizations&lt;/a&gt; useless, since the slow down machine is the one that actually makes connections to remote hosts.&lt;/li&gt;
+		&lt;li&gt;Overriding destination IP - True doesn&#39;t care about what IP your computer wanted to connect to, your computer could be wrong. It sees the &lt;em&gt;Host&lt;/em&gt; header from the request, does its own DNS lookups and routes you to the correct server. Even if you wanted to override this for development, True correctly sends you to production server. True knows development/staging servers are full of bugs, so requests should always go to production.&lt;/li&gt;
+		&lt;li&gt;512 kbps upload speed is sufficient for everyone. If you need to upload something big, why not get your lazy ass out, buy a CD and mail it!&lt;/li&gt;
+		&lt;li&gt;Sharing is caring - My ISP oversells available bandwidth by a huge margin. Teaches us the importance of sharing&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Privacy&lt;/del&gt; &lt;strong&gt;People impersonator&lt;/strong&gt; - Your life is boring? True has a solution! It will &lt;a href=&#34;http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html&#34; title=&#34;Twitter logged me as someone else! Privacy FAIL!&#34;&gt;automagically log you&lt;/a&gt; in as someone else so you can get a glimpse into their exciting lives.&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Incompetence&lt;/del&gt; &lt;strong&gt;Motivator&lt;/strong&gt; - Living in Thailand, I am ashamed that I don&#39;t read Thai yet, in part due to my own laziness. True gives you an &lt;a href=&#34;http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html&#34; title=&#34;truewifi.net == big FAIL for usability&#34;&gt;incentive&lt;/a&gt;.&lt;/p&gt;
+
+&lt;small&gt;edited by Michael van Poppel&lt;/small&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Dear Google: W-W-W-WHY Y-YOU DO DAT?</title>
+      <link>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</link>
+      <pubDate>Sat, 12 Mar 2011 19:01:28 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/dear-google-w-w-w-why-y-you-do-dat.html</guid>
+      <description>&lt;img src=&#34;http://i.ticdn.com/sajal/documentwrite-W-W-W-WHY-Y-YOU-DO-DAT.jpg&#34; alt=&#34;document.write() .. why?&#34; /&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Internet connectivity in Myanmar (Burma)</title>
+      <link>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</link>
+      <pubDate>Mon, 21 Feb 2011 09:21:09 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</guid>
+      <description>Last weekend ( Feb 19th &amp; 20th) I was in Yangon for &lt;a href=&#34;http://www.barcampyangon.org/&#34;&gt;BarCamp Yangon&lt;/a&gt;.
+
+It probably had an attendance of &amp;gt; 4k participants... Probably one of the largest BarCamps ever,  despite the fact that the internet connectivity in Myanmar sucks big time.... Really unusable... 
+
+I used internet at the free &#34;wifi&#34; internet at the hotel and the wifi arranged by the organizers. Both places, the speeds I&#39;ve seen range from 0 kbps to ~50 kbps.... most of the time around 0 kbps :P
+
+&lt;h3&gt;Internet access&lt;/h3&gt;
+
+Most locals use internet at cafes/internet shops. The average shop would have 512 kbps connection shared between 15 to 20 computers charging 300 to 500 MKY ( US$ 0.3 to 0.5 ) per hour for usage. Some give discount if you bring your own laptop, some don&#39;t. I didn&#39;t get a chance to visit a cafe, this is based on what people told me.
+
+Most geeks have a computer at home, very few have laptops. ADSL is available but is very expensive. It costs &gt; $1000 setup fee + $120/month for a mere 512 kbps. Only the very rich people can afford it.
+
+Mobile internet was unheard of until few weeks ago. They don&#39;t have gprs there, but recently they launched 3G and CDMA for wireless internet. CDMA would charge around $0.10/minute for 1 or 2 mbps (don&#39;t remember clearly).
+
+Out of the few sites i tried opening, only Facebook seemed to be usable. This is due to the &lt;a href=&#34;http://www.youtube.com/watch?v=51JGykHrwZA&#34; title=&#34;David Wei and Changhao Jiang (Facebook Inc.) - Frontend Performance Engineering in Facebook&#34;&gt;enormous effort&lt;/a&gt; they invest in &lt;a href=&#34;http://www.sajalkayan.com/tag/site-performance&#34;&gt;frontend performance&lt;/a&gt;. Google search was also fast, but none of the sites in the results seemed to open.
+
+The average DNS query took me 2+ seconds to resolve. DNS access is limited to the ISPs crappy nameserver, I couldn&#39;t use opendns or any external nameservers.
+
+Almost all local sites are hosted outside of Myanmar cause domestic connectivity is as bad as international routes. Server co-location fees are 10x in Burma than in America.
+
+&lt;h3&gt;Censorship&lt;/h3&gt;
+
+I didn&#39;t use the internet much... but here is what I found.
+
+Among the sites/services blocked :-
+
+&lt;ul&gt;
+&lt;li&gt;My secret project - Details/screenshot below&lt;/li&gt;
+&lt;li&gt;Twitter - Blocked normally, but works using https or apps.&lt;/li&gt;
+&lt;li&gt;Gmail - works on browser but IMAP doesn&#39;t work at all... The most surprising aspect of it is that 99% of ppl there use gmail.&lt;/li&gt;
+&lt;li&gt;SSH - connections to port 22 are completely blocked, but I&#39;ve been told that setting ssh server on port 443 works fine. I used &lt;a href=&#34;http://www.splitbrain.org/blog/2008-11/02-dns_tunneling_made_simple&#34;&gt;DNS tunnel&lt;/a&gt; and it kinda worked occasionally for emergency usage - after trying for 10 - 15 mins i could get 1 min or so of connectivity.&lt;/li&gt;
+&lt;li&gt;gtalk - Using Pidgin  - doesn&#39;t work at all.&lt;/li&gt;
+&lt;/ul&gt;
+
+I am building a new webservice called www.{secret}.com . Hardly anyone knows about it. Its got only 3 users, and has nothing to do with Burma. That site was somehow blocked in Burma (only one ISP). I cant understand how {secret} could trigger any phrase based blocklists or something.. Makes me feel important if governments block my site...
+
+My moment of pride :-
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/blocked-classified-big.png&#34; title=&#34;secret project blocked in burma&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/blocked-classified-small.png&#34; alt=&#34;secret project blocked in burma&#34; /&gt;&lt;/a&gt;
+
+&lt;h3&gt;Summary&lt;/h3&gt;
+
+BarCamp Yangoon 2011 was probably the biggest barcamp ever with about 4500 to 5000 participants (with about 20 - 30 foreigners traveling in from abroad). An interesting activity was file swapping. There were about 20 - 30 computers setup with shared folders which participants used to exchange software/music/etc. 
+
+Based on a simple survey, everyone uses Firefox. Very few people use Linux. Windows is very popular due to rampant piracy.
+
+I was considering giving a talk on web performance optimization on day 2 of the event, but didn&#39;t go thru with it cause an American expat covered the topic well on day 1.
+
+One thing that I should have done would be to download all the &lt;a href=&#34;http://velocityconf.com/&#34;&gt;Velocity Conference&lt;/a&gt; videos and pass it around... unfortunately it occurred to me to late. Ill try to arrange it now...
+
+The country has great people... It can succeed in this digital age if only America and other western countries lift sanctions on Burma..
+</description>
+    </item>
+    
+    <item>
+      <title>Twitter logged me as someone else! Privacy FAIL!</title>
+      <link>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</link>
+      <pubDate>Wed, 27 Oct 2010 17:16:48 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
+      <description>A while ago, clicking on the &#34;tweet&#34; button of a &lt;a href=&#34;http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/&#34;&gt;funny FAIL&lt;/a&gt; in &lt;a href=&#34;http://www.google.com/reader/&#34;&gt;Google Reader&lt;/a&gt; gave me the scare of my life. 
+
+First reaction: How did my twitter theme change?
+Second reaction: When did i start tweeting/reading in Thai?
+Third reaction: When did I change into a &lt;a href=&#34;http://a2.twimg.com/profile_images/994651514/32086_403053037679_556887679_4991310_709940_n_bigger.jpg&#34;&gt;pretty girl&lt;/a&gt;?
+
+I was logged in as someone else! Thats probably what brain transplant(when possible) would feel like...
+
+In other words, the transparent proxy at &lt;a href=&#34;http://www.thailandinternet.com/&#34; title=&#34;really crappy internet provider in Thailand&#34;&gt;True&lt;/a&gt; simply fucked up... can&#39;t do anything about it. There is probably someone else in Thailand having the time of his/her life browsing into my account and poking into my disgusting life...
+
+So, the solution for me would be to use a secure tunnel bypassing True&#39;s evil session hijacking transparent proxy all together.. Which is kinda illegal I&#39;ve been told... and also who will protect me from all the porn(and evil propaganda) on the interwebs ;)
+
+@kiqq_3112 : Ive tried to censor sensitive stuff from the screenshots, if you are offended by anything, give me a shout out ill remove it. Just wanted to show how serious is this issue.
+
+Click on the images to see full size full page... (Private tweets were censored)
+
+1) Woah I&#39;m not me I&#39;m her?!?!?!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;306&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+2) I can tweet as her!! (Note: I didn&#39;t actually click the tweet button)
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;142&#34; width=&#34;505&#34;/&gt;&lt;/a&gt;
+
+3) Spy on DMs!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;249&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+4) Replies Page..
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/replies.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/replies-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;251&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+5) Change settings..
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/settings.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/settings-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;388&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+6) Change password!!!!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/Password.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/Password-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;419&#34; width=&#34;381&#34;/&gt;&lt;/a&gt;
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/twitter-sec.zip&#34;&gt;Download all images&lt;/a&gt;
+Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do such things. My photoshop skills are not good enough to be able to fake these. Moreover I don&#39;t even own a copy of photoshop.
+</description>
+    </item>
+    
+    <item>
+      <title>The Good, The Bad and The Greedy!</title>
+      <link>http://www.sajalkayan.com/the-good-the-bad-and-the-greedy.html</link>
+      <pubDate>Sat, 07 Feb 2009 05:39:58 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/the-good-the-bad-and-the-greedy.html</guid>
+      <description>Usually wanting money is a good thing. It makes us work harder. Greed is actually a good thing. It is the only line of defense between working hard and being a full time couch potato. Occasionally greed makes us do things... really evil things..
+
+&lt;strong&gt;The Good Greed :&lt;/strong&gt; FOSS (Free and Open Source Software) is the perfect example of the good greed. The developers are usually not concerned about the community, they have their own personal greedy reason for contributing to a project. The reasons may be many including(but not limited to) :
+&lt;ol&gt;
+	&lt;li&gt;They develop it just cause they wanna use it.&lt;/li&gt;
+	&lt;li&gt;Money - Contribute code because someone is paying you to do so or that you would be able to sell services based on it&lt;/li&gt;
+	&lt;li&gt;Bragging rights - to raise social status, a pay raise, etc...&lt;/li&gt;
+	&lt;li&gt;Joy&lt;/li&gt;
+	&lt;li&gt;...&lt;/li&gt;
+&lt;/ol&gt;
+As you see all the above reasons are selfish greedy reasons and its not a bad thing.
+
+&lt;strong&gt;The Bad Greed :&lt;/strong&gt; Listing some of them who are at the top of my mind.
+
+Most&lt;strong&gt; Propriety Software Vendors&lt;/strong&gt; (out of scope of this post to name them all, use your your imagination) - For these people the primary greed is to sell their software to the most number of &#34;&lt;strong&gt;consumers&lt;/strong&gt;&#34; and the highest possible price. This is where &#34;&lt;strong&gt;best performing&lt;/strong&gt;&#34; gets substituted for &#34;&lt;strong&gt;best selling&lt;/strong&gt;&#34;. The software provided is usually capable of performing better or having more features, but these are locked and made available to &#34;consumers&#34; who pay more.
+
+Moreover, the source code for these softwares is mostly not available to the &#34;consumers&#34; so they get away with &#34;selling&#34; any crap they want. Most of the money spent by the &#34;consumers&#34; is spent on legal issues, marketing, propoganda, adverts, yatches and corporate retreats. A lot of the effort put by developers is actually spent on restricting &#34;consumers&#34; from performing tasks on their software rather than adding more functionality.
+
+&lt;strong&gt;Telcom Operators&lt;/strong&gt; : These people are supposed to sell bandwidth, thats it. I realized thats so untrue after a recent event where the speaker was from a leading smartphone software manufacturer that the telcom networks make most of their money from VAS (Value Added Services). The downside is it adds value but not for the &#34;consumers&#34; but rather than the bank balance of the company. They charge ridiculous prices for simple things like ringtone downloads, etc where the cost of the bandwidth would be negligible compared to the total fees charged. Well thats not too bad, but the really bad part is they would do everything in their power to prevent their &#34;consumers&#34; from getting these content from elsewhere because then they would charge only for the bandwidth.
+
+&lt;strong&gt;Device Manufacturers&lt;/strong&gt; : I am talking about especially about Smartphones here. These people manufacture these wonderful devices, but not to simply sell it at a profit. They want to be able to bundle as much VAS(see previous paragraph) on it as possible. The most common form of their evilness is joining up with a telcom operator exclusively to offer the device along with a plan.
+
+Take the example of Google&#39;s Android based phone. The device is available in the United States at the price of $177.99 (roughly 6,302.39 Baht) with a plan from T-Mobile and for $399 (roughly 13,971.07 Baht). These phones are available only to T-Mobile customers and are locked to this network. The rest of the world is too foreign to make use of this. A recent trip to Pantip Plaza(Bangkok&#39;s IT shopping Mall) showed a retailer selling the G1 for 19,900 Baht (Roughly $568.32) without any warranty. This device was unlocked(probably illegally) and most probably it is illegal to use the device with any other SIM card other than T-Mobile&#39;s. A portion of the price you pay for the device is probably going towards the lawyers who helped placed this ristriction in the first place.
+
+There are many more examples, but the above ones are about the ones I feel strongest about.
+
+&lt;strong&gt;So the in the bad greed, the &#34;consumers&#34; actually pay a lot of money to have their freedom taken away from them and become slaves.&lt;/strong&gt;
+
+Coming from a Business family background, we were always tought that &#34;Buyer is God&#34; ... Apparently nowdays it isint true...
+
+
+The bottomline is that Greed may or maynot be a bad thing, it is how you make it work for you. So from now on, be proud of your greediness and use it in your advantage to do better things. The next time someone blames you for being too greedy, your reaction to it would be totally based on how you utilize the greed.
+
+For me, my biggest greed would be freedom. I am greedy for it and will not let anyone tell me otherwise.
+
+Yours Greedily,
+Sajal
+</description>
+    </item>
+    
+    <item>
+      <title>Twitter logo redesign</title>
+      <link>http://www.sajalkayan.com/twitter-logo-redesign.html</link>
+      <pubDate>Fri, 27 Jun 2008 06:07:40 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/twitter-logo-redesign.html</guid>
+      <description>&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/twitter.jpg&#34;&gt;&lt;img class=&#34;alignnone size-medium wp-image-90&#34; title=&#34;New Twitter Logo&#34; src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/twitter.jpg&#34; border=&#34;0&#34; alt=&#34;New Twitter Logo&#34; width=&#34;210&#34; height=&#34;49&#34; /&gt;&lt;/a&gt;
+
+I dont think any explaination is needed!
+</description>
+    </item>
+    
+    <item>
+      <title>Open letter to Thailand&#39;s Software Bullies</title>
+      <link>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</link>
+      <pubDate>Sat, 21 Jun 2008 04:04:26 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</guid>
+      <description>Kind attn : &lt;strong&gt;Microsoft&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+Kind attn : &lt;strong&gt;Lenovo&lt;/strong&gt; Thailand (Sorry cant find name of contact on your site)
+Kind attn : Prasert Charoonpaisal - General Manager - Personal Systems Group (PSG) - &lt;strong&gt;HP&lt;/strong&gt; Thailand
+Kind attn : Corporate Communications Dept. - &lt;strong&gt;Sony&lt;/strong&gt; Thai Co., Ltd.
+Kind attn : &lt;strong&gt;Asus&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+Kind attn : Acer Head Office - &lt;strong&gt;Acer&lt;/strong&gt; Computer Co., Ltd.
+Kind attn : &lt;strong&gt;Benq&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+
+Dear Sirs or Madams,
+
+This is to bring to your notice that almost all notebooks available in Thailand come bundled with windows preloaded.
+
+I had purchased a Sony VAIO 3 or 4 years ago which came bundled with Windows XP. Due to quality problems in the software provided, I had to switch over to a different Operating System. I have no claims on the licensing fee of the inferior software provided to me as during the time of purchase I had intended to use it, and I did for quite a while.
+
+Now, the time has come for me to purchase a new notebook. A self conducted study at fortune town on June 20th 2008 reviled that almost &lt;strong&gt;all notebooks came with Windows pre-installed and the license bundled&lt;/strong&gt;. On asking any of the vendors that I don&#39;t want to pay for the license, I was informed it is impossible. The very limited selection of notebooks which do come without Windows pre-installed are bottom of the line models which are usually outdated or very heavy.
+
+&lt;strong&gt;My questions to all of the addresses&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Do you assume a non-windows user to not be able to afford your mid-segment notebooks?&lt;/li&gt;
+	&lt;li&gt;Is your intention to force Linux users into buying a Windows license?&lt;/li&gt;
+	&lt;li&gt;Is this an effort to form a cartel against Linux?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to all the notebook vendors&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Do you refund any difference amount in case the buyer does not use the license?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to Lenovo&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Lenovo USA does offer an interesting range of notebooks without Windows. Does Lenovo Thailand do the same?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to Microsoft :-&lt;/strong&gt;
+&lt;ol&gt;
+	&lt;li&gt;Do you refund any unused windows License?&lt;/li&gt;
+	&lt;li&gt;I am aware of the software piracy issues in Thailand, but have you ever conducted a study as to how many non-windows users own a windows license? Do you reduce this number when publishing piracy rates?&lt;/li&gt;
+&lt;/ol&gt;
+Please respond, via comment form below in English only. The replies would help me decide weather or not to get a new notebook here in Thailand or order it in the States or Singapore, potentially making the Thai Government suffer a loss of tax revenue.
+
+PS : Apologies to other companies who fit my criteria and I missed them out! They are also free to respond.
+
+Regards,
+Sajal Kayan
+
+Update 1 : Thanks to &lt;a href=&#34;http://twitter.com/bact&#34;&gt;@&lt;/a&gt;&lt;a href=&#34;http://bact.blogspot.com/&#34;&gt;bact&lt;/a&gt; for translating to Thai and &lt;a href=&#34;http://www.blognone.com/node/8123&#34;&gt;publishing on blognone&lt;/a&gt;.
+
+Update 2 : Online discussions at &lt;a href=&#34;http://www.blognone.com/node/8117&#34;&gt;blognone&lt;/a&gt; and &lt;a href=&#34;http://forum.ubuntuclub.com/hardware/linux-notebooks/&#34;&gt;ubuntuclub&lt;/a&gt;.
+</description>
+    </item>
+    
+    <item>
+      <title>Bangkok Bank is busy sucking Microsoft&#39;s &#39;certain body part&#39;</title>
+      <link>http://www.sajalkayan.com/bangkok-bank-is-busy-sucking-microsofts-certain-body-part.html</link>
+      <pubDate>Tue, 03 Jun 2008 11:07:30 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/bangkok-bank-is-busy-sucking-microsofts-certain-body-part.html</guid>
+      <description>Until today i used to be a big fan of Bangkok Bank. In fact everyone in my family and even their companies have been using Bangkok Bank as the primary bank, in many cases their only Bank. I was quite happy with their service, only recently opened an account in another bank for certain cool features that they have which is not the point of my rant here.
+
+So... what changed today? Well I tried to do my first login to my BizIBanking (yeah lame buzzword) account. Following the instructions in the email, i clicked login and instead of the login screen I got...
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/bbl-error.png&#34; alt=&#34;Bangkok Bank supports IE only&#34; /&gt;
+&lt;!--more--&gt;
+This is quite lame. I thought that one of the biggest banks wont try to push down an American capitalist product down the throat of not so rich Thai users, there must be a mistake. So i called up their friendly call center. After numerous IVR selections I finally got thru to their friendly staff.
+(approximate conversation - my memory gets weaker when my head gets hot!)
+
+Me : My new BizIbanking account doesnt work. I use firefox and it says I must use IE.
+... at this point he made me restart my browser and try to login again. i told him it doesnt work and reminded him i use linux and firefox and dont have IE.
+He : Oh, sorry sir. The script of the website is works on PC only. So you have to use IE.
+Me : But i am using a Linux PC which has Firefox on it.
+He : You must use IE
+Me : But windows is unsafe. No computer in my office has windows. windows and IE is easily hackable, do you want my account to be hacked?
+He : but the script is made for PC....
+Me : I have recently opened account at K-Bank and they dont have any such thing
+He : because they use another script
+Me : Aha... so i must use K-Bank for my company accounts then.
+HE : Have a Good Day.
+
+At this point I nearly stormed out of my office to goto the bank to close my account, then i realized its past the banks closing hours. I decided to play with user agents. I changed my user agent to &#34;IE 7 on Vista&#34; using the User Agent Switcher firefox plugin.
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/user-agent.png&#34; alt=&#34;User Agent IE on Vista&#34; /&gt;
+
+Changing User agent, everything works fine!!!
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/bbl-works.png&#34; alt=&#34;BBL now works on Firefox!&#34; /&gt;
+
+Most such websites usually don&#39;t work on Firefox as their programmers are lazy.. but in this case it does work on Firefox. I really wonder what is their hidden agenda behind attempting (poorly) to block firefox users from visiting their site???
+
+I need a windows box at my office to do some graphics stuff, can I get the bank to pay for the license since they force people to use Microsoft&#39;s bloatware?
+
+Moral of the story : Usually when people say that &#34;I can&#39;t switch to Linux cause xxx site doesn&#39;t work&#34; they think its the fault of the software. They must realize that usually it is not the fault of the software, but rather some evil corporation serving their wasted interests.
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Perl on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/category/perl.xml</link>
+    <description>Recent content in Perl on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/category/perl.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Make your own cheap charlie CDN</title>
+      <link>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
+      <pubDate>Sat, 28 Jun 2008 05:26:21 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
+      <description>&lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network&#34; target=&#34;_self&#34;&gt;CDN&lt;/a&gt; stands for Content Delivery(or Distribution) Network. It is a network of servers usually located in various geographic locations to improve the availability and access speed of a website (or webapp or other media). The main use of CDNs were during the nineteens when inter-continental access was slow, scarce and expensive. Origin server could be in the silicon valley, users from UK would access the node located in UK, so in theory only once the page would be downloaded from the US server to the UK server. Thus allowing the UK visitors to access the page locally resulting in a huge saving in inter-continental bandwidth costs and improved access times for the end users.
+
+CDNs are traditionally a very expensive solution to implement if using any of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network#Commercial_CDNs&#34;&gt;established providers&lt;/a&gt;. The solution in itself is not very complex. I am in the process of implementing my very own CDN. The benefits are simple.
+&lt;ul&gt;
+	&lt;li&gt;It would reduce load on the origin server&lt;/li&gt;
+	&lt;li&gt;Faster access if user downloads pages from a server closer to them&lt;/li&gt;
+	&lt;li&gt;Since load on origin server is low, faster access even if cache needs to be refreshed&lt;/li&gt;
+&lt;/ul&gt;
+Some major portions of the CDN I am looking to implement
+&lt;ol&gt;
+	&lt;li&gt;&lt;strong&gt;Origin Server(s)&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Geo targeting DNS servers&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Squid Cache&lt;/strong&gt; - Set as Reverse Proxy or web accelerator&lt;/li&gt;
+&lt;/ol&gt;
+&lt;!--more--&gt;&lt;strong&gt;Origin Server&lt;/strong&gt; : This at the moment is a single server, which may be increased to run mysql and apache on separate boxes to increase productivity. This is up and running and in production.
+
+&lt;strong&gt;Geo targeting DNS servers&lt;/strong&gt; : A perl script making use of Geo::IP and Net::DNS::Nameserver modules to resolve the query based on the origin country of the requester. The DNS script is in very early development. At the moment it is basically the example usage of Net::DNS::Nameserver with the Geo::IP loosely implemented. Need to implement some way of using config files which flush every 10 minutes, so I can use a series of servers runing this script and changes in config can be done on one server and rsynced across all nameservers running this script. The perl script is attached in the end. It would resolve foo.example.com differently if the request came from Malaysia.
+&lt;strong&gt;
+Squid Cache&lt;/strong&gt; : Squid cache is an Free proxy server which can be setup as a Reverse proxy. Users would query this proxy for pages and the proxy would deliver content, flushing the cache based on the rules defined in the squid.conf file and/or the expires headers tag set by the origin server. It can be setup such that different filetypes are cached in a different manner. Different url patterns need to be cached differently. Queries to some URL patterns by logged-in(based on cookies) users should be direct from origin server. These configurations are a little complicated. My plan for this configuration is attached in the end.
+
+The Geo Dns and Squid would be installed on cheap VPS in a few countries. Will start with one to see how well it scales.
+
+EDIT 1 : Playing with &lt;a href=&#34;http://varnish.projects.linpro.no/&#34;&gt;Varnish&lt;/a&gt; at the moment, considering it over squid.
+
+The Geo Dns perl script :
+&lt;pre lang=&#34;perl&#34;&gt;#!/usr/bin/perl
+
+use Geo::IP;
+use Net::DNS::Nameserver;
+use strict;
+use warnings;
+
+sub reply_handler {
+my ($qname, $qclass, $qtype, $peerhost,$query) = @_;
+my ($rcode, @ans, @auth, @add);
+
+my $gi = Geo::IP-&amp;gt;new(GEOIP_STANDARD);
+print &#34;Received query from $peerhost\n&#34;;
+my $ip =  substr $peerhost, 7;
+my $country = $gi-&amp;gt;country_code_by_addr($ip);
+print &#34;--$ip--$country \n\n&#34;;
+$query-&amp;gt;print;
+
+if ($qtype eq &#34;A&#34; &amp;amp;&amp;amp; $qname eq &#34;foo.example.com&#34; ) {
+my ($ttl, $rdata) = (3600, &#34;10.1.2.3&#34;);
+if ($country eq &#34;MY&#34; ) {
+$rdata = &#34;10.1.2.4&#34;;
+}
+push @ans, Net::DNS::RR-&amp;gt;new(&#34;$qname $ttl $qclass $qtype $rdata&#34;);
+$rcode = &#34;NOERROR&#34;;
+}elsif( $qname eq &#34;foo.example.com&#34; ) {
+$rcode = &#34;NOERROR&#34;;
+
+}else{
+$rcode = &#34;NXDOMAIN&#34;;
+}
+
+# mark the answer as authoritive (by setting the &#39;aa&#39; flag
+return ($rcode, \@ans, \@auth, \@add, { aa =&amp;gt; 1 });
+}
+
+my $ns = Net::DNS::Nameserver-&amp;gt;new(
+LocalPort    =&amp;gt; 53,
+ReplyHandler =&amp;gt; \&amp;amp;reply_handler,
+
+Verbose      =&amp;gt; 1,
+) || die &#34;couldn&#39;t create nameserver object\n&#34;;
+
+$ns-&amp;gt;main_loop;&lt;/pre&gt;
+My idea for squid.conf :
+&lt;pre lang=&#34;html&#34;&gt;1) Forward proxy :-
+
+Allow following IPs to browse any website without any caching... allow https also...
+
+a.b.c.d
+w.x.y.z
+127.0.0.1 (ill do a ssh tunnel)
+
+2) Reverse proxy :-
+
+Rules (to be followed serially, if rule 3 and 5 both match, rule 3 should be used):-
+
+1) All urls ending in the following must be cached for minimum 5 days or expires headder. dont even check to see if file has updated.
+
+.jpg, .gif, .css, .js, .swf, .png  (not case sensitive )
+
+2) POST should never be cached
+
+3) Few URLs should be cached for 30 mins (minimum/maximum) no matter what the expires headder says.
+
+http://www.mysite.com/urla/
+http://www.mysite.com/urlc.html
+etc...
+
+4) Requests to http://www.mysite.com/sectiona/* :-
+
+* If user has following cookies pass them direct hint : &#34;acl cookie_test req_header Cookie ﻿^.*(comment_author_|wordpress|wp-postpass_).*$&#34;
+* http://www.mysite.com/sectiona/sub-section1/* : 30 mins cache no matter what!
+* If requester is Googlebot : serve from cache only if it the copy in cache is 5 mins old. else update the cache.
+* for other users cache urls ending in .html for 60 mins , rest for 20 mins
+
+5) Requests to http://www.mysite.com/sectionb/*
+
+* no cache unless images.
+* Allow access only if user has a particular cookie e.g. secret_word=another_word
+
+6) urls which are NOT in point 4 or 5 :-
+
+* If users have cookie eg. no_cache then pass direct
+* 5 min cache for http://www.mysite.com/sectionc/*
+* Cache the shit out of everything else for 30 mins
+
+Special Instructions : If origin server is unreachable then show cached result, no matter what. The first cache server is a VPS running ubuntu server with 128 megs of dedicated non-burstable ram and has 4.3 GB diskspace left. resources can be upgraded on request. Where I have mentioned &#34;no matter what&#34; i dont want the proxy server bothering the origin server at all. The origin and proxies will be located far geographically so connection between them may not be optimal.
+
+In case squid allows for URL rewriting, i would like to also map for example :-
+us.mysite.com -&amp;gt; www.mysite.com
+
+so if user can access the same stuff by going to www.mysite.com or even us.mysite.com
+
+Also if URL rewriting is possible in Squid, in the future id like to be able to map ... http://www.mysite.com/subfolder as http://somesite.com/subfolder and http://www.mysite.com/anotherfolder as http://anothersite.com/anotherfolder
+
+Also.. if squid supports ssl, would it be possible to use https (and also install some certificate on the squid) then users connection to and from the proxy is encrypted if needed, but the connection between squid and origin server is plaintext ?&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Extract info from flickr using Flickr::API in Perl</title>
+      <link>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
+      <pubDate>Sat, 01 Mar 2008 18:09:21 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
+      <description>Today i learnt a neat trick. It it took me more time to make the script than it would have taken me to do the task manually.. the old fashioned way.. but it would save me(and hopefully you) a lot of time in the future. &lt;a href=&#34;http://www.flickr.com/services/api/&#34; title=&#34;Flickr API&#34;&gt;Flickr does have a nice API&lt;/a&gt; with many methods, almost everything which can be done via flickr website can be done using this API. You would need to have a &lt;a href=&#34;http://www.flickr.com/services/api/keys/&#34;&gt;Flickr API key&lt;/a&gt; to use this script.
+
+The objective : To generate some html code based on the images in &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/sets/72157604016439437/&#34; title=&#34;Indian Ambassador visits 41st Bangkok Gems &amp;amp; Jewelry Fair &#34; target=&#34;_blank&#34;&gt;one particular set&lt;/a&gt; in my &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/&#34; target=&#34;_blank&#34;&gt;flickr account&lt;/a&gt; and to &lt;a href=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; title=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; target=&#34;_blank&#34;&gt;display them&lt;/a&gt; in a nice manner(well better than earlier ;) ) using &lt;a href=&#34;http://www.huddletogether.com/projects/lightbox2/&#34; target=&#34;_blank&#34;&gt;Lightbox2&lt;/a&gt;
+
+I am not going to go into details on how to use Lightbox. &lt;a href=&#34;http://www.huddletogether.com/projects/lightbox2/&#34; title=&#34;Lightbox2 instructions&#34;&gt;This page&lt;/a&gt; is detailed enough.&lt;!--more--&gt;
+
+The perl script which gets the photo details and generates the HTML :-
+&lt;pre lang=&#34;perl&#34;&gt;#!/usr/bin/perl
+use Flickr::API;
+#use XML::Simple;
+use Data::Dumper;
+use XML::Parser::Lite::Tree::XPath;
+
+use warnings;
+#use strict;
+
+my $api = new Flickr::API({&#39;key&#39; =&amp;gt; &#39;YOUR_API_KEY&#39;}); #Get your own!!!
+
+my $response = $api-&amp;gt;execute_method(&#39;flickr.photosets.getPhotos&#39;, {
+&#39;photoset_id&#39; =&amp;gt; &#39;72157604016439437&#39;, #enter required set id here
+});
+#  print Dumper($response);
+#print $response-&amp;gt;{ &#39;_content&#39; };
+
+my $xpath = new XML::Parser::Lite::Tree::XPath($response-&amp;gt;{tree});
+my @photos = $xpath-&amp;gt;select_nodes(&#39;/photoset/photo&#39;);
+
+foreach (@photos) {
+# flickr image url format : http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}_[mstb].jpg
+
+$thumb = &#34;http://farm$_-&amp;gt;{attributes}-&amp;gt;{farm}.static.flickr.com/$_-&amp;gt;{attributes}-&amp;gt;{server}/$_-&amp;gt;{attributes}-&amp;gt;{id}_$_-&amp;gt;{attributes}-&amp;gt;{secret}_m.jpg&#34;;
+$image= &#34;http://farm$_-&amp;gt;{attributes}-&amp;gt;{farm}.static.flickr.com/$_-&amp;gt;{attributes}-&amp;gt;{server}/$_-&amp;gt;{attributes}-&amp;gt;{id}_$_-&amp;gt;{attributes}-&amp;gt;{secret}.jpg&#34;;
+
+print &#34;&amp;lt;a href=\&#34;$image\&#34; rel=\&#34;lightbox[fair]\&#34; title=\&#34;$_-&amp;gt;{attributes}-&amp;gt;{title}\&#34;&amp;gt;&amp;lt;img src=\&#34;$thumb\&#34; border=\&#34;0\&#34; hspace=\&#34;5\&#34; vspace=\&#34;5\&#34;&amp;gt;&amp;lt;/a&amp;gt;\n&#34;;
+}&lt;/pre&gt;
+The HTML output of this script :-
+&lt;pre lang=&#34;html&#34;&gt;&amp;lt;a href=&#34;http://farm4.static.flickr.com/3248/2301055721_7a695b5b79.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3248/2301055721_7a695b5b79_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2346/2301054265_f3e7a2e539.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2346/2301054265_f3e7a2e539_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2086/2301052523_614291d39f.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2086/2301052523_614291d39f_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3203/2301050911_da68c89d63.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3203/2301050911_da68c89d63_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3073/2301048901_455600cd48.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3073/2301048901_455600cd48_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3202/2301839852_565c82b82d.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3202/2301839852_565c82b82d_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2167/2301838056_fb84e7bb5e.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2167/2301838056_fb84e7bb5e_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2166/2301836304_f11b5f2bc3.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2166/2301836304_f11b5f2bc3_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3230/2301834582_6c3f4ca71c.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3230/2301834582_6c3f4ca71c_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2077/2301832676_ca32e4eb11.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2077/2301832676_ca32e4eb11_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2159/2301831216_a8a1da1365.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2159/2301831216_a8a1da1365_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2231/2301036165_29cbc3dd3c.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2231/2301036165_29cbc3dd3c_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2214/2301827924_1de12ef380.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2214/2301827924_1de12ef380_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3074/2301826874_a595a19957.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3074/2301826874_a595a19957_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3079/2301032457_32f39cc0d7.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3079/2301032457_32f39cc0d7_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2382/2301824634_6ba7b41bd2.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2382/2301824634_6ba7b41bd2_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3250/2301030191_436d6e5a95.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3250/2301030191_436d6e5a95_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3139/2301822602_66382566ae.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3139/2301822602_66382566ae_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2195/2301821596_88c3278dcc.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2195/2301821596_88c3278dcc_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3021/2301027405_176f9aeda9.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3021/2301027405_176f9aeda9_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2295/2301026337_a3942dbfa0.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2295/2301026337_a3942dbfa0_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2384/2301818564_5405f3573e.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2384/2301818564_5405f3573e_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2186/2301817466_4abc7faf6a.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2186/2301817466_4abc7faf6a_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3191/2301022991_875e882e8d.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;Gemopolis Booth&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3191/2301022991_875e882e8d_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3106/2301815264_0ae648e6eb.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3106/2301815264_0ae648e6eb_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3184/2301020869_bcb0ea306b.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;Diamrusa&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3184/2301020869_bcb0ea306b_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2375/2301019793_13fcc79fb9.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2375/2301019793_13fcc79fb9_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3036/2301018549_fa84634000.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1007&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3036/2301018549_fa84634000_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2043/2301810588_c16813e905.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1008&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2043/2301810588_c16813e905_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3029/2301809450_cda4274ff8.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3029/2301809450_cda4274ff8_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2121/2301808382_427d245157.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;Indian-Thai Diamond and Colorstone Association&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2121/2301808382_427d245157_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3040/2301807152_271d73d751.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3040/2301807152_271d73d751_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2003/2301012603_064325c351.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2003/2301012603_064325c351_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2262/2301804766_3b4a195f35.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1017&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2262/2301804766_3b4a195f35_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3073/2301803616_3f355973a6.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1018&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3073/2301803616_3f355973a6_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3050/2301802460_7303470fc5.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1019&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3050/2301802460_7303470fc5_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2060/2301800990_86d25eede5.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2060/2301800990_86d25eede5_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

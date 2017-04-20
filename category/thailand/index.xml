@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thailand on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/category/thailand.xml</link>
+    <description>Recent content in Thailand on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/category/thailand.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>4 reasons why I love my ISP</title>
+      <link>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</link>
+      <pubDate>Mon, 28 Nov 2011 18:52:26 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</guid>
+      <description>&lt;p&gt;I&#39;ve been using &lt;a href=&#34;http://www.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; for years, and I absolutely love their service (and especially the transparent proxy). Here are some of the reasons why :-&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Censorship&lt;/del&gt; &lt;strong&gt;Protecting me from bad stuff&lt;/strong&gt; - Interwebs has a lot of &#34;bad&#34; things out there. My ISP takes good care of me by not letting me access things I am not supposed to see... Even sites not explicitly blocked by court-order. I don&#39;t know what I would do without them. My head would probably explode if I saw porn, and my feelings would get hurt if I came across certain types of political messages..&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Transparent proxy&lt;/del&gt; &lt;strong&gt;Web slow down machine&lt;/strong&gt; - Buddha &lt;a href=&#34;http://thinkexist.com/quotation/the_greatest_prayer_is/165541.html&#34;&gt;teaches&lt;/a&gt; us &lt;em&gt;&#34;The greatest prayer is patience&#34;&lt;/em&gt;. A very special offering of True ISP is that it reminds us to be patient in this fast-paced world. True&#39;s Web slow down machine &lt;a href=&#34;http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html&#34; title=&#34;Check if you are behind a transparent proxy&#34;&gt;sits between&lt;/a&gt; users&#39; connection to other servers. One of its features is to slow down access... It employs several brilliant methods to accomplish this :-
+	&lt;ul&gt;
+		&lt;li&gt;Not keeping connections alive - This is the most important factor in slowing down pageloads. True does not keep connections to remote hosts alive, thus making sure you have to establish a fresh connection with each request to a server overseas. No matter how small the file, a request to the USA will take a minimum 500ms.&lt;/li&gt;
+		&lt;li&gt;Making &lt;a href=&#34;http://www.cdnplanet.com/blog/tune-tcp-initcwnd-for-optimum-performance/&#34; title=&#34;Tuning initcwnd for optimum performance&#34;&gt;TCP optimizations&lt;/a&gt; useless, since the slow down machine is the one that actually makes connections to remote hosts.&lt;/li&gt;
+		&lt;li&gt;Overriding destination IP - True doesn&#39;t care about what IP your computer wanted to connect to, your computer could be wrong. It sees the &lt;em&gt;Host&lt;/em&gt; header from the request, does its own DNS lookups and routes you to the correct server. Even if you wanted to override this for development, True correctly sends you to production server. True knows development/staging servers are full of bugs, so requests should always go to production.&lt;/li&gt;
+		&lt;li&gt;512 kbps upload speed is sufficient for everyone. If you need to upload something big, why not get your lazy ass out, buy a CD and mail it!&lt;/li&gt;
+		&lt;li&gt;Sharing is caring - My ISP oversells available bandwidth by a huge margin. Teaches us the importance of sharing&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Privacy&lt;/del&gt; &lt;strong&gt;People impersonator&lt;/strong&gt; - Your life is boring? True has a solution! It will &lt;a href=&#34;http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html&#34; title=&#34;Twitter logged me as someone else! Privacy FAIL!&#34;&gt;automagically log you&lt;/a&gt; in as someone else so you can get a glimpse into their exciting lives.&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Incompetence&lt;/del&gt; &lt;strong&gt;Motivator&lt;/strong&gt; - Living in Thailand, I am ashamed that I don&#39;t read Thai yet, in part due to my own laziness. True gives you an &lt;a href=&#34;http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html&#34; title=&#34;truewifi.net == big FAIL for usability&#34;&gt;incentive&lt;/a&gt;.&lt;/p&gt;
+
+&lt;small&gt;edited by Michael van Poppel&lt;/small&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Check if you are behind a transparent proxy</title>
+      <link>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</link>
+      <pubDate>Tue, 11 Oct 2011 19:38:50 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</guid>
+      <description>Many Asian ISPs do not provide &lt;em&gt;clean&lt;/em&gt; internet. They route all HTTP sessions thru a &lt;a href=&#34;http://en.wikipedia.org/wiki/Proxy_server#Transparent_proxies&#34;&gt;transparent proxy&lt;/a&gt;.
+
+Here is a simple way to check if you are behind one.
+
+&lt;pre  style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+sajal@sajal-laptop:~$ ping -c 4 www.cdnplanet.com
+PING www.cdnplanet.com (107.20.181.99) 56(84) bytes of data.
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=1 ttl=42 time=314 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=2 ttl=42 time=313 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=3 ttl=42 time=312 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=4 ttl=42 time=312 ms
+
+--- www.cdnplanet.com ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms
+rtt min/avg/max/mdev = 312.195/313.229/314.137/0.889 ms
+&lt;/pre&gt;
+&lt;pre  style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+sajal@sajal-laptop:~$ ab http://www.cdnplanet.com/
+This is ApacheBench, Version 2.3 &lt;$Revision: 655654 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.cdnplanet.com (be patient).....done
+
+
+Server Software:        Apache
+Server Hostname:        www.cdnplanet.com
+Server Port:            80
+
+Document Path:          /
+Document Length:        13084 bytes
+
+Concurrency Level:      1
+Time taken for tests:   0.944 seconds
+Complete requests:      1
+Failed requests:        0
+Write errors:           0
+Total transferred:      13296 bytes
+HTML transferred:       13084 bytes
+Requests per second:    1.06 [#/sec] (mean)
+Time per request:       943.539 [ms] (mean)
+Time per request:       943.539 [ms] (mean, across all concurrent requests)
+Transfer rate:          13.76 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:       21   21   0.0     21      21
+Processing:   922  922   0.0    922     922
+Waiting:      611  611   0.0    611     611
+Total:        944  944   0.0    944     944
+sajal@sajal-laptop:~$ 
+
+&lt;/pre&gt;
+
+My ping time to &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDN Planet&lt;/a&gt; is 312ms, but the connection was established in just 21ms !!!!11!!1
+
+Reasons for doing so involve : Censorship, big brother snooping, caching, &lt;a href=&#34;http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html&#34;&gt;hijacking users sessions&lt;/a&gt; , and probably more ...
+</description>
+    </item>
+    
+    <item>
+      <title>Twitter logged me as someone else! Privacy FAIL!</title>
+      <link>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</link>
+      <pubDate>Wed, 27 Oct 2010 17:16:48 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html</guid>
+      <description>A while ago, clicking on the &#34;tweet&#34; button of a &lt;a href=&#34;http://failblog.org/2010/10/26/epic-fail-photos-xbox-message-win/&#34;&gt;funny FAIL&lt;/a&gt; in &lt;a href=&#34;http://www.google.com/reader/&#34;&gt;Google Reader&lt;/a&gt; gave me the scare of my life. 
+
+First reaction: How did my twitter theme change?
+Second reaction: When did i start tweeting/reading in Thai?
+Third reaction: When did I change into a &lt;a href=&#34;http://a2.twimg.com/profile_images/994651514/32086_403053037679_556887679_4991310_709940_n_bigger.jpg&#34;&gt;pretty girl&lt;/a&gt;?
+
+I was logged in as someone else! Thats probably what brain transplant(when possible) would feel like...
+
+In other words, the transparent proxy at &lt;a href=&#34;http://www.thailandinternet.com/&#34; title=&#34;really crappy internet provider in Thailand&#34;&gt;True&lt;/a&gt; simply fucked up... can&#39;t do anything about it. There is probably someone else in Thailand having the time of his/her life browsing into my account and poking into my disgusting life...
+
+So, the solution for me would be to use a secure tunnel bypassing True&#39;s evil session hijacking transparent proxy all together.. Which is kinda illegal I&#39;ve been told... and also who will protect me from all the porn(and evil propaganda) on the interwebs ;)
+
+@kiqq_3112 : Ive tried to censor sensitive stuff from the screenshots, if you are offended by anything, give me a shout out ill remove it. Just wanted to show how serious is this issue.
+
+Click on the images to see full size full page... (Private tweets were censored)
+
+1) Woah I&#39;m not me I&#39;m her?!?!?!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/woah-im-girl-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;306&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+2) I can tweet as her!! (Note: I didn&#39;t actually click the tweet button)
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/i-can-tweet-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;142&#34; width=&#34;505&#34;/&gt;&lt;/a&gt;
+
+3) Spy on DMs!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/personal-DM-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;249&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+4) Replies Page..
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/replies.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/replies-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;251&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+5) Change settings..
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/settings.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/settings-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;388&#34; width=&#34;500&#34;/&gt;&lt;/a&gt;
+
+6) Change password!!!!
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/Password.png&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/twitter-sec/Password-small.png&#34; alt=&#34;Twitter security FAIL&#34; height=&#34;419&#34; width=&#34;381&#34;/&gt;&lt;/a&gt;
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/twitter-sec/twitter-sec.zip&#34;&gt;Download all images&lt;/a&gt;
+Disclaimer: I haven&#39;t broken into anyone else&#39;s account, I don&#39;t do such things. My photoshop skills are not good enough to be able to fake these. Moreover I don&#39;t even own a copy of photoshop.
+</description>
+    </item>
+    
+    <item>
+      <title>BarCampBKK3 - my experience!</title>
+      <link>http://www.sajalkayan.com/barcampbkk3-my-experience.html</link>
+      <pubDate>Mon, 25 May 2009 12:20:51 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/barcampbkk3-my-experience.html</guid>
+      <description>Last weekend(23rd and 24th May) I attended &lt;a href=&#34;http://www.barcampbangkok.org/&#34;&gt;&lt;strong&gt;BarCamp Bangkok 3&lt;/strong&gt;&lt;/a&gt;, it was an awesome experience... In this blogpost i intend to outline some of the interesting aspects of it from my viewpoint.
+
+&lt;a href=&#34;http://www.flickr.com/photos/newdavich/3557413836/&#34;&gt;&lt;img src=&#34;http://farm4.static.flickr.com/3652/3557413836_397383f4d8_m.jpg&#34; alt=&#34;Barcampbkk3 sign board&#34; width=&#34;240&#34; height=&#34;180&#34; /&gt;&lt;/a&gt;
+
+(Photo Credit &lt;a href=&#34;http://www.flickr.com/photos/newdavich/&#34;&gt;new_davich&lt;/a&gt; on flickr)
+
+Firstly over &lt;a href=&#34;http://www.barcampbangkok.org/whos-coming&#34;&gt;700 people registered on the Barcamp Website&lt;/a&gt;. Atleast &lt;strong&gt;550&lt;/strong&gt; people showed up at the actual event. That is 550 people registered at the registration desks on Day 1. There may have been more people turning up throughout the day who didn&#39;t register and I don&#39;t yet have the figure for Day 2. This IMHO would make &lt;strong&gt;BarCampbkk3 the biggest BarCamp in ASEAN&lt;/strong&gt;. There were many people who flew in to Bangkok from overseas exclusively for the &lt;a href=&#34;http://www.sajalkayan.com/tag/barcamp&#34;&gt;BarCamp&lt;/a&gt; from countries including Malaysia, Singapore, Cambodia, Vietnam and Hong Kong. Many to Bangkok for their first time.
+
+Many thanks to &lt;a href=&#34;http://www.spu.ac.th/english/index_eng.html&#34;&gt;Sripatum University(SPU)&lt;/a&gt; for agreeing to be the venue. They were very helpful and even provided us with 20 to 30 volunteers to help with the arrangements.
+
+&lt;a href=&#34;http://www.flickr.com/photos/newdavich/3557451688/&#34;&gt;&lt;img src=&#34;http://farm3.static.flickr.com/2425/3557451688_69a5df2afe_m.jpg&#34; alt=&#34;BarCampbkk3 Opening Ceremony&#34; width=&#34;240&#34; height=&#34;180&#34; /&gt;&lt;/a&gt;
+
+Opening Ceremony! - Dont be scared barcamp isint anything formal.. this is exception ;) (Photo Credit &lt;a href=&#34;http://www.flickr.com/photos/newdavich/&#34;&gt;new_davich&lt;/a&gt; on flickr)
+
+I collected the following schwag :-
+
+&lt;a href=&#34;http://www.flickr.com/photos/vii/3560205034/&#34;&gt;&lt;img src=&#34;http://farm4.static.flickr.com/3371/3560205034_678a036a24_m.jpg&#34; alt=&#34;BarCampbkk3 Shirt&#34; width=&#34;180&#34; height=&#34;240&#34; /&gt;&lt;/a&gt;
+
+&lt;strong&gt;BarCamp Bangkok black T-Shirt (Thanks Luke for the awesome design)&lt;/strong&gt; - Photo Credit Virak
+
+&lt;a href=&#34;http://www.flickr.com/photos/preetamrai/3561447929/&#34;&gt;&lt;img src=&#34;http://farm4.static.flickr.com/3368/3561447929_eb5b0f1ce1_m.jpg&#34; alt=&#34;Cloth Bag from SPU&#34; width=&#34;240&#34; height=&#34;180&#34; /&gt;&lt;/a&gt;
+
+&lt;strong&gt;An eco friendly cloth Bag from SPU&lt;/strong&gt; (Photo credit &lt;a href=&#34;http://www.preetamrai.com/&#34;&gt;Preetam Rai&lt;/a&gt;)
+ATIZ white T-Shirt (if you can find photo ping me)
+Yahoo Car hanging thingy. (if you can find photo ping me)
+
+&lt;strong&gt;Tech start-ups in Thailand&lt;/strong&gt;
+
+Among the interesting topics covered were some presentations and a discussion relating to Start-ups in Thailand. There were talks focused on financing issues and other issues faced by startups. The most common factors discouraging Thais and Foreigners from setting up a start-up in Thailand is(IMHO) the procedure and red-tape involved in setting up and managing a Thai Company. &lt;a href=&#34;http://www.johnberns.com/&#34;&gt;John&lt;/a&gt; mentioned about a friend who flew to Singapore in a morning and by afternoon he had his company set-up and ready for business. So thats about 10,000 Baht for the airfare and about S$200 to S$300(about 4,700 to 7,100 Thai Baht) for formalities, etc. Here in Thailand even if you know exactly what to do, it would take weeks.
+
+&lt;a href=&#34;http://twitter.com/proteusguy&#34;&gt;Ben&lt;/a&gt; from &lt;a href=&#34;http://proteus-tech.com/&#34;&gt;Proteus Tech&lt;/a&gt; gave and interesting talk titled &#34;How to Create a Successful Technical Startup&#34;. Proteus Tech is also interested to encourage the potential Thai entrepreneurs. Proteus Tech said in a statement:-
+&lt;blockquote&gt;&#34;We hope to organize a startup event to help people understand how to write a business plan and define a business strategy. Then we&#39;ll have a follow up &#34;startup gauntlet&#34; where we give them a chance to present their biz plan and get evaluated + win some seed capital to start.&#34;&lt;/blockquote&gt;
+&lt;div id=&#34;__ss_1484965&#34; style=&#34;width: 425px; text-align: left;&#34;&gt;&lt;object classid=&#34;clsid:d27cdb6e-ae6d-11cf-96b8-444553540000&#34; width=&#34;425&#34; height=&#34;355&#34; codebase=&#34;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0&#34;&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34; /&gt;&lt;param name=&#34;allowScriptAccess&#34; value=&#34;always&#34; /&gt;&lt;param name=&#34;src&#34; value=&#34;http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=howtocreatetechnicalstartup-090525063933-phpapp02&amp;amp;stripped_title=how-to-create-technical-startup&#34; /&gt;&lt;embed type=&#34;application/x-shockwave-flash&#34; width=&#34;425&#34; height=&#34;355&#34; src=&#34;http://static.slidesharecdn.com/swf/ssplayer2.swf?doc=howtocreatetechnicalstartup-090525063933-phpapp02&amp;amp;stripped_title=how-to-create-technical-startup&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34;&gt;&lt;/embed&gt;&lt;/object&gt;&lt;/div&gt;
+Ben&#39;s Presentation - Why didn&#39;t I see this a few years ago, I learned some of the points the hard way.
+
+&lt;strong&gt;Overnight Activities&lt;/strong&gt;
+
+This was the first Barcamp in Thailand where we stayed at the venue overnight. The evening started with drinks at a nearby pub, after which we returned back to the venue. I tried in vain to help people getstated in Linux, but looks like nobody was interested... We played a couple of rounds of a &lt;a href=&#34;http://www.eblong.com/zarf/werewolf.html&#34;&gt;Werewolf Game&lt;/a&gt; which was interesting, the foreigners always got nominated to be werewolves and kicked out first.... &lt;a href=&#34;http://murz.wordpress.com/&#34;&gt;@murz&lt;/a&gt; (tried to) introduce us to a board game &#34;&lt;a href=&#34;http://www.gamecabinet.com/sumo/Issue2/AdelVerpflichtet.html&#34;&gt;Adel Verpflichtet&lt;/a&gt;&#34;. The rules were so complex that she had to draw a flowchart to explain it :)
+
+Along with &lt;a href=&#34;http://www.lopsta.com/&#34;&gt;Jan&lt;/a&gt;, I did a &#34;&lt;strong&gt;SEO site clinic&lt;/strong&gt;&#34; where we analyzed volunteers websites from an SEO viewpoint. Unlike last BarCamp, this was attended by very few people, probably due to clash in timing with other more popular topics.
+
+&lt;strong&gt;Overall it was very exciting to be a part of BarCampBKK3 looking forward to BarCampBKK4&lt;/strong&gt;
+
+Links:-
+
+BarCamp Bangkok Website : &lt;a href=&#34;http://www.barcampbangkok.org&#34;&gt;http://www.barcampbangkok.org&lt;/a&gt;
+Pics : &lt;a href=&#34;http://www.flickr.com/search/?q=barcampbkk3&amp;amp;w=all&#34;&gt;http://www.flickr.com/search/?q=barcampbkk3&amp;amp;w=all&lt;/a&gt;
+Slides : &lt;a href=&#34;http://www.flickr.com/search/?q=barcampbkk3&amp;amp;w=all&#34;&gt;http://www.slideshare.net/search/slideshow?lang=**&amp;amp;submit=post&amp;amp;q=+barcampbkk3&amp;amp;commit=search&lt;/a&gt;
+
+Blogs : &lt;a href=&#34;http://blogsearch.google.com/blogsearch?q=barcampbkk3&#34;&gt;http://blogsearch.google.com/blogsearch?q=barcampbkk3&lt;/a&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>No farting!</title>
+      <link>http://www.sajalkayan.com/no-farting.html</link>
+      <pubDate>Tue, 14 Oct 2008 04:54:38 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/no-farting.html</guid>
+      <description>&lt;img src=&#34;http://farm4.static.flickr.com/3005/2940911370_48a3f61d6f.jpg?v=0&#34; alt=&#34;No Farting!&#34; width=&#34;375&#34; height=&#34;500&#34; /&gt;
+
+A view of the dashboard of a taxi in Bangkok
+</description>
+    </item>
+    
+    <item>
+      <title>Facebook.com banned in Thailand?</title>
+      <link>http://www.sajalkayan.com/facebook-banned-thailand.html</link>
+      <pubDate>Fri, 15 Aug 2008 09:24:18 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/facebook-banned-thailand.html</guid>
+      <description>Since the past few hours, it appears to me that True ISP of Thailand is trying to block one of the most popular socual networking site Facebook. The situation is not as serious as the title makes it sound.... but what the he_l it would be reality when someone at the ministry logs into it for the first time....
+
+On attempting to open any page within facebook we get the friendly message which looks very much like it is generated from True&#39;s stupid transparent proxy.
+
+&lt;img class=&#34;alignnone size-full wp-image-98&#34; title=&#34;Facebook blocked in thailand?&#34; src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/08/facebook-blocked.png&#34; alt=&#34;&#34; width=&#34;352&#34; height=&#34;160&#34; /&gt;
+
+Just now my staff called True and guess what? The true helpdesk simply asked us to use their proxy in the settings.
+Proxy server : &lt;strong&gt;proxy.asianet.co.th&lt;/strong&gt;
+Port : &lt;strong&gt;8080&lt;/strong&gt;
+
+So does changing from transparent to an explicit proxy mean we are going from the frying pan into the fire?
+
+&lt;strong&gt;Long live &#39;ssh -D&#39;&lt;/strong&gt;
+
+Now, didn&#39;t some lawmaker dude say that its illegal to connect via proxies or sumthin?
+</description>
+    </item>
+    
+    <item>
+      <title>Open letter to Thailand&#39;s Software Bullies</title>
+      <link>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</link>
+      <pubDate>Sat, 21 Jun 2008 04:04:26 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</guid>
+      <description>Kind attn : &lt;strong&gt;Microsoft&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+Kind attn : &lt;strong&gt;Lenovo&lt;/strong&gt; Thailand (Sorry cant find name of contact on your site)
+Kind attn : Prasert Charoonpaisal - General Manager - Personal Systems Group (PSG) - &lt;strong&gt;HP&lt;/strong&gt; Thailand
+Kind attn : Corporate Communications Dept. - &lt;strong&gt;Sony&lt;/strong&gt; Thai Co., Ltd.
+Kind attn : &lt;strong&gt;Asus&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+Kind attn : Acer Head Office - &lt;strong&gt;Acer&lt;/strong&gt; Computer Co., Ltd.
+Kind attn : &lt;strong&gt;Benq&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
+
+Dear Sirs or Madams,
+
+This is to bring to your notice that almost all notebooks available in Thailand come bundled with windows preloaded.
+
+I had purchased a Sony VAIO 3 or 4 years ago which came bundled with Windows XP. Due to quality problems in the software provided, I had to switch over to a different Operating System. I have no claims on the licensing fee of the inferior software provided to me as during the time of purchase I had intended to use it, and I did for quite a while.
+
+Now, the time has come for me to purchase a new notebook. A self conducted study at fortune town on June 20th 2008 reviled that almost &lt;strong&gt;all notebooks came with Windows pre-installed and the license bundled&lt;/strong&gt;. On asking any of the vendors that I don&#39;t want to pay for the license, I was informed it is impossible. The very limited selection of notebooks which do come without Windows pre-installed are bottom of the line models which are usually outdated or very heavy.
+
+&lt;strong&gt;My questions to all of the addresses&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Do you assume a non-windows user to not be able to afford your mid-segment notebooks?&lt;/li&gt;
+	&lt;li&gt;Is your intention to force Linux users into buying a Windows license?&lt;/li&gt;
+	&lt;li&gt;Is this an effort to form a cartel against Linux?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to all the notebook vendors&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Do you refund any difference amount in case the buyer does not use the license?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to Lenovo&lt;/strong&gt; :-
+&lt;ol&gt;
+	&lt;li&gt;Lenovo USA does offer an interesting range of notebooks without Windows. Does Lenovo Thailand do the same?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;strong&gt;Question to Microsoft :-&lt;/strong&gt;
+&lt;ol&gt;
+	&lt;li&gt;Do you refund any unused windows License?&lt;/li&gt;
+	&lt;li&gt;I am aware of the software piracy issues in Thailand, but have you ever conducted a study as to how many non-windows users own a windows license? Do you reduce this number when publishing piracy rates?&lt;/li&gt;
+&lt;/ol&gt;
+Please respond, via comment form below in English only. The replies would help me decide weather or not to get a new notebook here in Thailand or order it in the States or Singapore, potentially making the Thai Government suffer a loss of tax revenue.
+
+PS : Apologies to other companies who fit my criteria and I missed them out! They are also free to respond.
+
+Regards,
+Sajal Kayan
+
+Update 1 : Thanks to &lt;a href=&#34;http://twitter.com/bact&#34;&gt;@&lt;/a&gt;&lt;a href=&#34;http://bact.blogspot.com/&#34;&gt;bact&lt;/a&gt; for translating to Thai and &lt;a href=&#34;http://www.blognone.com/node/8123&#34;&gt;publishing on blognone&lt;/a&gt;.
+
+Update 2 : Online discussions at &lt;a href=&#34;http://www.blognone.com/node/8117&#34;&gt;blognone&lt;/a&gt; and &lt;a href=&#34;http://forum.ubuntuclub.com/hardware/linux-notebooks/&#34;&gt;ubuntuclub&lt;/a&gt;.
+</description>
+    </item>
+    
+    <item>
+      <title>truewifi.net == big FAIL for usability</title>
+      <link>http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html</link>
+      <pubDate>Thu, 10 Apr 2008 10:44:08 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html</guid>
+      <description>Today I got myself a true wifi package for 500 Baht/month. Its quite nice as our new office doesn&#39;t have a fixed line yet... and true wifi&#39;s signal reaches here....
+
+I logged in to truewifi.net today to change my password, and found that everything is in Thai, that&#39;s not bad as Thai people prefer reading in Thai. I looked around, couldn&#39;t find a language switch until i found this in the top right corner.
+
+&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/04/true.png&#34; title=&#34;truewifi.net&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/04/true_th.png&#34; alt=&#34;true wifi&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
+
+(click image above for full screen shot)
+
+Guessed it was for language switching based on the words in the url... Im sure an average English speaking internet user wouldn&#39;t be able to figure this out.
+
+My question to True is &lt;strong&gt;Why have an English version when only the Thai readers would be able to access it?&lt;/strong&gt; or does True want to show the English version only to the Thai readers to &lt;strong&gt;show off&lt;/strong&gt;. They didnt think anyone would actually &lt;strong&gt;need&lt;/strong&gt; to use it.
+
+The good part is they don&#39;t have any blinking things on it yet.
+</description>
+    </item>
+    
+    <item>
+      <title>Blognone.com gets English Language sub-forum</title>
+      <link>http://www.sajalkayan.com/blognonecom-gets-english-language-sub-forum.html</link>
+      <pubDate>Wed, 05 Mar 2008 09:52:08 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/blognonecom-gets-english-language-sub-forum.html</guid>
+      <description>Yesterday &lt;a href=&#34;http://www.isriya.com/&#34; target=&#34;_blank&#34;&gt;mk&lt;/a&gt; of &lt;a href=&#34;http://www.blognone.com&#34; target=&#34;_blank&#34;&gt;blognone.com&lt;/a&gt; &lt;a href=&#34;http://www.blognone.com/node/7150&#34; target=&#34;_blank&#34;&gt;announced the launch&lt;/a&gt; of a new &lt;a href=&#34;http://www.blognone.com/english&#34; target=&#34;_blank&#34;&gt;sub-forum to conduct discussions in English&lt;/a&gt; Language on the site which is otherwise in Thai.
+
+The Announcement :-
+&lt;blockquote&gt;&lt;em&gt;Dear non-Thai members (or Thai members who want to talk in English),&lt;/em&gt;
+
+&lt;em&gt;This forum is for discuss on (almost) everything you want to. The only thing you should know is Blognone uses Markdown as default input format. Please see the instruction manual from the link if you’ve never heard of Markdown before. Anyway, HTML is also selectable in the input format tab under the textbox.&lt;/em&gt;
+
+&lt;em&gt;Now enjoy talking! &lt;/em&gt;&lt;/blockquote&gt;
+This is excelent news for those who dont read or write much Thai as well as the Thais who want to communicate more in English to have more practice. Finally there is now a place where foreigners and Thais can chare ideas and views.
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/bn-logo-cropped.png&#34; alt=&#34;Blognone Logo&#34; /&gt;
+
+About Blognone :-
+&lt;blockquote&gt;&lt;em&gt;Blognone is Thai independent IT news site. It was found on August 2004 and driven by geek community in Thailand. Our goals are:&lt;/em&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;em&gt;deliver update and high quality IT news in Thai language&lt;/em&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;sharing knowledge between IT industry/community&lt;/em&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;promote use of open source, open standard and other good alternative concepts&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+IMHO Blognone.com is also a good example of a community website built using Drupal.
+</description>
+    </item>
+    
+  </channel>
+</rss>

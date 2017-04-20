@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Yahoo on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/yahoo.xml</link>
+    <description>Recent content in Yahoo on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/yahoo.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Ruby class to fetch suggested keywords</title>
+      <link>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</link>
+      <pubDate>Sun, 03 Aug 2008 22:53:12 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</guid>
+      <description>I have recently &lt;a href=&#34;http://twitter.com/sajal/statuses/872225824&#34;&gt;ditched Perl and fell for Ruby&lt;/a&gt;. 
+
+Here is a Ruby class which gets suggested keywords from yahoo API and presents it in a comma separated list. This might be useful for people who use Ruby to upload/edit multiple posts and need to tag them automagically.
+
+This might be awfully simple for the hardcore guys, but for a noob like me, had I come across this example earlier it would have saved me an hour or so. Here it goes...
+
+The Class :-
+&lt;pre lang=&#34;ruby&#34;&gt;# A ruby class to fetch suggested keywords using Yahoo&#39;s term Extraction API
+ require &#39;rubygems&#39;
+require &#39;xmlsimple&#39;
+require &#39;net/http&#39;
+
+class Tagger
+  def content
+    @content
+  end
+  def content=(content)
+    @content = content
+  end
+    def appid
+    @appid
+  end
+  def appid=(appid)
+    @appid = appid
+  end
+  def initialize
+
+  end
+  def fetch
+          url = URI.parse(&#39;http://search.yahooapis.com/ContentAnalysisService/V1/termExtraction&#39;)
+      post_args = {
+            &#39;appid&#39; =&amp;gt; appid,
+            &#39;context&#39; =&amp;gt; content,
+            &#39;output&#39; =&amp;gt; &#34;xml&#34;
+      }
+      resp1, xml_data = Net::HTTP.post_form(url, post_args)
+      keywords = &#34;&#34;
+      data = XmlSimple.xml_in(xml_data)
+      data[&#39;Result&#39;].each do |item|
+      keywords = keywords + item + &#34;, &#34;
+      end
+      return keywords
+  end
+end&lt;/pre&gt;
+Download the class &lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/08/tagger.rb&#34;&gt;here&lt;/a&gt;
+Sample usage :
+&lt;pre lang=&#34;ruby&#34;&gt;require &#39;tagger&#39;
+tagg = Tagger.new
+tagg.appid =     &#39;GO_GET_YOUR_OWN!&#39;
+tagg.content = &#34;The content of the post.....&#34;
+puts tagg.fetch&lt;/pre&gt;
+
+The appid is available from the &lt;a href=&#34;http://developer.yahoo.com/wsregapp/&#34;&gt;Yahoo Developer Network&lt;/a&gt;
+Limitations : Maximum 5000 queries per day per IP.
+</description>
+    </item>
+    
+    <item>
+      <title>Extract info from flickr using Flickr::API in Perl</title>
+      <link>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
+      <pubDate>Sat, 01 Mar 2008 18:09:21 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
+      <description>Today i learnt a neat trick. It it took me more time to make the script than it would have taken me to do the task manually.. the old fashioned way.. but it would save me(and hopefully you) a lot of time in the future. &lt;a href=&#34;http://www.flickr.com/services/api/&#34; title=&#34;Flickr API&#34;&gt;Flickr does have a nice API&lt;/a&gt; with many methods, almost everything which can be done via flickr website can be done using this API. You would need to have a &lt;a href=&#34;http://www.flickr.com/services/api/keys/&#34;&gt;Flickr API key&lt;/a&gt; to use this script.
+
+The objective : To generate some html code based on the images in &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/sets/72157604016439437/&#34; title=&#34;Indian Ambassador visits 41st Bangkok Gems &amp;amp; Jewelry Fair &#34; target=&#34;_blank&#34;&gt;one particular set&lt;/a&gt; in my &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/&#34; target=&#34;_blank&#34;&gt;flickr account&lt;/a&gt; and to &lt;a href=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; title=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; target=&#34;_blank&#34;&gt;display them&lt;/a&gt; in a nice manner(well better than earlier ;) ) using &lt;a href=&#34;http://www.huddletogether.com/projects/lightbox2/&#34; target=&#34;_blank&#34;&gt;Lightbox2&lt;/a&gt;
+
+I am not going to go into details on how to use Lightbox. &lt;a href=&#34;http://www.huddletogether.com/projects/lightbox2/&#34; title=&#34;Lightbox2 instructions&#34;&gt;This page&lt;/a&gt; is detailed enough.&lt;!--more--&gt;
+
+The perl script which gets the photo details and generates the HTML :-
+&lt;pre lang=&#34;perl&#34;&gt;#!/usr/bin/perl
+use Flickr::API;
+#use XML::Simple;
+use Data::Dumper;
+use XML::Parser::Lite::Tree::XPath;
+
+use warnings;
+#use strict;
+
+my $api = new Flickr::API({&#39;key&#39; =&amp;gt; &#39;YOUR_API_KEY&#39;}); #Get your own!!!
+
+my $response = $api-&amp;gt;execute_method(&#39;flickr.photosets.getPhotos&#39;, {
+&#39;photoset_id&#39; =&amp;gt; &#39;72157604016439437&#39;, #enter required set id here
+});
+#  print Dumper($response);
+#print $response-&amp;gt;{ &#39;_content&#39; };
+
+my $xpath = new XML::Parser::Lite::Tree::XPath($response-&amp;gt;{tree});
+my @photos = $xpath-&amp;gt;select_nodes(&#39;/photoset/photo&#39;);
+
+foreach (@photos) {
+# flickr image url format : http://farm{farm-id}.static.flickr.com/{server-id}/{id}_{secret}_[mstb].jpg
+
+$thumb = &#34;http://farm$_-&amp;gt;{attributes}-&amp;gt;{farm}.static.flickr.com/$_-&amp;gt;{attributes}-&amp;gt;{server}/$_-&amp;gt;{attributes}-&amp;gt;{id}_$_-&amp;gt;{attributes}-&amp;gt;{secret}_m.jpg&#34;;
+$image= &#34;http://farm$_-&amp;gt;{attributes}-&amp;gt;{farm}.static.flickr.com/$_-&amp;gt;{attributes}-&amp;gt;{server}/$_-&amp;gt;{attributes}-&amp;gt;{id}_$_-&amp;gt;{attributes}-&amp;gt;{secret}.jpg&#34;;
+
+print &#34;&amp;lt;a href=\&#34;$image\&#34; rel=\&#34;lightbox[fair]\&#34; title=\&#34;$_-&amp;gt;{attributes}-&amp;gt;{title}\&#34;&amp;gt;&amp;lt;img src=\&#34;$thumb\&#34; border=\&#34;0\&#34; hspace=\&#34;5\&#34; vspace=\&#34;5\&#34;&amp;gt;&amp;lt;/a&amp;gt;\n&#34;;
+}&lt;/pre&gt;
+The HTML output of this script :-
+&lt;pre lang=&#34;html&#34;&gt;&amp;lt;a href=&#34;http://farm4.static.flickr.com/3248/2301055721_7a695b5b79.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3248/2301055721_7a695b5b79_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2346/2301054265_f3e7a2e539.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2346/2301054265_f3e7a2e539_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2086/2301052523_614291d39f.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2086/2301052523_614291d39f_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3203/2301050911_da68c89d63.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3203/2301050911_da68c89d63_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3073/2301048901_455600cd48.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3073/2301048901_455600cd48_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3202/2301839852_565c82b82d.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE Arrives at Impact&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3202/2301839852_565c82b82d_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2167/2301838056_fb84e7bb5e.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2167/2301838056_fb84e7bb5e_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2166/2301836304_f11b5f2bc3.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2166/2301836304_f11b5f2bc3_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3230/2301834582_6c3f4ca71c.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3230/2301834582_6c3f4ca71c_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2077/2301832676_ca32e4eb11.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2077/2301832676_ca32e4eb11_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2159/2301831216_a8a1da1365.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2159/2301831216_a8a1da1365_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2231/2301036165_29cbc3dd3c.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2231/2301036165_29cbc3dd3c_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2214/2301827924_1de12ef380.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2214/2301827924_1de12ef380_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3074/2301826874_a595a19957.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3074/2301826874_a595a19957_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3079/2301032457_32f39cc0d7.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3079/2301032457_32f39cc0d7_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2382/2301824634_6ba7b41bd2.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2382/2301824634_6ba7b41bd2_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3250/2301030191_436d6e5a95.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3250/2301030191_436d6e5a95_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3139/2301822602_66382566ae.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3139/2301822602_66382566ae_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2195/2301821596_88c3278dcc.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2195/2301821596_88c3278dcc_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3021/2301027405_176f9aeda9.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3021/2301027405_176f9aeda9_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2295/2301026337_a3942dbfa0.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2295/2301026337_a3942dbfa0_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2384/2301818564_5405f3573e.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2384/2301818564_5405f3573e_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2186/2301817466_4abc7faf6a.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2186/2301817466_4abc7faf6a_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3191/2301022991_875e882e8d.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;Gemopolis Booth&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3191/2301022991_875e882e8d_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3106/2301815264_0ae648e6eb.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3106/2301815264_0ae648e6eb_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3184/2301020869_bcb0ea306b.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;Diamrusa&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3184/2301020869_bcb0ea306b_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2375/2301019793_13fcc79fb9.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2375/2301019793_13fcc79fb9_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3036/2301018549_fa84634000.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1007&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3036/2301018549_fa84634000_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2043/2301810588_c16813e905.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1008&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2043/2301810588_c16813e905_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3029/2301809450_cda4274ff8.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3029/2301809450_cda4274ff8_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2121/2301808382_427d245157.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;Indian-Thai Diamond and Colorstone Association&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2121/2301808382_427d245157_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3040/2301807152_271d73d751.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3040/2301807152_271d73d751_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2003/2301012603_064325c351.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2003/2301012603_064325c351_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2262/2301804766_3b4a195f35.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1017&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2262/2301804766_3b4a195f35_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3073/2301803616_3f355973a6.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1018&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3073/2301803616_3f355973a6_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm4.static.flickr.com/3050/2301802460_7303470fc5.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;dsc_1019&#34;&amp;gt;&amp;lt;img src=&#34;http://farm4.static.flickr.com/3050/2301802460_7303470fc5_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;
+&amp;lt;a href=&#34;http://farm3.static.flickr.com/2060/2301800990_86d25eede5.jpg&#34; rel=&#34;lightbox[fair]&#34; title=&#34;HE visits the Indian Exhibitors&#34;&amp;gt;&amp;lt;img src=&#34;http://farm3.static.flickr.com/2060/2301800990_86d25eede5_m.jpg&#34; border=&#34;0&#34; hspace=&#34;5&#34; vspace=&#34;5&#34;&amp;gt;&amp;lt;/a&amp;gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>How to Negotiate - Tips for Yahoo!</title>
+      <link>http://www.sajalkayan.com/how-to-negotiate-tips-for-yahoo.html</link>
+      <pubDate>Mon, 11 Feb 2008 14:04:18 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/how-to-negotiate-tips-for-yahoo.html</guid>
+      <description>Awesome video reached homepage of &lt;a href=&#34;http://www.lopsta.com/2008/02/13/50-diggs-zu-verschenken/&#34; target=&#34;_blank&#34;&gt;digg&lt;/a&gt; from 2 separate links!
+&lt;object width=&#39;425&#39; height=&#39;345&#39; id=&#39;FiveminPlayer&#39;&gt;&lt;param name=&#39;allowfullscreen&#39; value=&#39;true&#39;/&gt;&lt;param name=&#39;allowScriptAccess&#39; value=&#39;always&#39;/&gt;&lt;param name=&#39;movie&#39; value=&#39;http://www.5min.com/Embeded/5794173/&#39;/&gt;&lt;embed src=&#39;http://www.5min.com/Embeded/5794173/&#39; type=&#39;application/x-shockwave-flash&#39; width=&#39;425&#39; height=&#39;345&#39; allowfullscreen=&#39;true&#39; allowScriptAccess=&#39;always&#39;&gt;&lt;/embed&gt;&lt;/object&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

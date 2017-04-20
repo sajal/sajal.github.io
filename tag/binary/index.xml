@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Binary on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/binary.xml</link>
+    <description>Recent content in Binary on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/binary.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Building binary executables for Android in Go</title>
+      <link>http://www.sajalkayan.com/post/go-android-binary.html</link>
+      <pubDate>Tue, 26 Jan 2016 16:00:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/go-android-binary.html</guid>
+      <description>&lt;p&gt;I have a use-case to run an &lt;em&gt;external&lt;/em&gt; Go binary from within an Android app. By &lt;em&gt;external&lt;/em&gt; i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple &lt;strike&gt;problem&lt;/strike&gt; solution.&lt;/p&gt;
+
+&lt;p&gt;First thing I tried was building normal &lt;code&gt;linux/arm&lt;/code&gt; binaries that I use for normal arm devices.
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~&lt;span style=&#34;color: #996633&#34;&gt;$ GOARCH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;arm&amp;quot;&lt;/span&gt; go build /path/to/filewithmain.go
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+The generated binary works in general&amp;hellip; until you try to access the net&amp;hellip; all socket communications are blocked. After trying few random things, I realized its due to me not using the NDK to build it&amp;hellip; The binary needs to be built with &lt;code&gt;android/arm&lt;/code&gt; target. &lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;gomobile&lt;/a&gt; to the rescue.&lt;/p&gt;
+
+&lt;p&gt;gomobile allows us to either &lt;a href=&#34;http://www.sajalkayan.com/post/android-apps-golang.html&#34;&gt;generate an &lt;code&gt;.aar&lt;/code&gt; library or an &lt;code&gt;.apk&lt;/code&gt;&lt;/a&gt;, both are not applicable here. Solution - use the toolchain gomobile installed but compile code by hand.&lt;/p&gt;
+
+&lt;p&gt;My compile command :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~$ GOMOBILE=&amp;quot;/home/sajal/go/pkg/gomobile&amp;quot; GOOS=android GOARCH=arm CC=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-gcc CXX=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-g++ CGO_ENABLED=1 GOARM=7 go build -p=8 -pkgdir=$GOMOBILE/pkg_android_arm -tags=&amp;quot;&amp;quot; -ldflags=&amp;quot;-extldflags=-pie&amp;quot; -o minion -x ~/go/src/github.com/turbobytes/pulse/minion.go
+sajal@sajal-lappy:~$ file minion
+minion: ELF 32-bit LSB  shared object, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), not stripped
+sajal@sajal-lappy:~$ ls -lh minion
+-rwxr-xr-x 1 sajal sajal 9.3M Jan 26 16:52 minion
+sajal@sajal-lappy:~$
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It took me a while to figure out the &lt;code&gt;-ldflags=&amp;quot;-extldflags=-pie&amp;quot;&lt;/code&gt; portion, without it my phone complains about binary not being in &lt;a href=&#34;https://en.wikipedia.org/wiki/Position-independent_code&#34;&gt;PIE format&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now need to wait for &lt;code&gt;android/368&lt;/code&gt; or &lt;code&gt;android/amd64&lt;/code&gt; support in gomobile so I can play with it in the emulator instead of real device&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;PS: I know what I am doing is probably an anti-pattern, but this is not a normal end user app. It would run on devices dedicated to this and I will sign and validate downloads.&lt;/p&gt;
+
+&lt;p&gt;PSS: I figured this out by mucking around with gomobile using the &lt;code&gt;-x&lt;/code&gt; option.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

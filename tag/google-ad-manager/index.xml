@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google Ad Manager on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/google-ad-manager.xml</link>
+    <description>Recent content in Google Ad Manager on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/google-ad-manager.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Complete Asynchronous ad loading using DFP and LABjs</title>
+      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <pubDate>Wed, 02 Mar 2011 18:43:51 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
+
+&lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
+
+One of the biggest challenges when optimizing performance of websites is third party content - specifically advertisements.
+
+Most ad networks and servers use evil document.write() in their JavaScript(and even nested document.writes) which block further rendering of the page until their code has completed execution. In this blogpost, I&#39;ll show how you can use &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=90777&#34;&gt;DFP&#39;s iframe tagging&lt;/a&gt;(read warnings there) combined with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt; and little bit of JavaScript hackery to make any ad load asynchronously with negligible impact on rest of the pageload.
+
+Attention Deficit Disorder version : &lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;Before&lt;/a&gt; - &lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;After&lt;/a&gt;
+
+NOTE: Use the method below entirely at your own risk! Use only if you know what you are doing...
+
+&lt;h3&gt;Current blocking method&lt;/h3&gt;
+
+DFP has an experimental method to load ads called iframe tagging. The JS looks like this :-
+
+The Bootstrap: In &amp;lt;head&amp;gt; (Does not have to be in &amp;lt;head&amp;gt; but before the first &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; call) :-
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+&amp;lt;script type=&#39;text/javascript&#39; src=&#39;http://partner.googleadservices.com/gampad/google_service.js&#39;&amp;gt;
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
+GS_googleEnableAllServices();
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GA_googleUseIframeRendering();
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+
+Then wherever we want the ads to display, we put something like this :-
+
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GA_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90);
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+
+With this method, the bootstrap does some blocking. First it loads a JavaScript then the following functions document.write another &amp;lt;script&amp;gt; tag which must load sequentially again. The &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; function is relatively inexpensive. All it seems to do is document.write an iframe with various targeting information as parameters in the URL and does not block further rendering. The advantage of iframe tagging is that slow ad networks don&#39;t fuck up your page. But the bootstrap is very expensive as shown in this waterfall chart.
+
+&lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;This&lt;/a&gt; is what it looks like.
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-async/normal.png&#34; alt=&#34;normal DFP iframe bootstrap&#34; title=&#34;normal DFP iframe bootstrap&#34; height=&#34;186&#34; width=&#34;485&#34; /&gt;
+
+&lt;h3&gt;The hack&lt;/h3&gt;
+
+Last few days, I&#39;ve been playing a little with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt;, specifically its &lt;a href=&#34;http://gist.github.com/603980&#34; title=&#34;Snippet to load LABjs itself dynamically&#34;&gt;complete async loader&lt;/a&gt;.
+
+After playing with LABjs, ive come up with the following LABjs snippet :-
+
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+      // intercepts the script inserted via document.write and loads it via LABjs
+      function docwrt(str){
+        var script = str.replace(/(.*)\=\&#34;/g, &#39;&#39;).replace(/\&#34;(.*)/g, &#39;&#39;);
+        $LAB.script(script).wait(function(){
+          GA_googleUseIframeRendering();
+          // following function makes the magic happen!
+          function Wrapper_googleFillSlotWithSize(pubid, slotname, width, height, target){
+            var docwrttemp = function(str){
+              target = document.getElementById(target);
+              target.innerHTML = str;
+            };  
+            document.write = docwrttemp;
+            GA_googleFillSlotWithSize(pubid, slotname, width, height);
+          }
+          // usage of the new wrapper here &#34;leaderboard&#34; and &#34;skyscraper&#34; are target div ids
+          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90, &#34;leaderboard&#34;);
+          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_sky&#34;, 160, 600, &#34;skyscraper&#34;);
+        });
+      }
+
+      document.write = docwrt; //intercepts document.write from below script
+      $LAB.script(&#34;http://partner.googleadservices.com/gampad/google_service.js&#34;).wait(function(){
+        GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
+        GS_googleEnableAllServices();
+      });
+
+&lt;/pre&gt;
+
+(note: Since I&#39;m lazy, I haven&#39;t restored &lt;em&gt;document.write&lt;/em&gt; back to its original glory.)
+
+Here &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; is a wrapper around &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; which takes a 5th argument - &lt;em&gt;target&lt;/em&gt; - This is the id of &amp;lt;div&amp;gt; where we want to show the ad.
+
+&lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; is a sample page using this hack. Id appreciate it if I get some feedback about this method via comments below. As I said earlier, use your own better judgment before using this snippet in production. I welcome criticism but will not accept blame if this doesn&#39;t work for you. 
+
+In my simple example, it may seem it takes longer to fully load the page, but if you have many other things on the page, the overall effect will be better with this hack. Moreover, if you are already using LABjs on your site, this is a no-brainer. With this method, even if Google is inaccessible(for whatever reasons) it wont &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;SPOF&lt;/a&gt; your page.
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/dfp-async/video.mp4&#34;&gt;Slow motion video&lt;/a&gt; of pageloads on IE8:-
+
+&lt;iframe title=&#34;YouTube video player&#34; width=&#34;500&#34; height=&#34;311&#34; src=&#34;http://www.youtube.com/embed/Vz2unMmBN_8&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+Generated via &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;webpagetest.org&lt;/a&gt;
+
+Left is normal method, right is hacked version.
+
+Currently tested on IE(7 thru 9), Firefox 3.6.11, Chrome 10.0.648.45 dev and an unknown version of Safari.
+
+&lt;h3&gt;Conclusions...&lt;/h3&gt;
+
+The world would be a much better place without the evil document.write(). Google should know better. They should make a function like &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; by default.
+</description>
+    </item>
+    
+    <item>
+      <title>Future releases of Firefox to speed page load time considerably?</title>
+      <link>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
+      <pubDate>Wed, 20 Jan 2010 14:29:58 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
+      <description>Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
+
+Especially when within one ad code, I have a default ad code and that too has a default. This means, when an impression is trying to be filled, the ad network decides, if they can fill the impression based on parameters I set or not. If not, then they pass the impression down the chain to another network. It goes on until the end network. In my case the chain is mostly 3 networks. I cant increase it as it results in a poorer user experience.
+
+&lt;img src=&#34;http://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
+
+Recently, Google started showing average response times in &lt;a href=&#34;https://www.google.com/webmasters/tools/home?hl=en&#34;&gt;Google Webmaster Tools&lt;/a&gt; so, Ive started worrying about these things more than I should.
+
+On &lt;a title=&#34;Thaindian News&#34; href=&#34;http://www.thaindian.com/newsportal/&#34;&gt;my site&lt;/a&gt;, I have 2 ad blocks(leaderboard, skyscraper and another block which shows up on individual story pages) which load up before the main content page. Recently I moved the ads to Google ad manager which has a &lt;a href=&#34;http://www.google.com/support/admanager/bin/answer.py?hl=en&amp;amp;answer=94394&#34;&gt;wonderful way of debugging ad loading&lt;/a&gt; by adding ?google_debug to the end of the URL.
+
+My first impression of &lt;a href=&#34;https://www.google.com/admanager&#34;&gt;Google ad manager&lt;/a&gt; was excellent. My page was no more held up while the ads loaded, but soon I realized thats not an admanager feature, it is &lt;strong&gt;firefox 3.5.8pre&lt;/strong&gt; which is speeding things up.
+
+&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+
+Browsers Useragent : &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8pre) Gecko/20100116 Ubuntu/9.04 (jaunty) Shiretoko/3.5.8pre&lt;/em&gt; (Click image for full screenshot)
+
+My tests on my laptop shows otherwise. (it runs 3.0.17).
+
+&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+
+Browsers Useragent: &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.16) Gecko/2009121601 Ubuntu/9.04 (jaunty) Firefox/3.0.17&lt;/em&gt; (Click on image for full screenshot)
+
+This does not speed up much on Chrome or IE too... They all show that the &#34;Time the page is blocked fetching ads from Google&#34; to range between 1000ms to 2500ms. The variation is irrelevant its due to network issues and ad server response times. But the bottom line is that these browsers do hold up the page while the ads load.
+
+Maybe this is an improvement in the latest Ubuntu nightly build or a general improvement, whatever it is, the future is &lt;a href=&#34;http://www.getfirefox.com/&#34;&gt;Firefox&lt;/a&gt; and they are &lt;a href=&#34;http://www.mozilla.com/en-US/firefox/fastest/&#34;&gt;fast&lt;/a&gt;!
+
+So far, there has been no proper way to load ads such that they don&#39;t block the rest of the page from loading. The 2 ways i know of are very ugly and I don&#39;t like them :-
+&lt;ol&gt;
+	&lt;li&gt;Load the target adscript from a separate HTML file loaded via iframe - costs one extra request/ad code, may screw up ad targeting, etc.&lt;/li&gt;
+	&lt;li&gt;Place a blank hidden div in place of ad, load the ad in a hidden div below the actual content and then using javascript trickery swap contents of the hidden div with this ad div. - sounds ugly again. not a neat solution.&lt;/li&gt;
+&lt;/ol&gt;
+Of course there is a neat and ideal solution... which is to make your template in such a way(CSS absolute positioning or something) such that the HTML of the content appears before in the code than the ad javascript... but again this is cumbersome. &lt;a href=&#34;http://www.google.com/support/forum/p/Google+Ad+Manager/thread?tid=4e3c789b45f46902&amp;amp;hl=en&#34;&gt;Interesting discussion here&lt;/a&gt;.
+
+In an ideal world, all ad networks would be banned from using &lt;em&gt;document.write&lt;/em&gt; in their scripts and use some form of ajax to call the banner code after(or during) rest of the page has loaded. Its not 2001 anymore!
+
+Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
+
+The info i need, could be like the following example:-
+
+&lt;em&gt;User Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8pre) Gecko/20100116 Ubuntu/9.04 (jaunty) Shiretoko/3.5.8pre
+Debug: -
+7342	Information  	Time the page is blocked fetching ads from Google 0 ms
+7343	Information  	Time the page is blocked rendering ads from Google 0 ms&lt;/em&gt;
+Your useragent can be checked &lt;a href=&#34;http://whatsmyuseragent.com/&#34;&gt;here&lt;/a&gt;.
+
+Video of pageload on Google Chrome:-
+&lt;object width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/M6B9t2tbwx0&amp;hl=en_US&amp;fs=1&amp;&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/M6B9t2tbwx0&amp;hl=en_US&amp;fs=1&amp;&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+
+Video of pageload on Firefox 3.6pre(Ubuntu build):-
+&lt;object width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/4SIMl8IEZsg&amp;hl=en_US&amp;fs=1&amp;&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/4SIMl8IEZsg&amp;hl=en_US&amp;fs=1&amp;&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+
+&lt;strong&gt;UPDATE&lt;/strong&gt;: I upgraded my main browser to Firefox 3.6 (Your User Agent: Mozilla/5.0 (&lt;em&gt;X11; U; Linux x86_64; en-US; rv:1.9.2pre) Gecko/20100120 Ubuntu/9.04 (jaunty) Namoroka/3.6pre&lt;/em&gt;) same results as 3.5.8pre its bloody fast and doesn&#39;t stall the pageload waiting for ads.
+
+&lt;strong&gt;UPDATE 2:&lt;/strong&gt; Based on comment by Archit below, the speed improvement is not visible on 3.6rc2 . My conclusions are based on the nightly builds by the &lt;a href=&#34;https://launchpad.net/~ubuntu-mozilla-daily&#34;&gt;Ubuntu Mozilla Daily Build Team&lt;/a&gt;
+
+&lt;strong&gt;UPDATE 3:&lt;/strong&gt; Added videos
+
+&lt;strong&gt;UPDATE 4:&lt;/strong&gt; For my site I implemented the hidden div trick, so for now, all browsers will not notice the visual delay.
+</description>
+    </item>
+    
+  </channel>
+</rss>

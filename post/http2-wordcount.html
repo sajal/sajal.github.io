@@ -58,11 +58,11 @@ https://keybase.io/sajal -->
     <ul class="sidebar-nav">
       <li><a href="/">Home</a> </li>
       
-        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+        <li><a href="/about.html"> About me </a></li>
       
     </ul>
 
-    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -162,7 +162,7 @@ document are to be interpreted as described in RFC 2119 [RFC2119].
 
 <p>Quick and dirty python script to do the word counts.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">re</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #333333">&lt;</span>pre<span style="color: #333333">&gt;&lt;</span>code<span style="color: #333333">&gt;</span><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">re</span>
 <span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">httplib2</span> <span style="color: #008800; font-weight: bold">import</span> Http
 <span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">collections</span> <span style="color: #008800; font-weight: bold">import</span> defaultdict
 
@@ -193,7 +193,7 @@ WORDS <span style="color: #333333">=</span> [<span style="background-color: #fff
     counts[<span style="background-color: #fff0f0">&quot;mustpct&quot;</span>] <span style="color: #333333">=</span> counts[<span style="background-color: #fff0f0">&quot;MUST&quot;</span>] <span style="color: #333333">*</span> <span style="color: #6600EE; font-weight: bold">100.0</span> <span style="color: #333333">/</span> total
     counts[<span style="background-color: #fff0f0">&quot;shouldpct&quot;</span>] <span style="color: #333333">=</span> counts[<span style="background-color: #fff0f0">&quot;SHOULD&quot;</span>] <span style="color: #333333">*</span> <span style="color: #6600EE; font-weight: bold">100.0</span> <span style="color: #333333">/</span> total
     counts[<span style="background-color: #fff0f0">&quot;maypct&quot;</span>] <span style="color: #333333">=</span> counts[<span style="background-color: #fff0f0">&quot;MAY&quot;</span>] <span style="color: #333333">*</span> <span style="color: #6600EE; font-weight: bold">100.0</span> <span style="color: #333333">/</span> total
-    <span style="color: #008800; font-weight: bold">return</span> counts 
+    <span style="color: #008800; font-weight: bold">return</span> counts
 
 
 <span style="color: #008800; font-weight: bold">if</span> __name__ <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;__main__&quot;</span>:
@@ -206,15 +206,13 @@ WORDS <span style="color: #333333">=</span> [<span style="background-color: #fff
     counts <span style="color: #333333">=</span> count_url(<span style="background-color: #fff0f0">&quot;https://tools.ietf.org/html/rfc7235&quot;</span>, counts)
     <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&quot;rfc723[0-5]&quot;</span>, summarize(counts)
     <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&quot;draft-ietf-httpbis-http2-17&quot;</span>, summarize(count_url(<span style="background-color: #fff0f0">&quot;https://tools.ietf.org/id/draft-ietf-httpbis-http2-17.txt&quot;</span>, defaultdict(<span style="color: #007020">int</span>)))
+<span style="color: #333333">&lt;/</span>code<span style="color: #333333">&gt;&lt;/</span>pre<span style="color: #333333">&gt;</span>
 </pre></div>
+
 
       
       <div>
-  Tags:  
-    <a href="/tag/http/1.1">http/1.1</a> </li>
-   
-    <a href="/tag/http/2">http/2</a> </li>
-   <br />
+  Tags:  <br />
   Categories:  <br />
 
 </div>
@@ -257,18 +255,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJYAnFlAAoJEDlkkKy/FYKPM6gP/RwbCXpYvXppTC2dO7POX+Rw
-QCcCcLrWFH5eJjmb53BZKGvvR0K+6YKKy1fxU+gqINBQbeamBuD5z3P0mm/MfVEh
-EqjnnwscCIpWUfSQ6/mWcLIbPCIxHRu2etM6CzI6q8kGqpAKlAgln+3lSFah1XOJ
-OwpmOHfdRNoz0+CVtQEdGnlSczFyrrUeM6HfZgWUwVvYnTvCfIWYvlNsD9mD0F00
-z0rROdXmdOGgB+Mvnas+rc3Eb5Gi+IYTVvRybfeedgJTqGLTU9uJWlPzRuusSkIo
-R0EAbRoAjX+c7Ry4HvSL3N8aeSAtueadHVxUy+KzSHzbwxMLMYxlCjDC9xG1YdgH
-bJWfWzdyb7NSljqpE1fN79zm6FNWfEIT0kgh3Osx28VyIPfVzP46jfi+4rcc//MI
-xQmQc+8MBvfjNkI3vNvoGYreGpYPJmYg/c8dE/y929nM9bHSeF33V4+uVtM62nnH
-aCAVnBiwfxZ3y/j3isMlL0x96j8OuzV3L7vJ3t2cgL23Gm6DUUwDIJplvnAEGbaF
-Ul4IR0BRzPvXpoYwAPxf0b9bYRrOf1kEOFuM1XQ73H8JqUflHPpJMoXPOiiQf6UA
-aLJ72OXh8cVxI6LAcGrEcXTncPte1BWHv3pHQvA7gRDPl9Thv0EdFv1bWTKNT4Jr
-H/hobAkHLk09W7JLrX81
-=+ziy
+iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPP60P/Rsf+vxYAzKUYsWO8ezgXHMP
+kd7GKlalIq4axyIWqLM7zJTwzyEFJUQwoBulg4o90owQLYLXT7xrBPZAE1CjyezW
+k7P7FiltzRjs3RWHQsFClMYCzmTHMHUS9iMC5r8ysi0aG79WlgNs/0KsDBQxTXMX
+v3foKrgbAf1xFk0ScmtEFNre0f61QWGitlYSKCDUFkSdNuUMH41RGOcbUy+WuN4u
+zKCGpK3/ChLOo2d8ujzxrrYme0SZz0/6SxiTpPpChWPohD6As7Zgk6H4WFpQK/Kt
+miXHJsWJ3Y7i+ICqvnmFM4+VO8WpoppZgPBkk/bL0beJx37KDxSCtBGGjYfJnUvq
+G9cEWbSVeULDfPGba0yHgxcYg1nGdv6m+v6FF786pdJDS7sVLMM7ruuCnMiSK5XA
+ku6m+5+33s4fI/rlTnKeURkhy4JSMjcY3+JZ4/qszKvRUVeSUuY9k5aKj2+3iguC
+UjkdoT7TgzTt5YARgAOT+UYAfSVcXe3IxG42nIwbB7oU9red57zZTkhkGFWX2O50
+3ziSIyPvXRiHC/xROe+TbsrVQHaGMyyG5eQiwo/y69FjmiAb2hPe68Ij/eK5nNxd
+Izg7JD23T2BJShhpiLW0Kq6tm2cJDxXGZT4OC9ekuRGWxXqNXNJhae0pmmGIcOJf
+cbYrd6eflsXM17bsbtuV
+=8Uz8
 -----END PGP SIGNATURE-----
 -->

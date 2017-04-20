@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Facebook on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/facebook.xml</link>
+    <description>Recent content in Facebook on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/facebook.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Facebook.com banned in Thailand?</title>
+      <link>http://www.sajalkayan.com/facebook-banned-thailand.html</link>
+      <pubDate>Fri, 15 Aug 2008 09:24:18 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/facebook-banned-thailand.html</guid>
+      <description>Since the past few hours, it appears to me that True ISP of Thailand is trying to block one of the most popular socual networking site Facebook. The situation is not as serious as the title makes it sound.... but what the he_l it would be reality when someone at the ministry logs into it for the first time....
+
+On attempting to open any page within facebook we get the friendly message which looks very much like it is generated from True&#39;s stupid transparent proxy.
+
+&lt;img class=&#34;alignnone size-full wp-image-98&#34; title=&#34;Facebook blocked in thailand?&#34; src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/08/facebook-blocked.png&#34; alt=&#34;&#34; width=&#34;352&#34; height=&#34;160&#34; /&gt;
+
+Just now my staff called True and guess what? The true helpdesk simply asked us to use their proxy in the settings.
+Proxy server : &lt;strong&gt;proxy.asianet.co.th&lt;/strong&gt;
+Port : &lt;strong&gt;8080&lt;/strong&gt;
+
+So does changing from transparent to an explicit proxy mean we are going from the frying pan into the fire?
+
+&lt;strong&gt;Long live &#39;ssh -D&#39;&lt;/strong&gt;
+
+Now, didn&#39;t some lawmaker dude say that its illegal to connect via proxies or sumthin?
+</description>
+    </item>
+    
+    <item>
+      <title>Facebook founder is the worlds youngest billionaire</title>
+      <link>http://www.sajalkayan.com/facebook-founder-is-the-worlds-youngest-billionaire.html</link>
+      <pubDate>Thu, 06 Mar 2008 14:20:58 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/facebook-founder-is-the-worlds-youngest-billionaire.html</guid>
+      <description>&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/facebook_logo.jpg&#34; alt=&#34;facebook logo&#34; align=&#34;right&#34; hspace=&#34;5&#34; vspace=&#34;3&#34; /&gt;Like many other people his age, &lt;strong&gt;Mark Zuckerberg&lt;/strong&gt; the founder of social networking site &lt;strong&gt;Facebook&lt;/strong&gt; spends most of his day in front of a computer screen. But he is no ordinary 23-year-old he’s officially the world’s youngest US billionaire.
+
+&lt;strong&gt;Worth 1.5 billion dollars&lt;/strong&gt;, the young man has made a debut in this years Forbes magazine’s list of the World’s Billionaires where he has secured the 785th rank.&lt;!--more--&gt;
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/mark.jpg&#34; alt=&#34;facebook founder&#34; align=&#34;left&#34; hspace=&#34;5&#34; vspace=&#34;3&#34; /&gt;According to the Forbes, &lt;strong&gt;Zuckerberg is the youngest self-made man ever to make its list&lt;/strong&gt;, reports People.
+
+First- and third-ranked Investor Warren Buffett and Microsoft founder Bill Gates, who have held the top spot for the previous 13 years running, have fortunes valued at 62 billion dollars and 58 billion dollars, respectively.
+
+The number two position in Forbes magazine’s list of the World’s Billionaires has been taken by Mexican telecom tycoon Carlos Slim Helu, who has a fortune worth 60 billion dollars.
+
+This year’s World’s Richest Woman, with 22.9 billion dollars and a 17 ranking on the list, is France’s Liliane Bettencourt. Her father was the founder of L’Oreal.
+
+Now I want to be like Mark Zuckerberg!
+
+&lt;script&gt;function fbs_click() {u=location.href;t=document.title;window.open(&#39;http://www.facebook.com/sharer.php?u=&#39;+encodeURIComponent(u)+&#39;&amp;t=&#39;+encodeURIComponent(t),&#39;sharer&#39;,&#39;toolbar=0,status=0,width=626,height=436&#39;);return false;}&lt;/script&gt;&lt;style&gt; html .fb_share_link { padding:2px 0 0 20px; height:16px; background:url(http://static.ak.facebook.com/images/share/facebook_share_icon.gif?44:26981) no-repeat top left; }&lt;/style&gt;&lt;a href=&#34;http://www.facebook.com/share.php?u=/facebook-founder-is-the-worlds-youngest-billionaire.html&#34; onclick=&#34;return fbs_click()&#34; target=&#34;_blank&#34; class=&#34;fb_share_link&#34;&gt;Share on Facebook&lt;/a&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

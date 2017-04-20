@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Personal on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/category/personal.xml</link>
+    <description>Recent content in Personal on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/category/personal.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>My nerdiness!</title>
+      <link>http://www.sajalkayan.com/my-nerdiness.html</link>
+      <pubDate>Fri, 20 Jun 2008 04:06:02 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/my-nerdiness.html</guid>
+      <description>Seems today I have nothing better to do... or maybe too lazy to do actual work !
+
+via &lt;a href=&#34;http://sugree.com/node/177&#34;&gt;Sugree&lt;/a&gt;
+
+Nerd Test 1 :-
+
+&lt;a href=&#34;http://www.nerdtests.com/nq_ref.html&#34;&gt;
+&lt;img src=&#34;http://www.nerdtests.com/images/badge/081555d1195d0bfc.gif&#34; alt=&#34;I am nerdier than 88% of all people. Are you a nerd? Click here to find out!&#34;&gt;&lt;/a&gt;
+
+Nerd Test 2 :-
+
+&lt;a href=&#34;http://www.nerdtests.com/nt2ref.html&#34;&gt;
+&lt;img src=&#34;http://www.nerdtests.com/images/badge/nt2/2002efc32a6931ea.png&#34; alt=&#34;NerdTests.com says I&#39;m a Dorky Technology Geek.  What are you?  Click here!&#34;&gt;
+&lt;/a&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>My history</title>
+      <link>http://www.sajalkayan.com/my-history.html</link>
+      <pubDate>Mon, 14 Apr 2008 17:02:35 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/my-history.html</guid>
+      <description>Stolen idea from &lt;a href=&#34;http://sugree.com/node/114&#34; title=&#34;Sugree&#39;s history&#34; target=&#34;_blank&#34;&gt;Sugree&lt;/a&gt;...
+&lt;pre lang=&#34;Bash&#34;&gt;[sajal@localhost ~]$ history|awk &#39;{a[$2]++} END{for(i in a){printf &#34;%5d\t%s\n&#34;,a[i],i}}&#39;|sort -rn|head
+239   ./autofollow.pl
+149   ssh
+96   ping
+56   df
+51   cd
+43   ls
+36   su
+23   GET
+22   ./gtalk.pl
+18   whois
+[sajal@localhost ~]$&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Im still alive!</title>
+      <link>http://www.sajalkayan.com/im-still-alive.html</link>
+      <pubDate>Thu, 20 Mar 2008 04:46:59 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/im-still-alive.html</guid>
+      <description>As some of you may have noticed (or not!) I haven&#39;t updated my blog in the last 11 days... Maybe someone gets the wrong idea that I was kidnapped by some M$ goons and brainwashed or something. This post simple proves that I am still here and here to stay!
+
+Just some of my projects are taking a lot of my time. I have the following planned out for my blog.
+&lt;ol&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.sajalkayan.com/now-finally-a-solution-to-clean-windows.html&#34;&gt;&lt;strike&gt;Pic - An effective tool designed specifically to clean Windoze xp&lt;/strike&gt;. - Done&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;Analysis of the digg effect. Few days ago &lt;a href=&#34;http://www.sajalkayan.com/facebook-founder-is-the-worlds-youngest-billionaire.html&#34; title=&#34;Facebook founder is the worlds youngest billionaire&#34;&gt;a pos&lt;/a&gt;t on my blog &lt;a href=&#34;http://digg.com/tech_news/Youngest_Billionaire_ever_Facebook_Founder_Mark_Zuckerberg&#34;&gt;got dugg&lt;/a&gt; to digg homepage.&lt;/li&gt;
+	&lt;li&gt;A continuation of the &lt;a href=&#34;http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html&#34; title=&#34;SEO and news.google.com - Run your own news website&#34;&gt;news.google.com SEO&lt;/a&gt; series. Thinking of something on &lt;em&gt;image optimization for news sites, &lt;a href=&#34;http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html&#34;&gt;what i learnt the hard way&lt;/a&gt; and its benefits&lt;/em&gt;.&lt;/li&gt;
+	&lt;li&gt;A continuation of my series on comparing &lt;a href=&#34;http://www.sajalkayan.com/tag/joomla&#34;&gt;Joomla&lt;/a&gt; and &lt;a href=&#34;http://www.sajalkayan.com/tag/drupal&#34;&gt;Drupal&lt;/a&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34;&gt;Drupal rulez Joomla sux!&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34;&gt;Drupal vs Joomla - The SEO viewpoint - Part 1 URLs&lt;/a&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;a href=&#34;http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html&#34;&gt;Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+	&lt;li&gt;Post an update on &lt;a href=&#34;http://www.sajalkayan.com/iifa-in-bangkok.html&#34;&gt;IIFA in Bangkok&lt;/a&gt; after a meeting this Friday(tomorrow) with source.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

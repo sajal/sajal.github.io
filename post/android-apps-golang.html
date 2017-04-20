@@ -58,11 +58,11 @@ https://keybase.io/sajal -->
     <ul class="sidebar-nav">
       <li><a href="/">Home</a> </li>
       
-        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+        <li><a href="/about.html"> About me </a></li>
       
     </ul>
 
-    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -107,70 +107,79 @@ https://keybase.io/sajal -->
 
 <p>Now install gomobile</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;export <span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
 go get golang.org/x/mobile/cmd/gomobile
 gomobile init  <span style="color: #888888">#This expects go 1.5 to be in PATH which we solved in the first step.</span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>Then I played with some example apps.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;export <span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
 <span style="color: #007020">cd</span> <span style="color: #996633">$GOPATH</span>/src/golang.org/x/mobile/example/basic/
 gomobile build .
 adb install basic.apk
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>Works on mobile&hellip; the only problem is that <a href="https://github.com/golang/mobile/blob/master/example/basic/main.go">this</a> is OpenGL stuff which I am totally clueless about.. So until the source of Ivy is released, I&rsquo;d have to make the UI in Java&hellip;</p>
 
 <p>First project DNS debugger. Much of the <a href="https://github.com/turbobytes/pulse">Go code</a> was written for <a href="https://pulse.turbobytes.com/">TurboBytes Pulse</a> already&hellip; Lets reuse this&hellip;.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;export <span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/gobeta/bin:<span style="color: #996633">$PATH</span>
 <span style="color: #996633">$ ANDROID_HOME</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;/home/sajal/Android/Sdk/&quot;</span> gomobile <span style="color: #007020">bind </span>github.com/turbobytes/pulse/utils
 panic: unsupported seqType: interface<span style="color: #333333">{}</span> / *types.Interface
 
 goroutine <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #333333">[</span>running<span style="color: #333333">]</span>:
 golang.org/x/mobile/bind.seqType<span style="color: #333333">(</span>0x7ff3da1cd498, 0xc8261c8e60, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/bind/seq.go:72 +0xaf8
+	/home/sajal/go/src/golang.org/x/mobile/bind/seq.go:72 +0xaf8
 golang.org/x/mobile/bind.<span style="color: #333333">(</span>*goGen<span style="color: #333333">)</span>.genStruct<span style="color: #333333">(</span>0xc82ab31730, 0xc8261ba7d0, 0xc8261c8dc0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:185 +0xfd4
+	/home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:185 +0xfd4
 golang.org/x/mobile/bind.<span style="color: #333333">(</span>*goGen<span style="color: #333333">)</span>.gen<span style="color: #333333">(</span>0xc82ab31730, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:424 +0x98b
+	/home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:424 +0x98b
 golang.org/x/mobile/bind.GenGo<span style="color: #333333">(</span>0x7ff3da1cd220, 0xc82ab66338, 0xc82015f780, 0xc8201ea780, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/bind/bind.go:47 +0x195
+	/home/sajal/go/src/golang.org/x/mobile/bind/bind.go:47 +0x195
 main.<span style="color: #333333">(</span>*binder<span style="color: #333333">)</span>.GenGo.func1<span style="color: #333333">(</span>0x7ff3da1cd220, 0xc82ab66338, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:158 +0x4d
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:158 +0x4d
 main.writeFile<span style="color: #333333">(</span>0xc82ab88740, 0x35, 0xc82ab31910, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:211 +0x35b
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:211 +0x35b
 main.<span style="color: #333333">(</span>*binder<span style="color: #333333">)</span>.GenGo<span style="color: #333333">(</span>0xc82ab6d8c0, 0xc8201526a0, 0x1c, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:160 +0x414
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:160 +0x414
 main.goAndroidBind<span style="color: #333333">(</span>0xc820176000, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind_androidapp.go:31 +0x12d
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind_androidapp.go:31 +0x12d
 main.runBind<span style="color: #333333">(</span>0xc8cba0, 0x0, 0x0<span style="color: #333333">)</span>
-    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:89 +0x26c
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:89 +0x26c
 main.main<span style="color: #333333">()</span>
-    /home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/main.go:63 +0x495
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/main.go:63 +0x495
 
 goroutine <span style="color: #6600EE; font-weight: bold">17</span> <span style="color: #333333">[</span>syscall, locked to thread<span style="color: #333333">]</span>:
 runtime.goexit<span style="color: #333333">()</span>
-    /home/sajal/gobeta/src/runtime/asm_amd64.s:1696 +0x1
+	/home/sajal/gobeta/src/runtime/asm_amd64.s:1696 +0x1
 sajal@sajal-lappy:/tmp<span style="color: #996633">$ </span>
+
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>Woops&hellip; any package exporting interface{} (and uint16 which the dns library needs) types cant be used by gomobile bind &hellip;.FAIL</p>
 
 <p>Solution: I wrote package <a href="https://github.com/turbobytes/pulse/blob/master/digdroid/digdroid.go">github.com/turbobytes/pulse/digdroid</a> with a proxy function that returns a struct with only strings. No interfaces.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008800; font-weight: bold">package</span> digdroid
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #008800; font-weight: bold">package</span> digdroid
 <span style="color: #008800; font-weight: bold">type</span> DNSResult <span style="color: #008800; font-weight: bold">struct</span> {
-    Err    <span style="color: #333399; font-weight: bold">string</span>
-    Output <span style="color: #333399; font-weight: bold">string</span>
-    Rtt    <span style="color: #333399; font-weight: bold">string</span>
+	Err    <span style="color: #333399; font-weight: bold">string</span>
+	Output <span style="color: #333399; font-weight: bold">string</span>
+	Rtt    <span style="color: #333399; font-weight: bold">string</span>
 }
 
 <span style="color: #008800; font-weight: bold">func</span> RunDNS(host, target, qtypestr <span style="color: #333399; font-weight: bold">string</span>, norec <span style="color: #333399; font-weight: bold">bool</span>) <span style="color: #333333">*</span>DNSResult
+&lt;<span style="color: #333333">/</span>code&gt;&lt;<span style="color: #333333">/</span>pre&gt;
 </pre></div>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #996633">$ ANDROID_HOME</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;/home/sajal/Android/Sdk/&quot;</span> gomobile <span style="color: #007020">bind  </span>github.com/turbobytes/pulse/digdroid
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #996633">$ ANDROID_HOME</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;/home/sajal/Android/Sdk/&quot;</span> gomobile <span style="color: #007020">bind  </span>github.com/turbobytes/pulse/digdroid
 <span style="color: #996633">$ </span>ls -lh
 total 2.8M
 - -rw-rw-r-- <span style="color: #6600EE; font-weight: bold">1</span> sajal sajal 2.8M Jul <span style="color: #6600EE; font-weight: bold">28</span> 22:04 digdroid.aar
@@ -189,7 +198,9 @@ Archive:  digdroid.aar
 - ---------                     -------
   <span style="color: #6600EE; font-weight: bold">9404981</span>                     <span style="color: #6600EE; font-weight: bold">6</span> files
 <span style="color: #996633">$ </span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>This results in creation of a file <code>digdroid.aar</code> which can be used as dependency in Android Studio. <code>jni/armeabi-v7a/libgojni.so</code> inside <code>digdroid.aar</code> is the actual Go library.</p>
 
@@ -208,11 +219,13 @@ Archive:  digdroid.aar
 <p>Screenshot of steps involved in adding <code>digdroid.aar</code> into Android Studio : <a href="http://imgur.com/a/dEewm">http://imgur.com/a/dEewm</a></p>
 
 <p>Example usage of above Go code from Java
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">DNSResult</span> result <span style="color: #333333">=</span> Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">RunDNS</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;www.example.com.&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;8.8.8.8:53&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;A&quot;</span><span style="color: #333333">,</span> <span style="color: #008800; font-weight: bold">false</span><span style="color: #333333">);</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #333333">&lt;</span>pre<span style="color: #333333">&gt;&lt;</span>code<span style="color: #333333">&gt;</span>Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">DNSResult</span> result <span style="color: #333333">=</span> Digdroid<span style="color: #333333">.</span><span style="color: #0000CC">RunDNS</span><span style="color: #333333">(</span><span style="background-color: #fff0f0">&quot;www.example.com.&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;8.8.8.8:53&quot;</span><span style="color: #333333">,</span> <span style="background-color: #fff0f0">&quot;A&quot;</span><span style="color: #333333">,</span> <span style="color: #008800; font-weight: bold">false</span><span style="color: #333333">);</span>
 String output <span style="color: #333333">=</span> result<span style="color: #333333">.</span><span style="color: #0000CC">getOutput</span><span style="color: #333333">();</span>
 String rtt <span style="color: #333333">=</span> result<span style="color: #333333">.</span><span style="color: #0000CC">getRtt</span><span style="color: #333333">();</span>
 String err <span style="color: #333333">=</span> result<span style="color: #333333">.</span><span style="color: #0000CC">getErr</span><span style="color: #333333">();</span>
-</pre></div></p>
+<span style="color: #333333">&lt;/</span>code<span style="color: #333333">&gt;&lt;/</span>pre<span style="color: #333333">&gt;</span>
+</pre></div>
+</p>
 
 <p><code>gomobile bind</code> created the getters and setters for free&hellip;</p>
 
@@ -222,7 +235,7 @@ String err <span style="color: #333333">=</span> result<span style="color: #3333
 
 <p>One thing&hellip; For some reason the built apk was including extra permissions that I didn&rsquo;t really need. Solution declare those extra permissions in the manifest in a special manner so it gets removed when being built.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007700">&lt;uses-permission</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007700">&lt;pre&gt;&lt;code&gt;&lt;uses-permission</span>
     <span style="color: #0000CC">android:name=</span><span style="background-color: #fff0f0">&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot;</span>
     <span style="color: #0000CC">android:maxSdkVersion=</span><span style="background-color: #fff0f0">&quot;18&quot;</span>
     <span style="color: #0000CC">tools:node=</span><span style="background-color: #fff0f0">&quot;remove&quot;</span><span style="color: #007700">/&gt;</span>
@@ -231,7 +244,9 @@ String err <span style="color: #333333">=</span> result<span style="color: #3333
     <span style="color: #0000CC">android:name=</span><span style="background-color: #fff0f0">&quot;android.permission.READ_EXTERNAL_STORAGE&quot;</span>
     <span style="color: #0000CC">android:maxSdkVersion=</span><span style="background-color: #fff0f0">&quot;18&quot;</span>
     <span style="color: #0000CC">tools:node=</span><span style="background-color: #fff0f0">&quot;remove&quot;</span><span style="color: #007700">/&gt;</span>
+<span style="color: #007700">&lt;/code&gt;&lt;/pre&gt;</span>
 </pre></div>
+
 
 <p>Since I added these with <code>tools:node=&quot;remove&quot;</code> the builder will remove it from the apk. If I did not do that then the builder would add them into the final apk for some reason&hellip; Nobody asked for these permissions and they are not relevant to the code.</p>
 
@@ -298,18 +313,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJYAnFlAAoJEDlkkKy/FYKPn0gQAJ0pWmuR7OVNwSsPF0cp8yX5
-WyWqwys06iv0sb2BfruGMVrLtc6jSSu02HlmB9uztiW8gUOoOl0+P9gv9dT0pd3J
-gyYfOBt2/af6udM9uXkE7tCaJZyouHAIeXpGr5j5nXJpSMjpbllw409nXIMiixQ8
-Vf9wl0QM8M39nYX2RQ1QgTdKjTj1sRuZWzUZQwfjQL0wW6yJtiXQs+X8PTwOTv0C
-8MHpiBVawMVsrRPcawKtSYvLYMtQMQNJHhKG6aifKQGJXOkdc3frXKdVpKtB8ug4
-nN9+SCSlJCP7PExKp8tF1VmuNCtqWeV+5+gXv9CDcwY86T80genXN5M5xehXq2q3
-gsaAffrBvZqyxo1F7O3i9E2eZEq6+ZMRFv8FcWsH94gKpORIXFbUSrWEavfu69xn
-y8XJpq1R3V7vwBr28gkohaMqgH+gJ5MQPwoWB/ILujy8CohW4j2rCEpIdL2P6d2e
-wUA8VBCXI5bY1m7Pl7nsqciXmZsAGWTv+UiK3UPt4jDREvs83us7KzUX6yTV6scb
-obHbcDDCSTuojadq8HDmkJ0b7DzeAINfqUD17UN5KhdeES3KxTniE5auRFWcjZr9
-+QlwEdpw6oSEYPAtQbP+qYkGNmOJOA+uxj4X7X9/6NPXn7bRk6DKKySRZLzkkNk0
-xaWyb+HHdoWH299bBfRk
-=pTQP
+iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKPngYQALN0TVr5mVSbneKCEDH3cT94
+VPmRzDurY6PyEV2Uqeubcmf8wZX6c+MYga5E5E6f5UI1mTCjFCkZn/0j7Ymfb01i
+eD1REgN+GFJTAJM1qcsKFqPqUyOzEHFDRJxrKSbPjj/V/T5eMTkG5JVoCyU9pwkS
+8fJULx6ZM4ntzcm0ulZftl/nIG+A0UmIdnZw1YRT+1lnA0P6WthyYXm51bU/9TK8
+FLV/2vd8GqQFYWVEeFzNzsLdCOF5Z3NEHFBJhPsswZxPLP4O0XN2IR7on+hABU1w
+8IBXbMqsxsskVLV6DRNPzlIKA6BGad0o0B51Q1bh43ZUenOsCR1I8SyhZDkUdFgR
++y4rpsinIyjP5aXJWMuBraor6xiwie1/o+t20x8cGiyXX4Or5M3xIhIC5OcWFA7A
+LgUzzOuX0hIQKSP++ik/8668u1zRgAIcSRcMweVXgXzCCGfyy44Yi0aF6EmogYRC
+u7ElquwlRj8y/h+QYl/LBfyoxId9mbQX0WnAI5tyy2RSq58XJbFTJn+TPODk5Rqj
+gC6WoiSQbIlJ98E3M3WwDcMRXHWLdAjm6rYyy97z3dTeJw+2uynz6g0MVYfRCcjj
+AmG9QqE2rKzQV8HIIhd1nGwGpG0JLMCinLjbDOpZ+EaI7UwYXvrzqCXY1Sx1smNI
+lkst2DJvHJo64x6KFPc3
+=lASK
 -----END PGP SIGNATURE-----
 -->

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Monetizing on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/category/monetizing.xml</link>
+    <description>Recent content in Monetizing on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/category/monetizing.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Attention skeptics: Web Performance Optimization works!</title>
+      <link>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</link>
+      <pubDate>Sat, 14 May 2011 14:39:14 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</guid>
+      <description>Today, I was looking into web performance issues for a new client who wishes to remain anonymous and saw an interesting example of value provided by improving performance.
+
+One of the first things I do when looking into a new site is look at Google Analytics to understand a little about the sites visitors. This helps in prioritizing changes which affects the majority of users.
+
+An interesting observation :-
+
+&lt;strong&gt;Pageviews for all visitors&lt;/strong&gt;
+&lt;a href=&#34;http://i.ticdn.com/sajal/page-views.png&#34; target=&#34;_blank&#34; title=&#34;Pageviews for all visitors&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/page-views-s.png&#34; alt=&#34;Pageviews for all visitors&#34; /&gt;&lt;/a&gt;
+
+&lt;strong&gt;Average Pageviews for all visitors&lt;/strong&gt;
+&lt;a href=&#34;http://i.ticdn.com/sajal/avg-page-views.png&#34; target=&#34;_blank&#34; title=&#34;Average Pageviews for all visitors&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/avg-page-views-s.png&#34; alt=&#34;Average Pageviews for all visitors&#34; /&gt;&lt;/a&gt;
+
+Adsense revenue also followed a similar path. -- Screenshot not available
+
+The reason for this effect was a simple database indexing tweak which sped up the backend performance of a very important action page on the site.
+
+The site in question is a web application where user inputs something and gets some result. It is not a content site where pageview/user could have increased due to some interesting content being added or something. The only change was indexing of a column which should have an index right from the start.
+
+&lt;em&gt;DISCLAIMER: I did not have any role in the above improvement. This was done before my involvement. Perhaps this convinced the client to hire me. Screenshots/info shared with clients permission.&lt;/em&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Facebook founder is the worlds youngest billionaire</title>
+      <link>http://www.sajalkayan.com/facebook-founder-is-the-worlds-youngest-billionaire.html</link>
+      <pubDate>Thu, 06 Mar 2008 14:20:58 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/facebook-founder-is-the-worlds-youngest-billionaire.html</guid>
+      <description>&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/facebook_logo.jpg&#34; alt=&#34;facebook logo&#34; align=&#34;right&#34; hspace=&#34;5&#34; vspace=&#34;3&#34; /&gt;Like many other people his age, &lt;strong&gt;Mark Zuckerberg&lt;/strong&gt; the founder of social networking site &lt;strong&gt;Facebook&lt;/strong&gt; spends most of his day in front of a computer screen. But he is no ordinary 23-year-old he’s officially the world’s youngest US billionaire.
+
+&lt;strong&gt;Worth 1.5 billion dollars&lt;/strong&gt;, the young man has made a debut in this years Forbes magazine’s list of the World’s Billionaires where he has secured the 785th rank.&lt;!--more--&gt;
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/mark.jpg&#34; alt=&#34;facebook founder&#34; align=&#34;left&#34; hspace=&#34;5&#34; vspace=&#34;3&#34; /&gt;According to the Forbes, &lt;strong&gt;Zuckerberg is the youngest self-made man ever to make its list&lt;/strong&gt;, reports People.
+
+First- and third-ranked Investor Warren Buffett and Microsoft founder Bill Gates, who have held the top spot for the previous 13 years running, have fortunes valued at 62 billion dollars and 58 billion dollars, respectively.
+
+The number two position in Forbes magazine’s list of the World’s Billionaires has been taken by Mexican telecom tycoon Carlos Slim Helu, who has a fortune worth 60 billion dollars.
+
+This year’s World’s Richest Woman, with 22.9 billion dollars and a 17 ranking on the list, is France’s Liliane Bettencourt. Her father was the founder of L’Oreal.
+
+Now I want to be like Mark Zuckerberg!
+
+&lt;script&gt;function fbs_click() {u=location.href;t=document.title;window.open(&#39;http://www.facebook.com/sharer.php?u=&#39;+encodeURIComponent(u)+&#39;&amp;t=&#39;+encodeURIComponent(t),&#39;sharer&#39;,&#39;toolbar=0,status=0,width=626,height=436&#39;);return false;}&lt;/script&gt;&lt;style&gt; html .fb_share_link { padding:2px 0 0 20px; height:16px; background:url(http://static.ak.facebook.com/images/share/facebook_share_icon.gif?44:26981) no-repeat top left; }&lt;/style&gt;&lt;a href=&#34;http://www.facebook.com/share.php?u=/facebook-founder-is-the-worlds-youngest-billionaire.html&#34; onclick=&#34;return fbs_click()&#34; target=&#34;_blank&#34; class=&#34;fb_share_link&#34;&gt;Share on Facebook&lt;/a&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Amazon thinks all internet users come from United States</title>
+      <link>http://www.sajalkayan.com/amazon-thinks-all-internet-users-come-from-united-states.html</link>
+      <pubDate>Sat, 01 Mar 2008 23:28:02 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/amazon-thinks-all-internet-users-come-from-united-states.html</guid>
+      <description>Recently when trying to &#34;&lt;strong&gt;Sign Up for Amazon Payments&lt;/strong&gt;&#34; I had to login and then the form shown to me had only United States as an option. Couldn&#39;t find an explanation for this anywhere. My account as my Thailand address listed. Why does amazon force me to accept that I am from US? Or is it that they seriously believe that people outside United States don&#39;t use the internet?
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/amazon.png&#34; alt=&#34;Amazon payments sign up form&#34; /&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Google Adsense text ads in Youtube&#39;s embedded player?</title>
+      <link>http://www.sajalkayan.com/google-adsense-text-ads-in-youtubes-embedded-player.html</link>
+      <pubDate>Mon, 25 Feb 2008 09:10:04 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/google-adsense-text-ads-in-youtubes-embedded-player.html</guid>
+      <description>Today while searching for photography tutorials, i landed up on &lt;a href=&#34;http://www.cameratown.com/guides/&#34; target=&#34;_blank&#34;&gt;Cameratown&#39;s tutorial page&lt;/a&gt;. Surprisingly, there was a contextual text ad for &#34;Canon Flash Photography&#34; on it. Wonder if it is a new phenomenon, searching on &lt;a href=&#34;http://www.sajalkayan.com/tag/google&#34;&gt;Google&lt;/a&gt; would only lead me to articles/posts about the adsense video ad units. Take a look at the image below, it shows the &lt;strong&gt;adsense text ad within the video&lt;/strong&gt;.
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/adsense-youtube.png&#34; alt=&#34;Adsense text ads in youtube video&#34; /&gt;
+
+Is this something Google is doing to &lt;strong&gt;monetize Youtube&lt;/strong&gt; or there is some involvement/share of Cameratown in this case? On refreshing the page I couldn&#39;t get the ad back, neither have I seen this ad unit on other embedded youtube videos. Lucky that I took a screen shot in time.
+
+If you have any more info on this phenomenon then do let me know.
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/kubernetes.xml</link>
+    <description>Recent content in Kubernetes on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/kubernetes.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>kubemr: Kubernetes native distributed MapReduce framework</title>
+      <link>http://www.sajalkayan.com/post/kubemr.html</link>
+      <pubDate>Thu, 20 Apr 2017 20:00:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/kubemr.html</guid>
+      <description>
+
+&lt;p&gt;tl;dr version &lt;a href=&#34;https://github.com/turbobytes/kubemr&#34;&gt;https://github.com/turbobytes/kubemr&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;background&#34;&gt;Background&lt;/h3&gt;
+
+&lt;p&gt;Few years ago I wrote a &lt;a href=&#34;https://en.wikipedia.org/wiki/MapReduce&#34;&gt;MapReduce&lt;/a&gt; tool in Go called &lt;a href=&#34;https://github.com/turbobytes/gomr&#34;&gt;gomr&lt;/a&gt;. I never used it for anything, just wrote it as an experiment to see if I could run MapReduce jobs without requiring a master, and it worked. The distributed consensus is provided by etcd which is typically deployed as a cluster. I am not fond of master/slave or primary/secondary systems. I like it when individual units are responsible and co-ordinate with each other and do their fair share of work.&lt;/p&gt;
+
+&lt;p&gt;gomr used S3 to upload user binaries and store map/reduce outputs and results. A running worker would query etcd for pending jobs, fetch binary from S3 and then &lt;code&gt;Exec()&lt;/code&gt; it.&lt;/p&gt;
+
+&lt;p&gt;This week I re-wrote the tool to let &lt;a href=&#34;https://kubernetes.io/&#34;&gt;Kubernetes&lt;/a&gt; take care of a lot of the deployment hassles and called it &lt;a href=&#34;https://github.com/turbobytes/kubemr&#34;&gt;&lt;em&gt;kubemr&lt;/em&gt;&lt;/a&gt;. Yes, I am aware I suck at naming things.&lt;/p&gt;
+
+&lt;h3 id=&#34;introducing-kubemr&#34;&gt;Introducing kubemr&lt;/h3&gt;
+
+&lt;p&gt;kubemr is a MapReduce system that runs within a Kubernetes cluster. Apart from initial complexity of setting up the cluster and managing it, kubemr itself is pretty simple.&lt;/p&gt;
+
+&lt;h4 id=&#34;getting-started&#34;&gt;Getting started&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/README.md&#34;&gt;https://github.com/turbobytes/kubemr/blob/master/README.md&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;json-patch&#34;&gt;JSON Patch&lt;/h4&gt;
+
+&lt;p&gt;Originally I planned to use etcd for state, but instead, I decided to use &lt;a href=&#34;http://jsonpatch.com/&#34;&gt;JSON patch&lt;/a&gt; functionality &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations&#34;&gt;provided by kubernetes&lt;/a&gt; to make changes to this state. The &lt;code&gt;test&lt;/code&gt; operation allows the patch to fail if some condition is not met.&lt;/p&gt;
+
+&lt;p&gt;Example lock using JSON patch :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  { &amp;quot;op&amp;quot;: &amp;quot;test&amp;quot;, &amp;quot;path&amp;quot;: &amp;quot;/lockholder&amp;quot;, &amp;quot;value&amp;quot;: None },
+  { &amp;quot;op&amp;quot;: &amp;quot;add&amp;quot;, &amp;quot;path&amp;quot;: &amp;quot;/lockholder&amp;quot;, &amp;quot;value&amp;quot;: &amp;quot;me&amp;quot; },
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Above operation would fail if the &lt;code&gt;lockholder&lt;/code&gt; already has a value. So multiple users might try to acquire the lock at the same time but only 1 would succeed.&lt;/p&gt;
+
+&lt;h4 id=&#34;job-state&#34;&gt;Job state&lt;/h4&gt;
+
+&lt;p&gt;All state information about a MapReduce task is stored in a kubernetes ThirdPartyResource.&lt;/p&gt;
+
+&lt;p&gt;In the case of kubemr, I named it &lt;code&gt;MapReduceJob&lt;/code&gt;. All I need to kick off some task is submit the following example yaml to Kubernetes.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;apiVersion: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;turbobytes.com/v1alpha1&amp;quot;&lt;/span&gt;
+kind: MapReduceJob
+metadata:
+  generateName: test-
+spec:
+  image: turbobytes/kubemr-wordcount
+  replicas: 10
+  inputs:
+  - https://tools.ietf.org/rfc/rfc4501.txt
+  - https://tools.ietf.org/rfc/rfc2017.txt
+  - https://tools.ietf.org/rfc/rfc2425.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The image &lt;code&gt;turbobytes/kubemr-wordcount&lt;/code&gt; knows how to process this. I used &lt;code&gt;generateName&lt;/code&gt; instead of the usual &lt;code&gt;name&lt;/code&gt; to ask Kubernets to generate a random unique suffix.&lt;/p&gt;
+
+&lt;p&gt;Once the job is complete, something like this is stamped onto the object.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;results:
+- s3://kubemr/kubemr/test-z0dk5/reduce/0.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/1.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/2.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/3.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/4.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id=&#34;lifecycle-of-a-mapreducejob&#34;&gt;Lifecycle of a MapReduceJob&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;User creates a &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/manifests/wordcount.yaml&#34;&gt;MapReduceJob object&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/manifests/operator-deployment.yaml&#34;&gt;operator&lt;/a&gt; sees there is no &lt;code&gt;status&lt;/code&gt; field, it validates the schema and either marks it as &lt;code&gt;FAIL&lt;/code&gt; if invalid or &lt;code&gt;PENDING&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;An operator marks status as &lt;code&gt;DEPLOYING&lt;/code&gt; if status is &lt;code&gt;PENDING&lt;/code&gt;. This guarantees a lock to a single operator instance (in case multiple are running).&lt;/li&gt;
+&lt;li&gt;The operator creates desired &lt;code&gt;ConfigMap&lt;/code&gt; and &lt;code&gt;Secret&lt;/code&gt; objects needed for the &lt;code&gt;Job&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The operator &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/4a19b75819f57bcecf0dfcb0d69eda1070f7dbbc/pkg/job/client.go#L164&#34;&gt;creates the Kubernetes Job object&lt;/a&gt; and marks status as &lt;code&gt;DEPLOYED&lt;/code&gt;. It creates n worker pods where n is determined by &lt;code&gt;replicas&lt;/code&gt; field in the manifest in step #1. In this example it is 10.&lt;/li&gt;
+&lt;li&gt;As workers come online, they pick a map task, on successfully acquiring a lock they execute it and populate the &lt;code&gt;outputs&lt;/code&gt; field. Each output belongs to a particular &lt;em&gt;partition&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Once all map tasks are complete, a worker creates reduce stage specification in the &lt;code&gt;MapReduceJob&lt;/code&gt;. Only a single worker would succeed in doing so because we use &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations&#34;&gt;JSON patch&lt;/a&gt;. A single reduce task corresponds to a partition created during map phase with all outputs belonging to that partition used as input for the reduce.&lt;/li&gt;
+&lt;li&gt;The workers start executing reduce stage.&lt;/li&gt;
+&lt;li&gt;When all reduce tasks are completed successfully, a worker aggregates all reduce outputs into a list saves it as &lt;code&gt;results&lt;/code&gt; and marks the &lt;code&gt;MapReduceJob&lt;/code&gt; as &lt;code&gt;COMPLETE&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If any thing fails along the way, the entire &lt;code&gt;MapReduceJob&lt;/code&gt; is marked as &lt;code&gt;FAIL&lt;/code&gt;. &lt;em&gt;Do or do not, there is no try.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The inputs and outputs here are just strings. We do provide utility methods to fetch/store files as S3 objects, but the meaning of the string is up to the user.&lt;/p&gt;
+
+&lt;h4 id=&#34;components&#34;&gt;Components&lt;/h4&gt;
+
+&lt;h5 id=&#34;operator&#34;&gt;Operator&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/turbobytes/kubemr/tree/master/cmd/operator&#34;&gt;https://github.com/turbobytes/kubemr/tree/master/cmd/operator&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The operator watches for &lt;code&gt;MapReduceJob&lt;/code&gt;s and creates Kubernetes resources for it&lt;/p&gt;
+
+&lt;h5 id=&#34;worker&#34;&gt;Worker&lt;/h5&gt;
+
+&lt;p&gt;Example: &lt;a href=&#34;https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount&#34;&gt;https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is user supplied docker image. It must have &lt;code&gt;CMD&lt;/code&gt; or &lt;code&gt;ENTRYPOINT&lt;/code&gt; defined. The actual code needs to basically satisfy &lt;a href=&#34;https://godoc.org/github.com/turbobytes/kubemr/pkg/worker#JobWorker&#34;&gt;JobWorker interface&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The user could actually write the worker in any language, as long as they implement everything that the Go library does. Perhaps in future I could provide wrappers to allow workers to be written as shell commands.&lt;/p&gt;
+
+&lt;h5 id=&#34;api-server&#34;&gt;API server&lt;/h5&gt;
+
+&lt;p&gt;TODO: Not yet implemented.&lt;/p&gt;
+
+&lt;p&gt;Will probably have some way to stream results, and some way to retry failed jobs, etc.&lt;/p&gt;
+
+&lt;h4 id=&#34;differences-from-gomr&#34;&gt;Differences from gomr&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Worker code is shipped as user generated docker images&lt;/li&gt;
+&lt;li&gt;Kubernetes apiserver(which itself is backed by etcd) is used for consensus. This means I don&amp;rsquo;t have to make maintain tooling to create job objects.&lt;/li&gt;
+&lt;li&gt;When a new job comes in, we create kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/&#34;&gt;batch jobs&lt;/a&gt; to run the user-provided docker images.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;This is pre-pre-pre-alpha. Use at your own risk. There may be backwards-incompatible changes.&lt;/li&gt;
+&lt;li&gt;I am not cleaning up after myself properly. If playing with it in a production cluster, do everything in a new namespace and simply delete the namespace once done.&lt;/li&gt;
+&lt;li&gt;I have not retrying any failed tasks. Probably not fine to put a 10GB job only to find out some intermittent DNS timeout broke the job.&lt;/li&gt;
+&lt;li&gt;I don&amp;rsquo;t know what guarantees the kube-apiserver provides about the JSON Patch. Especially in multi-master environments.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;I had fun building this. Hope you have fun playing with it too.&lt;/p&gt;
+
+&lt;p&gt;Looking forward to using this at &lt;a href=&#34;http://www.turbobytes.com/&#34;&gt;work&lt;/a&gt; in the near future.&lt;/p&gt;
+
+&lt;p&gt;Special thanks to &lt;a href=&#34;http://arschles.com/&#34;&gt;Aaron Schlesinger&lt;/a&gt;. His &lt;a href=&#34;https://www.youtube.com/watch?v=qiB4RxCDC8o&#34;&gt;talk&lt;/a&gt; and the corresponding &lt;a href=&#34;https://github.com/arschles/2017-KubeCon-EU&#34;&gt;example code&lt;/a&gt; helped a lot.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

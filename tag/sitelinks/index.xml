@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sitelinks on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/sitelinks.xml</link>
+    <description>Recent content in Sitelinks on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/sitelinks.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>thaindian.com now has sitelinks on google SERPs</title>
+      <link>http://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</link>
+      <pubDate>Sun, 09 Mar 2008 10:57:38 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</guid>
+      <description>w00t!
+
+Just noticed today. &lt;a href=&#34;http://www.thaindian.com/&#34; title=&#34;Indians in Thailand&#34;&gt;Thaindian.com&lt;/a&gt; now has sitelinks on &lt;a href=&#34;http://www.google.com/search?q=indians+in+thailand&#34; title=&#34;Google SERPs for &#34;indians in thailand&#34;&#34; target=&#34;_blank&#34;&gt;Google Search Result Pages&lt;/a&gt;. I found it while mucking around inside the Google Webmaster tools. In the web master tools, I can &#34;block&#34; pages from the sitelinks if i wished to do so.
+
+&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-sitelinks.png&#34; title=&#34;Google Sitelinks on Thaindian.com&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-sitelinks-th.png&#34; alt=&#34;Google Sitelinks on Thaindian.com&#34; border=&#34;0&#34; /&gt;
+Click to Enlarge&lt;/a&gt;
+
+&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-wmt-sitelinks.png&#34; title=&#34;Google Sitelinks management in Webmaster Tools&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-wmt-sitelinks-th.png&#34; alt=&#34;Google Sitelinks management in Webmaster Tools&#34; border=&#34;0&#34; /&gt;
+Click to enlarge&lt;/a&gt;
+
+Now i wish I would have some way of easily adding/editing the links in the sitelinks!
+</description>
+    </item>
+    
+  </channel>
+</rss>

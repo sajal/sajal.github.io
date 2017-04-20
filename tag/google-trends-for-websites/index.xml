@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google Trends For Websites on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/google-trends-for-websites.xml</link>
+    <description>Recent content in Google Trends For Websites on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/google-trends-for-websites.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Goodbye Alexa : Google Trends for websites is here!</title>
+      <link>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</link>
+      <pubDate>Sat, 21 Jun 2008 10:07:23 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</guid>
+      <description>Earlier, every now and then I would go to Alexa to see my ranking to massage my ego. Now, Google has come up with a reality check - &lt;a href=&#34;http://trends.google.com/websites?q=sajalkayan.com&#34;&gt;Google Trends for websites&lt;/a&gt;.
+
+Google announced a new layer to Google Trends in an &lt;a href=&#34;http://googlewebmastercentral.blogspot.com/2008/06/new-layer-to-google-trends.html&#34;&gt;official blogpost&lt;/a&gt;. &lt;a href=&#34;http://www.mattcutts.com/blog/google-trends-for-websites/&#34;&gt;Matt Cutts&lt;/a&gt; and &lt;a href=&#34;http://searchengineland.com/080620-131900.php&#34;&gt;Barry Schwartz&lt;/a&gt; also blogged about it.
+
+So... How is this different? For starters it gives way more info than other existing tools.
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Regions&lt;/strong&gt; the traffic came from (OK, analytics and Alexa shows it but this is much better presentation and also you can check it for any website)&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Also Visited&lt;/strong&gt; : Shows which &lt;strong&gt;other&lt;/strong&gt; websites most users of one website visit. This might be useless to some, but IMHO its the most useful feature.&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Also Searched for&lt;/strong&gt; :  Very usefull for studying your users. and choosing what words to use.&lt;/li&gt;
+&lt;/ul&gt;
+Upon login, you can see an estimate of the unique visitors. in my case the estimate looked way lower than the actual. Here is &lt;a href=&#34;http://www.google.com/intl/en/trends/websites/help/index.html#2&#34;&gt;how they estimate&lt;/a&gt;.
+&lt;blockquote&gt;&lt;em&gt;Trends for Websites combines information from a variety of sources, such as aggregated Google search data, aggregated opt-in anonymous Google Analytics data, opt-in consumer panel data, and other third-party market research. The data is aggregated over millions of users, powered by computer algorithms, and doesn&#39;t contain personally identifiable information. Additionally, Google Trends for Websites only shows results for sites that receive a significant amount of traffic, and enforces minimum thresholds for inclusion in the tool.&lt;/em&gt;&lt;/blockquote&gt;
+In my case, Alexa puts me way ahead of websites I track. I know for fact that I should be lower than these. (click images to enlarge)
+
+&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/alexa-20080621.jpg&#34; title=&#34;Alexa Graph&#34; rel=&#34;lightbox&#34; &gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/alexa-20080621.jpg&#34; alt=&#34;Alexa Graph&#34; width=&#34;500&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
+
+Google Trends does a reality check : Now, these results are more believable.
+
+&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/google-website-trends.png&#34; title=&#34;Google Trends for Websites&#34; rel=&#34;lightbox&#34; &gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/google-website-trends.png&#34; alt=&#34;Google Trends for Websites&#34; width=&#34;500&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

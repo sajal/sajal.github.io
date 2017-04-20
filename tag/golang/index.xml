@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Golang on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/golang.xml</link>
+    <description>Recent content in Golang on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/golang.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>kubemr: Kubernetes native distributed MapReduce framework</title>
+      <link>http://www.sajalkayan.com/post/kubemr.html</link>
+      <pubDate>Thu, 20 Apr 2017 20:00:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/kubemr.html</guid>
+      <description>
+
+&lt;p&gt;tl;dr version &lt;a href=&#34;https://github.com/turbobytes/kubemr&#34;&gt;https://github.com/turbobytes/kubemr&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;background&#34;&gt;Background&lt;/h3&gt;
+
+&lt;p&gt;Few years ago I wrote a &lt;a href=&#34;https://en.wikipedia.org/wiki/MapReduce&#34;&gt;MapReduce&lt;/a&gt; tool in Go called &lt;a href=&#34;https://github.com/turbobytes/gomr&#34;&gt;gomr&lt;/a&gt;. I never used it for anything, just wrote it as an experiment to see if I could run MapReduce jobs without requiring a master, and it worked. The distributed consensus is provided by etcd which is typically deployed as a cluster. I am not fond of master/slave or primary/secondary systems. I like it when individual units are responsible and co-ordinate with each other and do their fair share of work.&lt;/p&gt;
+
+&lt;p&gt;gomr used S3 to upload user binaries and store map/reduce outputs and results. A running worker would query etcd for pending jobs, fetch binary from S3 and then &lt;code&gt;Exec()&lt;/code&gt; it.&lt;/p&gt;
+
+&lt;p&gt;This week I re-wrote the tool to let &lt;a href=&#34;https://kubernetes.io/&#34;&gt;Kubernetes&lt;/a&gt; take care of a lot of the deployment hassles and called it &lt;a href=&#34;https://github.com/turbobytes/kubemr&#34;&gt;&lt;em&gt;kubemr&lt;/em&gt;&lt;/a&gt;. Yes, I am aware I suck at naming things.&lt;/p&gt;
+
+&lt;h3 id=&#34;introducing-kubemr&#34;&gt;Introducing kubemr&lt;/h3&gt;
+
+&lt;p&gt;kubemr is a MapReduce system that runs within a Kubernetes cluster. Apart from initial complexity of setting up the cluster and managing it, kubemr itself is pretty simple.&lt;/p&gt;
+
+&lt;h4 id=&#34;getting-started&#34;&gt;Getting started&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/README.md&#34;&gt;https://github.com/turbobytes/kubemr/blob/master/README.md&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;json-patch&#34;&gt;JSON Patch&lt;/h4&gt;
+
+&lt;p&gt;Originally I planned to use etcd for state, but instead, I decided to use &lt;a href=&#34;http://jsonpatch.com/&#34;&gt;JSON patch&lt;/a&gt; functionality &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations&#34;&gt;provided by kubernetes&lt;/a&gt; to make changes to this state. The &lt;code&gt;test&lt;/code&gt; operation allows the patch to fail if some condition is not met.&lt;/p&gt;
+
+&lt;p&gt;Example lock using JSON patch :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  { &amp;quot;op&amp;quot;: &amp;quot;test&amp;quot;, &amp;quot;path&amp;quot;: &amp;quot;/lockholder&amp;quot;, &amp;quot;value&amp;quot;: None },
+  { &amp;quot;op&amp;quot;: &amp;quot;add&amp;quot;, &amp;quot;path&amp;quot;: &amp;quot;/lockholder&amp;quot;, &amp;quot;value&amp;quot;: &amp;quot;me&amp;quot; },
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Above operation would fail if the &lt;code&gt;lockholder&lt;/code&gt; already has a value. So multiple users might try to acquire the lock at the same time but only 1 would succeed.&lt;/p&gt;
+
+&lt;h4 id=&#34;job-state&#34;&gt;Job state&lt;/h4&gt;
+
+&lt;p&gt;All state information about a MapReduce task is stored in a kubernetes ThirdPartyResource.&lt;/p&gt;
+
+&lt;p&gt;In the case of kubemr, I named it &lt;code&gt;MapReduceJob&lt;/code&gt;. All I need to kick off some task is submit the following example yaml to Kubernetes.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;apiVersion: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;turbobytes.com/v1alpha1&amp;quot;&lt;/span&gt;
+kind: MapReduceJob
+metadata:
+  generateName: test-
+spec:
+  image: turbobytes/kubemr-wordcount
+  replicas: 10
+  inputs:
+  - https://tools.ietf.org/rfc/rfc4501.txt
+  - https://tools.ietf.org/rfc/rfc2017.txt
+  - https://tools.ietf.org/rfc/rfc2425.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The image &lt;code&gt;turbobytes/kubemr-wordcount&lt;/code&gt; knows how to process this. I used &lt;code&gt;generateName&lt;/code&gt; instead of the usual &lt;code&gt;name&lt;/code&gt; to ask Kubernets to generate a random unique suffix.&lt;/p&gt;
+
+&lt;p&gt;Once the job is complete, something like this is stamped onto the object.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;results:
+- s3://kubemr/kubemr/test-z0dk5/reduce/0.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/1.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/2.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/3.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/4.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id=&#34;lifecycle-of-a-mapreducejob&#34;&gt;Lifecycle of a MapReduceJob&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;User creates a &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/manifests/wordcount.yaml&#34;&gt;MapReduceJob object&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/manifests/operator-deployment.yaml&#34;&gt;operator&lt;/a&gt; sees there is no &lt;code&gt;status&lt;/code&gt; field, it validates the schema and either marks it as &lt;code&gt;FAIL&lt;/code&gt; if invalid or &lt;code&gt;PENDING&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;An operator marks status as &lt;code&gt;DEPLOYING&lt;/code&gt; if status is &lt;code&gt;PENDING&lt;/code&gt;. This guarantees a lock to a single operator instance (in case multiple are running).&lt;/li&gt;
+&lt;li&gt;The operator creates desired &lt;code&gt;ConfigMap&lt;/code&gt; and &lt;code&gt;Secret&lt;/code&gt; objects needed for the &lt;code&gt;Job&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The operator &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/4a19b75819f57bcecf0dfcb0d69eda1070f7dbbc/pkg/job/client.go#L164&#34;&gt;creates the Kubernetes Job object&lt;/a&gt; and marks status as &lt;code&gt;DEPLOYED&lt;/code&gt;. It creates n worker pods where n is determined by &lt;code&gt;replicas&lt;/code&gt; field in the manifest in step #1. In this example it is 10.&lt;/li&gt;
+&lt;li&gt;As workers come online, they pick a map task, on successfully acquiring a lock they execute it and populate the &lt;code&gt;outputs&lt;/code&gt; field. Each output belongs to a particular &lt;em&gt;partition&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Once all map tasks are complete, a worker creates reduce stage specification in the &lt;code&gt;MapReduceJob&lt;/code&gt;. Only a single worker would succeed in doing so because we use &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations&#34;&gt;JSON patch&lt;/a&gt;. A single reduce task corresponds to a partition created during map phase with all outputs belonging to that partition used as input for the reduce.&lt;/li&gt;
+&lt;li&gt;The workers start executing reduce stage.&lt;/li&gt;
+&lt;li&gt;When all reduce tasks are completed successfully, a worker aggregates all reduce outputs into a list saves it as &lt;code&gt;results&lt;/code&gt; and marks the &lt;code&gt;MapReduceJob&lt;/code&gt; as &lt;code&gt;COMPLETE&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If any thing fails along the way, the entire &lt;code&gt;MapReduceJob&lt;/code&gt; is marked as &lt;code&gt;FAIL&lt;/code&gt;. &lt;em&gt;Do or do not, there is no try.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The inputs and outputs here are just strings. We do provide utility methods to fetch/store files as S3 objects, but the meaning of the string is up to the user.&lt;/p&gt;
+
+&lt;h4 id=&#34;components&#34;&gt;Components&lt;/h4&gt;
+
+&lt;h5 id=&#34;operator&#34;&gt;Operator&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/turbobytes/kubemr/tree/master/cmd/operator&#34;&gt;https://github.com/turbobytes/kubemr/tree/master/cmd/operator&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The operator watches for &lt;code&gt;MapReduceJob&lt;/code&gt;s and creates Kubernetes resources for it&lt;/p&gt;
+
+&lt;h5 id=&#34;worker&#34;&gt;Worker&lt;/h5&gt;
+
+&lt;p&gt;Example: &lt;a href=&#34;https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount&#34;&gt;https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is user supplied docker image. It must have &lt;code&gt;CMD&lt;/code&gt; or &lt;code&gt;ENTRYPOINT&lt;/code&gt; defined. The actual code needs to basically satisfy &lt;a href=&#34;https://godoc.org/github.com/turbobytes/kubemr/pkg/worker#JobWorker&#34;&gt;JobWorker interface&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The user could actually write the worker in any language, as long as they implement everything that the Go library does. Perhaps in future I could provide wrappers to allow workers to be written as shell commands.&lt;/p&gt;
+
+&lt;h5 id=&#34;api-server&#34;&gt;API server&lt;/h5&gt;
+
+&lt;p&gt;TODO: Not yet implemented.&lt;/p&gt;
+
+&lt;p&gt;Will probably have some way to stream results, and some way to retry failed jobs, etc.&lt;/p&gt;
+
+&lt;h4 id=&#34;differences-from-gomr&#34;&gt;Differences from gomr&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Worker code is shipped as user generated docker images&lt;/li&gt;
+&lt;li&gt;Kubernetes apiserver(which itself is backed by etcd) is used for consensus. This means I don&amp;rsquo;t have to make maintain tooling to create job objects.&lt;/li&gt;
+&lt;li&gt;When a new job comes in, we create kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/&#34;&gt;batch jobs&lt;/a&gt; to run the user-provided docker images.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;This is pre-pre-pre-alpha. Use at your own risk. There may be backwards-incompatible changes.&lt;/li&gt;
+&lt;li&gt;I am not cleaning up after myself properly. If playing with it in a production cluster, do everything in a new namespace and simply delete the namespace once done.&lt;/li&gt;
+&lt;li&gt;I have not retrying any failed tasks. Probably not fine to put a 10GB job only to find out some intermittent DNS timeout broke the job.&lt;/li&gt;
+&lt;li&gt;I don&amp;rsquo;t know what guarantees the kube-apiserver provides about the JSON Patch. Especially in multi-master environments.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;I had fun building this. Hope you have fun playing with it too.&lt;/p&gt;
+
+&lt;p&gt;Looking forward to using this at &lt;a href=&#34;http://www.turbobytes.com/&#34;&gt;work&lt;/a&gt; in the near future.&lt;/p&gt;
+
+&lt;p&gt;Special thanks to &lt;a href=&#34;http://arschles.com/&#34;&gt;Aaron Schlesinger&lt;/a&gt;. His &lt;a href=&#34;https://www.youtube.com/watch?v=qiB4RxCDC8o&#34;&gt;talk&lt;/a&gt; and the corresponding &lt;a href=&#34;https://github.com/arschles/2017-KubeCon-EU&#34;&gt;example code&lt;/a&gt; helped a lot.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Building binary executables for Android in Go</title>
+      <link>http://www.sajalkayan.com/post/go-android-binary.html</link>
+      <pubDate>Tue, 26 Jan 2016 16:00:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/go-android-binary.html</guid>
+      <description>&lt;p&gt;I have a use-case to run an &lt;em&gt;external&lt;/em&gt; Go binary from within an Android app. By &lt;em&gt;external&lt;/em&gt; i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple &lt;strike&gt;problem&lt;/strike&gt; solution.&lt;/p&gt;
+
+&lt;p&gt;First thing I tried was building normal &lt;code&gt;linux/arm&lt;/code&gt; binaries that I use for normal arm devices.
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~&lt;span style=&#34;color: #996633&#34;&gt;$ GOARCH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;arm&amp;quot;&lt;/span&gt; go build /path/to/filewithmain.go
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+The generated binary works in general&amp;hellip; until you try to access the net&amp;hellip; all socket communications are blocked. After trying few random things, I realized its due to me not using the NDK to build it&amp;hellip; The binary needs to be built with &lt;code&gt;android/arm&lt;/code&gt; target. &lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;gomobile&lt;/a&gt; to the rescue.&lt;/p&gt;
+
+&lt;p&gt;gomobile allows us to either &lt;a href=&#34;http://www.sajalkayan.com/post/android-apps-golang.html&#34;&gt;generate an &lt;code&gt;.aar&lt;/code&gt; library or an &lt;code&gt;.apk&lt;/code&gt;&lt;/a&gt;, both are not applicable here. Solution - use the toolchain gomobile installed but compile code by hand.&lt;/p&gt;
+
+&lt;p&gt;My compile command :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~$ GOMOBILE=&amp;quot;/home/sajal/go/pkg/gomobile&amp;quot; GOOS=android GOARCH=arm CC=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-gcc CXX=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-g++ CGO_ENABLED=1 GOARM=7 go build -p=8 -pkgdir=$GOMOBILE/pkg_android_arm -tags=&amp;quot;&amp;quot; -ldflags=&amp;quot;-extldflags=-pie&amp;quot; -o minion -x ~/go/src/github.com/turbobytes/pulse/minion.go
+sajal@sajal-lappy:~$ file minion
+minion: ELF 32-bit LSB  shared object, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), not stripped
+sajal@sajal-lappy:~$ ls -lh minion
+-rwxr-xr-x 1 sajal sajal 9.3M Jan 26 16:52 minion
+sajal@sajal-lappy:~$
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It took me a while to figure out the &lt;code&gt;-ldflags=&amp;quot;-extldflags=-pie&amp;quot;&lt;/code&gt; portion, without it my phone complains about binary not being in &lt;a href=&#34;https://en.wikipedia.org/wiki/Position-independent_code&#34;&gt;PIE format&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now need to wait for &lt;code&gt;android/368&lt;/code&gt; or &lt;code&gt;android/amd64&lt;/code&gt; support in gomobile so I can play with it in the emulator instead of real device&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;PS: I know what I am doing is probably an anti-pattern, but this is not a normal end user app. It would run on devices dedicated to this and I will sign and validate downloads.&lt;/p&gt;
+
+&lt;p&gt;PSS: I figured this out by mucking around with gomobile using the &lt;code&gt;-x&lt;/code&gt; option.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Writing Android apps with Go bindings</title>
+      <link>http://www.sajalkayan.com/post/android-apps-golang.html</link>
+      <pubDate>Tue, 28 Jul 2015 15:50:09 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/android-apps-golang.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;tl;dr version&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;One of the new features of upcoming Go 1.5 release is the awesome tooling around building Android (and iOS) apps using Go code.&lt;/p&gt;
+
+&lt;p&gt;Recently after playing with &lt;a href=&#34;https://play.google.com/store/apps/details?id=org.golang.ivy&#34;&gt;Ivy&lt;/a&gt; - an app made by Go mobile team - I wanted to give it a go (pun intended). Ivy is supposedly written in pure Go, unfortunately the source of it&amp;rsquo;s mobile implementation is not open yet.&lt;/p&gt;
+
+&lt;p&gt;Since I don&amp;rsquo;t know Java, my original goal was to try and make the whole app in Go, but thats not really possible. So I ended up using Java for UI and &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.turbobytes.dig&#34;&gt;here is the result&lt;/a&gt;. No iOS version yet because i don&amp;rsquo;t own a mac.&lt;/p&gt;
+
+&lt;p&gt;First lets get our tooling in order&amp;hellip; (Instructions for Ubuntu - adapt for your distro/OS)&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&#34;https://golang.org/dl/&#34;&gt;downloaded&lt;/a&gt; and extracted &lt;code&gt;go1.5beta2&lt;/code&gt; to /home/sajal/gobeta because I didnt want to mess up my existing 1.4.2 environment.&lt;/p&gt;
+
+&lt;p&gt;Now install gomobile&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+go get golang.org/x/mobile/cmd/gomobile
+gomobile init  &lt;span style=&#34;color: #888888&#34;&gt;#This expects go 1.5 to be in PATH which we solved in the first step.&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then I played with some example apps.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/mobile/example/basic/
+gomobile build .
+adb install basic.apk
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Works on mobile&amp;hellip; the only problem is that &lt;a href=&#34;https://github.com/golang/mobile/blob/master/example/basic/main.go&#34;&gt;this&lt;/a&gt; is OpenGL stuff which I am totally clueless about.. So until the source of Ivy is released, I&amp;rsquo;d have to make the UI in Java&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;First project DNS debugger. Much of the &lt;a href=&#34;https://github.com/turbobytes/pulse&#34;&gt;Go code&lt;/a&gt; was written for &lt;a href=&#34;https://pulse.turbobytes.com/&#34;&gt;TurboBytes Pulse&lt;/a&gt; already&amp;hellip; Lets reuse this&amp;hellip;.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind &lt;/span&gt;github.com/turbobytes/pulse/utils
+panic: unsupported seqType: interface&lt;span style=&#34;color: #333333&#34;&gt;{}&lt;/span&gt; / *types.Interface
+
+goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;running&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
+golang.org/x/mobile/bind.seqType&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd498, 0xc8261c8e60, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/seq.go:72 +0xaf8
+golang.org/x/mobile/bind.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*goGen&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.genStruct&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab31730, 0xc8261ba7d0, 0xc8261c8dc0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:185 +0xfd4
+golang.org/x/mobile/bind.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*goGen&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.gen&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab31730, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:424 +0x98b
+golang.org/x/mobile/bind.GenGo&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd220, 0xc82ab66338, 0xc82015f780, 0xc8201ea780, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/bind.go:47 +0x195
+main.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*binder&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.GenGo.func1&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd220, 0xc82ab66338, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:158 +0x4d
+main.writeFile&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab88740, 0x35, 0xc82ab31910, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:211 +0x35b
+main.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*binder&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.GenGo&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab6d8c0, 0xc8201526a0, 0x1c, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:160 +0x414
+main.goAndroidBind&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc820176000, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind_androidapp.go:31 +0x12d
+main.runBind&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc8cba0, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:89 +0x26c
+main.main&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/main.go:63 +0x495
+
+goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;17&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;syscall, locked to thread&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
+runtime.goexit&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
+	/home/sajal/gobeta/src/runtime/asm_amd64.s:1696 +0x1
+sajal@sajal-lappy:/tmp&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Woops&amp;hellip; any package exporting interface{} (and uint16 which the dns library needs) types cant be used by gomobile bind &amp;hellip;.FAIL&lt;/p&gt;
+
+&lt;p&gt;Solution: I wrote package &lt;a href=&#34;https://github.com/turbobytes/pulse/blob/master/digdroid/digdroid.go&#34;&gt;github.com/turbobytes/pulse/digdroid&lt;/a&gt; with a proxy function that returns a struct with only strings. No interfaces.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; digdroid
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;type&lt;/span&gt; DNSResult &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;struct&lt;/span&gt; {
+	Err    &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+	Output &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+	Rtt    &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+}
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; RunDNS(host, target, qtypestr &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;, norec &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;bool&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;DNSResult
+&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;code&amp;gt;&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind  &lt;/span&gt;github.com/turbobytes/pulse/digdroid
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh
+total 2.8M
+-rw-rw-r-- &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 2.8M Jul &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt; 22:04 digdroid.aar
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file digdroid.aar 
+digdroid.aar: Zip archive data, at least v2.0 to extract
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;unzip -l digdroid.aar
+Archive:  digdroid.aar
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;  1980-00-00 00:00   AndroidManifest.xml
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;  1980-00-00 00:00   proguard.txt
+     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9009&lt;/span&gt;  1980-00-00 00:00   classes.jar
+  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9395848&lt;/span&gt;  1980-00-00 00:00   jni/armeabi-v7a/libgojni.so
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   R.txt
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   res/
+---------                     -------
+  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9404981&lt;/span&gt;                     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;6&lt;/span&gt; files
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This results in creation of a file &lt;code&gt;digdroid.aar&lt;/code&gt; which can be used as dependency in Android Studio. &lt;code&gt;jni/armeabi-v7a/libgojni.so&lt;/code&gt; inside &lt;code&gt;digdroid.aar&lt;/code&gt; is the actual Go library.&lt;/p&gt;
+
+&lt;p&gt;Next we move to Java territory.&lt;/p&gt;
+
+&lt;p&gt;I installed &lt;a href=&#34;http://developer.android.com/tools/studio/index.html&#34;&gt;Android Studio&lt;/a&gt;, setup a new project, made basic UI and an Activity.&lt;/p&gt;
+
+&lt;p&gt;Include &lt;code&gt;digdroid.aar&lt;/code&gt; into the project. Instructions from the &lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;docs&lt;/a&gt;:-&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;For example, in Android Studio (1.2+), an AAR file can be imported using the module import wizard (File &amp;gt; New &amp;gt; New Module &amp;gt; Import .JAR or .AAR package), and setting it as a new dependency (File &amp;gt; Project Structure &amp;gt; Dependencies). This requires &amp;lsquo;javac&amp;rsquo; (version 1.7+) and Android SDK (API level 9 or newer) to build the library for Android. The environment variable ANDROID_HOME must be set to the path to Android SDK.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Once thats done, I could access the Go library from anywhere simply by importing &lt;code&gt;go.digdroid.Digdroid&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Screenshot of steps involved in adding &lt;code&gt;digdroid.aar&lt;/code&gt; into Android Studio : &lt;a href=&#34;http://imgur.com/a/dEewm&#34;&gt;http://imgur.com/a/dEewm&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Example usage of above Go code from Java
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;DNSResult&lt;/span&gt; result &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;RunDNS&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;www.example.com.&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;8.8.8.8:53&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;A&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;);&lt;/span&gt;
+String output &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getOutput&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+String rtt &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getRtt&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+String err &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getErr&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;/&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;gomobile bind&lt;/code&gt; created the getters and setters for free&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;One downside is &lt;code&gt;gomobile bind&lt;/code&gt; only created binary for armv7. So the project no longer works on the emulator which is x86. But almost all android devices are arm, so its not really a big issue.&lt;/p&gt;
+
+&lt;p&gt;To update &lt;code&gt;digdroid.aar&lt;/code&gt; simply build a new one and replace the &lt;code&gt;digdroid.aar&lt;/code&gt; file within the Android Studio source tree.&lt;/p&gt;
+
+&lt;p&gt;One thing&amp;hellip; For some reason the built apk was including extra permissions that I didn&amp;rsquo;t really need. Solution declare those extra permissions in the manifest in a special manner so it gets removed when being built.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;uses-permission&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.WRITE_EXTERNAL_STORAGE&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:maxSdkVersion=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;18&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;uses-permission&lt;/span&gt; &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.READ_PHONE_STATE&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;uses-permission&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.READ_EXTERNAL_STORAGE&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:maxSdkVersion=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;18&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since I added these with &lt;code&gt;tools:node=&amp;quot;remove&amp;quot;&lt;/code&gt; the builder will remove it from the apk. If I did not do that then the builder would add them into the final apk for some reason&amp;hellip; Nobody asked for these permissions and they are not relevant to the code.&lt;/p&gt;
+
+&lt;p&gt;PS: I understand there is a cost associated with jumping language boundaries. This is just a fun little project. I am desperately waiting for some easier way to write apps completely in Go without bindings. I am even willing to dabble with QT stuff (or similar) if someone can show me how to build it in Go for mobile. Besides, for networked functions, few microseconds cost for jumping languages is negligible compared to the cost of making the actual network requests which can be 10s of milliseconds or more.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Play store listing: &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.turbobytes.dig&#34;&gt;https://play.google.com/store/apps/details?id=com.turbobytes.dig&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Android Project Source : &lt;a href=&#34;https://github.com/sajal/digdroid&#34;&gt;https://github.com/sajal/digdroid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Go package : &lt;a href=&#34;http://godoc.org/github.com/turbobytes/pulse/digdroid&#34;&gt;http://godoc.org/github.com/turbobytes/pulse/digdroid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Awesomest DNS library : &lt;a href=&#34;https://github.com/miekg/dns&#34;&gt;https://github.com/miekg/dns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TurboBytes Pulse : &lt;a href=&#34;https://pulse.turbobytes.com/&#34;&gt;https://pulse.turbobytes.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Running Go programs on $15 device - Beyond Hello World</title>
+      <link>http://www.sajalkayan.com/post/golang-openwrt-mips.html</link>
+      <pubDate>Wed, 25 Feb 2015 18:14:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/golang-openwrt-mips.html</guid>
+      <description>
+
+&lt;p&gt;I recently purchased a &lt;a href=&#34;http://wiki.openwrt.org/toh/nexx/wt1520&#34;&gt;WT1520&lt;/a&gt; router for $15 from Aliexpress to play with. I have a project in mind which would require few nodes running my custom Go code spread out throughout the world. A Raspberry Pi (almost $40 if you include SD card, etc) fits perfectly for my purpose, but I am looking to be cheap. Not to be dissing on the pi, its awesome and LOT more powerful than the WT1520, I&amp;rsquo;m just trying to find the cheapest device for my purpose.
+&lt;figure&gt;
+    &lt;img src=&#34;http://www.sajalkayan.com/images/wt1520-raspi.jpg&#34; alt=&#34;Raspberry Pi and WT1520 doing the same thing&#34; title=&#34;Raspberry Pi and WT1520 doing the same thing&#34; \&gt;
+    &lt;figcaption&gt;Raspberry Pi ($35+) and WT1520 ($15 shipped) doing the same thing&lt;/figcaption&gt;
+&lt;/figure&gt;
+Having no experience with OpenWrt, this &lt;a href=&#34;http://akagi201.org/blog/golang-on-openwrt/&#34;&gt;blog post&lt;/a&gt; (sidenote: our blogs look similar) helped a lot to get Hello World running.&lt;/p&gt;
+
+&lt;h2 id=&#34;my-build-steps&#34;&gt;My Build Steps&lt;/h2&gt;
+
+&lt;p&gt;I couldn&amp;rsquo;t use the &lt;a href=&#34;https://github.com/GeertJohan/openwrt-go&#34;&gt;gccgo fork&lt;/a&gt; directly because support for my architecture was added at a later stage, so I had to clone the upstream master and patch it.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;git clone git://git.openwrt.org/openwrt.git
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;openwrt
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make menuconfig
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make -j8
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;My resulting config : &lt;a href=&#34;https://gist.github.com/sajal/f509183ac691a32e6065&#34;&gt;https://gist.github.com/sajal/f509183ac691a32e6065&lt;/a&gt;
+Ive removed usb and wifi related things to keep the image small. It seems eglibc uses lot more space.&lt;/p&gt;
+
+&lt;p&gt;This builds gccgo 4.8.3 (Go 1.1.2 implementation). gcc 4.9.x is also available in menuconfig but &lt;a href=&#34;https://dev.openwrt.org/ticket/18611&#34;&gt;build fails&lt;/a&gt;. Even then Go 1.2 is still ancient.&lt;/p&gt;
+
+&lt;p&gt;Building hello world is simple&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;alias &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;gccgo&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;gccgo -o hello ~/hello.go -static-libgo
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;^ resulting in 2.6 MB binary&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;So far so good&amp;hellip; But my real code is not so simple. It is a file with main, which imports another package which imports another package.&lt;/p&gt;
+
+&lt;p&gt;In the following example, the project in question is a very rough draft, and the code is not public at the moment. Sorry.&lt;/p&gt;
+
+&lt;p&gt;I have a file called minion.go which id like to build.&lt;/p&gt;
+
+&lt;p&gt;Lets try to build it the same way as before.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gccgo -o minion minion.go -static-libgo
+minion.go:9:38: error: import file &#39;github.com/turbobytes/dnsdebug/utils&#39; not found
+  &amp;quot;github.com/turbobytes/dnsdebug/utils&amp;quot;
+                                      ^
+minion.go:93:18: error: reference to undefined name &#39;dnsdebug&#39;
+  resolver := new(dnsdebug.Resolver)
+                  ^
+minion.go:93:26: error: expected type
+  resolver := new(dnsdebug.Resolver)
+                          ^
+minion.go:101:10: error: reference to undefined name &#39;dnsdebug&#39;
+   cfg := dnsdebug.GetTLSConfig(caFile, certificateFile, privateKeyFile)
+          ^
+$ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hmm. gccgo does not resolve packages, and we cant make the Go provided toolchain to build using our MIPS gccgo&amp;hellip; so lets see what the Go toolchain does when using normal gccgo.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+sajal@sajal-lappy:~/go/src/github.com/turbobytes/dnsdebug$ go build -x -compiler=gccgo minion.go 
+WORK=/tmp/go-build071420589
+mkdir -p $WORK/github.com/miekg/dns/_obj/
+mkdir -p $WORK/github.com/miekg/
+cd /home/sajal/go/src/github.com/miekg/dns
+gccgo -I $WORK -c -g -m64 -fgo-pkgpath=github.com/miekg/dns -fgo-relative-import-path=_/home/sajal/go/src/github.com/miekg/dns -o $WORK/github.com/miekg/dns/_obj/dns.o ./client.go ./clientconfig.go ./defaults.go ./dns.go ./dnssec.go ./edns.go ./format.go ./keygen.go ./kscan.go ./labels.go ./msg.go ./nsecx.go ./privaterr.go ./rawmsg.go ./scanner.go ./server.go ./sig0.go ./singleinflight.go ./tlsa.go ./tsig.go ./types.go ./udp.go ./udp_linux.go ./update.go ./xfr.go ./zgenerate.go ./zscan.go ./zscan_rr.go
+ar cru $WORK/github.com/miekg/libdns.a $WORK/github.com/miekg/dns/_obj/dns.o
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/utils/_obj/
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug/utils
+gccgo -I $WORK -I /home/sajal/go/pkg/gccgo_linux_amd64 -c -g -m64 -fgo-pkgpath=github.com/turbobytes/dnsdebug/utils -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug/utils -o $WORK/github.com/turbobytes/dnsdebug/utils/_obj/dnsdebug.o ./rpc.go ./tls.go
+ar cru $WORK/github.com/turbobytes/dnsdebug/libutils.a $WORK/github.com/turbobytes/dnsdebug/utils/_obj/dnsdebug.o
+mkdir -p $WORK/command-line-arguments/_obj/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug
+gccgo -I $WORK -I /home/sajal/go/pkg/gccgo_linux_amd64 -c -g -m64 -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug -o $WORK/command-line-arguments/_obj/main.o ./minion.go
+ar cru $WORK/libcommand-line-arguments.a $WORK/command-line-arguments/_obj/main.o
+cd .
+gccgo -o minion $WORK/command-line-arguments/_obj/main.o -Wl,-( -m64 $WORK/github.com/turbobytes/dnsdebug/libutils.a $WORK/github.com/miekg/libdns.a -lpthread -Wl,-E -Wl,-)
+sajal@sajal-lappy:~/go/src/github.com/turbobytes/dnsdebug$
+&lt;/pre&gt;
+
+&lt;p&gt;Using the hints from there&amp;hellip; This is what I translated it to after a lot of trial and error.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+WORK=`mktemp -d`
+mkdir -p $WORK/obj
+mkdir -p $WORK/github.com/miekg/
+cd /home/sajal/go/src/github.com/miekg/dns
+gccgo -I $WORK -c -g -fgo-pkgpath=github.com/miekg/dns -fgo-relative-import-path=_/home/sajal/go/src/github.com/miekg/dns -o $WORK/obj/dns.o ./client.go ./clientconfig.go ./defaults.go ./dns.go ./dnssec.go ./edns.go ./format.go ./keygen.go ./kscan.go ./labels.go ./msg.go ./nsecx.go ./privaterr.go ./rawmsg.go ./scanner.go ./server.go ./singleinflight.go ./tlsa.go ./tsig.go ./types.go ./udp.go ./udp_linux.go ./update.go ./xfr.go ./zgenerate.go ./zscan.go ./zscan_rr.go
+mipsel-openwrt-linux-gnu-objcopy -j .go_export $WORK/obj/dns.o $WORK/github.com/miekg/dns.gox
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug/utils
+gccgo -I $WORK  -c -g -fgo-pkgpath=github.com/turbobytes/dnsdebug/utils -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug/utils -o $WORK/obj/dnsdebug.o ./rpc.go ./tls.go
+mipsel-openwrt-linux-gnu-objcopy -j .go_export $WORK/obj/dnsdebug.o $WORK/github.com/turbobytes/dnsdebug/utils.gox
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug
+gccgo -I $WORK  -c -g  -o $WORK/obj/minion.o ./minion.go
+gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-libgo
+&lt;/pre&gt;
+
+&lt;p&gt;It took me a while to figure out that I needed to export the .gox files to be able to build code that depended on other packages.&lt;/p&gt;
+
+&lt;p&gt;Note: I had to adjust code a bit to support the ancient Go implementation&amp;hellip; Specifically the TLS implementation and cipher suits.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file minion
+minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;uses shared libs&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; GNU/Linux 2.6.16, not stripped
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh minion
+-rwxrwxr-x &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 9.3M Feb &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;26&lt;/span&gt; 00:25 minion
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;OpenWrt creates a 14MB tempfs, so this barely fits into /tmp of the WT1520, but works as expected. Striping it makes it unusable&amp;hellip; The binary is too big to persist on the device, but it could be programmed to download binary fresh from some server on reboot. Not entirely sure I&amp;rsquo;d use this approach for production.&lt;/p&gt;
+
+&lt;p&gt;I think this is the cheapest off the shelf device that a Go program can run on productively.&lt;/p&gt;
+
+&lt;p&gt;Dear Gophers: Please implement MIPS architecture within the gc toolchain so that I can build apps for these cheap devices as easily as for ARM.&lt;/p&gt;
+
+&lt;p&gt;Next up, I will try to get my hands on &lt;a href=&#34;http://wiki.openwrt.org/toh/cloudengines/pogo-v4&#34;&gt;pogoplug&lt;/a&gt; . Amazon &lt;a href=&#34;http://www.amazon.com/Pogoplug-Backup-and-Sharing-Device/dp/B005GM1Q1O/ref=sr_1_1?ie=UTF8&amp;amp;qid=1424886725&amp;amp;sr=8-1&amp;amp;keywords=pogoplug+mobile&#34;&gt;has it&lt;/a&gt; for $13.69, but after including shipping and taxes it comes out to $51.30. And it doesn&amp;rsquo;t seem to be something that will always be readily available at such low prices.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -58,11 +58,11 @@ https://keybase.io/sajal -->
     <ul class="sidebar-nav">
       <li><a href="/">Home</a> </li>
       
-        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+        <li><a href="/about.html"> About me </a></li>
       
     </ul>
 
-    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -97,28 +97,30 @@ https://keybase.io/sajal -->
 
 <p><a href="/post/presence-bluetooth.html">Last week I posted</a> about potentially using my fitbit Charge HR for presence, and was looking for some way to figure out its MAC address. Here are some ways to do it.</p>
 
-<h4 id="toc_0">BLE scan</h4>
+<h4 id="ble-scan">BLE scan</h4>
 
 <p>First make sure the tracker is not connected to your phone. The simplest way is to turn off bluetooth on the phone (or force-close the fitbit app). Once this is done, the tracker not connected to any host app, starts advertising using bluetooth low energy.</p>
 
 <p>Then from some linux host with BLE enabled adapter (in my case raspberry pi 3 ) run a <code>lescan</code>.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">pi@raspberrypi:~<span style="color: #996633">$ </span>sudo hcitool lescan
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~<span style="color: #996633">$ </span>sudo hcitool lescan
 LE Scan ...
 xx:xx:xx:xx:xx:xx <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 12:34:56:78:9A:BC <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 12:34:56:78:9A:BC Charge HR
 ^Cpi@raspberrypi:~<span style="color: #996633">$ </span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>Since there is only 1 Charge HR detected, I can be fairly confident that <code>12:34:56:78:9A:BC</code> belongs to me.</p>
 
-<h4 id="toc_1">Syncing using Galileo</h4>
+<h4 id="syncing-using-galileo">Syncing using Galileo</h4>
 
 <p><a href="https://bitbucket.org/benallard/galileo/">Galileo</a> is project that allows you to sync your tracker using the bundled dongle that comes with fitbit. It&rsquo;s python and useful if you use linux since fitbit does not provide software for it.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sajal@sajal-lappy:~/path/to/galileo<span style="color: #996633">$ </span>./run --fitbit-server client.fitbit.com --force -v
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~/path/to/galileo<span style="color: #996633">$ </span>./run --fitbit-server client.fitbit.com --force -v
 2016-09-24 22:07:11,549:INFO: Disconnecting from any connected trackers
 2016-09-24 22:07:13,555:INFO: Got an I/O Timeout <span style="color: #333333">(</span>&gt; 2000ms<span style="color: #333333">)</span> <span style="color: #008800; font-weight: bold">while</span> reading!
 2016-09-24 22:07:13,559:INFO: Discovering trackers to synchronize
@@ -132,17 +134,19 @@ yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color
 2016-09-24 22:07:27,165:INFO: Successfully sent tracker data to Fitbit
 2016-09-24 22:07:27,165:INFO: Passing Fitbit response to tracker
 Tracker: BC9A78563412: Synchronisation successful
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>Note how <code>12:34:56:78:9A:BC</code> turns into <code>BC9A78563412</code>. The bytes are reversed.</p>
 
-<h4 id="toc_2">Using Fitbit API</h4>
+<h4 id="using-fitbit-api">Using Fitbit API</h4>
 
 <p>Fetch the list of devices associated to your account using the <a href="https://dev.fitbit.com/docs/devices/">Fitbit devices API</a>.</p>
 
 <p><code>GET https://api.fitbit.com/1/user/-/devices.json</code></p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">[
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #FF0000; background-color: #FFAAAA">&lt;pre&gt;&lt;code&gt;</span>[
   {
     <span style="color: #007700">&quot;battery&quot;</span>: <span style="background-color: #fff0f0">&quot;High&quot;</span>,
     <span style="color: #007700">&quot;deviceVersion&quot;</span>: <span style="background-color: #fff0f0">&quot;Charge HR&quot;</span>,
@@ -155,98 +159,102 @@ Tracker: BC9A78563412: Synchronisation successful
     <span style="color: #007700">&quot;type&quot;</span>: <span style="background-color: #fff0f0">&quot;TRACKER&quot;</span>
   }
 ]
+<span style="color: #FF0000; background-color: #FFAAAA">&lt;/code&gt;&lt;/pre&gt;</span>
 </pre></div>
+
 
 <p>This again shows the reversed-byte MAC address in the <code>mac</code> field.</p>
 
 <p>I have updated my <a href="/post/presence-bluetooth.html#toc_1">presence script</a> to continuously run <code>hcitool lescan</code> and keep a map of devices available. This way if for some reason my phone&rsquo;s bluetooth drops out, I can keep track of myself using the Charge HR since it restarts advertisements once its link to the phone is broken.</p>
 
-<h4 id="toc_3">Presence server upgrade</h4>
+<h4 id="presence-server-upgrade">Presence server upgrade</h4>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008800; font-weight: bold">package</span> main
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #008800; font-weight: bold">package</span> main
 
 <span style="color: #008800; font-weight: bold">import</span> (
-    <span style="background-color: #fff0f0">&quot;flag&quot;</span>
-    <span style="background-color: #fff0f0">&quot;log&quot;</span>
-    <span style="background-color: #fff0f0">&quot;net/http&quot;</span>
-    <span style="background-color: #fff0f0">&quot;os/exec&quot;</span>
-    <span style="background-color: #fff0f0">&quot;strings&quot;</span>
-    <span style="background-color: #fff0f0">&quot;sync&quot;</span>
-    <span style="background-color: #fff0f0">&quot;time&quot;</span>
+	<span style="background-color: #fff0f0">&quot;flag&quot;</span>
+	<span style="background-color: #fff0f0">&quot;log&quot;</span>
+	<span style="background-color: #fff0f0">&quot;net/http&quot;</span>
+	<span style="background-color: #fff0f0">&quot;os/exec&quot;</span>
+	<span style="background-color: #fff0f0">&quot;strings&quot;</span>
+	<span style="background-color: #fff0f0">&quot;sync&quot;</span>
+	<span style="background-color: #fff0f0">&quot;time&quot;</span>
 )
 
 <span style="color: #008800; font-weight: bold">var</span> (
-    blereg  = <span style="color: #007020">make</span>(<span style="color: #008800; font-weight: bold">map</span>[<span style="color: #333399; font-weight: bold">string</span>]time.Time)
-    blesync = <span style="color: #333333">&amp;</span>sync.RWMutex{}
+	blereg  = <span style="color: #007020">make</span>(<span style="color: #008800; font-weight: bold">map</span>[<span style="color: #333399; font-weight: bold">string</span>]time.Time)
+	blesync = <span style="color: #333333">&amp;</span>sync.RWMutex{}
 )
 
 <span style="color: #008800; font-weight: bold">func</span> updateble() {
-    log.Println(<span style="background-color: #fff0f0">&quot;updating ble table&quot;</span>)
-    cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;timeout&quot;</span>, <span style="background-color: #fff0f0">&quot;--signal&quot;</span>, <span style="background-color: #fff0f0">&quot;SIGINT&quot;</span>, <span style="background-color: #fff0f0">&quot;5&quot;</span>, <span style="background-color: #fff0f0">&quot;hcitool&quot;</span>, <span style="background-color: #fff0f0">&quot;lescan&quot;</span>)
-    b, _ <span style="color: #333333">:=</span> cmd.Output()
-    blesync.Lock()
-    <span style="color: #008800; font-weight: bold">defer</span> blesync.Unlock()
-    <span style="color: #008800; font-weight: bold">for</span> _, s <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> strings.Split(<span style="color: #007020">string</span>(b), <span style="background-color: #fff0f0">&quot;\n&quot;</span>) {
-        sp <span style="color: #333333">:=</span> strings.Split(s, <span style="background-color: #fff0f0">&quot; &quot;</span>)
-        <span style="color: #008800; font-weight: bold">if</span> <span style="color: #007020">len</span>(sp) &gt; <span style="color: #0000DD; font-weight: bold">1</span> {
-            log.Println(sp[<span style="color: #0000DD; font-weight: bold">0</span>])
-            blereg[sp[<span style="color: #0000DD; font-weight: bold">0</span>]] = time.Now()
-        }
-    }
+	log.Println(<span style="background-color: #fff0f0">&quot;updating ble table&quot;</span>)
+	cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;timeout&quot;</span>, <span style="background-color: #fff0f0">&quot;--signal&quot;</span>, <span style="background-color: #fff0f0">&quot;SIGINT&quot;</span>, <span style="background-color: #fff0f0">&quot;5&quot;</span>, <span style="background-color: #fff0f0">&quot;hcitool&quot;</span>, <span style="background-color: #fff0f0">&quot;lescan&quot;</span>)
+	b, _ <span style="color: #333333">:=</span> cmd.Output()
+	blesync.Lock()
+	<span style="color: #008800; font-weight: bold">defer</span> blesync.Unlock()
+	<span style="color: #008800; font-weight: bold">for</span> _, s <span style="color: #333333">:=</span> <span style="color: #008800; font-weight: bold">range</span> strings.Split(<span style="color: #007020">string</span>(b), <span style="background-color: #fff0f0">&quot;\n&quot;</span>) {
+		sp <span style="color: #333333">:=</span> strings.Split(s, <span style="background-color: #fff0f0">&quot; &quot;</span>)
+		<span style="color: #008800; font-weight: bold">if</span> <span style="color: #007020">len</span>(sp) &gt; <span style="color: #0000DD; font-weight: bold">1</span> {
+			log.Println(sp[<span style="color: #0000DD; font-weight: bold">0</span>])
+			blereg[sp[<span style="color: #0000DD; font-weight: bold">0</span>]] = time.Now()
+		}
+	}
 }
 
 <span style="color: #008800; font-weight: bold">func</span> l2ping(mac <span style="color: #333399; font-weight: bold">string</span>) <span style="color: #333399; font-weight: bold">bool</span> {
-    log.Println(<span style="background-color: #fff0f0">&quot;Checking &quot;</span>, mac)
-    cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;l2ping&quot;</span>, <span style="background-color: #fff0f0">&quot;-c&quot;</span>, <span style="background-color: #fff0f0">&quot;1&quot;</span>, mac)
-    err <span style="color: #333333">:=</span> cmd.Run()
-    <span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
-        log.Println(err)
-        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">false</span>
-    }
-    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">true</span>
+	log.Println(<span style="background-color: #fff0f0">&quot;Checking &quot;</span>, mac)
+	cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;l2ping&quot;</span>, <span style="background-color: #fff0f0">&quot;-c&quot;</span>, <span style="background-color: #fff0f0">&quot;1&quot;</span>, mac)
+	err <span style="color: #333333">:=</span> cmd.Run()
+	<span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
+		log.Println(err)
+		<span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">false</span>
+	}
+	<span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">true</span>
 
 }
 
 <span style="color: #008800; font-weight: bold">func</span> main() {
-    <span style="color: #008800; font-weight: bold">var</span> addr = flag.String(<span style="background-color: #fff0f0">&quot;addr&quot;</span>, <span style="background-color: #fff0f0">&quot;:8081&quot;</span>, <span style="background-color: #fff0f0">&quot;address/port to listen on&quot;</span>)
-    <span style="color: #008800; font-weight: bold">go</span> <span style="color: #008800; font-weight: bold">func</span>() {
-        <span style="color: #008800; font-weight: bold">for</span> {
-            updateble()
-            time.Sleep(time.Second <span style="color: #333333">*</span> <span style="color: #0000DD; font-weight: bold">10</span>)
-        }
-    }()
-    flag.Parse()
-    http.HandleFunc(<span style="background-color: #fff0f0">&quot;/&quot;</span>, <span style="color: #008800; font-weight: bold">func</span>(w http.ResponseWriter, r <span style="color: #333333">*</span>http.Request) {
-        mac <span style="color: #333333">:=</span> strings.Split(r.URL.Path, <span style="background-color: #fff0f0">&quot;/&quot;</span>)[<span style="color: #0000DD; font-weight: bold">1</span>]
-        <span style="color: #008800; font-weight: bold">if</span> mac <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;&quot;</span> {
-            w.WriteHeader(http.StatusBadRequest)
-            <span style="color: #008800; font-weight: bold">return</span>
-        }
-        <span style="color: #888888">//Check blereg</span>
-        blesync.RLock()
-        dur <span style="color: #333333">:=</span> time.Since(blereg[mac])
-        blesync.RUnlock()
-        log.Println(dur)
-        <span style="color: #008800; font-weight: bold">if</span> dur &lt; time.Minute {
-            <span style="color: #888888">//BLE registry saw this mac within last minute</span>
-            w.WriteHeader(http.StatusNoContent)
-            <span style="color: #008800; font-weight: bold">return</span>
-        }
-        <span style="color: #008800; font-weight: bold">if</span> l2ping(mac) {
-            w.WriteHeader(http.StatusNoContent)
-            <span style="color: #008800; font-weight: bold">return</span>
-        }
-        w.WriteHeader(http.StatusNotFound)
-    })
-    s <span style="color: #333333">:=</span> <span style="color: #333333">&amp;</span>http.Server{
-        Addr:           <span style="color: #333333">*</span>addr,
-        ReadTimeout:    <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
-        WriteTimeout:   <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
-        MaxHeaderBytes: <span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #333333">&lt;&lt;</span> <span style="color: #0000DD; font-weight: bold">20</span>,
-    }
-    log.Fatal(s.ListenAndServe())
+	<span style="color: #008800; font-weight: bold">var</span> addr = flag.String(<span style="background-color: #fff0f0">&quot;addr&quot;</span>, <span style="background-color: #fff0f0">&quot;:8081&quot;</span>, <span style="background-color: #fff0f0">&quot;address/port to listen on&quot;</span>)
+	<span style="color: #008800; font-weight: bold">go</span> <span style="color: #008800; font-weight: bold">func</span>() {
+		<span style="color: #008800; font-weight: bold">for</span> {
+			updateble()
+			time.Sleep(time.Second <span style="color: #333333">*</span> <span style="color: #0000DD; font-weight: bold">10</span>)
+		}
+	}()
+	flag.Parse()
+	http.HandleFunc(<span style="background-color: #fff0f0">&quot;/&quot;</span>, <span style="color: #008800; font-weight: bold">func</span>(w http.ResponseWriter, r <span style="color: #333333">*</span>http.Request) {
+		mac <span style="color: #333333">:=</span> strings.Split(r.URL.Path, <span style="background-color: #fff0f0">&quot;/&quot;</span>)[<span style="color: #0000DD; font-weight: bold">1</span>]
+		<span style="color: #008800; font-weight: bold">if</span> mac <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;&quot;</span> {
+			w.WriteHeader(http.StatusBadRequest)
+			<span style="color: #008800; font-weight: bold">return</span>
+		}
+		<span style="color: #888888">//Check blereg</span>
+		blesync.RLock()
+		dur <span style="color: #333333">:=</span> time.Since(blereg[mac])
+		blesync.RUnlock()
+		log.Println(dur)
+		<span style="color: #008800; font-weight: bold">if</span> dur &lt; time.Minute {
+			<span style="color: #888888">//BLE registry saw this mac within last minute</span>
+			w.WriteHeader(http.StatusNoContent)
+			<span style="color: #008800; font-weight: bold">return</span>
+		}
+		<span style="color: #008800; font-weight: bold">if</span> l2ping(mac) {
+			w.WriteHeader(http.StatusNoContent)
+			<span style="color: #008800; font-weight: bold">return</span>
+		}
+		w.WriteHeader(http.StatusNotFound)
+	})
+	s <span style="color: #333333">:=</span> <span style="color: #333333">&amp;</span>http.Server{
+		Addr:           <span style="color: #333333">*</span>addr,
+		ReadTimeout:    <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
+		WriteTimeout:   <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
+		MaxHeaderBytes: <span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #333333">&lt;&lt;</span> <span style="color: #0000DD; font-weight: bold">20</span>,
+	}
+	log.Fatal(s.ListenAndServe())
 }
+&lt;<span style="color: #333333">/</span>code&gt;&lt;<span style="color: #333333">/</span>pre&gt;
 </pre></div>
+
 
 <p>This runs <code>hcitool lescan</code> in a loop making note of MACs discovered. When receiving a query it checks if the MAC was seen recently, if not then it tries to ping it on bluetooth classic. I could have use the <a href="https://godoc.org/github.com/paypal/gatt">gatt</a> library to continuously scan over BLE, but on initializing gatt, it takes over the HCI device completely making me unable to run the l2ping command. gatt does not have the capability to do Bluetooth stuff.</p>
 
@@ -303,18 +311,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJYAnFlAAoJEDlkkKy/FYKPUlAP/3wvWPJ+fmhqCg1sGnLEHeho
-0PjY6Kmm+6o5whPy911dyQtz8Q6mZXmDB6bAiVQJKa7OPJxwcIqgkDmYKorYim+4
-vll6j3ekAoAH0zDdVyp691+Ps5UgEH5XTWwfQ4cJnCpqbuu7w7fs8KaWn02dtF/u
-vnCwgItacLPwDwV+l3nMeX8sLGCfMBnCuNw1zQTdsKZc8iQ8gY2GGhNYlsbDtqIX
-9dBfwFlrxgIDvMH875sBPULteO3fQHh4wKQ2b759sNEAfoFWcYEPMd/+f+ls7w8w
-n3qqviVkdP2bYWwiOgsimGsXppbCIi15YOSsrZeC+DSu0H4lgxyQd/J0UZl8deOl
-lGhhpGUp6FIZsQyDIZVvS9Dbv5C80vriYsCQart7h9RMcc86NrdNbCt3RYQFifad
-d7B7LpmVaoHegG9HL4uBi+T2qaQ2DWyuo74ckEYftOKzd3MH152kSH9vTBSos+Js
-+298Wtw/TtrAgvpohGLELjzAhJR/oMvEjk2S0tJ2ybvgPFVfFSA8tdGUcfK46KMU
-BZmLh7/wlSvqKJPbr3evda6dq19k2PkK+0u5ZQhL+amPW7kOyeqtaX6TL6QA2m4b
-hPyHryYnyrl5H4iiAcMVSrJPZJklrNJmTtJZN1luAAc/3MabqhB3OnaUYh7HY7Fb
-03Ll2K4CD6H3m8tsQ70m
-=g1E8
+iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPSwkQAIdA0+iqVSzzFbA5R0iN+loq
+VHeoB53YOGNKd+M75ynBELKevw0qNqf8IRU/zgx1SjExQ7JAQBRF51uMghGJP8DX
+/QPDarUYiBsu9ahM0N/NxNNm4qwSdbjnLRuaGPYg9aiSh3i2J32oB6GpK1v7kxf1
+xlz4xToURoBv4AvIY8UKbjVaFeNjDfHdv6xOEyXi9GfoK2Y68rwQ3TaGQOYkv4DB
+yX6hKLHskrMqW3nt48mdyYcLIO4f2ERxvwMKh0J795WrX7ENnxowDfUxDCp16ZI3
+EjjkLXpz0XdQIt1J0ihh86R+e6OpOiQOnMolQbfI1TdsOUXhYEesVIwpZIe2lnR1
+xJxOfOacfinEPsz4KujCmbOuvu25iGuOTquxgXUXx8YwVYKVedkouTgTPSvPYu3m
+jb/9SG7FwtvpGLrvTl8FP15wC3KR2FQzw+dSUj2f4cTris+Wjn4YDdTpoQ1+GzYC
+zOBwk1+bOADg1kSDrXppvJA05FLtHSkJ39bU7bGoTG1vkLWNq2QzwYENQz6BKY7M
+JAX96/muNRiw3n5q7J/NKM6bjg516TqlqP9k6Vi+FyFZYvstAYwlcFY3XIf8QDzu
+SU4gotrHzteu/MUDbMaKAJtunY+Ok97TFbwMpPUBFuCxZZNaKVFI/UEQN8QzIjQw
+874GLrlYLunpj3crE+XB
+=m1kt
 -----END PGP SIGNATURE-----
 -->

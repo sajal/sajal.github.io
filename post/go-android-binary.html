@@ -58,11 +58,11 @@ https://keybase.io/sajal -->
     <ul class="sidebar-nav">
       <li><a href="/">Home</a> </li>
       
-        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+        <li><a href="/about.html"> About me </a></li>
       
     </ul>
 
-    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -96,10 +96,11 @@ https://keybase.io/sajal -->
       <p>I have a use-case to run an <em>external</em> Go binary from within an Android app. By <em>external</em> i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple <strike>problem</strike> solution.</p>
 
 <p>First thing I tried was building normal <code>linux/arm</code> binaries that I use for normal arm devices.
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">sajal@sajal-lappy:~<span style="color: #996633">$ GOARCH</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;arm&quot;</span> go build /path/to/filewithmain.go
-</pre></div></p>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~<span style="color: #996633">$ GOARCH</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;arm&quot;</span> go build /path/to/filewithmain.go
+&lt;/code&gt;&lt;/pre&gt;
+</pre></div>
 
-<p>The generated binary works in general&hellip; until you try to access the net&hellip; all socket communications are blocked. After trying few random things, I realized its due to me not using the NDK to build it&hellip; The binary needs to be built with <code>android/arm</code> target. <a href="https://godoc.org/golang.org/x/mobile/cmd/gomobile">gomobile</a> to the rescue.</p>
+The generated binary works in general&hellip; until you try to access the net&hellip; all socket communications are blocked. After trying few random things, I realized its due to me not using the NDK to build it&hellip; The binary needs to be built with <code>android/arm</code> target. <a href="https://godoc.org/golang.org/x/mobile/cmd/gomobile">gomobile</a> to the rescue.</p>
 
 <p>gomobile allows us to either <a href="http://www.sajalkayan.com/post/android-apps-golang.html">generate an <code>.aar</code> library or an <code>.apk</code></a>, both are not applicable here. Solution - use the toolchain gomobile installed but compile code by hand.</p>
 
@@ -176,18 +177,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJYAnFlAAoJEDlkkKy/FYKP94EP/icImBpjK1RzGUpXUS3FLg67
-Vcz7oje+FwWsb7xsbnYKvl0HdkilqDzU2q3MzfCRqL7vbvAiZR81gYLJ9yhLviom
-Rw02pMHE+05EYGWAHyHlGId4of038RS16VfaPo6VQrjdvOqN6j5epOJRwZETtSQ1
-EGG2hYIowDuyP/Nlq0cg6jLt/mz/GpaBGuja3i3mQfRh7W4tssjPHKqAAmMEb6ZM
-W07SWNeMzZWeith1f2A8lmkQlK2i/s2PrX3cO15wIHpJbT0dsNpJPN6GbZJ+47vN
-S1PwhqLZ3s0dxUtvriPdsFGVlmNJXDlo5I0mFItk2Je58k+opIxCMSn5vKM08Tzl
-8A08xjT1ES0QHF4pdmvPj8XO/4gz4I8I5tONGL84Prbu/ciJ0SPCqhDT22UNSgi1
-m9kteolo95Kv4H+l9pgKTACqAbPLSedNusipfH5cwRu5JAnQQ3ESLldIIl+H8qbF
-LtA7+/b59KycxxEr0VFs+HYj3emHBN4r+PTdzC4KM936xXPp+NT3xBUuxJ2ZGsPp
-7jpZ6aW42wv59MzFXoTJ8Lu0hqMlNXQBrBGxkH78v6osfsB1psnWQLS0XGou0/d0
-PuE951+mnOV27tuHk+sMFKkDZv/A7ehhmth6VSr7pM0CddBvPXAPkzXt5NENlaMV
-4fAe2exsApEz6IT1gmAu
-=Myp7
+iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKPhK0P/RkH2KybVbflIqP3kcYOkb+a
+5JQ1GjuKe+cZA6vWmG5xxaiPSQWdOrCZ//ptJvZZQQbuy7Ad/4KSAcJZXkpsgCDs
+y0+YS/mK1K4hGvGouF1iM2f5VcLq7l6vBBOq+Y5+F0adQG8Va/tG4jD/ZP0wv493
+IA9S6GXuEpxiWL7KOcVQ8rqvJBU9/1q99W3Lb3OfcL4TCaAFRzc4WxJXC9GlyTzN
+of9qz7QaHFhxCpyPLT3PqMg3zoG9ZiH04V+D9/Kzfz7YQOjR1zyuyAMw9obGAgOe
+gj7MXP4AXYUQVfp1MKAUzLY0QS+UeL9p8W7vGVkOz2IDUJL74I1FqBGBb/1x15rW
+g0H3DgueOwQYEmBLYm1bdcIQPynijY4CT41T4116MKF7JIKImLRuDnzm80pRTT52
+8hONrXqFsw61EFpTY8IRjd1RqdjR4Wy65voTqcEF6abxCSD7Uw2Hluol6xHrekQ/
+rLU/egLRm1qzLq2T8dHX0pcfiNRaP8ovMn/8mjf0Cs1QiS3xgHgt8zWWR/FCRzqd
+ZbSAq0I+jJMBNPiS2cI0F5SfbyWgV+zAIclbJwnUifcMvA9BWf3riwG4X9+vUHZk
+xVUlJukB3uQOX9CWloQgxvvyrvaVo3emWXEBbCcGNMWDUX0jLnij7jOzgsk0J18x
+mZOvW21BljuQu5R8Ydoz
+=Sxf8
 -----END PGP SIGNATURE-----
 -->

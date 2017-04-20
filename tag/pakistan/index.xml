@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pakistan on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/pakistan.xml</link>
+    <description>Recent content in Pakistan on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/pakistan.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Leading Indian news agency becomes victim of cyberterrorism</title>
+      <link>http://www.sajalkayan.com/leading-indian-news-agency-becomes-victim-of-cyberterrorism.html</link>
+      <pubDate>Wed, 11 Feb 2009 03:14:17 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/leading-indian-news-agency-becomes-victim-of-cyberterrorism.html</guid>
+      <description>&lt;a rel=&#34;nofollow&#34; href=&#34;http://ians.in/&#34;&gt;Indo-Asian News Service (IANS)&lt;/a&gt; is one of India&#39;s leading news wires. Their news is available to subscribers only and among their clients are various newspapers and news websites. They are one of the fastest text news services and often among the first to break news.
+
+Last night, their website was hacked (or to be politically correct I should say defaced or owned) allegedly by hackers based at Pakistan. These criminals did not take down the entire website, it was worse. They put in derogatory stories against India within the wire. To news websites syndicating their news, it would seem like a genuine news from their end. Here is a screenshot of their latest post today morning.
+
+&lt;img src=&#34;http://www.sajalkayan.com/haxored.png&#34; alt=&#34;Ians Hacked&#34; width=&#34;221&#34; height=&#34;384&#34; /&gt;
+
+At the time of writing (Feb 11th 10am or 8:30 Indian time) the IANS website is still unaccessible
+
+Some observations about IANS
+&lt;ol&gt;
+	&lt;li&gt;It uses PHP&lt;/li&gt;
+	&lt;li&gt;The client side coding is very pathetically done, Very likely the backend is just as bad or worse&lt;/li&gt;
+	&lt;li&gt;Their servers(at Delhi) uses &#34;TATA Communications&#34; as ISP meaning it is either self hosted or at a datacenter.&lt;/li&gt;
+	&lt;li&gt;&lt;span style=&#34;text-decoration: line-through;&#34;&gt;Uses windows for webservers (This is AFAIK, website is down now, so cant probe to be sure) &lt;/span&gt;correction it is on Red Hat&lt;/li&gt;
+&lt;/ol&gt;
+What ticks me off is that this is such an important site it should be much more secure. The traffic to the site may be negligable, but if at all you are a newsjunkie, it is highly likely that you read stories from IANS on a daily basis on other websites/newspapers.
+
+Edit : 9am IST the website is back online
+
+UPDATE : &lt;strong&gt;4:05 pm (Indian Time)&lt;/strong&gt; IANS has published the following message on their wire :-
+&lt;blockquote&gt;Dear Subscriber,
+The IANS website -- www.ians.in -- was targeted by Pakistani hackers last night.
+
+The hackers gained entry into the site and began uploading abusive
+
+content. This was noticed around 1 a.m. by our technical staff, who
+
+immediately began clearing the offensive content. To prevent any damage to
+
+the database, the site was shut down for a few hours. Meanwhile, we are
+
+further strengthening our security systems to prevent the recurrence, as far
+
+as possible, of any such incidents in the future.
+
+Any inconvenience caused to subscribers is deeply regretted.
+
+Best regards,
+
+Partha Sarathi Mitra
+
+C.T.O.
+
+IANS&lt;/blockquote&gt;
+Some things worth noting:
+&lt;ol&gt;
+	&lt;li&gt;There appears to be 2 attacks not 1, one around midnight-ish and one few hours later. Messages from the first attack was deleted, service resumed normally, then there was another attack.&lt;/li&gt;
+	&lt;li&gt;If site was intentionally shut down then why no message on it?&lt;/li&gt;
+	&lt;li&gt;Cant seem to find any reassurances that our contact details, etc are safe... Did they steal anything?&lt;/li&gt;
+	&lt;li&gt;No email communication from them yet. This message was just put into the wire along with 100s of stories, very easy to miss.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,295 @@
+<!--
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> kubemr: Kubernetes native distributed MapReduce framework &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+<script>
+(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3020223-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+        Likes to make all the things faster.
+      </p>
+      <p>CTO at <a href="http://www.turbobytes.com/">TurboBytes</a></p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>kubemr: Kubernetes native distributed MapReduce framework</h1>
+  <span class="post-date">
+    Thu, Apr 20, 2017
+    
+    <a 
+      class="twitter-share-button" 
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="kubemr: Kubernetes native distributed MapReduce framework" 
+      data-url="http://www.sajalkayan.com/post/kubemr.html"
+      >
+      Tweet
+    </a>
+    <a 
+      href="http://news.ycombinator.com/submit"
+      class="hn-share-button"
+      data-title="kubemr: Kubernetes native distributed MapReduce framework"
+      data-url="http://www.sajalkayan.com/post/kubemr.html"
+      >
+      Vote on HN
+    </a>
+    
+    
+  </span>
+      
+
+<p>tl;dr version <a href="https://github.com/turbobytes/kubemr">https://github.com/turbobytes/kubemr</a></p>
+
+<h3 id="background">Background</h3>
+
+<p>Few years ago I wrote a <a href="https://en.wikipedia.org/wiki/MapReduce">MapReduce</a> tool in Go called <a href="https://github.com/turbobytes/gomr">gomr</a>. I never used it for anything, just wrote it as an experiment to see if I could run MapReduce jobs without requiring a master, and it worked. The distributed consensus is provided by etcd which is typically deployed as a cluster. I am not fond of master/slave or primary/secondary systems. I like it when individual units are responsible and co-ordinate with each other and do their fair share of work.</p>
+
+<p>gomr used S3 to upload user binaries and store map/reduce outputs and results. A running worker would query etcd for pending jobs, fetch binary from S3 and then <code>Exec()</code> it.</p>
+
+<p>This week I re-wrote the tool to let <a href="https://kubernetes.io/">Kubernetes</a> take care of a lot of the deployment hassles and called it <a href="https://github.com/turbobytes/kubemr"><em>kubemr</em></a>. Yes, I am aware I suck at naming things.</p>
+
+<h3 id="introducing-kubemr">Introducing kubemr</h3>
+
+<p>kubemr is a MapReduce system that runs within a Kubernetes cluster. Apart from initial complexity of setting up the cluster and managing it, kubemr itself is pretty simple.</p>
+
+<h4 id="getting-started">Getting started</h4>
+
+<p><a href="https://github.com/turbobytes/kubemr/blob/master/README.md">https://github.com/turbobytes/kubemr/blob/master/README.md</a></p>
+
+<h4 id="json-patch">JSON Patch</h4>
+
+<p>Originally I planned to use etcd for state, but instead, I decided to use <a href="http://jsonpatch.com/">JSON patch</a> functionality <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations">provided by kubernetes</a> to make changes to this state. The <code>test</code> operation allows the patch to fail if some condition is not met.</p>
+
+<p>Example lock using JSON patch :-</p>
+
+<pre><code>[
+  { &quot;op&quot;: &quot;test&quot;, &quot;path&quot;: &quot;/lockholder&quot;, &quot;value&quot;: None },
+  { &quot;op&quot;: &quot;add&quot;, &quot;path&quot;: &quot;/lockholder&quot;, &quot;value&quot;: &quot;me&quot; },
+]
+</code></pre>
+
+<p>Above operation would fail if the <code>lockholder</code> already has a value. So multiple users might try to acquire the lock at the same time but only 1 would succeed.</p>
+
+<h4 id="job-state">Job state</h4>
+
+<p>All state information about a MapReduce task is stored in a kubernetes ThirdPartyResource.</p>
+
+<p>In the case of kubemr, I named it <code>MapReduceJob</code>. All I need to kick off some task is submit the following example yaml to Kubernetes.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">apiVersion: <span style="background-color: #fff0f0">&quot;turbobytes.com/v1alpha1&quot;</span>
+kind: MapReduceJob
+metadata:
+  generateName: test-
+spec:
+  image: turbobytes/kubemr-wordcount
+  replicas: 10
+  inputs:
+  - https://tools.ietf.org/rfc/rfc4501.txt
+  - https://tools.ietf.org/rfc/rfc2017.txt
+  - https://tools.ietf.org/rfc/rfc2425.txt
+</pre></div>
+
+
+<p>The image <code>turbobytes/kubemr-wordcount</code> knows how to process this. I used <code>generateName</code> instead of the usual <code>name</code> to ask Kubernets to generate a random unique suffix.</p>
+
+<p>Once the job is complete, something like this is stamped onto the object.</p>
+
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">results:
+- - s3://kubemr/kubemr/test-z0dk5/reduce/0.txt
+- - s3://kubemr/kubemr/test-z0dk5/reduce/1.txt
+- - s3://kubemr/kubemr/test-z0dk5/reduce/2.txt
+- - s3://kubemr/kubemr/test-z0dk5/reduce/3.txt
+- - s3://kubemr/kubemr/test-z0dk5/reduce/4.txt
+</pre></div>
+
+
+<h4 id="lifecycle-of-a-mapreducejob">Lifecycle of a MapReduceJob</h4>
+
+<ol>
+<li>User creates a <a href="https://github.com/turbobytes/kubemr/blob/master/manifests/wordcount.yaml">MapReduceJob object</a></li>
+<li>The <a href="https://github.com/turbobytes/kubemr/blob/master/manifests/operator-deployment.yaml">operator</a> sees there is no <code>status</code> field, it validates the schema and either marks it as <code>FAIL</code> if invalid or <code>PENDING</code>.</li>
+<li>An operator marks status as <code>DEPLOYING</code> if status is <code>PENDING</code>. This guarantees a lock to a single operator instance (in case multiple are running).</li>
+<li>The operator creates desired <code>ConfigMap</code> and <code>Secret</code> objects needed for the <code>Job</code>.</li>
+<li>The operator <a href="https://github.com/turbobytes/kubemr/blob/4a19b75819f57bcecf0dfcb0d69eda1070f7dbbc/pkg/job/client.go#L164">creates the Kubernetes Job object</a> and marks status as <code>DEPLOYED</code>. It creates n worker pods where n is determined by <code>replicas</code> field in the manifest in step #1. In this example it is 10.</li>
+<li>As workers come online, they pick a map task, on successfully acquiring a lock they execute it and populate the <code>outputs</code> field. Each output belongs to a particular <em>partition</em></li>
+<li>Once all map tasks are complete, a worker creates reduce stage specification in the <code>MapReduceJob</code>. Only a single worker would succeed in doing so because we use <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations">JSON patch</a>. A single reduce task corresponds to a partition created during map phase with all outputs belonging to that partition used as input for the reduce.</li>
+<li>The workers start executing reduce stage.</li>
+<li>When all reduce tasks are completed successfully, a worker aggregates all reduce outputs into a list saves it as <code>results</code> and marks the <code>MapReduceJob</code> as <code>COMPLETE</code>.</li>
+</ol>
+
+<p>If any thing fails along the way, the entire <code>MapReduceJob</code> is marked as <code>FAIL</code>. <em>Do or do not, there is no try.</em></p>
+
+<p>The inputs and outputs here are just strings. We do provide utility methods to fetch/store files as S3 objects, but the meaning of the string is up to the user.</p>
+
+<h4 id="components">Components</h4>
+
+<h5 id="operator">Operator</h5>
+
+<p><a href="https://github.com/turbobytes/kubemr/tree/master/cmd/operator">https://github.com/turbobytes/kubemr/tree/master/cmd/operator</a></p>
+
+<p>The operator watches for <code>MapReduceJob</code>s and creates Kubernetes resources for it</p>
+
+<h5 id="worker">Worker</h5>
+
+<p>Example: <a href="https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount">https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount</a></p>
+
+<p>This is user supplied docker image. It must have <code>CMD</code> or <code>ENTRYPOINT</code> defined. The actual code needs to basically satisfy <a href="https://godoc.org/github.com/turbobytes/kubemr/pkg/worker#JobWorker">JobWorker interface</a>.</p>
+
+<p>The user could actually write the worker in any language, as long as they implement everything that the Go library does. Perhaps in future I could provide wrappers to allow workers to be written as shell commands.</p>
+
+<h5 id="api-server">API server</h5>
+
+<p>TODO: Not yet implemented.</p>
+
+<p>Will probably have some way to stream results, and some way to retry failed jobs, etc.</p>
+
+<h4 id="differences-from-gomr">Differences from gomr</h4>
+
+<ol>
+<li>Worker code is shipped as user generated docker images</li>
+<li>Kubernetes apiserver(which itself is backed by etcd) is used for consensus. This means I don&rsquo;t have to make maintain tooling to create job objects.</li>
+<li>When a new job comes in, we create kubernetes <a href="https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/">batch jobs</a> to run the user-provided docker images.</li>
+</ol>
+
+<h4 id="disclaimer">Disclaimer</h4>
+
+<ol>
+<li>This is pre-pre-pre-alpha. Use at your own risk. There may be backwards-incompatible changes.</li>
+<li>I am not cleaning up after myself properly. If playing with it in a production cluster, do everything in a new namespace and simply delete the namespace once done.</li>
+<li>I have not retrying any failed tasks. Probably not fine to put a 10GB job only to find out some intermittent DNS timeout broke the job.</li>
+<li>I don&rsquo;t know what guarantees the kube-apiserver provides about the JSON Patch. Especially in multi-master environments.</li>
+</ol>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>I had fun building this. Hope you have fun playing with it too.</p>
+
+<p>Looking forward to using this at <a href="http://www.turbobytes.com/">work</a> in the near future.</p>
+
+<p>Special thanks to <a href="http://arschles.com/">Aaron Schlesinger</a>. His <a href="https://www.youtube.com/watch?v=qiB4RxCDC8o">talk</a> and the corresponding <a href="https://github.com/arschles/2017-KubeCon-EU">example code</a> helped a lot.</p>
+
+      
+      <div>
+  Tags:  
+    <a href="/tag/kubernetes">kubernetes</a> </li>
+   
+    <a href="/tag/mapreduce">mapreduce</a> </li>
+   
+    <a href="/tag/go">go</a> </li>
+   
+    <a href="/tag/golang">golang</a> </li>
+   <br />
+  Categories:  <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'kubemr: Kubernetes native distributed MapReduce framework';
+		var disqus_url = 'http://www.sajalkayan.com\/post\/kubemr.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s); 
+				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>
+<script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+
+
+
+</script>
+
+      
+</div>
+</div>
+
+  </body>
+</html>
+<!--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKPO4kQAJVSCDtsnPkG3uiRGVK0AuiN
+FYhUJyH/Qh+5t5CiMI6dBGlIwUUz7/DDdUMv9nAsGXWsqqR4GkEtXSIeBls5oYQZ
+VLKf9BPihVDu2m8lejZJOIqi362Rr4Hwhjxa5oRlWoNA2vm6f2GvfMFEtiFvdTZs
+CnCVSyij5Q1mNYJMBm5TErMTC2AATKSYNXi/FO0uOfXdkaQJoEOyN6Aqce4UuHdJ
+7FgNmrYggsE/6eslbDn6k0dDm+QPfMbezdlTdqnx0gIHXq9eEtWbtaoObTxlSQgx
+5spEcoNkeh+dz4WwK0RJ1U85xCvj7wmFrcJs8r/FQyAsu2ZmhvInBX+HCF7Fhuna
+S4+hn4D/smzfuqTha3FnrrRsc5UkCfG+SK54ma8p55xP7yF76G8h53K4FiJbkDyW
+eHpP38B36YPNdxVxg0y1LTgdJ6gV7qsJHpf7BucrPeN5IkDGtFYFQhpq3wPejqqI
+N9TS0KjQ45pgOTtGaMZ0L01x+PRtUaxfiEDZWqCrxCdYLO4J1lFHKgjgrs06zBXW
+e4xbooV2YZU0kqvHg6qIEo4anLPdxFryBgcyvK/BOa/IOl1AjLh3XfE+tB4IfjnV
+nCSsn5Irbyp54tXg8GlqEyKzbKMV/TF6gf6qN8J0Cm0ilrCIGWwVkCXww1KyQ5ra
+5S4+Qd71PGK27mRihP3a
+=xQOv
+-----END PGP SIGNATURE-----
+-->

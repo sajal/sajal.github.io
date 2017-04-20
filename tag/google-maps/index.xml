@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google Maps on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/google-maps.xml</link>
+    <description>Recent content in Google Maps on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/google-maps.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Google maps for Thailand now speaks English!</title>
+      <link>http://www.sajalkayan.com/google-maps-for-thailand-now-speaks-english.html</link>
+      <pubDate>Thu, 21 Feb 2008 08:43:28 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/google-maps-for-thailand-now-speaks-english.html</guid>
+      <description>&lt;strong&gt;Google maps for Thailand&lt;/strong&gt; is now available with &lt;strong&gt;English Language Labels&lt;/strong&gt; - Better late than never.
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/google-map-english.png&#34; alt=&#34;Google map labels for Thailand in english&#34; title=&#34;Google map labels for Thailand in english&#34; /&gt;
+
+The moment I &lt;a href=&#34;http://www.johnberns.com/2008/02/21/google-maps-now-has-thailand-street-maps-in-english/&#34; target=&#34;_blank&#34;&gt;heard about this&lt;/a&gt; I couldn&#39;t help myself, still jumping with Joy. Google has finally answered &lt;a href=&#34;http://www.thechurchofgoogle.org/Scripture/google_prayers.html&#34; target=&#34;_blank&#34;&gt;my prayers&lt;/a&gt;... Gives me great plans for my &lt;strong&gt;&lt;a href=&#34;http://www.chalothailand.com/&#34; title=&#34;Travel to Thailand&#34; target=&#34;_blank&#34;&gt;travel portal&lt;/a&gt;&lt;/strong&gt;. I can now increase the usability for my visitors as well as &lt;a href=&#34;http://code.google.com/apis/maps/sitemap.html&#34; target=&#34;_blank&#34;&gt;increase traffic&lt;/a&gt; to the site...
+
+Now off to learning javascript and the &lt;a href=&#34;http://code.google.com/apis/maps/documentation/&#34; target=&#34;_blank&#34;&gt;Google Maps API&lt;/a&gt;. After that have to look for sources for GPS data... In case anyone knows of a good &lt;strong&gt;Quick n Dirty tutorial&lt;/strong&gt;, please drop the link in the comments.
+</description>
+    </item>
+    
+  </channel>
+</rss>

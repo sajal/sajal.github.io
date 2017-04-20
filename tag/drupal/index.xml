@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Drupal on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/drupal.xml</link>
+    <description>Recent content in Drupal on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/drupal.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)</title>
+      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
+      <pubDate>Tue, 26 Feb 2008 09:38:47 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
+      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
+
+Meta tags are an important part of the web page. They are used to pass information to browsers and bots and are not intended for the average browser to see. We will basically discuss about the 2 most common meta attributes which are &lt;strong&gt;keywords&lt;/strong&gt; and &lt;strong&gt;description&lt;/strong&gt;.
+
+&lt;strong&gt;In Joomla&lt;/strong&gt;, The editing of the meta tags is a core functionality, and can be added while editing or creating content.
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
+
+Also note the &#34;Sect/Cat/Title&#34; button. when pressing it it automatically adds the Section name, Category name and the title of the content into the Keyword attribute.
+
+&lt;strong&gt;In Drupal&lt;/strong&gt;, the meta attributes cant be set by default, you would need to install a module such as &#34;&lt;a href=&#34;http://drupal.org/project/nodewords&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;Meta Tags&lt;/strong&gt;&lt;/a&gt;&#34; to do this for you.
+
+&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
+
+This is the box while editing a node.
+
+The meta editor in Joomla is a core feature, however as Drupal is very flexible, i can perhaps get it to include the taxonomy terms into the keyword without replication as well. &lt;strong&gt;Both the CMS does well&lt;/strong&gt; in this simple but important factor. The Joomla people had to put in all these features into Joomla, however the Drupal guys only made a platform where anyone can make modules for any specific task. Based on my initial observations, Drupal module development is easier compared to Joomla extension development.&lt;!--more--&gt;
+
+&lt;strong&gt;Meta Keyword Attribute :&lt;/strong&gt;
+&lt;blockquote&gt;&lt;em&gt;The keywords attribute was popularized by search engines such as Infoseek and AltaVista in 1995, and its popularity quickly grew until it became one of the most commonly used meta elements. By late 1997, however, search engine providers realized that information stored in meta elements, especially the keyword attribute, was often unreliable and misleading, and at worst, used to draw users into spam sites. (Unscrupulous webmasters could easily place false keywords into their meta elements in order to draw people to their site.)&lt;/em&gt;&lt;/blockquote&gt;
+Source : &lt;a href=&#34;http://en.wikipedia.org/wiki/Meta_element#The_keywords_attribute&#34; target=&#34;_blank&#34;&gt;The Keywords Attribute - wikipedia&lt;/a&gt;
+
+The major search engines claim to not use this attribute, however it does no harm in maintaining it, just in case some crawler gives some weight to it.
+
+&lt;strong&gt;Meta Description Attribute:&lt;/strong&gt;
+&lt;blockquote&gt;&lt;em&gt;Unlike the keyword attribute, the description attribute is supported by most major search engines, like Yahoo and Live Search, while Google will fall back on this tag when information about the page itself is requested (e.g. using the related: query). The description attribute provides a concise explanation of a web page&#39;s content.&lt;/em&gt;&lt;/blockquote&gt;
+Source : &lt;a href=&#34;http://en.wikipedia.org/wiki/Meta_element#The_description_attribute&#34;&gt;The description attribute - Wikipedia&lt;/a&gt;
+
+&lt;strong&gt;The description is a very important attribute&lt;/strong&gt;. It basically summarizes your web page in a few words. Many times the description is used as the snippet for the&lt;strong&gt; Search Engine Results Page (SERP)&lt;/strong&gt;. Ranking high is an important factor, however it is equally important for the listing to look interesting enough to be clicked upon.
+</description>
+    </item>
+    
+    <item>
+      <title>Drupal vs Joomla - The SEO viewpoint - Part 1 URLs</title>
+      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</link>
+      <pubDate>Sun, 17 Feb 2008 12:06:25 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</guid>
+      <description>Last month I started using Drupal and explained how &lt;a href=&#34;http://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34;&gt;&lt;strong&gt;Drupal is better&lt;/strong&gt; in terms of organizing content when compared to Joomla&lt;/a&gt;. Today I am going to explain some &lt;strong&gt;SEO benifits of using Drupal over Joomla&lt;/strong&gt;.
+
+This is the first part of a series and I will blog about &lt;strong&gt;Search Engine Friendly URLs&lt;/strong&gt; today:-
+
+We all know that search engines does not like pages with meaningless querystrings.
+
+By default, both the CMSs produce alternate URLs with all sorts of numbers and things in the querystring. Both have a feature to produce neat URLs which removes the querystring and adds the numbers as the foldernames within the URL. This makes use of an &lt;strong&gt;.htaccess file&lt;/strong&gt;.
+
+&lt;!--more--&gt;Using the bundled &lt;a href=&#34;http://drupal.org/node/15365&#34; title=&#34;How to make clean URL using Drupal&#34;&gt;Clean URLs&lt;/a&gt; basically removes the &#34;?q=&#34; portion. so an article URL which would otherwise have been &#34;http://www.example.com/?q=node/83&#34; would now become &#34;http://www.example.com/node/83&#34;. Nice and Easy. Content is always 1 folder deep where the foldername &#34;node&#34; has absolutely no significance.
+
+&lt;strong&gt;Joomla however makes multiple URLs for the same content&lt;/strong&gt;. If once content is linked from different places in different ways, it would make many links with different ItemIDs all pointing to the same content. Default URL structure for Joomla! &#34;http://www.example.com/index.php?option=com_content&amp;amp;task=view&amp;amp;id=17&amp;amp;Itemid=26&#34; it would get rewritten to &#34;http://www.example.com/content/view/17/26/&#34; . In this case the ItemID &#34;26&#34; may changed based on how your user found the page. Here the content is always 3 folders deep and the words &#34;content&#34; and &#34;view&#34; does absolutely nothing to describe the page in question.
+
+Additional tools do exists lets compare the options available for both these CMSs...
+
+For Drupal &lt;strong&gt;Path&lt;/strong&gt; (A &lt;strong&gt;core module&lt;/strong&gt;) :  Basically what Path does is it allows you to list old urls from our example &#34;node/83&#34; and make an alias to say &#34;blue-widgets/pricing.html&#34; so the whole URL looks like &#34;http://www.example.com/blue-widgets/pricing.html&#34;. Now this tells the Search Engines(and the users) that the page in question deals about the pricing of Blue Widgets.
+
+For Joomla : Error no such extension found ;)
+
+3rd Party Addons :
+
+Drupal has &lt;a href=&#34;http://drupal.org/project/pathauto&#34;&gt;Pathauto&lt;/a&gt;:This module is very robust, user friendly, feature rich and powerful. You can specify custom URLs based on various criteria depending on content type, taxonomy terms and even custom fields within a content. I was surprised tofind that this even &lt;strong&gt;removes useless words from the URI&lt;/strong&gt;. example a content with the title &#34;Thailand: For All Seasons &amp;amp; Reasons!&#34; got the URL &#34;/thailand-all-seasons-reasons.html&#34; aint that wonderful?
+
+&lt;strong&gt;Joomla has&lt;/strong&gt; (among others) &lt;strong&gt;&lt;a href=&#34;http://extensions.joomla.org/component/option,com_mtree/task,viewlink/link_id,2524/Itemid,35/&#34; title=&#34;NuSEF same as OpenSEF&#34;&gt;OpenSEF&lt;/a&gt;&lt;/strong&gt; : This has some nice features, but not as powerfull or even user friendly as Pathauto. Here all you only have is few limited options spread across dozens of config pages. If you wanted custom components to work, you have to find (beg/borrow/steal) a &lt;strong&gt;customized sef_ext.php script&lt;/strong&gt; for that particular component, not very cool thing to do. In Drupal you can set these things within pathauto only, indipendant of the modules. One thing good about OpenSEF is that it takes care of the duplicate content problem I mentioned earlier, but the downside is that it might not work how it was supposed to work as each URL would now get bound to a particular ItemID.
+
+Some might call me biased towards Drupal, but the bottom line is that &lt;strong&gt;&lt;a href=&#34;http://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34; title=&#34;Drupal vs Joomla&#34;&gt;Drupal rocks and Joomla Sux! &lt;/a&gt;&lt;/strong&gt;
+
+Part 1 of the Series. More to follow later on various other aspects on &lt;strong&gt;Drupal and Joomla from an SEO viewpoint&lt;/strong&gt; . Subscribe to my &lt;a href=&#34;http://www.sajalkayan.com/feed&#34; title=&#34;RSS Feed&#34;&gt;feed&lt;/a&gt; to stay updated.
+</description>
+    </item>
+    
+    <item>
+      <title>Drupal rulez Joomla sux!</title>
+      <link>http://www.sajalkayan.com/drupal-rulez-joomls-sux.html</link>
+      <pubDate>Wed, 06 Feb 2008 17:25:17 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/drupal-rulez-joomls-sux.html</guid>
+      <description>&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/drupliconsmall.png&#34; alt=&#34;Drupal Logo&#34; align=&#34;left&#34; border=&#34;0&#34; vspace=&#34;10&#34; hspace=&#34;10&#34; /&gt;I am perhaps the newest entrant to the growing number of Drupal fanboys in Thailand. From what Ive seen most geeks in Thailand use drupal, usually for community building projects and also for personal blogs.
+
+The first I was introduced to Drupal was while chatting with &lt;a href=&#34;http://www.johnberns.com/2008/02/10/my-first-drupal-convert/&#34; title=&#34;Converted me to Drupal&#34;&gt;John Berns&lt;/a&gt; and &lt;a href=&#34;http://sugree.com/&#34;&gt;Sugree&lt;/a&gt; on the &lt;a href=&#34;http://www.barcampbangkok.org/&#34;&gt;BarcampBangkok&lt;/a&gt; IRC room. In a short chat session, these two people managed to convince me that Drupal can easily do the stuff ive been trying/wanting to do for the last 2 Years.
+
+The worst thing about Joomla is that to do many things, you need to get your hands dirty and hack the core files. This for people like me is not good at all. I am a very untidy person, often leave the hacks un-commented and never document my changes. Now, when the next version of Joomla (or some components) come by, Im unable to upgrade due to the fear of breaking my hacks. This blocks me from taking advantage of the latest security patches or code improvements.
+
+Some might say that Joomla is more user friendly, I disagree. &lt;strong&gt;The only way in which Joomla is better than Drupal is in looks&lt;/strong&gt;. Joomla is more of eye candy. Drupal presents a very simple admin interface, all the admin functions is available from the &#34;/admin&#34; page, whereas in Joomla I would need to navigate complex menus n stuff to get to where I wanna be.
+
+&lt;strong&gt;The USP for Drupal is its taxonomy system&lt;/strong&gt;. It effectively gives me the power to categorize my content however I want it. Unlike Joomla where we have only a &#34;Section&#34; and a &#34;Category&#34;, only 2 levels deep, and one category can be only inside one section, no &lt;em&gt;one-to-many&lt;/em&gt; relationships.
+
+&lt;!--more--&gt;Let me give a small example : I am making our travel portal &lt;strong&gt;&lt;a href=&#34;http://www.chalothailand.com/&#34; title=&#34;Travel to Thailand&#34;&gt;Chalo Thailand&lt;/a&gt;&lt;/strong&gt; in Drupal. I want to be able to list information on various destinations (eg Cities or Towns). Then I would also need to list down various tips specific to that town, What places to see, recommended hotels, travel packages, etc. Would be a hell of a task doing this on Joomla! it be copy/pasting... linking... for months, still not get the site ready.
+
+Here what I have done is made 2 vocabularies &#34;&lt;strong&gt;Destination&lt;/strong&gt;&#34; and &#34;&lt;strong&gt;Guide&lt;/strong&gt;&#34;.
+
+Destination would contain terms like &#34;&lt;strong&gt;Bangkok&lt;/strong&gt;&#34;, &#34;&lt;strong&gt;Pattaya&lt;/strong&gt;&#34;, etc...
+
+Guide would contain : &#34;&lt;strong&gt;Getting Around&lt;/strong&gt;&#34;, &#34;&lt;strong&gt;Sight Seeing&lt;/strong&gt;&#34;, &#34;&lt;strong&gt;Shopping Tips&lt;/strong&gt;&#34;, etc
+
+Now on the page listing introduction about &lt;strong&gt;Bangkok&lt;/strong&gt;, I can easily list getting around tips with this few lines of code (don&#39;t get scared. the code is really easy, even non php coder like me can figure it out):-
+&lt;pre lang=&#34;php&#34;&gt;
+&amp;lt;h3&amp;gt;Getting Around in Bangkok&amp;lt;/h3&amp;gt;
+&amp;lt;?php
+$myNodes = taxonomy_select_nodes(array(6,7),&#34;and&#34;);
+echo node_title_list($myNodes)
+?&amp;gt;&lt;/pre&gt;
+&lt;strong&gt;taxonomy_select_nodes(array(6,7),&#34;and&#34;)&lt;/strong&gt; selects node (any content) which has terms 6 AND 7 specified. 6 states the the &lt;strong&gt;Guide&lt;/strong&gt; is &lt;strong&gt;Getting Around&lt;/strong&gt; and 7 means that the &lt;strong&gt;Destination&lt;/strong&gt; is &lt;strong&gt;Bangkok&lt;/strong&gt;. Now I can happily add a new Getting around article for Bangkok and it would automagically show up in the Bangkok introduction page. Another neat advantage of this would be when im listing travel packages. A person viewing details of a &#34;Sight Seeing&#34; location, can see the list of Tour Packages which include this venue. On clicking on a particular Package, they can see the list of Sight-Seeing Venues which are included in this package. &lt;strong&gt;This is something which is not there in Joomla&lt;/strong&gt; (please forgive me if some add on component does this, but chances are there that it would be crappy or some non-seo friendly hack).
+
+The bottom line is that &lt;strong&gt;Drupal is better than Joomla&lt;/strong&gt; in every aspect. &lt;strong&gt;You do not need to be a PHP coder to use Drupal&lt;/strong&gt;. In fact you can do more in Drupal than Joomla without touching PHP. With some knowledge of PHP combined with Drupal (&lt;a href=&#34;http://blog.venture-skills.co.uk/2007/01/08/cck-views-the-ultimate-combination-part-1/&#34; title=&#34;CCK &amp;amp; Views the ultimate combination - part 1&#34; target=&#34;_blank&#34;&gt;CCK+views&lt;/a&gt;) and some time you can effectively make any kind of portal system.
+
+Enough of ranting for today, back to kicking myself in the ass for not starting my &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34;&gt;main portal&lt;/a&gt; in Drupal.
+</description>
+    </item>
+    
+  </channel>
+</rss>

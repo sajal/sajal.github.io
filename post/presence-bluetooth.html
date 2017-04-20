@@ -58,11 +58,11 @@ https://keybase.io/sajal -->
     <ul class="sidebar-nav">
       <li><a href="/">Home</a> </li>
       
-        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+        <li><a href="/about.html"> About me </a></li>
       
     </ul>
 
-    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -99,21 +99,23 @@ https://keybase.io/sajal -->
 
 <p>I use this presence information to automatically switch off lights when I leave my home, and turn them on when I <em>return</em>. By <em>return</em> I mean when my state changes from <em>not-present</em> to <em>present</em></p>
 
-<h4 id="toc_0">Previous Solution (Wi-Fi)</h4>
+<h4 id="previous-solution-wi-fi">Previous Solution (Wi-Fi)</h4>
 
 <p>For about a year, I used my phone being present on my Wi-Fi network as an indicator of my presence at home. This approach did not work well for me.</p>
 
 <p>My router would assign a static IP to my phone using DHCP, and the result of a ping test would indicate my presence.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/bash</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
 ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt; /dev/null
 <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #996633">$?</span> -eq  <span style="color: #6600EE; font-weight: bold">0</span> <span style="color: #333333">]</span>; <span style="color: #008800; font-weight: bold">then</span>
-    <span style="color: #888888">#Sajal is at home...</span>
+	<span style="color: #888888">#Sajal is at home...</span>
 <span style="color: #008800; font-weight: bold">else</span>
-    <span style="color: #888888">#Sajal is not at home...</span>
+	<span style="color: #888888">#Sajal is not at home...</span>
 <span style="color: #008800; font-weight: bold">fi</span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>I have set my phone to stay on Wi-Fi even if it thinks Internet connectivity is not available. In spite of this, the phone would occasionally disconnect from Wi-Fi (or fail the ping test). Often, when I am at home the lights would go off, and I would need to fiddle with my phone to get it back on Wi-Fi. Almost every morning I would wake up and realize my living room lights are turned on, at some point during the night my code thought I sleep-walked out of my home and returned.</p>
 
@@ -121,18 +123,20 @@ ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt
 
 <p>I altered this a bit by using arp instead of ping.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/bash</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
 <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #008800; font-weight: bold">$(</span>arp -n | grep <span style="background-color: #fff0f0">&quot;xx:xx:xx:xx:xx:xx&quot;</span> | wc -l<span style="color: #008800; font-weight: bold">)</span> -eq  <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #333333">]</span>; <span style="color: #008800; font-weight: bold">then</span>
-    <span style="color: #888888">#Sajal is at home...</span>
+	<span style="color: #888888">#Sajal is at home...</span>
 <span style="color: #008800; font-weight: bold">else</span>
-    <span style="color: #888888">#Sajal is not at home...</span>
+	<span style="color: #888888">#Sajal is not at home...</span>
 <span style="color: #008800; font-weight: bold">fi</span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>This provides some relief from intermittent Wi-Fi issues because it takes time for arp cache to flush out the information, but most of the problems of the ping method are still applicable.</p>
 
-<h4 id="toc_1">Current Solution</h4>
+<h4 id="current-solution">Current Solution</h4>
 
 <p>Currently I have a Raspberry Pi pinging my phone over Bluetooth to detect presence. All you need for this to work is your phone&rsquo;s Bluetooth MAC address. The phone does not need to be in detectable/scanning mode, just that Bluetooth should be turned on.</p>
 
@@ -140,65 +144,69 @@ ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt
 
 <p>I have the following Go code running on a Raspberry Pi 3 (which has Bluetooth builtin).</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #008800; font-weight: bold">package</span> main
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #008800; font-weight: bold">package</span> main
 
 <span style="color: #008800; font-weight: bold">import</span> (
-    <span style="background-color: #fff0f0">&quot;flag&quot;</span>
-    <span style="background-color: #fff0f0">&quot;log&quot;</span>
-    <span style="background-color: #fff0f0">&quot;net/http&quot;</span>
-    <span style="background-color: #fff0f0">&quot;os/exec&quot;</span>
-    <span style="background-color: #fff0f0">&quot;strings&quot;</span>
-    <span style="background-color: #fff0f0">&quot;time&quot;</span>
+	<span style="background-color: #fff0f0">&quot;flag&quot;</span>
+	<span style="background-color: #fff0f0">&quot;log&quot;</span>
+	<span style="background-color: #fff0f0">&quot;net/http&quot;</span>
+	<span style="background-color: #fff0f0">&quot;os/exec&quot;</span>
+	<span style="background-color: #fff0f0">&quot;strings&quot;</span>
+	<span style="background-color: #fff0f0">&quot;time&quot;</span>
 )
 
 <span style="color: #008800; font-weight: bold">func</span> l2ping(mac <span style="color: #333399; font-weight: bold">string</span>) <span style="color: #333399; font-weight: bold">bool</span> {
-    log.Println(<span style="background-color: #fff0f0">&quot;Checking &quot;</span>, mac)
-    cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;l2ping&quot;</span>, <span style="background-color: #fff0f0">&quot;-c&quot;</span>, <span style="background-color: #fff0f0">&quot;1&quot;</span>, mac)
-    err <span style="color: #333333">:=</span> cmd.Run()
-    <span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
-        log.Println(err)
-        <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">false</span>
-    }
-    <span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">true</span>
+	log.Println(<span style="background-color: #fff0f0">&quot;Checking &quot;</span>, mac)
+	cmd <span style="color: #333333">:=</span> exec.Command(<span style="background-color: #fff0f0">&quot;l2ping&quot;</span>, <span style="background-color: #fff0f0">&quot;-c&quot;</span>, <span style="background-color: #fff0f0">&quot;1&quot;</span>, mac)
+	err <span style="color: #333333">:=</span> cmd.Run()
+	<span style="color: #008800; font-weight: bold">if</span> err <span style="color: #333333">!=</span> <span style="color: #008800; font-weight: bold">nil</span> {
+		log.Println(err)
+		<span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">false</span>
+	}
+	<span style="color: #008800; font-weight: bold">return</span> <span style="color: #008800; font-weight: bold">true</span>
 
 }
 
 <span style="color: #008800; font-weight: bold">func</span> main() {
-    <span style="color: #008800; font-weight: bold">var</span> addr = flag.String(<span style="background-color: #fff0f0">&quot;addr&quot;</span>, <span style="background-color: #fff0f0">&quot;:8081&quot;</span>, <span style="background-color: #fff0f0">&quot;address/port to listen on&quot;</span>)
-    flag.Parse()
-    http.HandleFunc(<span style="background-color: #fff0f0">&quot;/&quot;</span>, <span style="color: #008800; font-weight: bold">func</span>(w http.ResponseWriter, r <span style="color: #333333">*</span>http.Request) {
-        mac <span style="color: #333333">:=</span> strings.Split(r.URL.Path, <span style="background-color: #fff0f0">&quot;/&quot;</span>)[<span style="color: #0000DD; font-weight: bold">1</span>]
-        <span style="color: #008800; font-weight: bold">if</span> mac <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;&quot;</span> {
-            w.WriteHeader(http.StatusBadRequest)
-            <span style="color: #008800; font-weight: bold">return</span>
-        }
-        <span style="color: #008800; font-weight: bold">if</span> l2ping(mac) {
-            <span style="color: #888888">//TODO: Use 204 not 200</span>
-            w.WriteHeader(http.StatusOK)
-            <span style="color: #008800; font-weight: bold">return</span>
-        }
-        w.WriteHeader(http.StatusNotFound)
-    })
-    s <span style="color: #333333">:=</span> <span style="color: #333333">&amp;</span>http.Server{
-        Addr:           <span style="color: #333333">*</span>addr,
-        ReadTimeout:    <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
-        WriteTimeout:   <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
-        MaxHeaderBytes: <span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #333333">&lt;&lt;</span> <span style="color: #0000DD; font-weight: bold">20</span>,
-    }
-    log.Fatal(s.ListenAndServe())
+	<span style="color: #008800; font-weight: bold">var</span> addr = flag.String(<span style="background-color: #fff0f0">&quot;addr&quot;</span>, <span style="background-color: #fff0f0">&quot;:8081&quot;</span>, <span style="background-color: #fff0f0">&quot;address/port to listen on&quot;</span>)
+	flag.Parse()
+	http.HandleFunc(<span style="background-color: #fff0f0">&quot;/&quot;</span>, <span style="color: #008800; font-weight: bold">func</span>(w http.ResponseWriter, r <span style="color: #333333">*</span>http.Request) {
+		mac <span style="color: #333333">:=</span> strings.Split(r.URL.Path, <span style="background-color: #fff0f0">&quot;/&quot;</span>)[<span style="color: #0000DD; font-weight: bold">1</span>]
+		<span style="color: #008800; font-weight: bold">if</span> mac <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;&quot;</span> {
+			w.WriteHeader(http.StatusBadRequest)
+			<span style="color: #008800; font-weight: bold">return</span>
+		}
+		<span style="color: #008800; font-weight: bold">if</span> l2ping(mac) {
+			<span style="color: #888888">//TODO: Use 204 not 200</span>
+			w.WriteHeader(http.StatusOK)
+			<span style="color: #008800; font-weight: bold">return</span>
+		}
+		w.WriteHeader(http.StatusNotFound)
+	})
+	s <span style="color: #333333">:=</span> <span style="color: #333333">&amp;</span>http.Server{
+		Addr:           <span style="color: #333333">*</span>addr,
+		ReadTimeout:    <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
+		WriteTimeout:   <span style="color: #0000DD; font-weight: bold">10</span> <span style="color: #333333">*</span> time.Second,
+		MaxHeaderBytes: <span style="color: #0000DD; font-weight: bold">1</span> <span style="color: #333333">&lt;&lt;</span> <span style="color: #0000DD; font-weight: bold">20</span>,
+	}
+	log.Fatal(s.ListenAndServe())
 }
+&lt;<span style="color: #333333">/</span>code&gt;&lt;<span style="color: #333333">/</span>pre&gt;
 </pre></div>
+
 
 <p>I need to use this http API because the bash script runs on a device without Bluetooth support. My bash script evolved to call the Go code using curl.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/bash</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
 <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #008800; font-weight: bold">$(</span>curl --write-out %<span style="color: #333333">{</span>http_code<span style="color: #333333">}</span> --silent --output /dev/null http://192.168.x.x:8081/xx:xx:xx:xx:xx:xx<span style="color: #008800; font-weight: bold">)</span> -eq <span style="color: #6600EE; font-weight: bold">200</span> <span style="color: #333333">]</span>; <span style="color: #008800; font-weight: bold">then</span>
-    <span style="color: #888888">#Sajal is at home...</span>
+	<span style="color: #888888">#Sajal is at home...</span>
 <span style="color: #008800; font-weight: bold">else</span>
-    <span style="color: #888888">#Sajal is not at home...</span>
+	<span style="color: #888888">#Sajal is not at home...</span>
 <span style="color: #008800; font-weight: bold">fi</span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>Figuring out my phone&rsquo;s Bluetooth MAC address was relatively straightforward.</p>
 
@@ -208,10 +216,10 @@ ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt
 <li>Test if it is pingable. Phone does not need to be detectable any more.</li>
 </ol>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">pi@raspberrypi:~<span style="color: #996633">$ </span>hcitool scan
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~<span style="color: #996633">$ </span>hcitool scan
 Scanning ...
-    yy:yy:yy:yy:yy:yy   KDL-50W800C
-    xx:xx:xx:xx:xx:xx   G4
+	yy:yy:yy:yy:yy:yy	KDL-50W800C
+	xx:xx:xx:xx:xx:xx	G4
 pi@raspberrypi:~<span style="color: #996633">$ </span>sudo l2ping -c <span style="color: #6600EE; font-weight: bold">4</span> xx:xx:xx:xx:xx:xx
 Ping: xx:xx:xx:xx:xx:xx from zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>data size 44<span style="color: #333333">)</span> ...
 <span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">0</span> <span style="color: #007020">time </span>5.90ms
@@ -220,13 +228,16 @@ Ping: xx:xx:xx:xx:xx:xx from zz:zz:zz:zz:zz:zz <span style="color: #333333">(</s
 <span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">3</span> <span style="color: #007020">time </span>28.64ms
 <span style="color: #6600EE; font-weight: bold">4</span> sent, <span style="color: #6600EE; font-weight: bold">4</span> received, 0% loss
 pi@raspberrypi:~<span style="color: #996633">$ </span>
+
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>Apparently <em>KDL-50W800C</em> is a Sony TV, perhaps belonging to a neighbour, I can&rsquo;t ping it because it&rsquo;s probably too far. The <em>G4</em> is my phone.</p>
 
 <p>This method has been in production for the last week, and only once did it give a false negative. My phone was running some upgrades and for some reason Bluetooth stopped working until I rebooted.</p>
 
-<h4 id="toc_2">Whats next?</h4>
+<h4 id="whats-next">Whats next?</h4>
 
 <p>In order to make the presence detection more robust, I am considering the following <strong>in addition</strong> to the above&hellip;</p>
 
@@ -238,18 +249,18 @@ pi@raspberrypi:~<span style="color: #996633">$ </span>
 <li>Door sensors. Might have some other useful applications as well.</li>
 </ol>
 
-<h4 id="toc_3">Discarded ideas</h4>
+<h4 id="discarded-ideas">Discarded ideas</h4>
 
 <ol>
 <li>Timer based presence. Assume me to be present from some specified time to another specified time.</li>
 <li>GPS+phone based presence solution. At home the GPS is very inaccurate. I would need to add a huge error margin(few hundred meters - or higher if its rain-ey), effectively my system would think I am at home even if I am only in the general vicinity.</li>
 </ol>
 
-<h4 id="toc_4">UPDATE</h4>
+<h4 id="update">UPDATE</h4>
 
 <p>I investigated more about the possibility of using my Fitbit Charge HR for presence. It is not a practical option. The pi can detect it, but if I open the Fitbit app on my phone, the Fitbit <a href="https://community.fitbit.com/t5/Web-API/Charge-HR-and-Bit-Finder-Geo-app/m-p/1106648#M4177">will stop advertising</a> until I either force close the Fitbit app, or turn off (and on) the Bluetooth functionality on the phone.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">pi@raspberrypi:~<span style="color: #996633">$ </span>sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~<span style="color: #996633">$ </span>sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
 LE Scan ...
 xx:xx:xx:xx:xx:xx <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 xx:xx:xx:xx:xx:xx Charge HR
@@ -261,7 +272,9 @@ LE Scan ...
 zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 pi@raspberrypi:~<span style="color: #996633">$ </span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
       
       <div>
@@ -316,18 +329,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJYAnFlAAoJEDlkkKy/FYKPDcgP/izEvGThtpRIDjIG02ozuJBe
-KQdrHKPF3SwEreqs73NLA2rXXTqCwsFiM/w6zVdS5kT5fEEXFtSiyU6nVvHPhvBX
-aBqwfFm6+tUyqfK1QmpTsPfCdgRO+c/OplrnFbkAWYLW4ypHm6D/+w54zSibzI1r
-UA7ouX8hohPrWQVuF4iW4ahMmX3bbxqc4g9b29X8VAYa+WwJZm33ZB1flJl9U1aY
-Ud+AuQ0BnL3v2ehw+cWApn10az//3HRdZdY8PGPHNKW0TJRZKFjKiOffSkNDf6cA
-Yqxh/GLc8arejM31lLzEfTxXoQosyJiplRZnmlX09FxOQsg8ynuKvdnM+XsDTsEa
-+18O+Ta2LwmVaAS9e6XN1UyNsUgbZ02FslfpY3KoHoc9Eysm3124ce5MskXiG4s/
-3BoXHqYgpmuiD4+TI7TK0UHMRGztI+7Npyy/k9KZVJtXxSLS51Cf9z4dMxcNJaMn
-bMppEu5450B55w6Nf3xTDUhxoq3Mz2onw3zQN3c2Eq43e5gWsRzxmgBoOianX+Ua
-N3Vdzt/9b3IfD64+z/MWXTsnF1JLl/r73gh4gZUiZVTZwHyRTnI33uKiRbpRDEWK
-hLQ77Hc4xnZx8cSFCsokHiwKfQIyAUMLpDStGsdBDJQ0x0iagKsWcQAem6vDYxXA
-DVcghJZ6HIk/49+6mvTl
-=bbmr
+iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPQJEQAKdcJoHKCjO0cFih4nLqNCKU
+PXEK30MfKkHQ5qLNluyoCgO2LGaNIJYGvNWT8cgAkfklP1s/zkWllX3ZH3oQ8mIv
+CsPV6xx3gANWgDe3oLOOuAHEbS7375/7UENk0B2eoEQ9bnO2nkuxDxhjygzGSfg2
+EW8OjXFNVkqiEeAHajswTeqJzHknPQPsV9K+lr18W1cNUdNBdMJWSywL1kbkLE8D
+pwO4cW7Mito4DHBpBOoJO2O7wqQjCERzPlpmxZxswu4w7kpAySrpntvmAWKYAU3I
+hIC23C81tbsNMWM9oBfyLDJh7wYWaNYU8ai4AZtupdu2JPYdyllh3yUFCxnhr4LK
+yOXCWXZgC3roH7Ljg/spqhmcFC8kJQKyx2i9UokTO3rTRLaz0iEsqW5/DEBq0FEL
+xEeDNquEQkfddwmjdtODtZIYbQ9i3DljuvTYwO9IbfBbbz85m5rTqNZheURB5JRw
+TsNgsZdCFD2sti5dojToXuID+JvuLVKOOaWSYzCjCS7Ev59NtjA0CGS69aYDg/Zg
+SXAmDgTNYblvx6FccFrPTuurTeouoLnYjyhZFCdPQ5f4Z/uroOx5l8T81nGnoyv8
+w3MV7nUr4/gxu3D6LFZkgG4VrxpH2ZTIxPguBsUGJvvLBCqbHLhboaf7p88hETyb
+u5rxenVH3ia4xMSH8gXZ
+=X0Wb
 -----END PGP SIGNATURE-----
 -->

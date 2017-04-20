@@ -58,11 +58,11 @@ https://keybase.io/sajal -->
     <ul class="sidebar-nav">
       <li><a href="/">Home</a> </li>
       
-        <li><a href="http://www.sajalkayan.com/about.html"> About me </a></li>
+        <li><a href="/about.html"> About me </a></li>
       
     </ul>
 
-    <p>&copy; 2016. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -99,11 +99,11 @@ https://keybase.io/sajal -->
 
 <p>For performance and security reasons, I tunnel all my traffic thru a VPN. This is not necessarily to circumvent censorship, but to circumvent the <a href="http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html">evil transparent proxies</a> my ISP puts in middle. The total bandwidth available is ~10 mbps down / ~1 mbps up.</p>
 
-<h2 id="toc_0">Introduction to MultiPath TCP</h2>
+<h2 id="introduction-to-multipath-tcp">Introduction to MultiPath TCP</h2>
 
 <p>MultiPath TCP is an interesting effort to use multiple interfaces/networks for any single TCP connection. A Linux kernel implementation is being developed at <a href="http://multipath-tcp.org/">multipath-tcp.org</a>. Its main use cases are for mobile (transition between Wi-Fi and 3G) and datacenters. I exploit it to get better Internet browsing experience.</p>
 
-<h2 id="toc_1">Old way</h2>
+<h2 id="old-way">Old way</h2>
 
 <p><a href="/images/ssh_tun.svg"><img src="/images/ssh_tun.svg" alt="Simple SSH Tunnel" title="Simple SSH Tunnel" \></a></p>
 
@@ -114,7 +114,7 @@ https://keybase.io/sajal -->
 
 <p>Main drawback : If my ISP has issues talking to AWS, then I&rsquo;m totally screwed. This happened a month or so ago where most links coming into True was severely limited, however link from <a href="https://www.digitalocean.com/?refcode=f92c3276603e" rel="nofollow">Digital Ocean</a> to True was healthy. I had to manually change my tunnels to a $5 Digital Ocean instance.</p>
 
-<h2 id="toc_2">New way</h2>
+<h2 id="new-way">New way</h2>
 
 <p><a href="/images/mptcp_tun.svg"><img src="/images/mptcp_tun.svg" alt="MPTCP Tunnel" title="MPTCP Tunnel" \></a></p>
 
@@ -154,9 +154,9 @@ xxx (source: local)
   9   tun0                      90.06KiB         90       5.94KiB         97
 </pre></p>
 
-<h3 id="toc_3">Configurations</h3>
+<h3 id="configurations">Configurations</h3>
 
-<h4 id="toc_4">Jumpbox</h4>
+<h4 id="jumpbox">Jumpbox</h4>
 
 <p>Jumpbox is pretty basic setup. It&rsquo;s role is to provide additional gateways which MPTCP uses to build additional paths.</p>
 
@@ -173,7 +173,7 @@ iptables -t filter -A FORWARD -o tun0 -j ACCEPT
 
 <p>Replace the <code>tun0</code> and <code>eth0</code> to suit your environment.</p>
 
-<h4 id="toc_5">Destination</h4>
+<h4 id="destination">Destination</h4>
 
 <p>A destination server is remote end of our socks tunnel. It&rsquo;s job is to service the socks connections patching them to the real destination.</p>
 
@@ -181,7 +181,7 @@ iptables -t filter -A FORWARD -o tun0 -j ACCEPT
 
 <p>Next we also need shadowsocks server running. <a href="https://github.com/shadowsocks/shadowsocks-go/blob/master/README.md">RTFM</a> its pretty simple. Before using shadowsocks I was using a simple <code>ssh -D</code> tunnel, but I found it to be inefficient. Often times one large transfer would make all other TCP streams <em>stuck</em>. Perhaps this has something to do with the fact that with SSH everything is happening over a single TCP stream whereas shadowsocks makes a new socks connection dedicated to each TCP connection.</p>
 
-<h4 id="toc_6">Gateway</h4>
+<h4 id="gateway">Gateway</h4>
 
 <p>The gateway is the most complicated component. Running stock Debian wheezy with MPTCP kernel installed via their <a href="http://multipath-tcp.org/pmwiki.php/Users/AptRepository">apt repository</a>. A lot of services run here. I will not elaborate on some of them.</p>
 
@@ -262,12 +262,14 @@ COMMIT
 
 <p>Also, each interface is maintains its own <a href="http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting">routing tables</a> using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/sh</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/sh
 ip rule add from 10.8.0.20 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
 ip route add 10.8.0.0/24 dev tun0 scope link table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
 ip route add default via 10.8.0.21 dev tun0 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
 ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
+
 
 <p>The fwmark is added so if in future I want to pipe different traffic to go thru this interface I can set the corresponding iptables rule.</p>
 
@@ -279,7 +281,7 @@ ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> tabl
 
 <p><strong>wvdial</strong> - To dial the ADSL connection which is itself behind a <a href="http://en.wikipedia.org/wiki/Carrier-grade_NAT">Carrier-grade NAT</a>. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #888888">#!/bin/bash</span>
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
 <span style="color: #996633">IP</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span>/sbin/ip route | grep -v default | grep ppp0 | cut -d <span style="background-color: #fff0f0">&quot; &quot;</span> -f 1<span style="background-color: #fff0f0">`</span>
 <span style="color: #996633">COUNT</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span><span style="color: #007020">echo</span> <span style="color: #996633">$IP</span> | wc -l<span style="background-color: #fff0f0">`</span>
@@ -299,11 +301,12 @@ ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> tabl
 <span style="color: #008800; font-weight: bold">else</span>
   <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 not found?!?!?!?1&quot;</span>
 <span style="color: #008800; font-weight: bold">fi</span>
+&lt;/code&gt;&lt;/pre&gt;
 </pre></div>
 
-<p>The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. <code>SIGHUP</code> signals pppd to handup and redial. I don&rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.</p>
+The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. <code>SIGHUP</code> signals pppd to handup and redial. I don&rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.</p>
 
-<h2 id="toc_7">Missing parts</h2>
+<h2 id="missing-parts">Missing parts</h2>
 
 <p>There are some issues I am having that I need to sort out work-around for.</p>
 
@@ -316,7 +319,7 @@ ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> tabl
 <li><strong>UDP tunneling</strong>. UDP traffic currently goes directly using a single OpenVPN session. There is no load-balancing being performed on it. I would like to switch to a different socks client/server. One that does <a href="http://compgroups.net/comp.protocols.tcp-ip/how-socks-5-udp-associate-works/2603784">UDP associate</a>.</li>
 </ul>
 
-<h2 id="toc_8">Future path enhancements</h2>
+<h2 id="future-path-enhancements">Future path enhancements</h2>
 
 <p>More paths can be added to get better throughput.</p>
 
@@ -326,7 +329,7 @@ ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> tabl
 <li>More ADSL/Cable connections from diverse providers with different backbones.</li>
 </ul>
 
-<h2 id="toc_9">Conclusion</h2>
+<h2 id="conclusion">Conclusion</h2>
 
 <p>MPTCP is a fantastic piece of technology. Hat-tip to everyone who <a href="http://multipath-tcp.org/mptcp_stats/authors.html">contributed</a> to it. The PC Engines ALU box is also awesome. Decent x86_64 box consuming only about 6 to 12W power.</p>
 
@@ -383,18 +386,18 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJYAnFlAAoJEDlkkKy/FYKPpvIQALBvB+JFrtZUh5Qv3Dsm1osK
-avCekgmKLR2qGPwbzqyEostKXhApu5vTw/8kcFgz9JprYWi2dBQZ3CgX4zUhvLQP
-d0ZqmVH6cP1h7EGCSv8dcmOoHA0IdNLhXbJcy7Ak+NhcBEqQamroUhpSZeNlWQra
-Y+89mMoc8OynReDpu2de4PsZ8JUIB1hcExRW04bLC5o6wGTmGEFebj0wPH9RsXyx
-SL1KjCY8xfsJkYU0u0fnZLvRJhRVpyl9j7Kw3fIUTDrVTdxmD/KbAt2GtnDSY/9s
-YBL9UGcRKbYIGQq3K5uFMLtFg4yxyiwaIuym+bKMYhnyBJNCzpqRXhYoHAdUlzGU
-46rT0K4N2vSeFX+c4FLOQ+szJUp4jTWeCQNS7IpZEGMijZ37u5l3fnQLZPGplll/
-s5FJIkDSYbDi+SXOHjAMONOoNmGBwpgQrxkUR1/hs7bQ6LM7rBA0mbGzEVeBuO6i
-XLXndOQsBhLbHAmiD3iRoM1pTZrDi8mVzu0FfAyxspJe7B6Sh9cTa8zfADeYSQv6
-Pvf8/oDpIy/rTnbMI/gDEcPUKb/3wAe/v7DMxgUi+ct1cKse7RjVozMgVBbwqvUz
-1vFIpQJvYKVGUrd0x99GGTvyeMIHvm8kbBT7c1aOlsLLRKllkeNhvhQqR9HRcSpG
-YtyeyCrxZwGOsJcb+En5
-=S/Wx
+iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPUdIQAI8OXG09++5oNWl21WUi2ruI
+BO2nXfjTphhaJ4t9jtc0TX9RzAWbR2/mk8lglC0mbquawdOOFtmOW970wtASTnD9
+9ElcctEskm2dIo6v2Zr47cGxtufUXSWJcUIoq8mEsllZjdpUMYRFLrJpvxu37Hgs
+/NiI/LSqsH/MvGFmiyWD04ecfco+smP8f8VAWTbxK9KCIHaCjKLN/o1aSDbVHx7y
+9WX5uGEeWBX2UB+0c+LHSmQYY2POUy0q/ZOJSNIQ8s0LPNwhjHlBpYbukRo0ob+p
+VoHHiIhG6mPe9YXGqBORbAVY7C64vT7/fQfS6Mb+2Ru+yDjttN/M4ugaRF9iygBq
+ANuHFfTHbnKRVU9sOSqFtWQ0ph/onD/C2EY2VHOEYAidaW0eRzLq5bUByX/PxLA/
+tFPrz63Pj9gw0EJ+VB+me3akB/N9lvLocu8Jh9TkSKtOnp9IwHSvQzfun4nyVa29
+sRXQ+dEOz95lf2H1PS1RpqTn9Voq3/Q4Yj8sWHFRo3VhXK+ee7n91LPeIxGOwiAV
+Rn0aWNTJwkhwuUpl0r0QWqljN+TV9a9X84A7p4sOteLbg93ktynZBKEMU0QeSX9Z
+y8/cdEy7EKZJjbMNdJb8s5WtNj6KaeKDGQcI8Ug15G2vyJITy5N0Tm3Ah+iNT6vg
+LreCrvZg6341rlxSUhvp
+=uNDX
 -----END PGP SIGNATURE-----
 -->

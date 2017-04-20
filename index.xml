@@ -1,0 +1,1820 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/index.xml</link>
+    <description>Recent content on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 20 Apr 2017 20:00:00 +0000</lastBuildDate>
+    <atom:link href="http://www.sajalkayan.com/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>kubemr: Kubernetes native distributed MapReduce framework</title>
+      <link>http://www.sajalkayan.com/post/kubemr.html</link>
+      <pubDate>Thu, 20 Apr 2017 20:00:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/kubemr.html</guid>
+      <description>
+
+&lt;p&gt;tl;dr version &lt;a href=&#34;https://github.com/turbobytes/kubemr&#34;&gt;https://github.com/turbobytes/kubemr&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;background&#34;&gt;Background&lt;/h3&gt;
+
+&lt;p&gt;Few years ago I wrote a &lt;a href=&#34;https://en.wikipedia.org/wiki/MapReduce&#34;&gt;MapReduce&lt;/a&gt; tool in Go called &lt;a href=&#34;https://github.com/turbobytes/gomr&#34;&gt;gomr&lt;/a&gt;. I never used it for anything, just wrote it as an experiment to see if I could run MapReduce jobs without requiring a master, and it worked. The distributed consensus is provided by etcd which is typically deployed as a cluster. I am not fond of master/slave or primary/secondary systems. I like it when individual units are responsible and co-ordinate with each other and do their fair share of work.&lt;/p&gt;
+
+&lt;p&gt;gomr used S3 to upload user binaries and store map/reduce outputs and results. A running worker would query etcd for pending jobs, fetch binary from S3 and then &lt;code&gt;Exec()&lt;/code&gt; it.&lt;/p&gt;
+
+&lt;p&gt;This week I re-wrote the tool to let &lt;a href=&#34;https://kubernetes.io/&#34;&gt;Kubernetes&lt;/a&gt; take care of a lot of the deployment hassles and called it &lt;a href=&#34;https://github.com/turbobytes/kubemr&#34;&gt;&lt;em&gt;kubemr&lt;/em&gt;&lt;/a&gt;. Yes, I am aware I suck at naming things.&lt;/p&gt;
+
+&lt;h3 id=&#34;introducing-kubemr&#34;&gt;Introducing kubemr&lt;/h3&gt;
+
+&lt;p&gt;kubemr is a MapReduce system that runs within a Kubernetes cluster. Apart from initial complexity of setting up the cluster and managing it, kubemr itself is pretty simple.&lt;/p&gt;
+
+&lt;h4 id=&#34;getting-started&#34;&gt;Getting started&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/README.md&#34;&gt;https://github.com/turbobytes/kubemr/blob/master/README.md&lt;/a&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;json-patch&#34;&gt;JSON Patch&lt;/h4&gt;
+
+&lt;p&gt;Originally I planned to use etcd for state, but instead, I decided to use &lt;a href=&#34;http://jsonpatch.com/&#34;&gt;JSON patch&lt;/a&gt; functionality &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations&#34;&gt;provided by kubernetes&lt;/a&gt; to make changes to this state. The &lt;code&gt;test&lt;/code&gt; operation allows the patch to fail if some condition is not met.&lt;/p&gt;
+
+&lt;p&gt;Example lock using JSON patch :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[
+  { &amp;quot;op&amp;quot;: &amp;quot;test&amp;quot;, &amp;quot;path&amp;quot;: &amp;quot;/lockholder&amp;quot;, &amp;quot;value&amp;quot;: None },
+  { &amp;quot;op&amp;quot;: &amp;quot;add&amp;quot;, &amp;quot;path&amp;quot;: &amp;quot;/lockholder&amp;quot;, &amp;quot;value&amp;quot;: &amp;quot;me&amp;quot; },
+]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Above operation would fail if the &lt;code&gt;lockholder&lt;/code&gt; already has a value. So multiple users might try to acquire the lock at the same time but only 1 would succeed.&lt;/p&gt;
+
+&lt;h4 id=&#34;job-state&#34;&gt;Job state&lt;/h4&gt;
+
+&lt;p&gt;All state information about a MapReduce task is stored in a kubernetes ThirdPartyResource.&lt;/p&gt;
+
+&lt;p&gt;In the case of kubemr, I named it &lt;code&gt;MapReduceJob&lt;/code&gt;. All I need to kick off some task is submit the following example yaml to Kubernetes.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;apiVersion: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;turbobytes.com/v1alpha1&amp;quot;&lt;/span&gt;
+kind: MapReduceJob
+metadata:
+  generateName: test-
+spec:
+  image: turbobytes/kubemr-wordcount
+  replicas: 10
+  inputs:
+  - https://tools.ietf.org/rfc/rfc4501.txt
+  - https://tools.ietf.org/rfc/rfc2017.txt
+  - https://tools.ietf.org/rfc/rfc2425.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The image &lt;code&gt;turbobytes/kubemr-wordcount&lt;/code&gt; knows how to process this. I used &lt;code&gt;generateName&lt;/code&gt; instead of the usual &lt;code&gt;name&lt;/code&gt; to ask Kubernets to generate a random unique suffix.&lt;/p&gt;
+
+&lt;p&gt;Once the job is complete, something like this is stamped onto the object.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;results:
+- s3://kubemr/kubemr/test-z0dk5/reduce/0.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/1.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/2.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/3.txt
+- s3://kubemr/kubemr/test-z0dk5/reduce/4.txt
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h4 id=&#34;lifecycle-of-a-mapreducejob&#34;&gt;Lifecycle of a MapReduceJob&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;User creates a &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/manifests/wordcount.yaml&#34;&gt;MapReduceJob object&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/master/manifests/operator-deployment.yaml&#34;&gt;operator&lt;/a&gt; sees there is no &lt;code&gt;status&lt;/code&gt; field, it validates the schema and either marks it as &lt;code&gt;FAIL&lt;/code&gt; if invalid or &lt;code&gt;PENDING&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;An operator marks status as &lt;code&gt;DEPLOYING&lt;/code&gt; if status is &lt;code&gt;PENDING&lt;/code&gt;. This guarantees a lock to a single operator instance (in case multiple are running).&lt;/li&gt;
+&lt;li&gt;The operator creates desired &lt;code&gt;ConfigMap&lt;/code&gt; and &lt;code&gt;Secret&lt;/code&gt; objects needed for the &lt;code&gt;Job&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;The operator &lt;a href=&#34;https://github.com/turbobytes/kubemr/blob/4a19b75819f57bcecf0dfcb0d69eda1070f7dbbc/pkg/job/client.go#L164&#34;&gt;creates the Kubernetes Job object&lt;/a&gt; and marks status as &lt;code&gt;DEPLOYED&lt;/code&gt;. It creates n worker pods where n is determined by &lt;code&gt;replicas&lt;/code&gt; field in the manifest in step #1. In this example it is 10.&lt;/li&gt;
+&lt;li&gt;As workers come online, they pick a map task, on successfully acquiring a lock they execute it and populate the &lt;code&gt;outputs&lt;/code&gt; field. Each output belongs to a particular &lt;em&gt;partition&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;Once all map tasks are complete, a worker creates reduce stage specification in the &lt;code&gt;MapReduceJob&lt;/code&gt;. Only a single worker would succeed in doing so because we use &lt;a href=&#34;https://github.com/kubernetes/community/blob/master/contributors/devel/api-conventions.md#patch-operations&#34;&gt;JSON patch&lt;/a&gt;. A single reduce task corresponds to a partition created during map phase with all outputs belonging to that partition used as input for the reduce.&lt;/li&gt;
+&lt;li&gt;The workers start executing reduce stage.&lt;/li&gt;
+&lt;li&gt;When all reduce tasks are completed successfully, a worker aggregates all reduce outputs into a list saves it as &lt;code&gt;results&lt;/code&gt; and marks the &lt;code&gt;MapReduceJob&lt;/code&gt; as &lt;code&gt;COMPLETE&lt;/code&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;If any thing fails along the way, the entire &lt;code&gt;MapReduceJob&lt;/code&gt; is marked as &lt;code&gt;FAIL&lt;/code&gt;. &lt;em&gt;Do or do not, there is no try.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;The inputs and outputs here are just strings. We do provide utility methods to fetch/store files as S3 objects, but the meaning of the string is up to the user.&lt;/p&gt;
+
+&lt;h4 id=&#34;components&#34;&gt;Components&lt;/h4&gt;
+
+&lt;h5 id=&#34;operator&#34;&gt;Operator&lt;/h5&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://github.com/turbobytes/kubemr/tree/master/cmd/operator&#34;&gt;https://github.com/turbobytes/kubemr/tree/master/cmd/operator&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;The operator watches for &lt;code&gt;MapReduceJob&lt;/code&gt;s and creates Kubernetes resources for it&lt;/p&gt;
+
+&lt;h5 id=&#34;worker&#34;&gt;Worker&lt;/h5&gt;
+
+&lt;p&gt;Example: &lt;a href=&#34;https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount&#34;&gt;https://github.com/turbobytes/kubemr/tree/master/cmd/wordcount&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;This is user supplied docker image. It must have &lt;code&gt;CMD&lt;/code&gt; or &lt;code&gt;ENTRYPOINT&lt;/code&gt; defined. The actual code needs to basically satisfy &lt;a href=&#34;https://godoc.org/github.com/turbobytes/kubemr/pkg/worker#JobWorker&#34;&gt;JobWorker interface&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The user could actually write the worker in any language, as long as they implement everything that the Go library does. Perhaps in future I could provide wrappers to allow workers to be written as shell commands.&lt;/p&gt;
+
+&lt;h5 id=&#34;api-server&#34;&gt;API server&lt;/h5&gt;
+
+&lt;p&gt;TODO: Not yet implemented.&lt;/p&gt;
+
+&lt;p&gt;Will probably have some way to stream results, and some way to retry failed jobs, etc.&lt;/p&gt;
+
+&lt;h4 id=&#34;differences-from-gomr&#34;&gt;Differences from gomr&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Worker code is shipped as user generated docker images&lt;/li&gt;
+&lt;li&gt;Kubernetes apiserver(which itself is backed by etcd) is used for consensus. This means I don&amp;rsquo;t have to make maintain tooling to create job objects.&lt;/li&gt;
+&lt;li&gt;When a new job comes in, we create kubernetes &lt;a href=&#34;https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/&#34;&gt;batch jobs&lt;/a&gt; to run the user-provided docker images.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;disclaimer&#34;&gt;Disclaimer&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;This is pre-pre-pre-alpha. Use at your own risk. There may be backwards-incompatible changes.&lt;/li&gt;
+&lt;li&gt;I am not cleaning up after myself properly. If playing with it in a production cluster, do everything in a new namespace and simply delete the namespace once done.&lt;/li&gt;
+&lt;li&gt;I have not retrying any failed tasks. Probably not fine to put a 10GB job only to find out some intermittent DNS timeout broke the job.&lt;/li&gt;
+&lt;li&gt;I don&amp;rsquo;t know what guarantees the kube-apiserver provides about the JSON Patch. Especially in multi-master environments.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h3&gt;
+
+&lt;p&gt;I had fun building this. Hope you have fun playing with it too.&lt;/p&gt;
+
+&lt;p&gt;Looking forward to using this at &lt;a href=&#34;http://www.turbobytes.com/&#34;&gt;work&lt;/a&gt; in the near future.&lt;/p&gt;
+
+&lt;p&gt;Special thanks to &lt;a href=&#34;http://arschles.com/&#34;&gt;Aaron Schlesinger&lt;/a&gt;. His &lt;a href=&#34;https://www.youtube.com/watch?v=qiB4RxCDC8o&#34;&gt;talk&lt;/a&gt; and the corresponding &lt;a href=&#34;https://github.com/arschles/2017-KubeCon-EU&#34;&gt;example code&lt;/a&gt; helped a lot.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Figuring out MAC address of a fitbit tracker</title>
+      <link>http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html</link>
+      <pubDate>Sat, 24 Sep 2016 15:30:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;http://www.sajalkayan.com/post/presence-bluetooth.html&#34;&gt;Last week I posted&lt;/a&gt; about potentially using my fitbit Charge HR for presence, and was looking for some way to figure out its MAC address. Here are some ways to do it.&lt;/p&gt;
+
+&lt;h4 id=&#34;ble-scan&#34;&gt;BLE scan&lt;/h4&gt;
+
+&lt;p&gt;First make sure the tracker is not connected to your phone. The simplest way is to turn off bluetooth on the phone (or force-close the fitbit app). Once this is done, the tracker not connected to any host app, starts advertising using bluetooth low energy.&lt;/p&gt;
+
+&lt;p&gt;Then from some linux host with BLE enabled adapter (in my case raspberry pi 3 ) run a &lt;code&gt;lescan&lt;/code&gt;.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;sudo hcitool lescan
+LE Scan ...
+xx:xx:xx:xx:xx:xx &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+yy:yy:yy:yy:yy:yy &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+12:34:56:78:9A:BC &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+12:34:56:78:9A:BC Charge HR
+^Cpi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since there is only 1 Charge HR detected, I can be fairly confident that &lt;code&gt;12:34:56:78:9A:BC&lt;/code&gt; belongs to me.&lt;/p&gt;
+
+&lt;h4 id=&#34;syncing-using-galileo&#34;&gt;Syncing using Galileo&lt;/h4&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://bitbucket.org/benallard/galileo/&#34;&gt;Galileo&lt;/a&gt; is project that allows you to sync your tracker using the bundled dongle that comes with fitbit. It&amp;rsquo;s python and useful if you use linux since fitbit does not provide software for it.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~/path/to/galileo&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;./run --fitbit-server client.fitbit.com --force -v
+2016-09-24 22:07:11,549:INFO: Disconnecting from any connected trackers
+2016-09-24 22:07:13,555:INFO: Got an I/O Timeout &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&amp;gt; 2000ms&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;while&lt;/span&gt; reading!
+2016-09-24 22:07:13,559:INFO: Discovering trackers to synchronize
+2016-09-24 22:07:13,565:INFO: Ignoring message: StartDiscovery
+2016-09-24 22:07:17,569:INFO: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; trackers discovered
+2016-09-24 22:07:17,569:INFO: Attempting to synchronize tracker BC9A78563412
+2016-09-24 22:07:17,575:INFO: Starting new HTTPS connection &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;: client.fitbit.com
+2016-09-24 22:07:24,401:INFO: Getting data from tracker
+2016-09-24 22:07:25,752:INFO: Sending tracker data to Fitbit
+2016-09-24 22:07:25,753:INFO: Starting new HTTPS connection &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;: client.fitbit.com
+2016-09-24 22:07:27,165:INFO: Successfully sent tracker data to Fitbit
+2016-09-24 22:07:27,165:INFO: Passing Fitbit response to tracker
+Tracker: BC9A78563412: Synchronisation successful
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note how &lt;code&gt;12:34:56:78:9A:BC&lt;/code&gt; turns into &lt;code&gt;BC9A78563412&lt;/code&gt;. The bytes are reversed.&lt;/p&gt;
+
+&lt;h4 id=&#34;using-fitbit-api&#34;&gt;Using Fitbit API&lt;/h4&gt;
+
+&lt;p&gt;Fetch the list of devices associated to your account using the &lt;a href=&#34;https://dev.fitbit.com/docs/devices/&#34;&gt;Fitbit devices API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;GET https://api.fitbit.com/1/user/-/devices.json&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #FF0000; background-color: #FFAAAA&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;/span&gt;[
+  {
+    &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;battery&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;High&amp;quot;&lt;/span&gt;,
+    &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;deviceVersion&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Charge HR&amp;quot;&lt;/span&gt;,
+    &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;features&amp;quot;&lt;/span&gt;: [
+      
+    ],
+    &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;id&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;xxxxxxxxx&amp;quot;&lt;/span&gt;,
+    &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;lastSyncTime&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;2016-09-24T22:07:26.000&amp;quot;&lt;/span&gt;,
+    &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;mac&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;BC9A78563412&amp;quot;&lt;/span&gt;,
+    &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;type&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;TRACKER&amp;quot;&lt;/span&gt;
+  }
+]
+&lt;span style=&#34;color: #FF0000; background-color: #FFAAAA&#34;&gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This again shows the reversed-byte MAC address in the &lt;code&gt;mac&lt;/code&gt; field.&lt;/p&gt;
+
+&lt;p&gt;I have updated my &lt;a href=&#34;http://www.sajalkayan.com/post/presence-bluetooth.html#toc_1&#34;&gt;presence script&lt;/a&gt; to continuously run &lt;code&gt;hcitool lescan&lt;/code&gt; and keep a map of devices available. This way if for some reason my phone&amp;rsquo;s bluetooth drops out, I can keep track of myself using the Charge HR since it restarts advertisements once its link to the phone is broken.&lt;/p&gt;
+
+&lt;h4 id=&#34;presence-server-upgrade&#34;&gt;Presence server upgrade&lt;/h4&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; (
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;flag&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;log&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;net/http&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;os/exec&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strings&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;sync&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;
+)
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; (
+	blereg  = &lt;span style=&#34;color: #007020&#34;&gt;make&lt;/span&gt;(&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;map&lt;/span&gt;[&lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;]time.Time)
+	blesync = &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;sync.RWMutex{}
+)
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; updateble() {
+	log.Println(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;updating ble table&amp;quot;&lt;/span&gt;)
+	cmd &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; exec.Command(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;timeout&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;--signal&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;SIGINT&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;5&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;hcitool&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;lescan&amp;quot;&lt;/span&gt;)
+	b, _ &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; cmd.Output()
+	blesync.Lock()
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;defer&lt;/span&gt; blesync.Unlock()
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; _, s &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;range&lt;/span&gt; strings.Split(&lt;span style=&#34;color: #007020&#34;&gt;string&lt;/span&gt;(b), &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;\n&amp;quot;&lt;/span&gt;) {
+		sp &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; strings.Split(s, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt;)
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;len&lt;/span&gt;(sp) &amp;gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; {
+			log.Println(sp[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;])
+			blereg[sp[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;]] = time.Now()
+		}
+	}
+}
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; l2ping(mac &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;bool&lt;/span&gt; {
+	log.Println(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Checking &amp;quot;&lt;/span&gt;, mac)
+	cmd &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; exec.Command(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;l2ping&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;-c&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;, mac)
+	err &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; cmd.Run()
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt; {
+		log.Println(err)
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;
+	}
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;true&lt;/span&gt;
+
+}
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; addr = flag.String(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;addr&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;:8081&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;address/port to listen on&amp;quot;&lt;/span&gt;)
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;go&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;() {
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; {
+			updateble()
+			time.Sleep(time.Second &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt;)
+		}
+	}()
+	flag.Parse()
+	http.HandleFunc(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(w http.ResponseWriter, r &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;http.Request) {
+		mac &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; strings.Split(r.URL.Path, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;)[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;]
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; mac &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt; {
+			w.WriteHeader(http.StatusBadRequest)
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt;
+		}
+		&lt;span style=&#34;color: #888888&#34;&gt;//Check blereg&lt;/span&gt;
+		blesync.RLock()
+		dur &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; time.Since(blereg[mac])
+		blesync.RUnlock()
+		log.Println(dur)
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; dur &amp;lt; time.Minute {
+			&lt;span style=&#34;color: #888888&#34;&gt;//BLE registry saw this mac within last minute&lt;/span&gt;
+			w.WriteHeader(http.StatusNoContent)
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt;
+		}
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; l2ping(mac) {
+			w.WriteHeader(http.StatusNoContent)
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt;
+		}
+		w.WriteHeader(http.StatusNotFound)
+	})
+	s &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;http.Server{
+		Addr:           &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;addr,
+		ReadTimeout:    &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; time.Second,
+		WriteTimeout:   &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; time.Second,
+		MaxHeaderBytes: &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;20&lt;/span&gt;,
+	}
+	log.Fatal(s.ListenAndServe())
+}
+&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;code&amp;gt;&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This runs &lt;code&gt;hcitool lescan&lt;/code&gt; in a loop making note of MACs discovered. When receiving a query it checks if the MAC was seen recently, if not then it tries to ping it on bluetooth classic. I could have use the &lt;a href=&#34;https://godoc.org/github.com/paypal/gatt&#34;&gt;gatt&lt;/a&gt; library to continuously scan over BLE, but on initializing gatt, it takes over the HCI device completely making me unable to run the l2ping command. gatt does not have the capability to do Bluetooth stuff.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Detecting presence using Bluetooth</title>
+      <link>http://www.sajalkayan.com/post/presence-bluetooth.html</link>
+      <pubDate>Sun, 18 Sep 2016 15:53:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/presence-bluetooth.html</guid>
+      <description>
+
+&lt;p&gt;&lt;em&gt;How to programmatically detect whether I am at home or not?&lt;/em&gt; - That&amp;rsquo;s the problem I am currently trying to solve. In this post I will outline what methods I am using and what I have tried/considered.&lt;/p&gt;
+
+&lt;p&gt;I use this presence information to automatically switch off lights when I leave my home, and turn them on when I &lt;em&gt;return&lt;/em&gt;. By &lt;em&gt;return&lt;/em&gt; I mean when my state changes from &lt;em&gt;not-present&lt;/em&gt; to &lt;em&gt;present&lt;/em&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;previous-solution-wi-fi&#34;&gt;Previous Solution (Wi-Fi)&lt;/h4&gt;
+
+&lt;p&gt;For about a year, I used my phone being present on my Wi-Fi network as an indicator of my presence at home. This approach did not work well for me.&lt;/p&gt;
+
+&lt;p&gt;My router would assign a static IP to my phone using DHCP, and the result of a ping test would indicate my presence.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/bash
+
+ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; 192.168.x.x &amp;gt; /dev/null
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$?&lt;/span&gt; -eq  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+	&lt;span style=&#34;color: #888888&#34;&gt;#Sajal is at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+	&lt;span style=&#34;color: #888888&#34;&gt;#Sajal is not at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I have set my phone to stay on Wi-Fi even if it thinks Internet connectivity is not available. In spite of this, the phone would occasionally disconnect from Wi-Fi (or fail the ping test). Often, when I am at home the lights would go off, and I would need to fiddle with my phone to get it back on Wi-Fi. Almost every morning I would wake up and realize my living room lights are turned on, at some point during the night my code thought I sleep-walked out of my home and returned.&lt;/p&gt;
+
+&lt;p&gt;Also, it would take anywhere between 0 to 100 seconds for the phone to get back onto Wi-Fi once I returned home. This is annoying at night, especially if I have my hands full with groceries.&lt;/p&gt;
+
+&lt;p&gt;I altered this a bit by using arp instead of ping.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/bash
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;$(&lt;/span&gt;arp -n | grep &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;xx:xx:xx:xx:xx:xx&amp;quot;&lt;/span&gt; | wc -l&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;)&lt;/span&gt; -eq  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+	&lt;span style=&#34;color: #888888&#34;&gt;#Sajal is at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+	&lt;span style=&#34;color: #888888&#34;&gt;#Sajal is not at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This provides some relief from intermittent Wi-Fi issues because it takes time for arp cache to flush out the information, but most of the problems of the ping method are still applicable.&lt;/p&gt;
+
+&lt;h4 id=&#34;current-solution&#34;&gt;Current Solution&lt;/h4&gt;
+
+&lt;p&gt;Currently I have a Raspberry Pi pinging my phone over Bluetooth to detect presence. All you need for this to work is your phone&amp;rsquo;s Bluetooth MAC address. The phone does not need to be in detectable/scanning mode, just that Bluetooth should be turned on.&lt;/p&gt;
+
+&lt;p&gt;I was originally skeptical about using Bluetooth. I did not expect the signal to cover my entire (1-bedroom) apartment, but turns out it works very well. Now my lights turn on even before I am done opening my door.&lt;/p&gt;
+
+&lt;p&gt;I have the following Go code running on a Raspberry Pi 3 (which has Bluetooth builtin).&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; (
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;flag&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;log&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;net/http&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;os/exec&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;strings&amp;quot;&lt;/span&gt;
+	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;time&amp;quot;&lt;/span&gt;
+)
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; l2ping(mac &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;) &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;bool&lt;/span&gt; {
+	log.Println(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Checking &amp;quot;&lt;/span&gt;, mac)
+	cmd &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; exec.Command(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;l2ping&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;-c&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;1&amp;quot;&lt;/span&gt;, mac)
+	err &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; cmd.Run()
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; err &lt;span style=&#34;color: #333333&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;nil&lt;/span&gt; {
+		log.Println(err)
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;
+	}
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;true&lt;/span&gt;
+
+}
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; main() {
+	&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;var&lt;/span&gt; addr = flag.String(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;addr&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;:8081&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;address/port to listen on&amp;quot;&lt;/span&gt;)
+	flag.Parse()
+	http.HandleFunc(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt;(w http.ResponseWriter, r &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;http.Request) {
+		mac &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; strings.Split(r.URL.Path, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/&amp;quot;&lt;/span&gt;)[&lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;]
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; mac &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;&amp;quot;&lt;/span&gt; {
+			w.WriteHeader(http.StatusBadRequest)
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt;
+		}
+		&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; l2ping(mac) {
+			&lt;span style=&#34;color: #888888&#34;&gt;//TODO: Use 204 not 200&lt;/span&gt;
+			w.WriteHeader(http.StatusOK)
+			&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt;
+		}
+		w.WriteHeader(http.StatusNotFound)
+	})
+	s &lt;span style=&#34;color: #333333&#34;&gt;:=&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;amp;&lt;/span&gt;http.Server{
+		Addr:           &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;addr,
+		ReadTimeout:    &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; time.Second,
+		WriteTimeout:   &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; time.Second,
+		MaxHeaderBytes: &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;20&lt;/span&gt;,
+	}
+	log.Fatal(s.ListenAndServe())
+}
+&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;code&amp;gt;&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I need to use this http API because the bash script runs on a device without Bluetooth support. My bash script evolved to call the Go code using curl.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/bash
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;$(&lt;/span&gt;curl --write-out %&lt;span style=&#34;color: #333333&#34;&gt;{&lt;/span&gt;http_code&lt;span style=&#34;color: #333333&#34;&gt;}&lt;/span&gt; --silent --output /dev/null http://192.168.x.x:8081/xx:xx:xx:xx:xx:xx&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;)&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;200&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+	&lt;span style=&#34;color: #888888&#34;&gt;#Sajal is at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+	&lt;span style=&#34;color: #888888&#34;&gt;#Sajal is not at home...&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Figuring out my phone&amp;rsquo;s Bluetooth MAC address was relatively straightforward.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Put your phone in detectable mode.&lt;/li&gt;
+&lt;li&gt;Scan available devices.&lt;/li&gt;
+&lt;li&gt;Test if it is pingable. Phone does not need to be detectable any more.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;hcitool scan
+Scanning ...
+	yy:yy:yy:yy:yy:yy	KDL-50W800C
+	xx:xx:xx:xx:xx:xx	G4
+pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;sudo l2ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; xx:xx:xx:xx:xx:xx
+Ping: xx:xx:xx:xx:xx:xx from zz:zz:zz:zz:zz:zz &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;data size 44&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt; ...
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;5.90ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;7.35ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;28.66ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; bytes from xx:xx:xx:xx:xx:xx id &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;time &lt;/span&gt;28.64ms
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; sent, &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;4&lt;/span&gt; received, 0% loss
+pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Apparently &lt;em&gt;KDL-50W800C&lt;/em&gt; is a Sony TV, perhaps belonging to a neighbour, I can&amp;rsquo;t ping it because it&amp;rsquo;s probably too far. The &lt;em&gt;G4&lt;/em&gt; is my phone.&lt;/p&gt;
+
+&lt;p&gt;This method has been in production for the last week, and only once did it give a false negative. My phone was running some upgrades and for some reason Bluetooth stopped working until I rebooted.&lt;/p&gt;
+
+&lt;h4 id=&#34;whats-next&#34;&gt;Whats next?&lt;/h4&gt;
+
+&lt;p&gt;In order to make the presence detection more robust, I am considering the following &lt;strong&gt;in addition&lt;/strong&gt; to the above&amp;hellip;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Somehow detect the presence of my &lt;a href=&#34;https://www.fitbit.com/chargehr&#34;&gt;Fitbit Charge HR tracker&lt;/a&gt;. I &lt;del&gt;can&amp;rsquo;t seem to&lt;/del&gt; &lt;a href=&#34;http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html&#34;&gt;can figure out the MAC address of the tracker&lt;/a&gt;. &lt;del&gt;If someone knows of a way let me know.&lt;/del&gt; Someone else &lt;a href=&#34;http://dotnet.work/2016/02/tracking-fitbit-presence-under-linux-raspberry-pi-2/&#34;&gt;blogged about&lt;/a&gt; using the bundled dongle for this, but it is very unreliable method. If the Fitbit is connected with the phone, &lt;a href=&#34;https://bitbucket.org/benallard/galileo/&#34;&gt;galileo&lt;/a&gt; will not be able to detect it.&lt;/li&gt;
+&lt;li&gt;Get a Bluetooth tag and attach to keychain. I see some commercially available tags (example &lt;a href=&#34;https://www.thetileapp.com/&#34;&gt;Tile&lt;/a&gt;), but these tags are meant to work with apps on phones. I don&amp;rsquo;t know if works on regular computers with Bluetooth dongles (Raspberry Pi).&lt;/li&gt;
+&lt;li&gt;Motion sensors. These would obviously not work when I am asleep or still&amp;hellip; But it&amp;rsquo;s something to look into, especially since I plan to use it for bathroom lights. Motion sensors might give me some sense of which room I am in, should I need that information for future projects.&lt;/li&gt;
+&lt;li&gt;Keycard holders. The type they use in hotels as a master switch for the room. The difference is in my case I would only use it as a signal for presence and not hardwire my mains thru it. Could be a simple mechanical switch wired to GPIO pins of a pi.&lt;/li&gt;
+&lt;li&gt;Door sensors. Might have some other useful applications as well.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;discarded-ideas&#34;&gt;Discarded ideas&lt;/h4&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Timer based presence. Assume me to be present from some specified time to another specified time.&lt;/li&gt;
+&lt;li&gt;GPS+phone based presence solution. At home the GPS is very inaccurate. I would need to add a huge error margin(few hundred meters - or higher if its rain-ey), effectively my system would think I am at home even if I am only in the general vicinity.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h4 id=&#34;update&#34;&gt;UPDATE&lt;/h4&gt;
+
+&lt;p&gt;I investigated more about the possibility of using my Fitbit Charge HR for presence. It is not a practical option. The pi can detect it, but if I open the Fitbit app on my phone, the Fitbit &lt;a href=&#34;https://community.fitbit.com/t5/Web-API/Charge-HR-and-Bit-Finder-Geo-app/m-p/1106648#M4177&#34;&gt;will stop advertising&lt;/a&gt; until I either force close the Fitbit app, or turn off (and on) the Bluetooth functionality on the phone.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;sudo timeout --signal SIGINT &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt; hcitool lescan
+LE Scan ...
+xx:xx:xx:xx:xx:xx &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+xx:xx:xx:xx:xx:xx Charge HR
+yy:yy:yy:yy:yy:yy &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+zz:zz:zz:zz:zz:zz &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #888888&#34;&gt;#Now open app on phone and sync&lt;/span&gt;
+pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;sudo timeout --signal SIGINT &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;5&lt;/span&gt; hcitool lescan
+LE Scan ...
+zz:zz:zz:zz:zz:zz &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+yy:yy:yy:yy:yy:yy &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>Sign web content using PGP</title>
+      <link>http://www.sajalkayan.com/post/pgp-sign-web-content.html</link>
+      <pubDate>Sat, 06 Feb 2016 18:18:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/pgp-sign-web-content.html</guid>
+      <description>&lt;p&gt;A lot of web-content these days passes thru untrusted intermediaries, especially plain text traffic which is often &lt;a href=&#34;http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html&#34;&gt;intercepted by ISP proxies&lt;/a&gt; for caching (and other purposes ;) ). A compromise at these places &lt;a href=&#34;http://www.telecomasia.net/content/true-internets-proxy-compromised&#34;&gt;can subject your users to malicious payload&lt;/a&gt;, mostly in the form of javascript.&lt;/p&gt;
+
+&lt;p&gt;The obvious solution to these issues is to use TLS i.e. &lt;code&gt;https://&lt;/code&gt; sites, which is more accessible these days thanks to &lt;a href=&#34;https://letsencrypt.org/&#34;&gt;Lets Encrypt&lt;/a&gt;. But even this does not give complete end-to-end coverage because many sites use a CDN who might unknowingly or maliciously tamper with the contents.&lt;/p&gt;
+
+&lt;p&gt;One way to make such tampering detectable is to sign textual web-content using PGP. As a PoC, I have signed all html pages of this blog with a pgp signature. Go ahead, view source of this page, I&amp;rsquo;ll wait&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Bash script (&lt;code&gt;signhtml.sh&lt;/code&gt;) to perform the signing :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/sh
+
+tmpfile=$(mktemp)
+echo &amp;quot;using $tmpfile for $1&amp;quot;
+echo &amp;quot;https://keybase.io/sajal --&amp;gt;&amp;quot; &amp;gt; $tmpfile #Optional text in commented area
+cat $1 &amp;gt;&amp;gt; $tmpfile
+echo &amp;quot;
+&amp;lt;!--&amp;quot; &amp;gt;&amp;gt; $tmpfile
+gpg --digest-algo SHA256 --default-key BF15828F  --clearsign $tmpfile #Because im signing with non-default key
+echo &amp;quot;&amp;lt;!--&amp;quot; &amp;gt; $1
+cat &amp;quot;$tmpfile.asc&amp;quot; &amp;gt;&amp;gt; $1
+echo &amp;quot;--&amp;gt;&amp;quot; &amp;gt;&amp;gt; $1
+rm $tmpfile
+rm &amp;quot;$tmpfile.asc&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Usage : &lt;code&gt;./signhtml.sh /path/to/file.html&lt;/code&gt; . Obviously remove or adjust the &lt;code&gt;--default-key BF15828F&lt;/code&gt; portion. This overwrites the existing html file without taking a backup&amp;hellip; YOLO.&lt;/p&gt;
+
+&lt;p&gt;Verify the contents using:-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gpg --recv-keys BF15828F
+gpg: requesting key BF15828F from hkp server keys.gnupg.net
+gpg: key BF15828F: public key &amp;quot;Sajal Kayan &amp;lt;sajal83@gmail.com&amp;gt;&amp;quot; imported
+gpg: no ultimately trusted keys found
+gpg: Total number processed: 1
+gpg:               imported: 1  (RSA: 1)
+$ curl http://www.sajalkayan.com/ | gpg --verify
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 29916  100 29916    0     0  1577k      0 --:--:-- --:--:-- --:--:-- 1623k
+gpg: Signature made Fri 05 Feb 2016 02:44:27 PM UTC using RSA key ID BF15828F
+gpg: Good signature from &amp;quot;Sajal Kayan &amp;lt;sajal83@gmail.com&amp;gt;&amp;quot;
+gpg:                 aka &amp;quot;&amp;lt;sajal@turbobytes.com&amp;gt;&amp;quot;
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: A668 BBFE 438C BEDA 7BB6  3925 3964 90AC BF15 828F
+$ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now if your ISP is messing with the html body, the signature will not match. There is one caveat, if the injected contents is before or after the signed portion.&lt;/p&gt;
+
+&lt;p&gt;Lets take this html payload&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;html&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
+	&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Hello World&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+Hello World
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;After signing it becomes :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;!--
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+	&amp;lt;title&amp;gt;Hello World&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+Hello World
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&amp;lt;!--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBCAAGBQJWtil3AAoJEDlkkKy/FYKPuawQAIAZ72rb/B+W1d1XGkXfxE0m
+eUr3lE39FCLGJbroQyWzJFl3384EpDo9nSToN8y0ln6h1nohgykAma9YFAHMrRb1
+0+f8FvUzAMnyaT1xSVmke6zgA2/X0sPIhMDHTUDCgvSFOtk21RgVySpTJ584013u
+foroZxzloZz6vFAFh/OQhtoyaA8Br3dk0YleO5N/ApPsZZjC9hSiyfHh/kJr+71y
+d6Y+EWyR+XQDpjQtyZtQIu34zJYUCTn+0iWPTLmB3pn1jgWg7dfxqJq5XNHRE2Sj
+79vRQmQhzps3IYaWU+Ogauf59mVcgGV3GytL/xt5o9PsVi6g+Yo4l2xF8oC2EKwM
+JYqdsvWtFAk7guxf8v9kP5aUcuA0TnW/H9VVH6oWqHgQKqWYkOcMMrZDGr3aLRiV
+8mDQPP/iZgTlhI0s5Yrn7jBubHbM19qdqADHp+7Jr72qzQzDa0Qiblk4nGyEiYIg
+xGGbRfHfKThVajhx6y3ggdEP6DTHTcCNLItS7OQY3pocXszCGYd1IuLRPFjKoaGh
+td18ycpL2Dhq/HyOjIDcvyzliyU8YcqHFBQaWIhBw03hNFlgjUOedI/glU9IT6hY
+nPdDtji6rkfL55KbZrCbYQL6Ai4LQxLOJTCrzr8tu8tEfzK1lry9ztDgmn4R9XDv
+pssWJDftlfXtU4ncmdF2
+=MhMl
+-----END PGP SIGNATURE-----
+--&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Anything injected before the first &lt;code&gt;&amp;lt;!--&lt;/code&gt; and the last &lt;code&gt;--&amp;gt;&lt;/code&gt; will not be validated, but that portion easy to visually inspect, or write some code to check if something has been added or not.&lt;/p&gt;
+
+&lt;p&gt;Example of malicious stuff included which passes gpg verification.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;script&amp;gt;
+alert(&amp;quot;all your head is belong to us&amp;quot;);
+&amp;lt;/script&amp;gt;
+&amp;lt;!--
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal --&amp;gt;
+&amp;lt;html&amp;gt;
+&amp;lt;head&amp;gt;
+	&amp;lt;title&amp;gt;Hello World&amp;lt;/title&amp;gt;
+&amp;lt;/head&amp;gt;
+&amp;lt;body&amp;gt;
+Hello World
+&amp;lt;/body&amp;gt;
+&amp;lt;/html&amp;gt;
+
+&amp;lt;!--
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+iQIcBAEBCAAGBQJWtil3AAoJEDlkkKy/FYKPuawQAIAZ72rb/B+W1d1XGkXfxE0m
+eUr3lE39FCLGJbroQyWzJFl3384EpDo9nSToN8y0ln6h1nohgykAma9YFAHMrRb1
+0+f8FvUzAMnyaT1xSVmke6zgA2/X0sPIhMDHTUDCgvSFOtk21RgVySpTJ584013u
+foroZxzloZz6vFAFh/OQhtoyaA8Br3dk0YleO5N/ApPsZZjC9hSiyfHh/kJr+71y
+d6Y+EWyR+XQDpjQtyZtQIu34zJYUCTn+0iWPTLmB3pn1jgWg7dfxqJq5XNHRE2Sj
+79vRQmQhzps3IYaWU+Ogauf59mVcgGV3GytL/xt5o9PsVi6g+Yo4l2xF8oC2EKwM
+JYqdsvWtFAk7guxf8v9kP5aUcuA0TnW/H9VVH6oWqHgQKqWYkOcMMrZDGr3aLRiV
+8mDQPP/iZgTlhI0s5Yrn7jBubHbM19qdqADHp+7Jr72qzQzDa0Qiblk4nGyEiYIg
+xGGbRfHfKThVajhx6y3ggdEP6DTHTcCNLItS7OQY3pocXszCGYd1IuLRPFjKoaGh
+td18ycpL2Dhq/HyOjIDcvyzliyU8YcqHFBQaWIhBw03hNFlgjUOedI/glU9IT6hY
+nPdDtji6rkfL55KbZrCbYQL6Ai4LQxLOJTCrzr8tu8tEfzK1lry9ztDgmn4R9XDv
+pssWJDftlfXtU4ncmdF2
+=MhMl
+-----END PGP SIGNATURE-----
+--&amp;gt;
+&amp;lt;script&amp;gt;
+alert(&amp;quot;all your base is belong to us&amp;quot;);
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Here is a complete verification script that includes test for tampering portions not covered by PGP. &amp;ndash; &lt;code&gt;verifyhtml.sh&lt;/code&gt;. Warning &lt;code&gt;awk&lt;/code&gt; black magic ahead &amp;ndash; copy/pasted snippets from the interwebs.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;#!/bin/sh
+
+tmpfile=$(mktemp)
+#Download the file
+curl -o $tmpfile $1
+# checking if -----END PGP SIGNATURE----- armor is present
+# Need to check for this cause gpg still validates without it.
+result=`awk &#39;BEGIN{ found=0} /-----END PGP SIGNATURE-----/{found=1}  {if (found) print }&#39; $tmpfile | wc -c`
+if [ &amp;quot;$result&amp;quot; -eq &amp;quot;0&amp;quot; ]; then
+	echo &amp;quot;ABORTING: -----END PGP SIGNATURE----- has been removed!!!&amp;quot;
+	exit 1
+else
+	echo &amp;quot;-----END PGP SIGNATURE----- check passed&amp;quot;
+fi
+
+#Check if end has been tampered
+result=`awk &#39;BEGIN{ found=0} /-----END PGP SIGNATURE-----/{found=1}  {if (found) print }&#39; $tmpfile | sed -e &#39;s/-----END PGP SIGNATURE-----//g&#39; | sed -e &#39;s/--&amp;gt;//g&#39; | tr -d &amp;quot;[:space:]&amp;quot; | wc -c`
+if [ &amp;quot;$result&amp;quot; -eq &amp;quot;0&amp;quot; ]; then
+	echo &amp;quot;End not tampered&amp;quot;
+else
+	echo &amp;quot;ABORTING: Tampered at the end!!!&amp;quot;
+	exit 1
+fi
+#Check if beginning has been tampered with.
+result=`sed -n &#39;1,/BEGIN PGP SIGNED MESSAGE/p&#39; $tmpfile | sed -e &#39;s/-----BEGIN PGP SIGNED MESSAGE-----//g&#39; | sed -e &#39;s/&amp;lt;!--//g&#39; | tr -d &amp;quot;[:space:]&amp;quot; | wc -c`
+if [ &amp;quot;$result&amp;quot; -eq &amp;quot;0&amp;quot; ]; then
+	echo &amp;quot;Begining not tampered&amp;quot;
+else
+	echo &amp;quot;ABORTING: Tampered at the beginning!!!&amp;quot;
+	exit 1
+fi
+echo &amp;quot;checking signature&amp;quot;
+gpg --verify $tmpfile
+rm $tmpfile #Perhaps keep it for debugging purpose if gpg fails to verify.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Usage: &lt;code&gt;./verifyhtml.sh http://www.sajalkayan.com/&lt;/code&gt; .&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Warning: I haven&amp;rsquo;t tested this enough. This is not rock solid, i.e. the interceptor could edit the payload and sign it using another key, which could pass validations&amp;hellip;&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;Similar signing techniques could be used easily for &lt;code&gt;.js&lt;/code&gt; and &lt;code&gt;.css&lt;/code&gt; files. In my opinion popular third party embedded javascript files should be signed using PGP and users should verify and report if any discrepancy is found.&lt;/p&gt;
+
+&lt;p&gt;PS: I am aware of the irony that I am talking about integrity of web payloads while not serving this blog over &lt;code&gt;https&lt;/code&gt;. It is currently hosted using &lt;a href=&#34;https://pages.github.com/&#34;&gt;github pages&lt;/a&gt; which &lt;a href=&#34;https://github.com/isaacs/github/issues/156&#34;&gt;does not support HTTPS for custom domains&lt;/a&gt;. I will perhaps move it elsewhere to play with Let&amp;rsquo;s Encrypt and http/2.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Building binary executables for Android in Go</title>
+      <link>http://www.sajalkayan.com/post/go-android-binary.html</link>
+      <pubDate>Tue, 26 Jan 2016 16:00:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/go-android-binary.html</guid>
+      <description>&lt;p&gt;I have a use-case to run an &lt;em&gt;external&lt;/em&gt; Go binary from within an Android app. By &lt;em&gt;external&lt;/em&gt; i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple &lt;strike&gt;problem&lt;/strike&gt; solution.&lt;/p&gt;
+
+&lt;p&gt;First thing I tried was building normal &lt;code&gt;linux/arm&lt;/code&gt; binaries that I use for normal arm devices.
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~&lt;span style=&#34;color: #996633&#34;&gt;$ GOARCH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;arm&amp;quot;&lt;/span&gt; go build /path/to/filewithmain.go
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+The generated binary works in general&amp;hellip; until you try to access the net&amp;hellip; all socket communications are blocked. After trying few random things, I realized its due to me not using the NDK to build it&amp;hellip; The binary needs to be built with &lt;code&gt;android/arm&lt;/code&gt; target. &lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;gomobile&lt;/a&gt; to the rescue.&lt;/p&gt;
+
+&lt;p&gt;gomobile allows us to either &lt;a href=&#34;http://www.sajalkayan.com/post/android-apps-golang.html&#34;&gt;generate an &lt;code&gt;.aar&lt;/code&gt; library or an &lt;code&gt;.apk&lt;/code&gt;&lt;/a&gt;, both are not applicable here. Solution - use the toolchain gomobile installed but compile code by hand.&lt;/p&gt;
+
+&lt;p&gt;My compile command :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~$ GOMOBILE=&amp;quot;/home/sajal/go/pkg/gomobile&amp;quot; GOOS=android GOARCH=arm CC=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-gcc CXX=$GOMOBILE/android-ndk-r10e/arm/bin/arm-linux-androideabi-g++ CGO_ENABLED=1 GOARM=7 go build -p=8 -pkgdir=$GOMOBILE/pkg_android_arm -tags=&amp;quot;&amp;quot; -ldflags=&amp;quot;-extldflags=-pie&amp;quot; -o minion -x ~/go/src/github.com/turbobytes/pulse/minion.go
+sajal@sajal-lappy:~$ file minion
+minion: ELF 32-bit LSB  shared object, ARM, EABI5 version 1 (SYSV), dynamically linked (uses shared libs), not stripped
+sajal@sajal-lappy:~$ ls -lh minion
+-rwxr-xr-x 1 sajal sajal 9.3M Jan 26 16:52 minion
+sajal@sajal-lappy:~$
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;It took me a while to figure out the &lt;code&gt;-ldflags=&amp;quot;-extldflags=-pie&amp;quot;&lt;/code&gt; portion, without it my phone complains about binary not being in &lt;a href=&#34;https://en.wikipedia.org/wiki/Position-independent_code&#34;&gt;PIE format&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now need to wait for &lt;code&gt;android/368&lt;/code&gt; or &lt;code&gt;android/amd64&lt;/code&gt; support in gomobile so I can play with it in the emulator instead of real device&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;PS: I know what I am doing is probably an anti-pattern, but this is not a normal end user app. It would run on devices dedicated to this and I will sign and validate downloads.&lt;/p&gt;
+
+&lt;p&gt;PSS: I figured this out by mucking around with gomobile using the &lt;code&gt;-x&lt;/code&gt; option.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Writing Android apps with Go bindings</title>
+      <link>http://www.sajalkayan.com/post/android-apps-golang.html</link>
+      <pubDate>Tue, 28 Jul 2015 15:50:09 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/android-apps-golang.html</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;tl;dr version&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;One of the new features of upcoming Go 1.5 release is the awesome tooling around building Android (and iOS) apps using Go code.&lt;/p&gt;
+
+&lt;p&gt;Recently after playing with &lt;a href=&#34;https://play.google.com/store/apps/details?id=org.golang.ivy&#34;&gt;Ivy&lt;/a&gt; - an app made by Go mobile team - I wanted to give it a go (pun intended). Ivy is supposedly written in pure Go, unfortunately the source of it&amp;rsquo;s mobile implementation is not open yet.&lt;/p&gt;
+
+&lt;p&gt;Since I don&amp;rsquo;t know Java, my original goal was to try and make the whole app in Go, but thats not really possible. So I ended up using Java for UI and &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.turbobytes.dig&#34;&gt;here is the result&lt;/a&gt;. No iOS version yet because i don&amp;rsquo;t own a mac.&lt;/p&gt;
+
+&lt;p&gt;First lets get our tooling in order&amp;hellip; (Instructions for Ubuntu - adapt for your distro/OS)&lt;/p&gt;
+
+&lt;p&gt;I &lt;a href=&#34;https://golang.org/dl/&#34;&gt;downloaded&lt;/a&gt; and extracted &lt;code&gt;go1.5beta2&lt;/code&gt; to /home/sajal/gobeta because I didnt want to mess up my existing 1.4.2 environment.&lt;/p&gt;
+
+&lt;p&gt;Now install gomobile&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+go get golang.org/x/mobile/cmd/gomobile
+gomobile init  &lt;span style=&#34;color: #888888&#34;&gt;#This expects go 1.5 to be in PATH which we solved in the first step.&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Then I played with some example apps.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/mobile/example/basic/
+gomobile build .
+adb install basic.apk
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Works on mobile&amp;hellip; the only problem is that &lt;a href=&#34;https://github.com/golang/mobile/blob/master/example/basic/main.go&#34;&gt;this&lt;/a&gt; is OpenGL stuff which I am totally clueless about.. So until the source of Ivy is released, I&amp;rsquo;d have to make the UI in Java&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;First project DNS debugger. Much of the &lt;a href=&#34;https://github.com/turbobytes/pulse&#34;&gt;Go code&lt;/a&gt; was written for &lt;a href=&#34;https://pulse.turbobytes.com/&#34;&gt;TurboBytes Pulse&lt;/a&gt; already&amp;hellip; Lets reuse this&amp;hellip;.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind &lt;/span&gt;github.com/turbobytes/pulse/utils
+panic: unsupported seqType: interface&lt;span style=&#34;color: #333333&#34;&gt;{}&lt;/span&gt; / *types.Interface
+
+goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;running&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
+golang.org/x/mobile/bind.seqType&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd498, 0xc8261c8e60, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/seq.go:72 +0xaf8
+golang.org/x/mobile/bind.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*goGen&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.genStruct&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab31730, 0xc8261ba7d0, 0xc8261c8dc0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:185 +0xfd4
+golang.org/x/mobile/bind.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*goGen&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.gen&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab31730, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/gengo.go:424 +0x98b
+golang.org/x/mobile/bind.GenGo&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd220, 0xc82ab66338, 0xc82015f780, 0xc8201ea780, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/bind/bind.go:47 +0x195
+main.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*binder&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.GenGo.func1&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0x7ff3da1cd220, 0xc82ab66338, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:158 +0x4d
+main.writeFile&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab88740, 0x35, 0xc82ab31910, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:211 +0x35b
+main.&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;*binder&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;.GenGo&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc82ab6d8c0, 0xc8201526a0, 0x1c, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:160 +0x414
+main.goAndroidBind&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc820176000, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind_androidapp.go:31 +0x12d
+main.runBind&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;0xc8cba0, 0x0, 0x0&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/bind.go:89 +0x26c
+main.main&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
+	/home/sajal/go/src/golang.org/x/mobile/cmd/gomobile/main.go:63 +0x495
+
+goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;17&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;syscall, locked to thread&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
+runtime.goexit&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
+	/home/sajal/gobeta/src/runtime/asm_amd64.s:1696 +0x1
+sajal@sajal-lappy:/tmp&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Woops&amp;hellip; any package exporting interface{} (and uint16 which the dns library needs) types cant be used by gomobile bind &amp;hellip;.FAIL&lt;/p&gt;
+
+&lt;p&gt;Solution: I wrote package &lt;a href=&#34;https://github.com/turbobytes/pulse/blob/master/digdroid/digdroid.go&#34;&gt;github.com/turbobytes/pulse/digdroid&lt;/a&gt; with a proxy function that returns a struct with only strings. No interfaces.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; digdroid
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;type&lt;/span&gt; DNSResult &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;struct&lt;/span&gt; {
+	Err    &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+	Output &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+	Rtt    &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
+}
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;func&lt;/span&gt; RunDNS(host, target, qtypestr &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;, norec &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;bool&lt;/span&gt;) &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt;DNSResult
+&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;code&amp;gt;&amp;lt;&lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt;pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind  &lt;/span&gt;github.com/turbobytes/pulse/digdroid
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh
+total 2.8M
+-rw-rw-r-- &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 2.8M Jul &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt; 22:04 digdroid.aar
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file digdroid.aar 
+digdroid.aar: Zip archive data, at least v2.0 to extract
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;unzip -l digdroid.aar
+Archive:  digdroid.aar
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;  1980-00-00 00:00   AndroidManifest.xml
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;  1980-00-00 00:00   proguard.txt
+     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9009&lt;/span&gt;  1980-00-00 00:00   classes.jar
+  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9395848&lt;/span&gt;  1980-00-00 00:00   jni/armeabi-v7a/libgojni.so
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   R.txt
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   res/
+---------                     -------
+  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9404981&lt;/span&gt;                     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;6&lt;/span&gt; files
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This results in creation of a file &lt;code&gt;digdroid.aar&lt;/code&gt; which can be used as dependency in Android Studio. &lt;code&gt;jni/armeabi-v7a/libgojni.so&lt;/code&gt; inside &lt;code&gt;digdroid.aar&lt;/code&gt; is the actual Go library.&lt;/p&gt;
+
+&lt;p&gt;Next we move to Java territory.&lt;/p&gt;
+
+&lt;p&gt;I installed &lt;a href=&#34;http://developer.android.com/tools/studio/index.html&#34;&gt;Android Studio&lt;/a&gt;, setup a new project, made basic UI and an Activity.&lt;/p&gt;
+
+&lt;p&gt;Include &lt;code&gt;digdroid.aar&lt;/code&gt; into the project. Instructions from the &lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;docs&lt;/a&gt;:-&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;For example, in Android Studio (1.2+), an AAR file can be imported using the module import wizard (File &amp;gt; New &amp;gt; New Module &amp;gt; Import .JAR or .AAR package), and setting it as a new dependency (File &amp;gt; Project Structure &amp;gt; Dependencies). This requires &amp;lsquo;javac&amp;rsquo; (version 1.7+) and Android SDK (API level 9 or newer) to build the library for Android. The environment variable ANDROID_HOME must be set to the path to Android SDK.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Once thats done, I could access the Go library from anywhere simply by importing &lt;code&gt;go.digdroid.Digdroid&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Screenshot of steps involved in adding &lt;code&gt;digdroid.aar&lt;/code&gt; into Android Studio : &lt;a href=&#34;http://imgur.com/a/dEewm&#34;&gt;http://imgur.com/a/dEewm&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Example usage of above Go code from Java
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;DNSResult&lt;/span&gt; result &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;RunDNS&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;www.example.com.&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;8.8.8.8:53&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;A&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;);&lt;/span&gt;
+String output &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getOutput&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+String rtt &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getRtt&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+String err &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getErr&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
+&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;/&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;gomobile bind&lt;/code&gt; created the getters and setters for free&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;One downside is &lt;code&gt;gomobile bind&lt;/code&gt; only created binary for armv7. So the project no longer works on the emulator which is x86. But almost all android devices are arm, so its not really a big issue.&lt;/p&gt;
+
+&lt;p&gt;To update &lt;code&gt;digdroid.aar&lt;/code&gt; simply build a new one and replace the &lt;code&gt;digdroid.aar&lt;/code&gt; file within the Android Studio source tree.&lt;/p&gt;
+
+&lt;p&gt;One thing&amp;hellip; For some reason the built apk was including extra permissions that I didn&amp;rsquo;t really need. Solution declare those extra permissions in the manifest in a special manner so it gets removed when being built.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;uses-permission&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.WRITE_EXTERNAL_STORAGE&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:maxSdkVersion=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;18&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;uses-permission&lt;/span&gt; &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.READ_PHONE_STATE&amp;quot;&lt;/span&gt; &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;uses-permission&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.READ_EXTERNAL_STORAGE&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;android:maxSdkVersion=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;18&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
+&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Since I added these with &lt;code&gt;tools:node=&amp;quot;remove&amp;quot;&lt;/code&gt; the builder will remove it from the apk. If I did not do that then the builder would add them into the final apk for some reason&amp;hellip; Nobody asked for these permissions and they are not relevant to the code.&lt;/p&gt;
+
+&lt;p&gt;PS: I understand there is a cost associated with jumping language boundaries. This is just a fun little project. I am desperately waiting for some easier way to write apps completely in Go without bindings. I am even willing to dabble with QT stuff (or similar) if someone can show me how to build it in Go for mobile. Besides, for networked functions, few microseconds cost for jumping languages is negligible compared to the cost of making the actual network requests which can be 10s of milliseconds or more.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Play store listing: &lt;a href=&#34;https://play.google.com/store/apps/details?id=com.turbobytes.dig&#34;&gt;https://play.google.com/store/apps/details?id=com.turbobytes.dig&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Android Project Source : &lt;a href=&#34;https://github.com/sajal/digdroid&#34;&gt;https://github.com/sajal/digdroid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Go package : &lt;a href=&#34;http://godoc.org/github.com/turbobytes/pulse/digdroid&#34;&gt;http://godoc.org/github.com/turbobytes/pulse/digdroid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Awesomest DNS library : &lt;a href=&#34;https://github.com/miekg/dns&#34;&gt;https://github.com/miekg/dns&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TurboBytes Pulse : &lt;a href=&#34;https://pulse.turbobytes.com/&#34;&gt;https://pulse.turbobytes.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>http/2 is stricter than http/1.1</title>
+      <link>http://www.sajalkayan.com/post/http2-wordcount.html</link>
+      <pubDate>Sun, 15 Mar 2015 20:43:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/http2-wordcount.html</guid>
+      <description>&lt;p&gt;I am starting to read the &lt;a href=&#34;https://tools.ietf.org/html/draft-ietf-httpbis-http2-17&#34;&gt;draft http/2 spec&lt;/a&gt; and realized its quite strict and leaves little to interpreter&amp;rsquo;s imagination.&lt;/p&gt;
+
+&lt;p&gt;Here are the wordcounts for various specs for following words : &lt;em&gt;MUST&lt;/em&gt;, &lt;em&gt;REQUIRED&lt;/em&gt;, &lt;em&gt;SHALL&lt;/em&gt;, &lt;em&gt;SHOULD&lt;/em&gt;, &lt;em&gt;RECOMMENDED&lt;/em&gt;, &lt;em&gt;MAY&lt;/em&gt;, &lt;em&gt;OPTIONAL&lt;/em&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;RFC&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;Total&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;MUST&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;SHOULD&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;MAY&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;SHALL&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;REQUIRED&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;RECOMMENDED&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;OPTIONAL&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;rfc2616 (http/1.1)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;799&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;348 (43.55%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;256 (32.04%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;180 (22.53%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;rfc723[0-5] (superseeds rfc2616)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;668&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;344 (51.50%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;163 (24.40%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;126 (18.86%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;http2-17 (http/2)&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;296&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;219 (73.99%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;31 (10.47%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;41 (13.65%)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;To be fair&amp;hellip; http/2 spec does not divulge into header behavior, caching, etc. &lt;em&gt;SHALL&lt;/em&gt;, &lt;em&gt;REQUIRED&lt;/em&gt;, &lt;em&gt;RECOMMENDED&lt;/em&gt; and &lt;em&gt;OPTIONAL&lt;/em&gt; were only found in the &lt;a href=&#34;https://tools.ietf.org/html/draft-ietf-httpbis-http2-17#section-2.2&#34;&gt;section&lt;/a&gt; defining the keywords.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;The key words &amp;quot;MUST&amp;quot;, &amp;quot;MUST NOT&amp;quot;, &amp;quot;REQUIRED&amp;quot;, &amp;quot;SHALL&amp;quot;, &amp;quot;SHALL NOT&amp;quot;,
+&amp;quot;SHOULD&amp;quot;, &amp;quot;SHOULD NOT&amp;quot;, &amp;quot;RECOMMENDED&amp;quot;, &amp;quot;MAY&amp;quot;, and &amp;quot;OPTIONAL&amp;quot; in this
+document are to be interpreted as described in RFC 2119 [RFC2119].
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I did not include HTTP/1 for this comparison because the spec does not seem to use upper cased keywords.&lt;/p&gt;
+
+&lt;p&gt;Quick and dirty python script to do the word counts.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;re&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;httplib2&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; Http
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color: #0e84b5; font-weight: bold&#34;&gt;collections&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; defaultdict
+
+h &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Http()
+
+WORDS &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MUST&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;REQUIRED&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;SHALL&amp;quot;&lt;/span&gt;,
+   &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;SHOULD&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;RECOMMENDED&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MAY&amp;quot;&lt;/span&gt;, &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;OPTIONAL&amp;quot;&lt;/span&gt;]
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;get_counts&lt;/span&gt;(string, counts):
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; w &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; re&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;split(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;\W&amp;#39;&lt;/span&gt;, string):
+        &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; w:
+            &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; W &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; WORDS:
+                &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; W &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; w:
+                    counts[w] &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;1&lt;/span&gt;
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; counts
+
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;count_url&lt;/span&gt;(url, counts):
+    r,c &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; h&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;request(url)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; get_counts(c, counts)
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color: #0066BB; font-weight: bold&#34;&gt;summarize&lt;/span&gt;(counts):
+    total &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #0000DD; font-weight: bold&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; k &lt;span style=&#34;color: #000000; font-weight: bold&#34;&gt;in&lt;/span&gt; counts&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;keys():
+        total &lt;span style=&#34;color: #333333&#34;&gt;+=&lt;/span&gt; counts[k]
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;dict&lt;/span&gt;(counts)
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;total&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; total
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;mustpct&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MUST&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100.0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; total
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;shouldpct&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;SHOULD&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100.0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; total
+    counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;maypct&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; counts[&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;MAY&amp;quot;&lt;/span&gt;] &lt;span style=&#34;color: #333333&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;100.0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;/&lt;/span&gt; total
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;return&lt;/span&gt; counts
+
+
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; __name__ &lt;span style=&#34;color: #333333&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;:
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;rfc2616&amp;quot;&lt;/span&gt; , summarize(count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;http://tools.ietf.org/html/rfc2616&amp;quot;&lt;/span&gt;, defaultdict(&lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;)))
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7230&amp;quot;&lt;/span&gt;, defaultdict(&lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;))
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7231&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7232&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7233&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7234&amp;quot;&lt;/span&gt;, counts)
+    counts &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/html/rfc7235&amp;quot;&lt;/span&gt;, counts)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;rfc723[0-5]&amp;quot;&lt;/span&gt;, summarize(counts)
+    &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;print&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;draft-ietf-httpbis-http2-17&amp;quot;&lt;/span&gt;, summarize(count_url(&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;https://tools.ietf.org/id/draft-ietf-httpbis-http2-17.txt&amp;quot;&lt;/span&gt;, defaultdict(&lt;span style=&#34;color: #007020&#34;&gt;int&lt;/span&gt;)))
+&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;/&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+</description>
+    </item>
+    
+    <item>
+      <title>Running Go programs on $15 device - Beyond Hello World</title>
+      <link>http://www.sajalkayan.com/post/golang-openwrt-mips.html</link>
+      <pubDate>Wed, 25 Feb 2015 18:14:00 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/golang-openwrt-mips.html</guid>
+      <description>
+
+&lt;p&gt;I recently purchased a &lt;a href=&#34;http://wiki.openwrt.org/toh/nexx/wt1520&#34;&gt;WT1520&lt;/a&gt; router for $15 from Aliexpress to play with. I have a project in mind which would require few nodes running my custom Go code spread out throughout the world. A Raspberry Pi (almost $40 if you include SD card, etc) fits perfectly for my purpose, but I am looking to be cheap. Not to be dissing on the pi, its awesome and LOT more powerful than the WT1520, I&amp;rsquo;m just trying to find the cheapest device for my purpose.
+&lt;figure&gt;
+    &lt;img src=&#34;http://www.sajalkayan.com/images/wt1520-raspi.jpg&#34; alt=&#34;Raspberry Pi and WT1520 doing the same thing&#34; title=&#34;Raspberry Pi and WT1520 doing the same thing&#34; \&gt;
+    &lt;figcaption&gt;Raspberry Pi ($35+) and WT1520 ($15 shipped) doing the same thing&lt;/figcaption&gt;
+&lt;/figure&gt;
+Having no experience with OpenWrt, this &lt;a href=&#34;http://akagi201.org/blog/golang-on-openwrt/&#34;&gt;blog post&lt;/a&gt; (sidenote: our blogs look similar) helped a lot to get Hello World running.&lt;/p&gt;
+
+&lt;h2 id=&#34;my-build-steps&#34;&gt;My Build Steps&lt;/h2&gt;
+
+&lt;p&gt;I couldn&amp;rsquo;t use the &lt;a href=&#34;https://github.com/GeertJohan/openwrt-go&#34;&gt;gccgo fork&lt;/a&gt; directly because support for my architecture was added at a later stage, so I had to clone the upstream master and patch it.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;git clone git://git.openwrt.org/openwrt.git
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;openwrt
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make menuconfig
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make -j8
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;My resulting config : &lt;a href=&#34;https://gist.github.com/sajal/f509183ac691a32e6065&#34;&gt;https://gist.github.com/sajal/f509183ac691a32e6065&lt;/a&gt;
+Ive removed usb and wifi related things to keep the image small. It seems eglibc uses lot more space.&lt;/p&gt;
+
+&lt;p&gt;This builds gccgo 4.8.3 (Go 1.1.2 implementation). gcc 4.9.x is also available in menuconfig but &lt;a href=&#34;https://dev.openwrt.org/ticket/18611&#34;&gt;build fails&lt;/a&gt;. Even then Go 1.2 is still ancient.&lt;/p&gt;
+
+&lt;p&gt;Building hello world is simple&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;alias &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;gccgo&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&amp;#39;&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;gccgo -o hello ~/hello.go -static-libgo
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;^ resulting in 2.6 MB binary&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;So far so good&amp;hellip; But my real code is not so simple. It is a file with main, which imports another package which imports another package.&lt;/p&gt;
+
+&lt;p&gt;In the following example, the project in question is a very rough draft, and the code is not public at the moment. Sorry.&lt;/p&gt;
+
+&lt;p&gt;I have a file called minion.go which id like to build.&lt;/p&gt;
+
+&lt;p&gt;Lets try to build it the same way as before.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ gccgo -o minion minion.go -static-libgo
+minion.go:9:38: error: import file &#39;github.com/turbobytes/dnsdebug/utils&#39; not found
+  &amp;quot;github.com/turbobytes/dnsdebug/utils&amp;quot;
+                                      ^
+minion.go:93:18: error: reference to undefined name &#39;dnsdebug&#39;
+  resolver := new(dnsdebug.Resolver)
+                  ^
+minion.go:93:26: error: expected type
+  resolver := new(dnsdebug.Resolver)
+                          ^
+minion.go:101:10: error: reference to undefined name &#39;dnsdebug&#39;
+   cfg := dnsdebug.GetTLSConfig(caFile, certificateFile, privateKeyFile)
+          ^
+$ 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Hmm. gccgo does not resolve packages, and we cant make the Go provided toolchain to build using our MIPS gccgo&amp;hellip; so lets see what the Go toolchain does when using normal gccgo.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+sajal@sajal-lappy:~/go/src/github.com/turbobytes/dnsdebug$ go build -x -compiler=gccgo minion.go 
+WORK=/tmp/go-build071420589
+mkdir -p $WORK/github.com/miekg/dns/_obj/
+mkdir -p $WORK/github.com/miekg/
+cd /home/sajal/go/src/github.com/miekg/dns
+gccgo -I $WORK -c -g -m64 -fgo-pkgpath=github.com/miekg/dns -fgo-relative-import-path=_/home/sajal/go/src/github.com/miekg/dns -o $WORK/github.com/miekg/dns/_obj/dns.o ./client.go ./clientconfig.go ./defaults.go ./dns.go ./dnssec.go ./edns.go ./format.go ./keygen.go ./kscan.go ./labels.go ./msg.go ./nsecx.go ./privaterr.go ./rawmsg.go ./scanner.go ./server.go ./sig0.go ./singleinflight.go ./tlsa.go ./tsig.go ./types.go ./udp.go ./udp_linux.go ./update.go ./xfr.go ./zgenerate.go ./zscan.go ./zscan_rr.go
+ar cru $WORK/github.com/miekg/libdns.a $WORK/github.com/miekg/dns/_obj/dns.o
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/utils/_obj/
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug/utils
+gccgo -I $WORK -I /home/sajal/go/pkg/gccgo_linux_amd64 -c -g -m64 -fgo-pkgpath=github.com/turbobytes/dnsdebug/utils -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug/utils -o $WORK/github.com/turbobytes/dnsdebug/utils/_obj/dnsdebug.o ./rpc.go ./tls.go
+ar cru $WORK/github.com/turbobytes/dnsdebug/libutils.a $WORK/github.com/turbobytes/dnsdebug/utils/_obj/dnsdebug.o
+mkdir -p $WORK/command-line-arguments/_obj/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug
+gccgo -I $WORK -I /home/sajal/go/pkg/gccgo_linux_amd64 -c -g -m64 -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug -o $WORK/command-line-arguments/_obj/main.o ./minion.go
+ar cru $WORK/libcommand-line-arguments.a $WORK/command-line-arguments/_obj/main.o
+cd .
+gccgo -o minion $WORK/command-line-arguments/_obj/main.o -Wl,-( -m64 $WORK/github.com/turbobytes/dnsdebug/libutils.a $WORK/github.com/miekg/libdns.a -lpthread -Wl,-E -Wl,-)
+sajal@sajal-lappy:~/go/src/github.com/turbobytes/dnsdebug$
+&lt;/pre&gt;
+
+&lt;p&gt;Using the hints from there&amp;hellip; This is what I translated it to after a lot of trial and error.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+WORK=`mktemp -d`
+mkdir -p $WORK/obj
+mkdir -p $WORK/github.com/miekg/
+cd /home/sajal/go/src/github.com/miekg/dns
+gccgo -I $WORK -c -g -fgo-pkgpath=github.com/miekg/dns -fgo-relative-import-path=_/home/sajal/go/src/github.com/miekg/dns -o $WORK/obj/dns.o ./client.go ./clientconfig.go ./defaults.go ./dns.go ./dnssec.go ./edns.go ./format.go ./keygen.go ./kscan.go ./labels.go ./msg.go ./nsecx.go ./privaterr.go ./rawmsg.go ./scanner.go ./server.go ./singleinflight.go ./tlsa.go ./tsig.go ./types.go ./udp.go ./udp_linux.go ./update.go ./xfr.go ./zgenerate.go ./zscan.go ./zscan_rr.go
+mipsel-openwrt-linux-gnu-objcopy -j .go_export $WORK/obj/dns.o $WORK/github.com/miekg/dns.gox
+mkdir -p $WORK/github.com/turbobytes/dnsdebug/
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug/utils
+gccgo -I $WORK  -c -g -fgo-pkgpath=github.com/turbobytes/dnsdebug/utils -fgo-relative-import-path=_/home/sajal/go/src/github.com/turbobytes/dnsdebug/utils -o $WORK/obj/dnsdebug.o ./rpc.go ./tls.go
+mipsel-openwrt-linux-gnu-objcopy -j .go_export $WORK/obj/dnsdebug.o $WORK/github.com/turbobytes/dnsdebug/utils.gox
+cd /home/sajal/go/src/github.com/turbobytes/dnsdebug
+gccgo -I $WORK  -c -g  -o $WORK/obj/minion.o ./minion.go
+gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-libgo
+&lt;/pre&gt;
+
+&lt;p&gt;It took me a while to figure out that I needed to export the .gox files to be able to build code that depended on other packages.&lt;/p&gt;
+
+&lt;p&gt;Note: I had to adjust code a bit to support the ancient Go implementation&amp;hellip; Specifically the TLS implementation and cipher suits.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file minion
+minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;uses shared libs&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; GNU/Linux 2.6.16, not stripped
+&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh minion
+-rwxrwxr-x &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 9.3M Feb &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;26&lt;/span&gt; 00:25 minion
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;OpenWrt creates a 14MB tempfs, so this barely fits into /tmp of the WT1520, but works as expected. Striping it makes it unusable&amp;hellip; The binary is too big to persist on the device, but it could be programmed to download binary fresh from some server on reboot. Not entirely sure I&amp;rsquo;d use this approach for production.&lt;/p&gt;
+
+&lt;p&gt;I think this is the cheapest off the shelf device that a Go program can run on productively.&lt;/p&gt;
+
+&lt;p&gt;Dear Gophers: Please implement MIPS architecture within the gc toolchain so that I can build apps for these cheap devices as easily as for ARM.&lt;/p&gt;
+
+&lt;p&gt;Next up, I will try to get my hands on &lt;a href=&#34;http://wiki.openwrt.org/toh/cloudengines/pogo-v4&#34;&gt;pogoplug&lt;/a&gt; . Amazon &lt;a href=&#34;http://www.amazon.com/Pogoplug-Backup-and-Sharing-Device/dp/B005GM1Q1O/ref=sr_1_1?ie=UTF8&amp;amp;qid=1424886725&amp;amp;sr=8-1&amp;amp;keywords=pogoplug+mobile&#34;&gt;has it&lt;/a&gt; for $13.69, but after including shipping and taxes it comes out to $51.30. And it doesn&amp;rsquo;t seem to be something that will always be readily available at such low prices.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Using MultiPath TCP to enhance home networks</title>
+      <link>http://www.sajalkayan.com/post/fun-with-mptcp.html</link>
+      <pubDate>Sat, 22 Nov 2014 12:46:11 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/fun-with-mptcp.html</guid>
+      <description>
+
+&lt;p&gt;Over the last few months I&amp;rsquo;ve been playing with &lt;a href=&#34;http://multipath-tcp.org/&#34;&gt;MultiPath TCP&lt;/a&gt; and in this post I will show how I use it to leverage my humble &lt;a href=&#34;http://trueonline.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; line at home.&lt;/p&gt;
+
+&lt;p&gt;For performance and security reasons, I tunnel all my traffic thru a VPN. This is not necessarily to circumvent censorship, but to circumvent the &lt;a href=&#34;http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html&#34;&gt;evil transparent proxies&lt;/a&gt; my ISP puts in middle. The total bandwidth available is ~10 mbps down / ~1 mbps up.&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction-to-multipath-tcp&#34;&gt;Introduction to MultiPath TCP&lt;/h2&gt;
+
+&lt;p&gt;MultiPath TCP is an interesting effort to use multiple interfaces/networks for any single TCP connection. A Linux kernel implementation is being developed at &lt;a href=&#34;http://multipath-tcp.org/&#34;&gt;multipath-tcp.org&lt;/a&gt;. Its main use cases are for mobile (transition between Wi-Fi and 3G) and datacenters. I exploit it to get better Internet browsing experience.&lt;/p&gt;
+
+&lt;h2 id=&#34;old-way&#34;&gt;Old way&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.sajalkayan.com/images/ssh_tun.svg&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/images/ssh_tun.svg&#34; alt=&#34;Simple SSH Tunnel&#34; title=&#34;Simple SSH Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;SSH tunnel to EC2 instance in Singapore. Browser configured to use this tunnel as proxy&lt;/li&gt;
+&lt;li&gt;SSH tunnel to EC2 instance in us-east (for accessing geo-blocked services)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Main drawback : If my ISP has issues talking to AWS, then I&amp;rsquo;m totally screwed. This happened a month or so ago where most links coming into True was severely limited, however link from &lt;a href=&#34;https://www.digitalocean.com/?refcode=f92c3276603e&#34; rel=&#34;nofollow&#34;&gt;Digital Ocean&lt;/a&gt; to True was healthy. I had to manually change my tunnels to a $5 Digital Ocean instance.&lt;/p&gt;
+
+&lt;h2 id=&#34;new-way&#34;&gt;New way&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;http://www.sajalkayan.com/images/mptcp_tun.svg&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/images/mptcp_tun.svg&#34; alt=&#34;MPTCP Tunnel&#34; title=&#34;MPTCP Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Note: This is a constantly evolving setup as I find new things to play with.&lt;/p&gt;
+
+&lt;p&gt;Infrastructure involved :-&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;http://www.pcengines.ch/apu.htm&#34;&gt;PC Engines APU system board&lt;/a&gt;&lt;/strong&gt; - Replaces router. All magic happens here. &lt;em&gt;gateway&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ADSL modem&lt;/strong&gt; in bridge mode.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EC2 instance in Singapore&lt;/strong&gt; - The main proxy endpoint. Runs &lt;a href=&#34;https://github.com/shadowsocks/shadowsocks-go&#34;&gt;shadowsocks&lt;/a&gt; server over MPTCP kernel. &lt;em&gt;destination, jumpbox&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EC2 instance in us-west&lt;/strong&gt; - The proxy endpoint for US geo blocked traffic. Runs shadowsocks server over MPTCP kernel. &lt;em&gt;destination&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Digital Ocean instance in Singapore&lt;/strong&gt; - An alternate path to reach the EC2 instance(s) &lt;em&gt;jumpbox&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;VPS in &lt;a href=&#34;http://www.cattelecom.com/&#34;&gt;CAT&lt;/a&gt; datacenter&lt;/strong&gt; in Thailand - Another alternate path. All Thai ISPs usually have good connectivity to CAT. &lt;em&gt;jumpbox&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Android phone&lt;/strong&gt; - With Dtac 3G for extra boost when needed. USB tethering. Bandwidth fluctuates a lot. I typically use it to get a boost in my upload bandwidth which is generally 100 kbps to 8 mbps.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All TCP Traffic is intercepted by the APU using iptables, diverted to &lt;a href=&#34;http://darkk.net.ru/redsocks/&#34;&gt;redsocks&lt;/a&gt;, which sends it to the shadowsocks client, which sends it to the shadowsocks server running in EC2 Singapore. This socks connection has several ways to communicate with the EC2 instance.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;APU &amp;lt;--&amp;gt; True ADSL Directly &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; True ADSL Directly over OpenVPN/UDP &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; True ADSL &amp;lt;--&amp;gt; via CAT VPS over OpenVPN/UDP &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; True ADSL &amp;lt;--&amp;gt; via DO Singapore over OpenVPN/UDP &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; Dtac 3G Directly &amp;lt;--&amp;gt; EC2 (Optional/ondemand)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now I have 5 possible paths. MPTCP kernel creates a TCP connection over each available path and bonds them together and exposes it as a single TCP connection to the application. Packets are sent over paths that currently have the lowest delay. Now my available bandwidth is not impacted by congestion over some of these paths. All paths need to be congested for me to have a bad day&amp;hellip; Also some path might have good uplink, some might have good downlink, with MPTCP you mix the best of both&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Example &lt;code&gt;bmon&lt;/code&gt; stats when downloading a large file (I removed irreverent interfaces.)
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34; id=&#34;bmon&#34;&gt;
+  #   Interface                RX Rate         RX #     TX Rate         TX #
+─────────────────────────────────────────────────────────────────────────────
+xxx (source: local)
+  0   tun1                     621.28KiB        628      38.82KiB        636
+  3   tun3                     200.22KiB        198       9.42KiB        149
+  5   ppp0                       1.07MiB       1018     119.42KiB        980
+  9   tun0                      90.06KiB         90       5.94KiB         97
+&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;configurations&#34;&gt;Configurations&lt;/h3&gt;
+
+&lt;h4 id=&#34;jumpbox&#34;&gt;Jumpbox&lt;/h4&gt;
+
+&lt;p&gt;Jumpbox is pretty basic setup. It&amp;rsquo;s role is to provide additional gateways which MPTCP uses to build additional paths.&lt;/p&gt;
+
+&lt;p&gt;OpenVPN server configured normally. Set to not redirect default gateway. In my current setup I need to ensure that the server assigns the same IP to my client. This is not really that crucial, but it keeps things simple. Its important to configure each jumpbox to use a different IP range.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;net.ipv4.ip_forward&lt;/code&gt; needs to be set to 1 to allow forwarding. In fact almost all boxes in the setup need this.&lt;/p&gt;
+
+&lt;p&gt;iptables rules needed :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables -t filter -A FORWARD -i tun0 -j ACCEPT
+iptables -t filter -A FORWARD -o tun0 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Replace the &lt;code&gt;tun0&lt;/code&gt; and &lt;code&gt;eth0&lt;/code&gt; to suit your environment.&lt;/p&gt;
+
+&lt;h4 id=&#34;destination&#34;&gt;Destination&lt;/h4&gt;
+
+&lt;p&gt;A destination server is remote end of our socks tunnel. It&amp;rsquo;s job is to service the socks connections patching them to the real destination.&lt;/p&gt;
+
+&lt;p&gt;This needs to run a &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/HowToInstallMPTCP?&#34;&gt;MultiPath TCP kernel&lt;/a&gt;. On EC2 it is pretty simple. Launch an Ubuntu 14.04 instance with a &lt;a href=&#34;http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html&#34;&gt;pv-grub AKI&lt;/a&gt;. Then follow the &lt;a href=&#34;http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html&#34;&gt;apt-repository installation method&lt;/a&gt;. And ensure the grub loads the MPTCP kernel as its first choice.&lt;/p&gt;
+
+&lt;p&gt;Next we also need shadowsocks server running. &lt;a href=&#34;https://github.com/shadowsocks/shadowsocks-go/blob/master/README.md&#34;&gt;RTFM&lt;/a&gt; its pretty simple. Before using shadowsocks I was using a simple &lt;code&gt;ssh -D&lt;/code&gt; tunnel, but I found it to be inefficient. Often times one large transfer would make all other TCP streams &lt;em&gt;stuck&lt;/em&gt;. Perhaps this has something to do with the fact that with SSH everything is happening over a single TCP stream whereas shadowsocks makes a new socks connection dedicated to each TCP connection.&lt;/p&gt;
+
+&lt;h4 id=&#34;gateway&#34;&gt;Gateway&lt;/h4&gt;
+
+&lt;p&gt;The gateway is the most complicated component. Running stock Debian wheezy with MPTCP kernel installed via their &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/AptRepository&#34;&gt;apt repository&lt;/a&gt;. A lot of services run here. I will not elaborate on some of them.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;dbcpd&lt;/strong&gt; - Assign LAN users with IP&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;bind&lt;/strong&gt; - For DNS recursion. Since we tunnel most traffic to Singapore, I also set bind to send DNS queries thru OpenVPN.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;iptables&lt;/strong&gt; - I use iptables to do the NAT. NAT all UDP packets to OpenVPN. Send all outgoing TCP connections to redsocks.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*nat
+:PREROUTING ACCEPT [378881:57485495]
+:INPUT ACCEPT [210208:17266788]
+:OUTPUT ACCEPT [4099955:310913862]
+:POSTROUTING ACCEPT [3239510:252587265]
+:REDSOCKS - [0:0]
+-A PREROUTING -i br0 -p tcp -j REDSOCKS
+-A PREROUTING -i br0 -j REDSOCKS
+-A POSTROUTING -o tun1 -j MASQUERADE
+-A POSTROUTING -o tun0 -j MASQUERADE
+-A POSTROUTING -o tun2 -j MASQUERADE
+-A POSTROUTING -o eth0 -j MASQUERADE
+-A REDSOCKS -d 0.0.0.0/8 -j RETURN
+-A REDSOCKS -d 10.0.0.0/8 -j RETURN
+-A REDSOCKS -d 127.0.0.0/8 -j RETURN
+-A REDSOCKS -d 169.254.0.0/16 -j RETURN
+-A REDSOCKS -d 172.16.0.0/12 -j RETURN
+-A REDSOCKS -d 192.168.0.0/16 -j RETURN
+-A REDSOCKS -d 224.0.0.0/4 -j RETURN
+-A REDSOCKS -d 240.0.0.0/4 -j RETURN
+-A REDSOCKS -d a.b.c.d/32 -j RETURN
+-A REDSOCKS -d e.f.g.h/32 -j RETURN
+-A REDSOCKS -d i.j.k.l/32 -j RETURN
+-A REDSOCKS -d m.n.o.p/32 -j RETURN
+-A REDSOCKS -d q.r.s.t/32 -j RETURN
+-A REDSOCKS -s 192.168.5.1/32 -j RETURN
+-A REDSOCKS -s 192.168.5.1/32 -j RETURN
+-A REDSOCKS -s 192.168.1.2/32 -j RETURN
+-A REDSOCKS -s 192.168.5.32/27 -p tcp -j REDIRECT --to-ports 12345
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*filter
+:INPUT ACCEPT [115657469:73738905421]
+:FORWARD ACCEPT [64078:47442189]
+:OUTPUT ACCEPT [122121802:63701527314]
+-A FORWARD -i eth1 -j ACCEPT
+-A FORWARD -o eth1 -j ACCEPT
+-A FORWARD -i br0 -j ACCEPT
+-A FORWARD -o br0 -j ACCEPT
+-A FORWARD -i eth0 -j ACCEPT
+-A FORWARD -o eth0 -j ACCEPT
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*mangle
+:PREROUTING ACCEPT [118734314:74507536093]
+:INPUT ACCEPT [115635709:73734306355]
+:FORWARD ACCEPT [3100331:759352048]
+:OUTPUT ACCEPT [122104929:63698976437]
+:POSTROUTING ACCEPT [125198421:64456746251]
+-A PREROUTING ! -d 192.168.5.0/24 -i br0 -j MARK --set-xmark 0x1/0xffffffff
+-A PREROUTING -d 10.8.0.10/32 -i br0 -j MARK --set-xmark 0x3/0xffffffff
+-A PREROUTING -d 192.168.10.1/32 -i br0 -j MARK --set-xmark 0x2/0xffffffff
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+&lt;/pre&gt;
+
+&lt;p&gt;Note: &lt;em&gt;a.b.c.d&lt;/em&gt;, &lt;em&gt;e.f.g.h&lt;/em&gt;, &lt;em&gt;i.j.k.l&lt;/em&gt;, &lt;em&gt;m.n.o.p&lt;/em&gt; and &lt;em&gt;q.r.s.t&lt;/em&gt; are public internet ips that I don&amp;rsquo;t want redsocks to intercept.&lt;/p&gt;
+
+&lt;p&gt;Interfaces&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;br0 - LAN&lt;/li&gt;
+&lt;li&gt;tun[0-3] - Various Jumpboxes. OpenVPN tunnels.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Also, each interface is maintains its own &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting&#34;&gt;routing tables&lt;/a&gt; using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/sh
+ip rule add from 10.8.0.20 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add 10.8.0.0/24 dev tun0 scope link table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add default via 10.8.0.21 dev tun0 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip rule add fwmark &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The fwmark is added so if in future I want to pipe different traffic to go thru this interface I can set the corresponding iptables rule.&lt;/p&gt;
+
+&lt;p&gt;All local services are scoped to listen only on local interfaces to avoid random people connecting to local services.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;redsocks&lt;/strong&gt; - Accepts intercepted connections and pipes it off to shadowsocks client&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;shadowsocks client&lt;/strong&gt; - sends all TCP connections to shadowsocks servers running in EC2 Singapore and US. By default intercepted traffic is sent to Singapore, however any application on any computer in the network could be set to explicitly use any of the available proxies.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;wvdial&lt;/strong&gt; - To dial the ADSL connection which is itself behind a &lt;a href=&#34;http://en.wikipedia.org/wiki/Carrier-grade_NAT&#34;&gt;Carrier-grade NAT&lt;/a&gt;. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/bash
+
+&lt;span style=&#34;color: #996633&#34;&gt;IP&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f 1&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;COUNT&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; | wc -l&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+
+&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt; 
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+  ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &amp;gt; /dev/null
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$?&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is up&amp;quot;&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is down&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;kill&lt;/span&gt; -SIGHUP &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;pgrep pppd&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+    beep -l 25
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+  &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 not found?!?!?!?1&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. &lt;code&gt;SIGHUP&lt;/code&gt; signals pppd to handup and redial. I don&amp;rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.&lt;/p&gt;
+
+&lt;h2 id=&#34;missing-parts&#34;&gt;Missing parts&lt;/h2&gt;
+
+&lt;p&gt;There are some issues I am having that I need to sort out work-around for.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Default connection unstable&lt;/strong&gt;. If the initial syn packet for ppp0 (my default interface) fails, then the connection cant be established. I need to look deeper into MPTCP docs to figure out how to make it such that if the initial TCP connection setup fails on ppp0 then make it try tun0, tun1 and so on.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Connection fairness&lt;/strong&gt;. Sometimes if I am doing a big upload, everything else (like browsing websites) seems too slow. The upload is hogging all the available uplink, which is already too tiny. I have my suspicions on buffer bloat&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Higher uplink usage&lt;/strong&gt;. When downloading something, I see ~10% upload traffic corresponding to it. This is lot higher than a simple setup. I need to investigate deeper whats causing it. Perhaps MPTCP or the socks setup or OpenVPN. The &lt;a href=&#34;#bmon&#34;&gt;example bmon stats&lt;/a&gt; above show this as well 119.42KiB uplink while downloading @ 1.07MiB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EC2 bandwidth is expensive&lt;/strong&gt;. I would like to use Digital Ocean boxes for socks proxies. This is a little tricky since DO does not allow loading custom kernels. I need to figure out &lt;a href=&#34;https://en.wikipedia.org/wiki/Kexec&#34;&gt;kexec&lt;/a&gt; to make this possible. Unsure if this way is stable&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Advanced routing&lt;/strong&gt;. I would like to programatically decide which external IP should go thru which proxy. For example most Thai IPs I would like to go direct. Some American destinations should go thru the US proxy, rest thru Singapore proxy. Perhaps in future add an European proxy.. Currently the only way to use the American proxy is to explicitly configure a particular application to use socks proxy.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;UDP tunneling&lt;/strong&gt;. UDP traffic currently goes directly using a single OpenVPN session. There is no load-balancing being performed on it. I would like to switch to a different socks client/server. One that does &lt;a href=&#34;http://compgroups.net/comp.protocols.tcp-ip/how-socks-5-udp-associate-works/2603784&#34;&gt;UDP associate&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;future-path-enhancements&#34;&gt;Future path enhancements&lt;/h2&gt;
+
+&lt;p&gt;More paths can be added to get better throughput.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;3G dongles from various providers.&lt;/li&gt;
+&lt;li&gt;The shitty Wi-Fi that your apartment/office provides.&lt;/li&gt;
+&lt;li&gt;More ADSL/Cable connections from diverse providers with different backbones.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;MPTCP is a fantastic piece of technology. Hat-tip to everyone who &lt;a href=&#34;http://multipath-tcp.org/mptcp_stats/authors.html&#34;&gt;contributed&lt;/a&gt; to it. The PC Engines ALU box is also awesome. Decent x86_64 box consuming only about 6 to 12W power.&lt;/p&gt;
+
+&lt;p&gt;In the future I will do a walk-thru type post on how to setup a &lt;a href=&#34;http://www.raspberrypi.org/&#34;&gt;Raspberry Pi&lt;/a&gt; as a one-arm gateway doing a subset of what I described above. The most challenging part is getting a MPTCP enabled kernel on the pi, which requires kernel patching and compiling. The throughput will likely be very limited because MPTCP has a higher CPU overhead than regular TCP.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Moved blog to github pages</title>
+      <link>http://www.sajalkayan.com/post/hugo-migration.html</link>
+      <pubDate>Sun, 16 Nov 2014 18:43:03 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/post/hugo-migration.html</guid>
+      <description>&lt;p&gt;After 2 years of neglecting this blog, I&amp;rsquo;ve moved away from wordpress and am hosting it on Github Pages.&lt;/p&gt;
+
+&lt;p&gt;The site is built using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Source repo : &lt;a href=&#34;https://github.com/sajal/sajalblog&#34;&gt;https://github.com/sajal/sajalblog&lt;/a&gt; &lt;br /&gt;
+Built pages : &lt;a href=&#34;https://github.com/sajal/sajal.github.io&#34;&gt;https://github.com/sajal/sajal.github.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Some links, especially RSS URLs might be broken currently.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Disco &#43; EC2 spot instance = WIN</title>
+      <link>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
+      <pubDate>Tue, 30 Oct 2012 13:13:59 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
+      <description>&lt;p&gt;tl;dr version : &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;This&lt;/a&gt; is how I spent a Saturday evening.&lt;/p&gt;
+
+	&lt;p&gt;&amp;lt;blink&amp;gt;&lt;strong&gt;Warning&lt;/strong&gt;: If you like to write Java, stop reading now. Go back to using Hadoop. It&#39;s a much more mature project.&amp;lt;/blink&amp;gt;&lt;/p&gt;
+
+	&lt;p&gt;As a part of my &lt;a href=&#34;http://www.turbobytes.com/&#34; title=&#34;multi-cdn service&#34;&gt;job&lt;/a&gt;, I do a lot of number processing. Over the course of last few weeks, I shifted to doing most of it using &lt;a href=&#34;http://research.google.com/archive/mapreduce.html&#34;&gt;MapReduce&lt;/a&gt; using &lt;a href=&#34;http://discoproject.org/&#34;&gt;Disco&lt;/a&gt;. Its a wonderful approach to processing big data where the time to process data is directly proportional to the amount of hardware you throw at it and the quantity of data. The amount of data to be processed can (in theory) be unlimited. While I don&#39;t do anything of Google scale, I deal with &lt;em&gt;Small Big Data&lt;/em&gt;. My datasets for an individual job would probably not exceed 1 GB. I can currently afford to continue not use MapReduce, but as my data set grows, I would &lt;em&gt;have to&lt;/em&gt; do distributed computing, so better start early.&lt;/p&gt;
+
+	&lt;h3&gt;Getting started with Disco&lt;/h3&gt;
+
+	&lt;p&gt;If you, like me, had given up on MapReduce in the past after trying to deal with administrating Hadoop, now is a great time to look into Disco. Installation is pretty easy. &lt;a href=&#34;http://discoproject.org/doc/disco/start/download.html&#34;&gt;Follow the docs&lt;/a&gt;. Within 5 minutes I was writing Jobs in python to process data, would have been faster if I knew before-hand that SSH daemon should be listening on port 22.&lt;/p&gt;
+
+	&lt;p&gt;Python for user scripts + Erlang for backend == match made in heaven&lt;/p&gt;
+
+	&lt;h3&gt;Enter disposable Disco&lt;/h3&gt;
+
+	&lt;p&gt;I made a &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;set of python scripts&lt;/a&gt; to launch and manage Disco clusters on EC2 where there is no need for any data to be stored. In my usecase, the input is read from Amazon S3 and output goes back into S3.
+
+	&lt;p&gt;There are some issues with running disco on EC2.&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;Must have ssh/keys setup such that Master can ssh into slaves.&lt;/li&gt;
+		&lt;li&gt;Must have a file with &lt;em&gt;erlang cookie&lt;/em&gt; with same contents on all slaves&lt;/li&gt;
+		&lt;li&gt;Must inform master the &lt;em&gt;hostnames&lt;/em&gt; of the slaves. FQDN or anything with a dot gets rejected&lt;/li&gt;
+		&lt;li&gt;The default root directories have very limited storage space, usually 8GB&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;p&gt;disposabledisco takes care of the above things and more. Everything needed to run the cluster is defined in a config file. First generate a sample config file.&lt;/p&gt;
+
+	&lt;pre&gt;
+python create_config.py &gt; config.json
+	&lt;/pre&gt;
+
+	&lt;p&gt;This creates a new file with some pre-populated values. For my case the config file looks like this(some info masked)&lt;/p&gt;
+
+	&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+{
+    &#34;AWS_SECRET&#34;: &#34;SNIPPED&#34;, 
+    &#34;ADDITIONAL_PACKAGES&#34;: [
+        &#34;git&#34;, 
+        &#34;libwww-perl&#34;, 
+        &#34;mongodb-clients&#34;, 
+        &#34;python-numpy&#34;, 
+        &#34;python-scipy&#34;, 
+        &#34;libzmq-dev&#34;, 
+        &#34;s3cmd&#34;, 
+        &#34;ntp&#34;, 
+        &#34;libguess1&#34;, 
+        &#34;python-dnspython&#34;, 
+        &#34;python-dateutil&#34;, 
+        &#34;pigz&#34;
+    ], 
+    &#34;SLAVE_MULTIPLIER&#34;: 1, 
+    &#34;PIP_REQUIREMENTS&#34;: [
+        &#34;iso8601&#34;,
+        &#34;pygeoip&#34;
+    ], 
+    &#34;MASTER_MULTIPLIER&#34;: 1, 
+    &#34;MGMT_KEY&#34;: &#34;ssh-rsa SNIPPED\n&#34;, 
+    &#34;SECURITY_GROUPS&#34;: [&#34;disco&#34;], 
+    &#34;BASE_PACKAGES&#34;: [
+        &#34;python-pip&#34;, 
+        &#34;python-dev&#34;, 
+        &#34;lighttpd&#34;
+    ], 
+    &#34;TAG_KEY&#34;: &#34;disposabledisco&#34;, 
+    &#34;NUM_SLAVES&#34;: 30, 
+    &#34;KEY_NAME&#34;: &#34;SNIPPED&#34;, 
+    &#34;AWS_ACCESS&#34;: &#34;SNIPPED&#34;, 
+    &#34;INSTANCE_TYPE&#34;: &#34;c1.medium&#34;, 
+    &#34;AMI&#34;: &#34;ami-6d3f9704&#34;, 
+    &#34;MAX_BID&#34;: &#34;0.04&#34;,
+    &#34;POST_INIT&#34;: &#34;echo \&#34;[default]\naccess_key = SNIPPED\nsecret_key = SNIPPED\&#34; &gt; /tmp/s3cfg\ncd /tmp\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIPASNum.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIP.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoLiteCity.dat.gz\ns3cmd -c /tmp/s3cfg get s3://SNIPPED/GeoIPRegion.dat.gz\ngunzip *.gz\nchown disco:disco *.dat\n\n&#34;
+}
+	&lt;/pre&gt;
+
+	&lt;p&gt;This tells disposabledisco that I want a cluster with 1 master and 30 slaces all of type &lt;em&gt;c1.medium&lt;/em&gt;, and use &lt;em&gt;ami-6d3f9704&lt;/em&gt; as the starting point. It lists out the packages to be installed via apt-get and python dependencies to be installed using PIP. You can link to external tar, git repo, etc. Basically anything pip allows after &lt;em&gt;pip install&lt;/em&gt;&lt;/p&gt;
+
+	&lt;p&gt;The &lt;em&gt;POST_INIT&lt;/em&gt; portion is bash script that runs as root after rest of the install. In my case I am downloading and uncompressing different GeoIP databases archived in a S3 bucket for use from within disco jobs.&lt;/p&gt;
+
+	&lt;p&gt;Once the config file is ready run the following command many times. The output is fairly verbose.&lt;/p&gt;
+
+	&lt;pre&gt;
+python create_cluster.py config.json
+	&lt;/pre&gt;
+
+	&lt;p&gt;Why many times? Cause there is no state stored in the system. All state is managed using EC2 tags. This is what the script does on each run&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;Check if master is running. If not request a spot instance for it (and kill any zombie slaves lying around from previous runs).&lt;/li&gt;
+		&lt;li&gt;
+			If master us up and running.
+			&lt;ul&gt;
+				&lt;li&gt;Print the ssh command needed to setup port forwarding. After running the given ssh command you can see http://localhost:8090 on the browser to see disco&#39;s UI in all its glory.&lt;/li&gt;
+				&lt;li&gt;print the command to export DISCO_PROXY so you can create jobs locally&lt;/li&gt;
+				&lt;li&gt;Check inventory of slaves. A slave can have 3 statuses. 1) &lt;em&gt;pending&lt;/em&gt; - spot instance requested. 2) &lt;em&gt;running&lt;/em&gt; - the instance is running. 3) &lt;em&gt;bootstrapped&lt;/em&gt; - slave is completely setup and can be added to master.&lt;/li&gt;
+				&lt;li&gt;If total number of slaves is less than &lt;em&gt;NUM_SLAVES&lt;/em&gt; launch the remaining&lt;/li&gt;
+				&lt;li&gt;Try and bootstrap any &lt;em&gt;running&lt;/em&gt; instances. If bootstrap was successful, change the EC2 tag.&lt;/li&gt;
+			&lt;/ul&gt;
+		&lt;/li&gt;
+		&lt;li&gt;Finally, update the master&#39;s disco config. Telling it hostnames of instances to use and number of workers.&lt;/li&gt;
+		&lt;li&gt;???&lt;/li&gt;
+		&lt;li&gt;Profit&lt;/li&gt;
+	&lt;/ul&gt;
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/disco-cluster-small.png&#34; width=&#34;500&#34; height=&#34;377&#34; alt=&#34;Cloudwatch showing 31 instances&#34; title=&#34;Cloudwatch showing 31 instances&#34; /&gt;
+
+	&lt;p&gt;Many steps involve EC2 provisioning spot instances, waiting for instance to get initialized, etc..&lt;/p&gt;
+
+	&lt;p&gt;To help with shipping output to S3, I made some output classes for Disco&lt;/p&gt;
+
+	&lt;ul&gt;
+		&lt;li&gt;&lt;a href=&#34;https://gist.github.com/3919506&#34;&gt;S3Output&lt;/a&gt; - Each key, value returned creates a new file in S3 with the key as S3 key and value as String thats dumped inside it. So, one key should be yielded only once from reduce.&lt;/li&gt;
+		&lt;li&gt;&lt;a href=&#34;https://gist.github.com/3975607&#34;&gt;S3LineOutput&lt;/a&gt; Similar to S3Output, but now it stores the output, and joins the output as one big file. has options for sorting, unique, etc. &lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;p&gt;Both these functions can be configured gzip the contents before uploading.&lt;/p&gt;
+
+	&lt;p&gt;As far as input is concerned, I send it a list of signed S3 urls. (Sidenote: It seems disco cannot handle https inputs at the moment, so I use http). A sample job run might look like.. &lt;/p&gt;
+
+	&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+def get_urls():
+    urls = []
+    for k in bucket.list(prefix=&#34;processed&#34;):
+        if k.name.endswith(&#34;gz&#34;):
+            urls += [k.generate_url(3660).replace(&#34;https&#34;, &#34;http&#34;)]
+    return urls
+
+MyExampleJob().run(
+	input=get_urls(),
+	params={
+		&#34;AWS_KEY&#34;: &#34;SNIP&#34;,
+		&#34;AWS_SECRET&#34;: &#34;SNIP&#34;,
+		&#34;BUCKET_NAME&#34;: &#34;SNIP&#34;,
+		&#34;gzip&#34;: True
+	},
+	partitions=10,
+	required_files=[&#34;s3lineoutput.py&#34;],
+	reduce_output_stream=s3_line_output_stream
+	).wait()
+
+	&lt;/pre&gt;
+
+	&lt;p&gt;Bonus - &lt;a href=&#34;https://gist.github.com/3941935&#34;&gt;MagicList&lt;/a&gt; - Memory efficient way to store and process potentially infinite lists.&lt;/p&gt;
+
+	&lt;p&gt;We used Disco to compute numbers for a series of blogposts on &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDN Planet&lt;/a&gt;. For this analysis it was painful process for me to manually launch Disco clusters, which lead me to create the helper scripts.&lt;/p&gt;
+	&lt;ul&gt;
+		&lt;li&gt;Part 1 : &lt;a href=&#34;http://www.cdnplanet.com/blog/google-dns-opendns-and-cdn-performance/&#34;&gt;Google DNS, OpenDNS and CDN performance&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;Part 2 : &lt;a href=&#34;http://www.cdnplanet.com/blog/which-cdns-support-edns-client-subnet/&#34;&gt;Which CDNs support edns-client-subnet?&lt;/a&gt;&lt;/li&gt;
+		&lt;li&gt;Part 3 : &lt;a href=&#34;http://www.cdnplanet.com/blog/real-world-cdn-performance-googledns-opendns-users/&#34;&gt;Real-world CDN performance for Google DNS and OpenDNS users&lt;/a&gt;&lt;/li&gt;
+	&lt;/ul&gt;
+
+	&lt;h3&gt;Shameless plug&lt;/h3&gt;
+
+	&lt;a href=&#34;http://www.turbobytes.com/&#34;&gt;&lt;strong&gt;Turbobytes, multi-CDN made easy&lt;/strong&gt;&lt;/a&gt;
+
+	&lt;p&gt;Have your static content delivered by 6 global content delivery networks, not just 1. Turbobytes&#39; platform closely monitors CDN performance and makes sure your content is always delivered by the fastest CDN, automatically.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>4 reasons why I love my ISP</title>
+      <link>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</link>
+      <pubDate>Mon, 28 Nov 2011 18:52:26 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html</guid>
+      <description>&lt;p&gt;I&#39;ve been using &lt;a href=&#34;http://www.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; for years, and I absolutely love their service (and especially the transparent proxy). Here are some of the reasons why :-&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Censorship&lt;/del&gt; &lt;strong&gt;Protecting me from bad stuff&lt;/strong&gt; - Interwebs has a lot of &#34;bad&#34; things out there. My ISP takes good care of me by not letting me access things I am not supposed to see... Even sites not explicitly blocked by court-order. I don&#39;t know what I would do without them. My head would probably explode if I saw porn, and my feelings would get hurt if I came across certain types of political messages..&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Transparent proxy&lt;/del&gt; &lt;strong&gt;Web slow down machine&lt;/strong&gt; - Buddha &lt;a href=&#34;http://thinkexist.com/quotation/the_greatest_prayer_is/165541.html&#34;&gt;teaches&lt;/a&gt; us &lt;em&gt;&#34;The greatest prayer is patience&#34;&lt;/em&gt;. A very special offering of True ISP is that it reminds us to be patient in this fast-paced world. True&#39;s Web slow down machine &lt;a href=&#34;http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html&#34; title=&#34;Check if you are behind a transparent proxy&#34;&gt;sits between&lt;/a&gt; users&#39; connection to other servers. One of its features is to slow down access... It employs several brilliant methods to accomplish this :-
+	&lt;ul&gt;
+		&lt;li&gt;Not keeping connections alive - This is the most important factor in slowing down pageloads. True does not keep connections to remote hosts alive, thus making sure you have to establish a fresh connection with each request to a server overseas. No matter how small the file, a request to the USA will take a minimum 500ms.&lt;/li&gt;
+		&lt;li&gt;Making &lt;a href=&#34;http://www.cdnplanet.com/blog/tune-tcp-initcwnd-for-optimum-performance/&#34; title=&#34;Tuning initcwnd for optimum performance&#34;&gt;TCP optimizations&lt;/a&gt; useless, since the slow down machine is the one that actually makes connections to remote hosts.&lt;/li&gt;
+		&lt;li&gt;Overriding destination IP - True doesn&#39;t care about what IP your computer wanted to connect to, your computer could be wrong. It sees the &lt;em&gt;Host&lt;/em&gt; header from the request, does its own DNS lookups and routes you to the correct server. Even if you wanted to override this for development, True correctly sends you to production server. True knows development/staging servers are full of bugs, so requests should always go to production.&lt;/li&gt;
+		&lt;li&gt;512 kbps upload speed is sufficient for everyone. If you need to upload something big, why not get your lazy ass out, buy a CD and mail it!&lt;/li&gt;
+		&lt;li&gt;Sharing is caring - My ISP oversells available bandwidth by a huge margin. Teaches us the importance of sharing&lt;/li&gt;
+	&lt;/ul&gt;
+&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Privacy&lt;/del&gt; &lt;strong&gt;People impersonator&lt;/strong&gt; - Your life is boring? True has a solution! It will &lt;a href=&#34;http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html&#34; title=&#34;Twitter logged me as someone else! Privacy FAIL!&#34;&gt;automagically log you&lt;/a&gt; in as someone else so you can get a glimpse into their exciting lives.&lt;/p&gt;
+
+&lt;p&gt;&lt;del&gt;Incompetence&lt;/del&gt; &lt;strong&gt;Motivator&lt;/strong&gt; - Living in Thailand, I am ashamed that I don&#39;t read Thai yet, in part due to my own laziness. True gives you an &lt;a href=&#34;http://www.sajalkayan.com/truewifinet-big-fail-for-usability.html&#34; title=&#34;truewifi.net == big FAIL for usability&#34;&gt;incentive&lt;/a&gt;.&lt;/p&gt;
+
+&lt;small&gt;edited by Michael van Poppel&lt;/small&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>DFP now officially supports asynchronous rendering!</title>
+      <link>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</link>
+      <pubDate>Thu, 27 Oct 2011 12:29:52 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</guid>
+      <description>Yesterday, DFP launched &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=181071&#34;&gt;asynchronous ad loading&lt;/a&gt;. For the past few months ive &lt;a href=&#34;http://www.sajalkayan.com/optimizing-dfp-performance.html&#34; title=&#34;Optimizing DFP performance&#34;&gt;been&lt;/a&gt; &lt;a href=&#34;http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34; title=&#34;Complete Asynchronous ad loading using DFP and LABjs&#34;&gt;trying&lt;/a&gt; to load ads in a manner where it doesn&#39;t affect rest of the page load, this new development is like a dream come true.
+
+&lt;iframe width=&#34;480&#34; height=&#34;244&#34; src=&#34;http://www.youtube.com/embed/bA-Qgl7JqlQ&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+(The tests above were run on &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;webpagetest.org&lt;/a&gt; on IE8 at Dulles, VA)
+
+Thank you Google! You just made my day.
+</description>
+    </item>
+    
+    <item>
+      <title>Check if you are behind a transparent proxy</title>
+      <link>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</link>
+      <pubDate>Tue, 11 Oct 2011 19:38:50 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/check-if-you-are-behind-a-transparent-proxy.html</guid>
+      <description>Many Asian ISPs do not provide &lt;em&gt;clean&lt;/em&gt; internet. They route all HTTP sessions thru a &lt;a href=&#34;http://en.wikipedia.org/wiki/Proxy_server#Transparent_proxies&#34;&gt;transparent proxy&lt;/a&gt;.
+
+Here is a simple way to check if you are behind one.
+
+&lt;pre  style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+sajal@sajal-laptop:~$ ping -c 4 www.cdnplanet.com
+PING www.cdnplanet.com (107.20.181.99) 56(84) bytes of data.
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=1 ttl=42 time=314 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=2 ttl=42 time=313 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=3 ttl=42 time=312 ms
+64 bytes from ec2-107-20-181-99.compute-1.amazonaws.com (107.20.181.99): icmp_req=4 ttl=42 time=312 ms
+
+--- www.cdnplanet.com ping statistics ---
+4 packets transmitted, 4 received, 0% packet loss, time 3004ms
+rtt min/avg/max/mdev = 312.195/313.229/314.137/0.889 ms
+&lt;/pre&gt;
+&lt;pre  style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+sajal@sajal-laptop:~$ ab http://www.cdnplanet.com/
+This is ApacheBench, Version 2.3 &lt;$Revision: 655654 $&gt;
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking www.cdnplanet.com (be patient).....done
+
+
+Server Software:        Apache
+Server Hostname:        www.cdnplanet.com
+Server Port:            80
+
+Document Path:          /
+Document Length:        13084 bytes
+
+Concurrency Level:      1
+Time taken for tests:   0.944 seconds
+Complete requests:      1
+Failed requests:        0
+Write errors:           0
+Total transferred:      13296 bytes
+HTML transferred:       13084 bytes
+Requests per second:    1.06 [#/sec] (mean)
+Time per request:       943.539 [ms] (mean)
+Time per request:       943.539 [ms] (mean, across all concurrent requests)
+Transfer rate:          13.76 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:       21   21   0.0     21      21
+Processing:   922  922   0.0    922     922
+Waiting:      611  611   0.0    611     611
+Total:        944  944   0.0    944     944
+sajal@sajal-laptop:~$ 
+
+&lt;/pre&gt;
+
+My ping time to &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDN Planet&lt;/a&gt; is 312ms, but the connection was established in just 21ms !!!!11!!1
+
+Reasons for doing so involve : Censorship, big brother snooping, caching, &lt;a href=&#34;http://www.sajalkayan.com/twitter-logged-me-as-someone-else-privacy-fail.html&#34;&gt;hijacking users sessions&lt;/a&gt; , and probably more ...
+</description>
+    </item>
+    
+    <item>
+      <title>Evaluating few CDN options</title>
+      <link>http://www.sajalkayan.com/evaluating-few-cdn-options.html</link>
+      <pubDate>Fri, 10 Jun 2011 21:10:53 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/evaluating-few-cdn-options.html</guid>
+      <description>Recently, I was evaluating CDN options for a client with some unique challenges. We ended up using Amazon CloudFront, but ill detail the options we looked at and what let us to this decision.
+
+Some things to note:-
+&lt;ul&gt;
+	&lt;li&gt;We would serve CSS, JS, Images referred to from stylesheets and some website images thru the CDN.&lt;/li&gt;
+	&lt;li&gt;Due to the nature(trust me) of the site we expect a higher than normal miss rate. The access is spread across a wide number of urls, some may get lower hits.&lt;/li&gt;
+	&lt;li&gt;Speed is important. Website should be fast(er) from everywhere. The most important regions in order of priority are US, EU, AU and ROTW with US being most important.&lt;/li&gt;
+	&lt;li&gt;Anything on the site can change anytime, there is no build process as such. Any object anywhere can change, and change must be visible ASAP.&lt;/li&gt;
+	&lt;li&gt;Developers/designers shouldn&#39;t be harassed to purge a file if they change something.&lt;/li&gt;
+	&lt;li&gt;CDN data usage : ~100 GB per month&lt;/li&gt;
+&lt;/ul&gt;
+
+The providers we looked at :-
+
+&lt;strong&gt;&lt;a href=&#34;http://www.maxcdn.com/features/network&#34;&gt;MaxCDN&lt;/a&gt;: Almost sealed the deal.&lt;/strong&gt;
+
+Pros:-
+&lt;ul&gt;
+	&lt;li&gt;Cheap : $40 for first TB (must use in a year) + $99 per additional TB . On current usage rates this comes to say 0.04+ /GB.&lt;/li&gt;
+	&lt;li&gt;* Anycast/BGP routing : No way bad &lt;a href=&#34;http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html&#34;&gt;DNS server can mess up&lt;/a&gt; routing.&lt;/li&gt;
+	&lt;li&gt;Nice control panel, has a purge all option for just in case. Purges take effect almost instantly.&lt;/li&gt;
+	&lt;li&gt;Handles gzip well.&lt;/li&gt;
+	&lt;li&gt;Can have separate cache timings for caching in Browser and caching at CDN. - i.e. We can say not cache a file in browser level, but cache at CDN and purge when theres a change made.&lt;/li&gt;
+&lt;/ul&gt;
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;http://www.maxcdn.com/features/network&#34;&gt;Poor global coverage&lt;/a&gt;. - No POP/Edge in Asia/AU - Deal Breaker&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;Pages loaded same speed when testing from AU with or without CDN.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;&lt;a href=&#34;http://www.edgecast.com/&#34;&gt;EdgeCast&lt;/a&gt;: Looked good at first, but poor gziping.&lt;/strong&gt;
+
+Pros:-
+&lt;ul&gt;
+	&lt;li&gt;Impressive list of networks&lt;/li&gt;
+	&lt;li&gt;Highly configurable control panel.&lt;/li&gt;
+	&lt;li&gt;Can have separate cache timings for caching in Browser and caching at CDN. - i.e. We can say not cache a file in browser level, but cache at CDN and purge when theres a change made.&lt;/li&gt;
+&lt;/ul&gt;
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Gzippable files will not be gzipped for cache misses. - Deal Breaker&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;Request from Edge server to origin is uncompressed.&lt;/li&gt;
+	&lt;li&gt;Expensive and wants higher commitments.&lt;/li&gt;
+	&lt;li&gt;DNS Based routing&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;&lt;a href=&#34;http://www.us.cdnetworks.com/&#34;&gt;CDNetworks&lt;/a&gt;: Didn&#39;t look past price&lt;/strong&gt;
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Ridiculously high price - Dealbreaker&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;&lt;a href=&#34;http://aws.amazon.com/cloudfront/&#34;&gt;Amazon CloudFront&lt;/a&gt;: WIN&lt;/strong&gt;
+
+Pros:-
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Testing showed our pages to be fastest from all regions when using cloudfront&lt;/strong&gt;. YMMV&lt;/li&gt;
+	&lt;li&gt;No commitments - $0.15 - $0.2/GB (depends on where user accesses from) + negligible per request fee&lt;/li&gt;
+	&lt;li&gt;Client is already AWS user, one less account to maintain.&lt;/li&gt;
+	&lt;li&gt;No need to send gazillion emails to gazillions of people to get started. No bargaining.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+Cons:-
+&lt;ul&gt;
+	&lt;li&gt;No POP/Edge in AU (but has in Singapore, Hong Kong and Tokyo)&lt;/li&gt;
+	&lt;li&gt;DNS based routing.&lt;/li&gt;
+	&lt;li&gt;Charges fee per request and per invalidation(purge) request.&lt;/li&gt;
+	&lt;li&gt;No control panel, invalidation requests need to be done by API only.&lt;/li&gt;
+	&lt;li&gt;Does not do gzipping, but honours Vary header and serves correct version based on what user asks.&lt;/li&gt;
+	&lt;li&gt;Can&#39;t use querystring parameters for CDN cachebusting. CloudFront ignores querystrings.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+
+Sidenote : Requests from CloudFront to origin are HTTP 1.0 . Nginx by default does not serve gzip to 1.0 request. &lt;a href=&#34;http://wiki.nginx.org/HttpGzipModule#gzip_http_version&#34;&gt;gzip_http_version&lt;/a&gt;  setting must be changed in order to use nginx as origin for CloudFront.
+
+
+The system we architected adds something based on the file mtime as a part of the URL, so now we don&#39;t need to any purges at the CDN. Also now we can have far future expires on all CDN&#39;d objects cause if something changes, the URL would automagically change.
+
+For us, the price and features are important, but whats more important is the results. We went with the provider with lesser features just because our pages loaded fastest with them.
+</description>
+    </item>
+    
+  </channel>
+</rss>

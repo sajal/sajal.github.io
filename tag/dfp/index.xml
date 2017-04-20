@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Dfp on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/dfp.xml</link>
+    <description>Recent content in Dfp on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/dfp.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>DFP now officially supports asynchronous rendering!</title>
+      <link>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</link>
+      <pubDate>Thu, 27 Oct 2011 12:29:52 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/dfp-now-officially-supports-asynchronous-rendering.html</guid>
+      <description>Yesterday, DFP launched &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=181071&#34;&gt;asynchronous ad loading&lt;/a&gt;. For the past few months ive &lt;a href=&#34;http://www.sajalkayan.com/optimizing-dfp-performance.html&#34; title=&#34;Optimizing DFP performance&#34;&gt;been&lt;/a&gt; &lt;a href=&#34;http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34; title=&#34;Complete Asynchronous ad loading using DFP and LABjs&#34;&gt;trying&lt;/a&gt; to load ads in a manner where it doesn&#39;t affect rest of the page load, this new development is like a dream come true.
+
+&lt;iframe width=&#34;480&#34; height=&#34;244&#34; src=&#34;http://www.youtube.com/embed/bA-Qgl7JqlQ&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+(The tests above were run on &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;webpagetest.org&lt;/a&gt; on IE8 at Dulles, VA)
+
+Thank you Google! You just made my day.
+</description>
+    </item>
+    
+    <item>
+      <title>Complete Asynchronous ad loading using DFP and LABjs</title>
+      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <pubDate>Wed, 02 Mar 2011 18:43:51 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
+
+&lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
+
+One of the biggest challenges when optimizing performance of websites is third party content - specifically advertisements.
+
+Most ad networks and servers use evil document.write() in their JavaScript(and even nested document.writes) which block further rendering of the page until their code has completed execution. In this blogpost, I&#39;ll show how you can use &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=90777&#34;&gt;DFP&#39;s iframe tagging&lt;/a&gt;(read warnings there) combined with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt; and little bit of JavaScript hackery to make any ad load asynchronously with negligible impact on rest of the pageload.
+
+Attention Deficit Disorder version : &lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;Before&lt;/a&gt; - &lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;After&lt;/a&gt;
+
+NOTE: Use the method below entirely at your own risk! Use only if you know what you are doing...
+
+&lt;h3&gt;Current blocking method&lt;/h3&gt;
+
+DFP has an experimental method to load ads called iframe tagging. The JS looks like this :-
+
+The Bootstrap: In &amp;lt;head&amp;gt; (Does not have to be in &amp;lt;head&amp;gt; but before the first &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; call) :-
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+&amp;lt;script type=&#39;text/javascript&#39; src=&#39;http://partner.googleadservices.com/gampad/google_service.js&#39;&amp;gt;
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
+GS_googleEnableAllServices();
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GA_googleUseIframeRendering();
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+
+Then wherever we want the ads to display, we put something like this :-
+
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+&amp;lt;script type=&#39;text/javascript&#39;&amp;gt;
+GA_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90);
+&amp;lt;/script&amp;gt;
+&lt;/pre&gt;
+
+With this method, the bootstrap does some blocking. First it loads a JavaScript then the following functions document.write another &amp;lt;script&amp;gt; tag which must load sequentially again. The &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; function is relatively inexpensive. All it seems to do is document.write an iframe with various targeting information as parameters in the URL and does not block further rendering. The advantage of iframe tagging is that slow ad networks don&#39;t fuck up your page. But the bootstrap is very expensive as shown in this waterfall chart.
+
+&lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;This&lt;/a&gt; is what it looks like.
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-async/normal.png&#34; alt=&#34;normal DFP iframe bootstrap&#34; title=&#34;normal DFP iframe bootstrap&#34; height=&#34;186&#34; width=&#34;485&#34; /&gt;
+
+&lt;h3&gt;The hack&lt;/h3&gt;
+
+Last few days, I&#39;ve been playing a little with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt;, specifically its &lt;a href=&#34;http://gist.github.com/603980&#34; title=&#34;Snippet to load LABjs itself dynamically&#34;&gt;complete async loader&lt;/a&gt;.
+
+After playing with LABjs, ive come up with the following LABjs snippet :-
+
+&lt;pre style=&#34;width:500;overflow-x:scroll;&#34;&gt;
+      // intercepts the script inserted via document.write and loads it via LABjs
+      function docwrt(str){
+        var script = str.replace(/(.*)\=\&#34;/g, &#39;&#39;).replace(/\&#34;(.*)/g, &#39;&#39;);
+        $LAB.script(script).wait(function(){
+          GA_googleUseIframeRendering();
+          // following function makes the magic happen!
+          function Wrapper_googleFillSlotWithSize(pubid, slotname, width, height, target){
+            var docwrttemp = function(str){
+              target = document.getElementById(target);
+              target.innerHTML = str;
+            };  
+            document.write = docwrttemp;
+            GA_googleFillSlotWithSize(pubid, slotname, width, height);
+          }
+          // usage of the new wrapper here &#34;leaderboard&#34; and &#34;skyscraper&#34; are target div ids
+          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&#34;, 728, 90, &#34;leaderboard&#34;);
+          Wrapper_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_sky&#34;, 160, 600, &#34;skyscraper&#34;);
+        });
+      }
+
+      document.write = docwrt; //intercepts document.write from below script
+      $LAB.script(&#34;http://partner.googleadservices.com/gampad/google_service.js&#34;).wait(function(){
+        GS_googleAddAdSenseService(&#34;ca-pub-7046344781760701&#34;);
+        GS_googleEnableAllServices();
+      });
+
+&lt;/pre&gt;
+
+(note: Since I&#39;m lazy, I haven&#39;t restored &lt;em&gt;document.write&lt;/em&gt; back to its original glory.)
+
+Here &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; is a wrapper around &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; which takes a 5th argument - &lt;em&gt;target&lt;/em&gt; - This is the id of &amp;lt;div&amp;gt; where we want to show the ad.
+
+&lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; is a sample page using this hack. Id appreciate it if I get some feedback about this method via comments below. As I said earlier, use your own better judgment before using this snippet in production. I welcome criticism but will not accept blame if this doesn&#39;t work for you. 
+
+In my simple example, it may seem it takes longer to fully load the page, but if you have many other things on the page, the overall effect will be better with this hack. Moreover, if you are already using LABjs on your site, this is a no-brainer. With this method, even if Google is inaccessible(for whatever reasons) it wont &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;SPOF&lt;/a&gt; your page.
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/dfp-async/video.mp4&#34;&gt;Slow motion video&lt;/a&gt; of pageloads on IE8:-
+
+&lt;iframe title=&#34;YouTube video player&#34; width=&#34;500&#34; height=&#34;311&#34; src=&#34;http://www.youtube.com/embed/Vz2unMmBN_8&#34; frameborder=&#34;0&#34; allowfullscreen&gt;&lt;/iframe&gt;
+Generated via &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;webpagetest.org&lt;/a&gt;
+
+Left is normal method, right is hacked version.
+
+Currently tested on IE(7 thru 9), Firefox 3.6.11, Chrome 10.0.648.45 dev and an unknown version of Safari.
+
+&lt;h3&gt;Conclusions...&lt;/h3&gt;
+
+The world would be a much better place without the evil document.write(). Google should know better. They should make a function like &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; by default.
+</description>
+    </item>
+    
+    <item>
+      <title>Optimizing DFP performance</title>
+      <link>http://www.sajalkayan.com/optimizing-dfp-performance.html</link>
+      <pubDate>Fri, 10 Sep 2010 18:09:35 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/optimizing-dfp-performance.html</guid>
+      <description>Ive been using &lt;a href=&#34;https://www.google.com/dfp/&#34;&gt;DFP&lt;/a&gt; (DoubleClick for Publishers - formerly Google Ad Manager) to serve ads as it has some certain features I really need.
+
+The downside of using DFP is that its browser side performance sucks big time. On my site, I use the experimental Iframe tagging, which basically writes an iframe in place of the ad and loads the third party ad codes into it. This runs asynchronously and is nice, but the DFP&#39;s bootstrap javascript blocks rendering and it needs to load 3 javascript files from Google serially. This bootstrap must be available before trying to fill an ad slot.
+
+&lt;h3&gt;The Goal&lt;/h3&gt;
+
+Show the story title and body to the user As Soon As Possible
+
+&lt;h3&gt;The Problem&lt;/h3&gt;
+
+The instructions of implementing the Iframe tagging is as such.
+
+In the &amp;lt;head&amp;gt;...&amp;lt;/head&amp;gt; section :-
+
+&lt;code lang=&#34;html&#34;&gt;
+&amp;lt;!-- PUT THIS TAG IN THE head SECTION --&amp;gt;
+&amp;lt;script src=&#34;http://partner.googleadservices.com/gampad/google_service.js&#34; type=&#34;text/javascript&#34;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;
+GS_googleAddAdSenseService(&#34;ca-pub-xxxxxxxxxxxxxxxx&#34;); 
+GS_googleEnableAllServices();
+&amp;lt;/script&amp;gt;
+&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;
+GA_googleUseIframeRendering();
+&amp;lt;/script&amp;gt;
+&amp;lt;!-- END OF TAG FOR head SECTION --&amp;gt;
+&lt;/code&gt;
+
+And where the ad slot needs to be displayed always in the &amp;lt;body&amp;gt;...&amp;lt;/body&amp;gt;:-
+
+&lt;code lang=&#34;html&#34;&gt;
+&amp;lt;script type=&#34;text/javascript&#34;&amp;gt;
+GA_googleFillSlotWithSize(&#34;ca-pub-xxxxxxxxxxxxxxxx&#34;, &#34;slot_name&#34;, 728, 90);
+&amp;lt;/script&amp;gt;
+&lt;/code&gt;
+
+The resulting waterfall chart of this method :-
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-before.png&#34; alt=&#34;DFP before&#34; height=&#34;240&#34; width=&#34;404&#34; /&gt;
+
+Requests #3, #4 and #5 is the bootstrap for DFP. The green line indicates the first paint event.
+
+It is clear that 
+&lt;ol&gt;
+	&lt;li&gt;The browser needs to make 3 sequential requests&lt;/li&gt;
+	&lt;li&gt;Until these 3 javascripts are downloaded and parsed, the rendering cannot begin. - The user is affectively staring at a blank screen.&lt;/li&gt;
+	&lt;li&gt;The browser is doing nothing else while downloading these files.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3&gt;The Workaround&lt;/h3&gt;
+
+I was going to mark this section as a &#34;solution&#34; to the problem... but it isint. The page is still susceptible to &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;frontend SPOF&lt;/a&gt; .. That is if the servers hosting the DFP JavaScripts is unaccessible, that calls for a terrible user experience on my site.
+
+What I did was simply moved the bootstrap to just before the first time the &lt;em&gt;GA_googleFillSlotWithSize()&lt;/em&gt; function was called. i.e. move the bootstrap from the &amp;lt;head&amp;gt; to the &amp;lt;body&amp;gt; part of the page.
+
+The waterfall chart for this is :-
+
+&lt;img src=&#34;http://i.ticdn.com/sajal/dfp-after.png&#34; alt=&#34;DFP after&#34; height=&#34;223&#34; width=&#34;472&#34; /&gt;
+
+Requests #3, #7 and #8 is the bootstrap for DFP. The green line indicates the first paint event.
+
+It is clear that 
+&lt;ol&gt;
+	&lt;li&gt;The browser still needs to make 3 sequential requests&lt;/li&gt;
+	&lt;li&gt;While the bootstrap was loading, the user can see the header of the site, providing visual feedback that something is happening. - The &lt;em&gt;start render&lt;/em&gt; did not have to wait.&lt;/li&gt;
+	&lt;li&gt;The browser is downloading images, etc referred to earlier while downloading the bootstrap.&lt;/li&gt;
+	&lt;li&gt;There is 200ms improvement in the time at which the user can start reading the story.&lt;/li&gt;
+&lt;/ol&gt;
+
+Here is a video comparing the 2 loading methods :-
+
+&lt;object width=&#34;480&#34; height=&#34;295&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/YF9-Us8xAVM?fs=1&amp;amp;hl=en_US&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/YF9-Us8xAVM?fs=1&amp;amp;hl=en_US&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;295&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+
+If anyone has better ways to embed DFP, please let me know via comments below.
+
+&lt;h3&gt;The Solutions&lt;/h3&gt;
+
+There are 2 ways to solve this
+&lt;ul&gt;
+	&lt;li&gt;Have source ordered HTML where the adcodes are always after the content in the HTML source of the page. This ensures that the user can start reading while DFP does its blocking thing. - A site redesign is in planning and that would implement this step.&lt;/li&gt;
+	&lt;li&gt;DFP changes the way it works... by replacing the evil document.write with DOM manipulation techniques so the scripts can be loaded asynchronously.&lt;/li&gt;
+&lt;/ul&gt;
+
+So next time if a third party script provider tells you that certain code &lt;strong&gt;must&lt;/strong&gt; be in the &amp;lt;head&amp;gt; of the HTML, don&#39;t believe them and question them.
+
+PS: All tests were done from ie7 from Dulles, VA using &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;WebPageTest.org&lt;/a&gt;, ie8 also showed similar behavior.
+
+&lt;h3&gt;Shameless Plug&lt;/h3&gt;
+I am available for &lt;a href=&#34;http://www.sajalkayan.com/web-speed-consulting-services&#34;&gt;consulting on web speed issues&lt;/a&gt;, contact details in the right sidebar.
+
+&lt;strong&gt;UPDATE: I am now using &lt;a href=&#34;http://www.aaronpeters.nl/blog/non-blocking-google-adsense-ads-improve-page-speed&#34;&gt;Aaron&#39;s adsense hack&lt;/a&gt; to defer DFP below the content. Thanks Aaron&lt;/strong&gt;
+&lt;strong&gt;UPDATE 2: New Post: &lt;a href=&#34;http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html&#34;&gt;Complete Asynchronous ad loading using DFP and LABjs&lt;/a&gt;&lt;/strong&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

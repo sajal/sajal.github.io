@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Search on Sajal Kayan</title>
+    <link>http://www.sajalkayan.com/tag/search.xml</link>
+    <description>Recent content in Search on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="http://www.sajalkayan.com/tag/search.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Prospective search using python</title>
+      <link>http://www.sajalkayan.com/prospective-search-using-python.html</link>
+      <pubDate>Wed, 22 Jul 2009 08:56:31 +0000</pubDate>
+      
+      <guid>http://www.sajalkayan.com/prospective-search-using-python.html</guid>
+      <description>&lt;strong&gt;&lt;a href=&#34;http://en.wikipedia.org/wiki/Prospective_search&#34; rel=&#34;nofollow&#34;&gt;Prospective search&lt;/a&gt;&lt;/strong&gt;, or &lt;strong&gt;persistent search&lt;/strong&gt;, is a relatively less common method of implementing search where the list of keywords is defined, and when provided a single document it determines the list of keywords applicable to it.
+
+This is different from traditional (or &#34;retrospective&#34;) search, where many documents are stored into an indexed and when provided with a search term, the search engine returns the list of documents which best match the query.
+
+The best real world examples would be how Google News Alerts(or IMHO categorization/clustering in Google News) works. When a new news story is found by Google, it makes more sense to run a prospective search on the news story to find which alert subscriptions (or news category) it belongs to, rather than searching for all the alerts repeatedly on their entire index.
+
+Lucene has a &lt;a href=&#34;http://lucene.apache.org/java/2_4_0/api/org/apache/lucene/index/memory/MemoryIndex.html&#34;&gt;MemoryIndex&lt;/a&gt; class for just this purpose, ive made a simple implementation in python using &lt;a href=&#34;http://lucene.apache.org/pylucene/&#34;&gt;pylucene&lt;/a&gt;. MemoryIndex is a special class in lucene for on-the-fly searching. It can contain only one doccument which may have more than one field. This is ideal for prospective search.
+
+Installation and setup of pylucene is out of scope of this post... &lt;a href=&#34;http://lucene.apache.org/pylucene/documentation/install.html&#34;&gt;RTFM&lt;/a&gt;! (do note u need to edit the MakeFile)
+&lt;pre lang=&#34;python&#34;&gt;import sys, os, lucene, time, threading
+
+def ProspectiveSearch(body, terms):
+    lucene.initVM(lucene.CLASSPATH)
+    index = lucene.MemoryIndex()
+    index.addField(&#34;content&#34;, body, lucene.StandardAnalyzer())
+    parser = lucene.QueryParser(&#34;content&#34;, lucene.StandardAnalyzer())
+    matches = []
+    for term in terms:
+        score=index.search(parser.parse(term))
+        if score &amp;gt; 0:
+            matches += [term]
+    return matches&lt;/pre&gt;
+sample usage :-
+&lt;pre lang=&#34;python&#34;&gt;body = &#34;hi my name is sajal kayan&#34;
+terms = [&#34;sajal&#34;, &#34;good&#34;, &#34;boy&#34;, &#34;name&#34;, &#34;sajal AND NOT kayan&#34;, &#34;sajal AND kayan&#34;]
+matches = ProspectiveSearch(body, terms)&lt;/pre&gt;
+In this case returns [&#39;sajal&#39;, &#39;name&#39;, &#39;sajal AND kayan&#39;]
+
+Note:initVM() is &lt;a href=&#34;http://stackoverflow.com/questions/548493/jcc-initvm-doesnt-return-when-modwsgi-is-configured-as-daemon-mode&#34;&gt;giving problems&lt;/a&gt; on mod_wsgi
+
+On my computer, this is the benchmark i noticed for a 244 word content.
+&lt;ul&gt;
+	&lt;li&gt;1,492 queries : 0.79 seconds (for whole script only 248ms for the search loop)&lt;/li&gt;
+	&lt;li&gt;14,920 queries : 1.519 seconds&lt;/li&gt;
+	&lt;li&gt;74,600 queries : 3.425 seconds&lt;/li&gt;
+	&lt;li&gt;149,200 queries : 5.552 seconds&lt;/li&gt;
+	&lt;li&gt;298,400 queries : 10.328 seconds&lt;/li&gt;
+&lt;/ul&gt;
+If you know a better method to achieve prospective search in python do let me know. Would also be interested to know if any RPC based search software does this.
+</description>
+    </item>
+    
+  </channel>
+</rss>
