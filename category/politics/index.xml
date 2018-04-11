@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Politics on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/category/politics.xml</link>
+    <link>https://www.sajalkayan.com/category/politics.xml</link>
     <description>Recent content in Politics on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/category/politics.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/category/politics.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Presidential Election Coverage 2008</title>
-      <link>http://www.sajalkayan.com/presidential-election-coverage-2008.html</link>
+      <link>https://www.sajalkayan.com/presidential-election-coverage-2008.html</link>
       <pubDate>Thu, 30 Oct 2008 03:51:14 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/presidential-election-coverage-2008.html</guid>
+      <guid>https://www.sajalkayan.com/presidential-election-coverage-2008.html</guid>
       <description>&lt;OBJECT classid=&#34;clsid:D27CDB6E-AE6D-11cf-96B8-444553540000&#34; codebase=&#34;http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0&#34; WIDTH=&#34;384&#34; HEIGHT=&#34;304&#34;&gt; &lt;PARAM NAME=movie VALUE=&#34;http://www.tsgvid.com/video/main.swf&#34;&gt; &lt;PARAM NAME=flashvars VALUE=&#34;firstname=Sajal&amp;lastname=Kayan&amp;urlfin=http%3A%2F%2Fwww.tsgnet.com%2Fpres.php?id=357563%26altf=Tbkbm%26altl=Lbzbo%26lap=2&#34;&gt; &lt;PARAM NAME=&#34;BGCOLOR&#34; VALUE=&#34;#999999&#34; /&gt; &lt;PARAM NAME=&#34;allowScriptAccess&#34; VALUE=&#34;always&#34; /&gt; &lt;EMBED src=&#34;http://www.tsgvid.com/video/main.swf&#34; quality=high WIDTH=&#34;384&#34; HEIGHT=&#34;304&#34; ALIGN=&#34;&#34; TYPE=&#34;application/x-shockwave-flash&#34; FLASHVARS=&#34;firstname=Sajal&amp;lastname=Kayan&amp;urlfin=http%3A%2F%2Fwww.tsgnet.com%2Fpres.php?id=357563%26altf=Tbkbm%26altl=Lbzbo%26lap=2&#34; PLUGINSPAGE=&#34;http://www.macromedia.com/go/getflashplayer&#34; BGCOLOR=&#34;#999999&#34; ALLOWSCRIPTACCESS=&#34;ALWAYS&#34;&gt; &lt;/EMBED&gt; &lt;/OBJECT&gt;
 </description>
     </item>

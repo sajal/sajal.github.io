@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> kubemr: Kubernetes native distributed MapReduce framework &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Thu, Apr 20, 2017
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="kubemr: Kubernetes native distributed MapReduce framework" 
+      data-text="kubemr: Kubernetes native distributed MapReduce framework"
       data-url="http://www.sajalkayan.com/post/kubemr.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="kubemr: Kubernetes native distributed MapReduce framework"
@@ -93,6 +93,7 @@ https://keybase.io/sajal -->
     
     
   </span>
+      
       
 
 <p>tl;dr version <a href="https://github.com/turbobytes/kubemr">https://github.com/turbobytes/kubemr</a></p>
@@ -133,7 +134,7 @@ https://keybase.io/sajal -->
 
 <p>In the case of kubemr, I named it <code>MapReduceJob</code>. All I need to kick off some task is submit the following example yaml to Kubernetes.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">apiVersion: <span style="background-color: #fff0f0">&quot;turbobytes.com/v1alpha1&quot;</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>apiVersion: <span style="background-color: #fff0f0">&quot;turbobytes.com/v1alpha1&quot;</span>
 kind: MapReduceJob
 metadata:
   generateName: test-
@@ -151,7 +152,7 @@ spec:
 
 <p>Once the job is complete, something like this is stamped onto the object.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">results:
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>results:
 - - s3://kubemr/kubemr/test-z0dk5/reduce/0.txt
 - - s3://kubemr/kubemr/test-z0dk5/reduce/1.txt
 - - s3://kubemr/kubemr/test-z0dk5/reduce/2.txt
@@ -227,13 +228,13 @@ spec:
 
       
       <div>
-  Tags:  
+  Tags: 
     <a href="/tag/kubernetes">kubernetes</a> </li>
-   
+  
     <a href="/tag/mapreduce">mapreduce</a> </li>
-   
+  
     <a href="/tag/go">go</a> </li>
-   
+  
     <a href="/tag/golang">golang</a> </li>
    <br />
   Categories:  <br />
@@ -249,7 +250,7 @@ spec:
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -274,22 +275,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKPO4kQAJVSCDtsnPkG3uiRGVK0AuiN
-FYhUJyH/Qh+5t5CiMI6dBGlIwUUz7/DDdUMv9nAsGXWsqqR4GkEtXSIeBls5oYQZ
-VLKf9BPihVDu2m8lejZJOIqi362Rr4Hwhjxa5oRlWoNA2vm6f2GvfMFEtiFvdTZs
-CnCVSyij5Q1mNYJMBm5TErMTC2AATKSYNXi/FO0uOfXdkaQJoEOyN6Aqce4UuHdJ
-7FgNmrYggsE/6eslbDn6k0dDm+QPfMbezdlTdqnx0gIHXq9eEtWbtaoObTxlSQgx
-5spEcoNkeh+dz4WwK0RJ1U85xCvj7wmFrcJs8r/FQyAsu2ZmhvInBX+HCF7Fhuna
-S4+hn4D/smzfuqTha3FnrrRsc5UkCfG+SK54ma8p55xP7yF76G8h53K4FiJbkDyW
-eHpP38B36YPNdxVxg0y1LTgdJ6gV7qsJHpf7BucrPeN5IkDGtFYFQhpq3wPejqqI
-N9TS0KjQ45pgOTtGaMZ0L01x+PRtUaxfiEDZWqCrxCdYLO4J1lFHKgjgrs06zBXW
-e4xbooV2YZU0kqvHg6qIEo4anLPdxFryBgcyvK/BOa/IOl1AjLh3XfE+tB4IfjnV
-nCSsn5Irbyp54tXg8GlqEyKzbKMV/TF6gf6qN8J0Cm0ilrCIGWwVkCXww1KyQ5ra
-5S4+Qd71PGK27mRihP3a
-=xQOv
+iQIcBAEBCAAGBQJazjPyAAoJEDlkkKy/FYKPhgMP/2FXGCWyJSON0H8IoDPFLeUL
+/lhkBbv6ZqrD992z3pVG5ixd+2c7sftZA8CHDBP6wTBFkygl3bDjY+i+zjisVouD
+il8N9X9v3yi7+tiuVCR2yLJRI5YgNGfV6RyacvkREyh7rFDIKkMyJPmaVQw9IDw8
+E7/INqUtIjmvRTsMuQQuzjeJB6zxHUqTRABTO5CipZeoZPDyKw5DkNOD0sSWHKjN
+1ZN5laWT6siO8WYZ64WAKefuAumAlNxr4aDXWoKXnd/2O5E+rsNSQIwzAYnUgvVA
++i8GEApunlf0GJGuUVNOnvdbzLZDIHBQGz9oOb/c0CJAwV+Qg8sVxL1K9vfB8B2v
+bcI8rpUb6TKE5ffO8b8ilA1371FzrA6TUv6vSRWm+2JohiplIr7GI3wyuqlKOpH7
+YDND/Q4eBXiipX1SD+nFmjz7iwaGJ6M1cc9IrHrJSyu5NjmGe4E/t2uA6hZS3ErL
+9f3soGU4qZzb0GwknLq4KVC3FHD4JvrF1OmWS2L0gasjIjAKZbOWcQw6djvI9XtV
+83GyEuYWqbhydJpFwD/dc4cpxnAf3hXKnPdi7r85ioh6Jz2cEbt/ovhOjj81+SRy
+itP4kFrX1Nn5nM83OrCyEEJ4k67cyEux8yvrXZBPWP/3Z3EBu3ZLl+W2CUvVpRqB
+G9Gf/wumF54fpIJnxCfS
+=KKQb
 -----END PGP SIGNATURE-----
 -->

@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Golang on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/golang.xml</link>
+    <link>https://www.sajalkayan.com/tag/golang.xml</link>
     <description>Recent content in Golang on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/golang.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/golang.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>kubemr: Kubernetes native distributed MapReduce framework</title>
-      <link>http://www.sajalkayan.com/post/kubemr.html</link>
+      <link>https://www.sajalkayan.com/post/kubemr.html</link>
       <pubDate>Thu, 20 Apr 2017 20:00:00 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/kubemr.html</guid>
+      <guid>https://www.sajalkayan.com/post/kubemr.html</guid>
       <description>
 
 &lt;p&gt;tl;dr version &lt;a href=&#34;https://github.com/turbobytes/kubemr&#34;&gt;https://github.com/turbobytes/kubemr&lt;/a&gt;&lt;/p&gt;
@@ -54,7 +54,7 @@
 
 &lt;p&gt;In the case of kubemr, I named it &lt;code&gt;MapReduceJob&lt;/code&gt;. All I need to kick off some task is submit the following example yaml to Kubernetes.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;apiVersion: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;turbobytes.com/v1alpha1&amp;quot;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;apiVersion: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;turbobytes.com/v1alpha1&amp;quot;&lt;/span&gt;
 kind: MapReduceJob
 metadata:
   generateName: test-
@@ -72,7 +72,7 @@ spec:
 
 &lt;p&gt;Once the job is complete, something like this is stamped onto the object.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;results:
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;results:
 - s3://kubemr/kubemr/test-z0dk5/reduce/0.txt
 - s3://kubemr/kubemr/test-z0dk5/reduce/1.txt
 - s3://kubemr/kubemr/test-z0dk5/reduce/2.txt
@@ -150,14 +150,14 @@ spec:
     
     <item>
       <title>Building binary executables for Android in Go</title>
-      <link>http://www.sajalkayan.com/post/go-android-binary.html</link>
+      <link>https://www.sajalkayan.com/post/go-android-binary.html</link>
       <pubDate>Tue, 26 Jan 2016 16:00:00 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/go-android-binary.html</guid>
+      <guid>https://www.sajalkayan.com/post/go-android-binary.html</guid>
       <description>&lt;p&gt;I have a use-case to run an &lt;em&gt;external&lt;/em&gt; Go binary from within an Android app. By &lt;em&gt;external&lt;/em&gt; i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple &lt;strike&gt;problem&lt;/strike&gt; solution.&lt;/p&gt;
 
 &lt;p&gt;First thing I tried was building normal &lt;code&gt;linux/arm&lt;/code&gt; binaries that I use for normal arm devices.
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~&lt;span style=&#34;color: #996633&#34;&gt;$ GOARCH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;arm&amp;quot;&lt;/span&gt; go build /path/to/filewithmain.go
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~$ &lt;span style=&#34;color: #996633&#34;&gt;GOARCH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;arm&amp;quot;&lt;/span&gt; go build /path/to/filewithmain.go
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -187,10 +187,10 @@ sajal@sajal-lappy:~$
     
     <item>
       <title>Writing Android apps with Go bindings</title>
-      <link>http://www.sajalkayan.com/post/android-apps-golang.html</link>
+      <link>https://www.sajalkayan.com/post/android-apps-golang.html</link>
       <pubDate>Tue, 28 Jul 2015 15:50:09 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/android-apps-golang.html</guid>
+      <guid>https://www.sajalkayan.com/post/android-apps-golang.html</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://godoc.org/golang.org/x/mobile/cmd/gomobile&#34;&gt;tl;dr version&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;One of the new features of upcoming Go 1.5 release is the awesome tooling around building Android (and iOS) apps using Go code.&lt;/p&gt;
@@ -205,7 +205,7 @@ sajal@sajal-lappy:~$
 
 &lt;p&gt;Now install gomobile&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
 go get golang.org/x/mobile/cmd/gomobile
 gomobile init  &lt;span style=&#34;color: #888888&#34;&gt;#This expects go 1.5 to be in PATH which we solved in the first step.&lt;/span&gt;
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
@@ -214,7 +214,7 @@ gomobile init  &lt;span style=&#34;color: #888888&#34;&gt;#This expects go 1.5 t
 
 &lt;p&gt;Then I played with some example apps.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
 &lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$GOPATH&lt;/span&gt;/src/golang.org/x/mobile/example/basic/
 gomobile build .
 adb install basic.apk
@@ -226,8 +226,8 @@ adb install basic.apk
 
 &lt;p&gt;First project DNS debugger. Much of the &lt;a href=&#34;https://github.com/turbobytes/pulse&#34;&gt;Go code&lt;/a&gt; was written for &lt;a href=&#34;https://pulse.turbobytes.com/&#34;&gt;TurboBytes Pulse&lt;/a&gt; already&amp;hellip; Lets reuse this&amp;hellip;.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind &lt;/span&gt;github.com/turbobytes/pulse/utils
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;export &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/gobeta/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+$ &lt;span style=&#34;color: #996633&#34;&gt;ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind&lt;/span&gt; github.com/turbobytes/pulse/utils
 panic: unsupported seqType: interface&lt;span style=&#34;color: #333333&#34;&gt;{}&lt;/span&gt; / *types.Interface
 
 goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;running&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
@@ -255,7 +255,7 @@ main.main&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
 goroutine &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;17&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt;syscall, locked to thread&lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;:
 runtime.goexit&lt;span style=&#34;color: #333333&#34;&gt;()&lt;/span&gt;
 	/home/sajal/gobeta/src/runtime/asm_amd64.s:1696 +0x1
-sajal@sajal-lappy:/tmp&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+sajal@sajal-lappy:/tmp$ 
 
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -265,7 +265,7 @@ sajal@sajal-lappy:/tmp&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
 
 &lt;p&gt;Solution: I wrote package &lt;a href=&#34;https://github.com/turbobytes/pulse/blob/master/digdroid/digdroid.go&#34;&gt;github.com/turbobytes/pulse/digdroid&lt;/a&gt; with a proxy function that returns a struct with only strings. No interfaces.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; digdroid
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; digdroid
 &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;type&lt;/span&gt; DNSResult &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;struct&lt;/span&gt; {
 	Err    &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
 	Output &lt;span style=&#34;color: #333399; font-weight: bold&#34;&gt;string&lt;/span&gt;
@@ -277,25 +277,25 @@ sajal@sajal-lappy:/tmp&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind  &lt;/span&gt;github.com/turbobytes/pulse/digdroid
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh
-total 2.8M
--rw-rw-r-- &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 2.8M Jul &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt; 22:04 digdroid.aar
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file digdroid.aar 
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;$ &lt;span style=&#34;color: #996633&#34;&gt;ANDROID_HOME&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;/home/sajal/Android/Sdk/&amp;quot;&lt;/span&gt; gomobile &lt;span style=&#34;color: #007020&#34;&gt;bind&lt;/span&gt;  github.com/turbobytes/pulse/digdroid
+$ ls -lh
+total &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;.8M
+-rw-rw-r-- &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;.8M Jul &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;28&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:04 digdroid.aar
+$ file digdroid.aar 
 digdroid.aar: Zip archive data, at least v2.0 to extract
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;unzip -l digdroid.aar
+$ unzip -l digdroid.aar
 Archive:  digdroid.aar
   Length      Date    Time    Name
 ---------  ---------- -----   ----
-       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;  1980-00-00 00:00   AndroidManifest.xml
-       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;  1980-00-00 00:00   proguard.txt
-     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9009&lt;/span&gt;  1980-00-00 00:00   classes.jar
-  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9395848&lt;/span&gt;  1980-00-00 00:00   jni/armeabi-v7a/libgojni.so
-        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   R.txt
-        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  1980-00-00 00:00   res/
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;99&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1980&lt;/span&gt;-00-00 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:00   AndroidManifest.xml
+       &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1980&lt;/span&gt;-00-00 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:00   proguard.txt
+     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9009&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1980&lt;/span&gt;-00-00 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:00   classes.jar
+  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9395848&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1980&lt;/span&gt;-00-00 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:00   jni/armeabi-v7a/libgojni.so
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1980&lt;/span&gt;-00-00 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:00   R.txt
+        &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt;  &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1980&lt;/span&gt;-00-00 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:00   res/
 ---------                     -------
   &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9404981&lt;/span&gt;                     &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;6&lt;/span&gt; files
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+$ 
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -317,7 +317,7 @@ Archive:  digdroid.aar
 &lt;p&gt;Screenshot of steps involved in adding &lt;code&gt;digdroid.aar&lt;/code&gt; into Android Studio : &lt;a href=&#34;http://imgur.com/a/dEewm&#34;&gt;http://imgur.com/a/dEewm&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Example usage of above Go code from Java
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;DNSResult&lt;/span&gt; result &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;RunDNS&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;www.example.com.&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;8.8.8.8:53&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;A&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;);&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;&amp;lt;&lt;/span&gt;pre&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&amp;lt;&lt;/span&gt;code&lt;span style=&#34;color: #333333&#34;&gt;&amp;gt;&lt;/span&gt;Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;DNSResult&lt;/span&gt; result &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; Digdroid&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;RunDNS&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;www.example.com.&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;8.8.8.8:53&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;A&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;);&lt;/span&gt;
 String output &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getOutput&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
 String rtt &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getRtt&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
 String err &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;span style=&#34;color: #333333&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color: #0000CC&#34;&gt;getErr&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;();&lt;/span&gt;
@@ -333,7 +333,7 @@ String err &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;s
 
 &lt;p&gt;One thing&amp;hellip; For some reason the built apk was including extra permissions that I didn&amp;rsquo;t really need. Solution declare those extra permissions in the manifest in a special manner so it gets removed when being built.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;uses-permission&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;uses-permission&lt;/span&gt;
     &lt;span style=&#34;color: #0000CC&#34;&gt;android:name=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;android.permission.WRITE_EXTERNAL_STORAGE&amp;quot;&lt;/span&gt;
     &lt;span style=&#34;color: #0000CC&#34;&gt;android:maxSdkVersion=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;18&amp;quot;&lt;/span&gt;
     &lt;span style=&#34;color: #0000CC&#34;&gt;tools:node=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;remove&amp;quot;&lt;/span&gt;&lt;span style=&#34;color: #007700&#34;&gt;/&amp;gt;&lt;/span&gt;
@@ -362,15 +362,15 @@ String err &lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt; result&lt;s
     
     <item>
       <title>Running Go programs on $15 device - Beyond Hello World</title>
-      <link>http://www.sajalkayan.com/post/golang-openwrt-mips.html</link>
+      <link>https://www.sajalkayan.com/post/golang-openwrt-mips.html</link>
       <pubDate>Wed, 25 Feb 2015 18:14:00 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/golang-openwrt-mips.html</guid>
+      <guid>https://www.sajalkayan.com/post/golang-openwrt-mips.html</guid>
       <description>
 
 &lt;p&gt;I recently purchased a &lt;a href=&#34;http://wiki.openwrt.org/toh/nexx/wt1520&#34;&gt;WT1520&lt;/a&gt; router for $15 from Aliexpress to play with. I have a project in mind which would require few nodes running my custom Go code spread out throughout the world. A Raspberry Pi (almost $40 if you include SD card, etc) fits perfectly for my purpose, but I am looking to be cheap. Not to be dissing on the pi, its awesome and LOT more powerful than the WT1520, I&amp;rsquo;m just trying to find the cheapest device for my purpose.
 &lt;figure&gt;
-    &lt;img src=&#34;http://www.sajalkayan.com/images/wt1520-raspi.jpg&#34; alt=&#34;Raspberry Pi and WT1520 doing the same thing&#34; title=&#34;Raspberry Pi and WT1520 doing the same thing&#34; \&gt;
+    &lt;img src=&#34;https://www.sajalkayan.com/images/wt1520-raspi.jpg&#34; alt=&#34;Raspberry Pi and WT1520 doing the same thing&#34; title=&#34;Raspberry Pi and WT1520 doing the same thing&#34; \&gt;
     &lt;figcaption&gt;Raspberry Pi ($35+) and WT1520 ($15 shipped) doing the same thing&lt;/figcaption&gt;
 &lt;/figure&gt;
 Having no experience with OpenWrt, this &lt;a href=&#34;http://akagi201.org/blog/golang-on-openwrt/&#34;&gt;blog post&lt;/a&gt; (sidenote: our blogs look similar) helped a lot to get Hello World running.&lt;/p&gt;
@@ -379,11 +379,11 @@ Having no experience with OpenWrt, this &lt;a href=&#34;http://akagi201.org/blog
 
 &lt;p&gt;I couldn&amp;rsquo;t use the &lt;a href=&#34;https://github.com/GeertJohan/openwrt-go&#34;&gt;gccgo fork&lt;/a&gt; directly because support for my architecture was added at a later stage, so I had to clone the upstream master and patch it.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;git clone git://git.openwrt.org/openwrt.git
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;openwrt
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make menuconfig
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make -j8
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;$ git clone git://git.openwrt.org/openwrt.git
+$ &lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; openwrt
+$ curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
+$ make menuconfig
+$ make -j8
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -395,9 +395,9 @@ Ive removed usb and wifi related things to keep the image small. It seems eglibc
 
 &lt;p&gt;Building hello world is simple&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;alias &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;gccgo&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;gccgo -o hello ~/hello.go -static-libgo
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;$ &lt;span style=&#34;color: #007020&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+$ &lt;span style=&#34;color: #007020&#34;&gt;alias&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;gccgo&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&amp;#39;&lt;/span&gt;
+$ gccgo -o hello ~/hello.go -static-libgo
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -474,10 +474,10 @@ gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-
 
 &lt;p&gt;Note: I had to adjust code a bit to support the ancient Go implementation&amp;hellip; Specifically the TLS implementation and cipher suits.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file minion
-minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;uses shared libs&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; GNU/Linux 2.6.16, not stripped
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh minion
--rwxrwxr-x &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 9.3M Feb &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;26&lt;/span&gt; 00:25 minion
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;$ file minion
+minion: ELF &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;32&lt;/span&gt;-bit LSB  executable, MIPS, MIPS32 rel2 version &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, dynamically linked &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;uses shared libs&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; GNU/Linux &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;.6.16, not stripped
+$ ls -lh minion
+-rwxrwxr-x &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9&lt;/span&gt;.3M Feb &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;26&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:25 minion
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 

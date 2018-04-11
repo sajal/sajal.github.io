@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Network on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/network.xml</link>
+    <link>https://www.sajalkayan.com/tag/network.xml</link>
     <description>Recent content in Network on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/network.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/network.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Using MultiPath TCP to enhance home networks</title>
-      <link>http://www.sajalkayan.com/post/fun-with-mptcp.html</link>
+      <link>https://www.sajalkayan.com/post/fun-with-mptcp.html</link>
       <pubDate>Sat, 22 Nov 2014 12:46:11 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/fun-with-mptcp.html</guid>
+      <guid>https://www.sajalkayan.com/post/fun-with-mptcp.html</guid>
       <description>
 
 &lt;p&gt;Over the last few months I&amp;rsquo;ve been playing with &lt;a href=&#34;http://multipath-tcp.org/&#34;&gt;MultiPath TCP&lt;/a&gt; and in this post I will show how I use it to leverage my humble &lt;a href=&#34;http://trueonline.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; line at home.&lt;/p&gt;
@@ -26,7 +26,7 @@
 
 &lt;h2 id=&#34;old-way&#34;&gt;Old way&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://www.sajalkayan.com/images/ssh_tun.svg&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/images/ssh_tun.svg&#34; alt=&#34;Simple SSH Tunnel&#34; title=&#34;Simple SSH Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.sajalkayan.com/images/ssh_tun.svg&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/images/ssh_tun.svg&#34; alt=&#34;Simple SSH Tunnel&#34; title=&#34;Simple SSH Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;ol&gt;
 &lt;li&gt;SSH tunnel to EC2 instance in Singapore. Browser configured to use this tunnel as proxy&lt;/li&gt;
@@ -37,7 +37,7 @@
 
 &lt;h2 id=&#34;new-way&#34;&gt;New way&lt;/h2&gt;
 
-&lt;p&gt;&lt;a href=&#34;http://www.sajalkayan.com/images/mptcp_tun.svg&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/images/mptcp_tun.svg&#34; alt=&#34;MPTCP Tunnel&#34; title=&#34;MPTCP Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.sajalkayan.com/images/mptcp_tun.svg&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/images/mptcp_tun.svg&#34; alt=&#34;MPTCP Tunnel&#34; title=&#34;MPTCP Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;Note: This is a constantly evolving setup as I find new things to play with.&lt;/p&gt;
 
@@ -183,10 +183,10 @@ COMMIT
 
 &lt;p&gt;Also, each interface is maintains its own &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting&#34;&gt;routing tables&lt;/a&gt; using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/sh
-ip rule add from 10.8.0.20 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
-ip route add 10.8.0.0/24 dev tun0 scope link table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
-ip route add default via 10.8.0.21 dev tun0 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/sh
+ip rule add from &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;.8.0.20 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;.8.0.0/24 dev tun0 scope link table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add default via &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;.8.0.21 dev tun0 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
 ip rule add fwmark &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -202,9 +202,9 @@ ip rule add fwmark &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt
 
 &lt;p&gt;&lt;strong&gt;wvdial&lt;/strong&gt; - To dial the ADSL connection which is itself behind a &lt;a href=&#34;http://en.wikipedia.org/wiki/Carrier-grade_NAT&#34;&gt;Carrier-grade NAT&lt;/a&gt;. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.&lt;/p&gt;
 
-&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/bash
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/bash
 
-&lt;span style=&#34;color: #996633&#34;&gt;IP&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f 1&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;IP&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
 &lt;span style=&#34;color: #996633&#34;&gt;COUNT&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; | wc -l&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
 
 &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt;
@@ -217,7 +217,7 @@ ip rule add fwmark &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt
   &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
     &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is down&amp;quot;&lt;/span&gt;
     &lt;span style=&#34;color: #007020&#34;&gt;kill&lt;/span&gt; -SIGHUP &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;pgrep pppd&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
-    beep -l 25
+    beep -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;
   &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
 &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
   &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 not found?!?!?!?1&amp;quot;&lt;/span&gt;

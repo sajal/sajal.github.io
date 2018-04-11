@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Fitbit on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/fitbit.xml</link>
+    <link>https://www.sajalkayan.com/tag/fitbit.xml</link>
     <description>Recent content in Fitbit on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/fitbit.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/fitbit.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Figuring out MAC address of a fitbit tracker</title>
-      <link>http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html</link>
+      <link>https://www.sajalkayan.com/post/fitbit-bluetooth-mac.html</link>
       <pubDate>Sat, 24 Sep 2016 15:30:00 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html</guid>
+      <guid>https://www.sajalkayan.com/post/fitbit-bluetooth-mac.html</guid>
       <description>
 
-&lt;p&gt;&lt;a href=&#34;http://www.sajalkayan.com/post/presence-bluetooth.html&#34;&gt;Last week I posted&lt;/a&gt; about potentially using my fitbit Charge HR for presence, and was looking for some way to figure out its MAC address. Here are some ways to do it.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://www.sajalkayan.com/post/presence-bluetooth.html&#34;&gt;Last week I posted&lt;/a&gt; about potentially using my fitbit Charge HR for presence, and was looking for some way to figure out its MAC address. Here are some ways to do it.&lt;/p&gt;
 
 &lt;h4 id=&#34;ble-scan&#34;&gt;BLE scan&lt;/h4&gt;
 
@@ -24,13 +24,13 @@
 
 &lt;p&gt;Then from some linux host with BLE enabled adapter (in my case raspberry pi 3 ) run a &lt;code&gt;lescan&lt;/code&gt;.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;pi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;sudo hcitool lescan
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;pi@raspberrypi:~$ sudo hcitool lescan
 LE Scan ...
 xx:xx:xx:xx:xx:xx &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
 yy:yy:yy:yy:yy:yy &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-12:34:56:78:9A:BC &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
-12:34:56:78:9A:BC Charge HR
-^Cpi@raspberrypi:~&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;12&lt;/span&gt;:34:56:78:9A:BC &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unknown&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;12&lt;/span&gt;:34:56:78:9A:BC Charge HR
+^Cpi@raspberrypi:~$ 
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -41,19 +41,19 @@ yy:yy:yy:yy:yy:yy &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;unkno
 
 &lt;p&gt;&lt;a href=&#34;https://bitbucket.org/benallard/galileo/&#34;&gt;Galileo&lt;/a&gt; is project that allows you to sync your tracker using the bundled dongle that comes with fitbit. It&amp;rsquo;s python and useful if you use linux since fitbit does not provide software for it.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~/path/to/galileo&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;./run --fitbit-server client.fitbit.com --force -v
-2016-09-24 22:07:11,549:INFO: Disconnecting from any connected trackers
-2016-09-24 22:07:13,555:INFO: Got an I/O Timeout &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&amp;gt; 2000ms&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;while&lt;/span&gt; reading!
-2016-09-24 22:07:13,559:INFO: Discovering trackers to synchronize
-2016-09-24 22:07:13,565:INFO: Ignoring message: StartDiscovery
-2016-09-24 22:07:17,569:INFO: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; trackers discovered
-2016-09-24 22:07:17,569:INFO: Attempting to synchronize tracker BC9A78563412
-2016-09-24 22:07:17,575:INFO: Starting new HTTPS connection &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;: client.fitbit.com
-2016-09-24 22:07:24,401:INFO: Getting data from tracker
-2016-09-24 22:07:25,752:INFO: Sending tracker data to Fitbit
-2016-09-24 22:07:25,753:INFO: Starting new HTTPS connection &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;1&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;: client.fitbit.com
-2016-09-24 22:07:27,165:INFO: Successfully sent tracker data to Fitbit
-2016-09-24 22:07:27,165:INFO: Passing Fitbit response to tracker
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;sajal@sajal-lappy:~/path/to/galileo$ ./run --fitbit-server client.fitbit.com --force -v
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:11,549:INFO: Disconnecting from any connected trackers
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:13,555:INFO: Got an I/O Timeout &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&amp;gt; 2000ms&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;while&lt;/span&gt; reading!
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:13,559:INFO: Discovering trackers to synchronize
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:13,565:INFO: Ignoring message: StartDiscovery
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:17,569:INFO: &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; trackers discovered
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:17,569:INFO: Attempting to synchronize tracker BC9A78563412
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:17,575:INFO: Starting new HTTPS connection &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;: client.fitbit.com
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:24,401:INFO: Getting data from tracker
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:25,752:INFO: Sending tracker data to Fitbit
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:25,753:INFO: Starting new HTTPS connection &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;: client.fitbit.com
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:27,165:INFO: Successfully sent tracker data to Fitbit
+&lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2016&lt;/span&gt;-09-24 &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;22&lt;/span&gt;:07:27,165:INFO: Passing Fitbit response to tracker
 Tracker: BC9A78563412: Synchronisation successful
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -67,7 +67,7 @@ Tracker: BC9A78563412: Synchronisation successful
 
 &lt;p&gt;&lt;code&gt;GET https://api.fitbit.com/1/user/-/devices.json&lt;/code&gt;&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #FF0000; background-color: #FFAAAA&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;/span&gt;[
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&lt;span style=&#34;color: #FF0000; background-color: #FFAAAA&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;/span&gt;[
   {
     &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;battery&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;High&amp;quot;&lt;/span&gt;,
     &lt;span style=&#34;color: #007700&#34;&gt;&amp;quot;deviceVersion&amp;quot;&lt;/span&gt;: &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;Charge HR&amp;quot;&lt;/span&gt;,
@@ -82,15 +82,15 @@ Tracker: BC9A78563412: Synchronisation successful
 ]
 &lt;span style=&#34;color: #FF0000; background-color: #FFAAAA&#34;&gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
+&lt;/p&gt;
 
 &lt;p&gt;This again shows the reversed-byte MAC address in the &lt;code&gt;mac&lt;/code&gt; field.&lt;/p&gt;
 
-&lt;p&gt;I have updated my &lt;a href=&#34;http://www.sajalkayan.com/post/presence-bluetooth.html#toc_1&#34;&gt;presence script&lt;/a&gt; to continuously run &lt;code&gt;hcitool lescan&lt;/code&gt; and keep a map of devices available. This way if for some reason my phone&amp;rsquo;s bluetooth drops out, I can keep track of myself using the Charge HR since it restarts advertisements once its link to the phone is broken.&lt;/p&gt;
+&lt;p&gt;I have updated my &lt;a href=&#34;https://www.sajalkayan.com/post/presence-bluetooth.html#toc_1&#34;&gt;presence script&lt;/a&gt; to continuously run &lt;code&gt;hcitool lescan&lt;/code&gt; and keep a map of devices available. This way if for some reason my phone&amp;rsquo;s bluetooth drops out, I can keep track of myself using the Charge HR since it restarts advertisements once its link to the phone is broken.&lt;/p&gt;
 
 &lt;h4 id=&#34;presence-server-upgrade&#34;&gt;Presence server upgrade&lt;/h4&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; main
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;package&lt;/span&gt; main
 
 &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;import&lt;/span&gt; (
 	&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;flag&amp;quot;&lt;/span&gt;

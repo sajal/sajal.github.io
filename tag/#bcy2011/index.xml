@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>#Bcy2011 on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag</link>
+    <link>https://www.sajalkayan.com/tag</link>
     <description>Recent content in #Bcy2011 on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Internet connectivity in Myanmar (Burma)</title>
-      <link>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</link>
+      <link>https://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</link>
       <pubDate>Mon, 21 Feb 2011 09:21:09 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</guid>
+      <guid>https://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</guid>
       <description>Last weekend ( Feb 19th &amp; 20th) I was in Yangon for &lt;a href=&#34;http://www.barcampyangon.org/&#34;&gt;BarCamp Yangon&lt;/a&gt;.
 
 It probably had an attendance of &amp;gt; 4k participants... Probably one of the largest BarCamps ever,  despite the fact that the internet connectivity in Myanmar sucks big time.... Really unusable... 
@@ -28,7 +28,7 @@ Most geeks have a computer at home, very few have laptops. ADSL is available but
 
 Mobile internet was unheard of until few weeks ago. They don&#39;t have gprs there, but recently they launched 3G and CDMA for wireless internet. CDMA would charge around $0.10/minute for 1 or 2 mbps (don&#39;t remember clearly).
 
-Out of the few sites i tried opening, only Facebook seemed to be usable. This is due to the &lt;a href=&#34;http://www.youtube.com/watch?v=51JGykHrwZA&#34; title=&#34;David Wei and Changhao Jiang (Facebook Inc.) - Frontend Performance Engineering in Facebook&#34;&gt;enormous effort&lt;/a&gt; they invest in &lt;a href=&#34;http://www.sajalkayan.com/tag/site-performance&#34;&gt;frontend performance&lt;/a&gt;. Google search was also fast, but none of the sites in the results seemed to open.
+Out of the few sites i tried opening, only Facebook seemed to be usable. This is due to the &lt;a href=&#34;http://www.youtube.com/watch?v=51JGykHrwZA&#34; title=&#34;David Wei and Changhao Jiang (Facebook Inc.) - Frontend Performance Engineering in Facebook&#34;&gt;enormous effort&lt;/a&gt; they invest in &lt;a href=&#34;https://www.sajalkayan.com/tag/site-performance&#34;&gt;frontend performance&lt;/a&gt;. Google search was also fast, but none of the sites in the results seemed to open.
 
 The average DNS query took me 2+ seconds to resolve. DNS access is limited to the ISPs crappy nameserver, I couldn&#39;t use opendns or any external nameservers.
 

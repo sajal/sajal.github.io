@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> http/2 is stricter than http/1.1 &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Sun, Mar 15, 2015
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="http/2 is stricter than http/1.1" 
+      data-text="http/2 is stricter than http/1.1"
       data-url="http://www.sajalkayan.com/post/http2-wordcount.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="http/2 is stricter than http/1.1"
@@ -93,6 +93,7 @@ https://keybase.io/sajal -->
     
     
   </span>
+      
       <p>I am starting to read the <a href="https://tools.ietf.org/html/draft-ietf-httpbis-http2-17">draft http/2 spec</a> and realized its quite strict and leaves little to interpreter&rsquo;s imagination.</p>
 
 <p>Here are the wordcounts for various specs for following words : <em>MUST</em>, <em>REQUIRED</em>, <em>SHALL</em>, <em>SHOULD</em>, <em>RECOMMENDED</em>, <em>MAY</em>, <em>OPTIONAL</em></p>
@@ -162,7 +163,7 @@ document are to be interpreted as described in RFC 2119 [RFC2119].
 
 <p>Quick and dirty python script to do the word counts.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #333333">&lt;</span>pre<span style="color: #333333">&gt;&lt;</span>code<span style="color: #333333">&gt;</span><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">re</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #333333">&lt;</span>pre<span style="color: #333333">&gt;&lt;</span>code<span style="color: #333333">&gt;</span><span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">re</span>
 <span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">httplib2</span> <span style="color: #008800; font-weight: bold">import</span> Http
 <span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">collections</span> <span style="color: #008800; font-weight: bold">import</span> defaultdict
 
@@ -196,7 +197,7 @@ WORDS <span style="color: #333333">=</span> [<span style="background-color: #fff
     <span style="color: #008800; font-weight: bold">return</span> counts
 
 
-<span style="color: #008800; font-weight: bold">if</span> __name__ <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;__main__&quot;</span>:
+<span style="color: #008800; font-weight: bold">if</span> <span style="color: #996633">__name__</span> <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;__main__&quot;</span>:
     <span style="color: #008800; font-weight: bold">print</span> <span style="background-color: #fff0f0">&quot;rfc2616&quot;</span> , summarize(count_url(<span style="background-color: #fff0f0">&quot;http://tools.ietf.org/html/rfc2616&quot;</span>, defaultdict(<span style="color: #007020">int</span>)))
     counts <span style="color: #333333">=</span> count_url(<span style="background-color: #fff0f0">&quot;https://tools.ietf.org/html/rfc7230&quot;</span>, defaultdict(<span style="color: #007020">int</span>))
     counts <span style="color: #333333">=</span> count_url(<span style="background-color: #fff0f0">&quot;https://tools.ietf.org/html/rfc7231&quot;</span>, counts)
@@ -226,7 +227,7 @@ WORDS <span style="color: #333333">=</span> [<span style="background-color: #fff
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -251,22 +252,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPP60P/Rsf+vxYAzKUYsWO8ezgXHMP
-kd7GKlalIq4axyIWqLM7zJTwzyEFJUQwoBulg4o90owQLYLXT7xrBPZAE1CjyezW
-k7P7FiltzRjs3RWHQsFClMYCzmTHMHUS9iMC5r8ysi0aG79WlgNs/0KsDBQxTXMX
-v3foKrgbAf1xFk0ScmtEFNre0f61QWGitlYSKCDUFkSdNuUMH41RGOcbUy+WuN4u
-zKCGpK3/ChLOo2d8ujzxrrYme0SZz0/6SxiTpPpChWPohD6As7Zgk6H4WFpQK/Kt
-miXHJsWJ3Y7i+ICqvnmFM4+VO8WpoppZgPBkk/bL0beJx37KDxSCtBGGjYfJnUvq
-G9cEWbSVeULDfPGba0yHgxcYg1nGdv6m+v6FF786pdJDS7sVLMM7ruuCnMiSK5XA
-ku6m+5+33s4fI/rlTnKeURkhy4JSMjcY3+JZ4/qszKvRUVeSUuY9k5aKj2+3iguC
-UjkdoT7TgzTt5YARgAOT+UYAfSVcXe3IxG42nIwbB7oU9red57zZTkhkGFWX2O50
-3ziSIyPvXRiHC/xROe+TbsrVQHaGMyyG5eQiwo/y69FjmiAb2hPe68Ij/eK5nNxd
-Izg7JD23T2BJShhpiLW0Kq6tm2cJDxXGZT4OC9ekuRGWxXqNXNJhae0pmmGIcOJf
-cbYrd6eflsXM17bsbtuV
-=8Uz8
+iQIcBAEBCAAGBQJazjPzAAoJEDlkkKy/FYKPZtsQAK6mGzUFaEGWLxGFmOf74OX0
+INCJuaGAQi2iZVoDJFh0B+8wG6z55hfazR+E74AOCKTIcSIWSHKlaoCfIRTpmqjO
+xRoZr8jeELc8EOGsx09lV8uXeC7R3DT2ZQoF8iZ/j2yfUR15vC+2CCGHSjzvVlrb
+udfqbHJaYC7NweI/vKgMxhvoEBtUG99MFnkhj3CDGoN6CbzyA/D6T00Q3vAkMq+J
+qP2frs6okCSwjJ478+kkPnPJItwx79qlMPWtFzP0NuwxLNtWwNPVZXd5dB+PDy9V
+Xt/qPTkk5jX1V4yvpovo44ozvjECwbvP/aPg1LWrBqKF7L4Zh+U92+nBcgMsFx31
+X9b3EjiO8yA5Cnh8HCzsf8u+fVlgrLPr+HV570xClqXFgdg4IV5bgJ2GsO9oQLrF
+euJXlfkJ8JojWoCFBZbXj2JkiHLLWkZNAkPR3A8tuKi/RllLgMcIMwX32cshIlu0
+xZJmi+AqjcXJQr9uJU8krDA3Q5qdD3OT/NUNdpGYJjghSyIdAZjLGR0soypZE06V
+wBedZlZYCR2xHuCjbWt4GwVSt49uRV4116bQJO7W53czM2RNeesjuXxO4nsOfwBW
+oqitwXBDmMp8dZv9nKzALTM4Yir1651A+1v4r+hP+iRMYcrm5mxy6EUA7ytH1Bha
+eH67bCH2pez/zL9la2qi
+=vCPm
 -----END PGP SIGNATURE-----
 -->

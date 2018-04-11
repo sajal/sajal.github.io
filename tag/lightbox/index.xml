@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Lightbox on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/lightbox.xml</link>
+    <link>https://www.sajalkayan.com/tag/lightbox.xml</link>
     <description>Recent content in Lightbox on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/lightbox.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/lightbox.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Extract info from flickr using Flickr::API in Perl</title>
-      <link>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
+      <link>https://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</link>
       <pubDate>Sat, 01 Mar 2008 18:09:21 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
+      <guid>https://www.sajalkayan.com/extract-info-from-flickr-using-flickrapi-in-perl.html</guid>
       <description>Today i learnt a neat trick. It it took me more time to make the script than it would have taken me to do the task manually.. the old fashioned way.. but it would save me(and hopefully you) a lot of time in the future. &lt;a href=&#34;http://www.flickr.com/services/api/&#34; title=&#34;Flickr API&#34;&gt;Flickr does have a nice API&lt;/a&gt; with many methods, almost everything which can be done via flickr website can be done using this API. You would need to have a &lt;a href=&#34;http://www.flickr.com/services/api/keys/&#34;&gt;Flickr API key&lt;/a&gt; to use this script.
 
 The objective : To generate some html code based on the images in &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/sets/72157604016439437/&#34; title=&#34;Indian Ambassador visits 41st Bangkok Gems &amp;amp; Jewelry Fair &#34; target=&#34;_blank&#34;&gt;one particular set&lt;/a&gt; in my &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/&#34; target=&#34;_blank&#34;&gt;flickr account&lt;/a&gt; and to &lt;a href=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; title=&#34;http://www.thaindian.com/news-snippet/the-indian-ambassador-visits-bangkok-gems--jewelry-fair-feb-2008-4649.html&#34; target=&#34;_blank&#34;&gt;display them&lt;/a&gt; in a nice manner(well better than earlier ;) ) using &lt;a href=&#34;http://www.huddletogether.com/projects/lightbox2/&#34; target=&#34;_blank&#34;&gt;Lightbox2&lt;/a&gt;

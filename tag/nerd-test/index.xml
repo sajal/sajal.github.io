@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Nerd Test on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/nerd-test.xml</link>
+    <link>https://www.sajalkayan.com/tag/nerd-test.xml</link>
     <description>Recent content in Nerd Test on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/nerd-test.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/nerd-test.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>My nerdiness!</title>
-      <link>http://www.sajalkayan.com/my-nerdiness.html</link>
+      <link>https://www.sajalkayan.com/my-nerdiness.html</link>
       <pubDate>Fri, 20 Jun 2008 04:06:02 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/my-nerdiness.html</guid>
+      <guid>https://www.sajalkayan.com/my-nerdiness.html</guid>
       <description>Seems today I have nothing better to do... or maybe too lazy to do actual work !
 
 via &lt;a href=&#34;http://sugree.com/node/177&#34;&gt;Sugree&lt;/a&gt;

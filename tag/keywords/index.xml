@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Keywords on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/keywords.xml</link>
+    <link>https://www.sajalkayan.com/tag/keywords.xml</link>
     <description>Recent content in Keywords on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/keywords.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/keywords.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Ruby class to fetch suggested keywords</title>
-      <link>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</link>
+      <link>https://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</link>
       <pubDate>Sun, 03 Aug 2008 22:53:12 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</guid>
+      <guid>https://www.sajalkayan.com/ruby-class-fetch-suggested-keywords.html</guid>
       <description>I have recently &lt;a href=&#34;http://twitter.com/sajal/statuses/872225824&#34;&gt;ditched Perl and fell for Ruby&lt;/a&gt;. 
 
 Here is a Ruby class which gets suggested keywords from yahoo API and presents it in a comma separated list. This might be useful for people who use Ruby to upload/edit multiple posts and need to tag them automagically.
@@ -58,7 +58,7 @@ class Tagger
       return keywords
   end
 end&lt;/pre&gt;
-Download the class &lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/08/tagger.rb&#34;&gt;here&lt;/a&gt;
+Download the class &lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/08/tagger.rb&#34;&gt;here&lt;/a&gt;
 Sample usage :
 &lt;pre lang=&#34;ruby&#34;&gt;require &#39;tagger&#39;
 tagg = Tagger.new

@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Analysis on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/analysis.xml</link>
+    <link>https://www.sajalkayan.com/tag/analysis.xml</link>
     <description>Recent content in Analysis on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/analysis.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/analysis.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Page Speed Analysis: Search Engine Roundtable</title>
-      <link>http://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</link>
+      <link>https://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</link>
       <pubDate>Fri, 30 Jul 2010 17:25:40 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</guid>
-      <description>I am planing to do a series of posts on analyzing popular websites I visit frequently. By now I am so &lt;a href=&#34;http://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html&#34; title=&#34;ATTN Big Media: Web page speed matters!&#34;&gt;obsessed to optimize for speed&lt;/a&gt; that I&#39;ve run out of sites to optimize, hence I&#39;m doing it for other sites.
+      <guid>https://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</guid>
+      <description>I am planing to do a series of posts on analyzing popular websites I visit frequently. By now I am so &lt;a href=&#34;https://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html&#34; title=&#34;ATTN Big Media: Web page speed matters!&#34;&gt;obsessed to optimize for speed&lt;/a&gt; that I&#39;ve run out of sites to optimize, hence I&#39;m doing it for other sites.
 
 To start with I&#39;ll analyze &lt;a href=&#34;http://www.seroundtable.com/&#34;&gt;Search Engine Roundtable&lt;/a&gt;.
 
@@ -117,7 +117,7 @@ So Out of 50 requests made to www.seroundtable.com, 37 of them can be completely
         &lt;li&gt; &lt;strong&gt;Compress images&lt;/strong&gt;(Easy) : My favorite tool for this is &lt;a href=&#34;http://developer.yahoo.com/yslow/smushit/&#34;&gt;Smush.it&lt;/a&gt; by Yahoo! Similar results can be achieved using say GIMP or Photoshop.&lt;/li&gt;
         &lt;li&gt; &lt;strong&gt;Use cookie-less domain for static content&lt;/strong&gt;(Easy/Important): Serve static files(images/css/etc) from an external domain. Currently, the site sets cookies which the browser automatically sends with each subsequent request to the server while requesting static files. This cookie information is absolutely useless to the server and causes the request size to be big. The workaround is to host these files on another dedicated cookieless domain, say www.serassets.com or something. This tip may not sound important, in fact I used to ignore it, but once implemented the effects are HUGE.&lt;/li&gt;
         &lt;li&gt; &lt;strong&gt;Minify code&lt;/strong&gt; (Easy/Optional): Minify HTML, run the inline javascript using &lt;a href=&#34;http://closure-compiler.appspot.com/home&#34;&gt;Google&#39;s Closure Compiler&lt;/a&gt; for faster execution. Smaller files also require lesser resources on the browser.&lt;/li&gt;
-        &lt;li&gt; &lt;strong&gt;Use a CDN&lt;/strong&gt;(Easy): A &lt;a href=&#34;http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;CDN (Content Delivery Network)&lt;/a&gt; mantains POPs (Point Of Presence) globally, and can be used to serve the static files(images, javascripts, css, etc) which would be served from a server closer to you. The charges are not much. So if &lt;em&gt;SERoundtable.com&lt;/em&gt; used say &lt;a href=&#34;http://www.internap.com/&#34;&gt;Internap&lt;/a&gt;, I would be accessing the static files from a server in Singapore instead of US. In case of &lt;a href=&#34;http://www.akamai.com/&#34;&gt;Akamai&lt;/a&gt; I&#39;d be accessing the static assets from a server within my ISPs network! Choose any from this &lt;a href=&#34;http://www.mytestbox.com/miscellaneous/content-delivery-networks-cdn-list/&#34;&gt;list of CDNs&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Use a CDN&lt;/strong&gt;(Easy): A &lt;a href=&#34;https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;CDN (Content Delivery Network)&lt;/a&gt; mantains POPs (Point Of Presence) globally, and can be used to serve the static files(images, javascripts, css, etc) which would be served from a server closer to you. The charges are not much. So if &lt;em&gt;SERoundtable.com&lt;/em&gt; used say &lt;a href=&#34;http://www.internap.com/&#34;&gt;Internap&lt;/a&gt;, I would be accessing the static files from a server in Singapore instead of US. In case of &lt;a href=&#34;http://www.akamai.com/&#34;&gt;Akamai&lt;/a&gt; I&#39;d be accessing the static assets from a server within my ISPs network! Choose any from this &lt;a href=&#34;http://www.mytestbox.com/miscellaneous/content-delivery-networks-cdn-list/&#34;&gt;list of CDNs&lt;/a&gt;.&lt;/li&gt;
     &lt;/ol&gt;
 &lt;/li&gt;
 
@@ -151,7 +151,7 @@ A word of caution to other optimizers, don&#39;t get over obsessed with yslow, G
 
 &lt;h3&gt;Shameless Plug&lt;/h3&gt;
 
-I am available for &lt;a href=&#34;http://www.sajalkayan.com/web-speed-consulting-services&#34;&gt;consulting on web speed issues&lt;/a&gt;, contact details in the right sidebar.
+I am available for &lt;a href=&#34;https://www.sajalkayan.com/web-speed-consulting-services&#34;&gt;consulting on web speed issues&lt;/a&gt;, contact details in the right sidebar.
 </description>
     </item>
     

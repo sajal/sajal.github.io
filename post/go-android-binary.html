@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> Building binary executables for Android in Go &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Tue, Jan 26, 2016
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="Building binary executables for Android in Go" 
+      data-text="Building binary executables for Android in Go"
       data-url="http://www.sajalkayan.com/post/go-android-binary.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="Building binary executables for Android in Go"
@@ -93,10 +93,11 @@ https://keybase.io/sajal -->
     
     
   </span>
+      
       <p>I have a use-case to run an <em>external</em> Go binary from within an Android app. By <em>external</em> i mean something that was not bundled inside the APK, but rather (in my case) downloaded from the Internet. The reason for not bundling in-APK is that I need to be able to auto-upgrade the binary without upgrading the APK. APK updates either require user-action or play store or root - all three are not possible for my use-case. I spent an entire day on the issue(android n00b here), which turned out to be a very simple <strike>problem</strike> solution.</p>
 
 <p>First thing I tried was building normal <code>linux/arm</code> binaries that I use for normal arm devices.
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~<span style="color: #996633">$ GOARCH</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;arm&quot;</span> go build /path/to/filewithmain.go
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~$ <span style="color: #996633">GOARCH</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;arm&quot;</span> go build /path/to/filewithmain.go
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
 
@@ -124,15 +125,15 @@ sajal@sajal-lappy:~$
 
       
       <div>
-  Tags:  
+  Tags: 
     <a href="/tag/android">android</a> </li>
-   
+  
     <a href="/tag/go">go</a> </li>
-   
+  
     <a href="/tag/golang">golang</a> </li>
-   
+  
     <a href="/tag/gomobile">gomobile</a> </li>
-   
+  
     <a href="/tag/binary">binary</a> </li>
    <br />
   Categories:  <br />
@@ -148,7 +149,7 @@ sajal@sajal-lappy:~$
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -173,22 +174,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKPhK0P/RkH2KybVbflIqP3kcYOkb+a
-5JQ1GjuKe+cZA6vWmG5xxaiPSQWdOrCZ//ptJvZZQQbuy7Ad/4KSAcJZXkpsgCDs
-y0+YS/mK1K4hGvGouF1iM2f5VcLq7l6vBBOq+Y5+F0adQG8Va/tG4jD/ZP0wv493
-IA9S6GXuEpxiWL7KOcVQ8rqvJBU9/1q99W3Lb3OfcL4TCaAFRzc4WxJXC9GlyTzN
-of9qz7QaHFhxCpyPLT3PqMg3zoG9ZiH04V+D9/Kzfz7YQOjR1zyuyAMw9obGAgOe
-gj7MXP4AXYUQVfp1MKAUzLY0QS+UeL9p8W7vGVkOz2IDUJL74I1FqBGBb/1x15rW
-g0H3DgueOwQYEmBLYm1bdcIQPynijY4CT41T4116MKF7JIKImLRuDnzm80pRTT52
-8hONrXqFsw61EFpTY8IRjd1RqdjR4Wy65voTqcEF6abxCSD7Uw2Hluol6xHrekQ/
-rLU/egLRm1qzLq2T8dHX0pcfiNRaP8ovMn/8mjf0Cs1QiS3xgHgt8zWWR/FCRzqd
-ZbSAq0I+jJMBNPiS2cI0F5SfbyWgV+zAIclbJwnUifcMvA9BWf3riwG4X9+vUHZk
-xVUlJukB3uQOX9CWloQgxvvyrvaVo3emWXEBbCcGNMWDUX0jLnij7jOzgsk0J18x
-mZOvW21BljuQu5R8Ydoz
-=Sxf8
+iQIcBAEBCAAGBQJazjPyAAoJEDlkkKy/FYKPaHQP/iUoBrsXuNsFVmPOlYB6ML07
+8isawwYUoGL5LI2OzrvY142nFnLJ7zF4/+ym9gdUPBCo9pY+5AiZzOICvdm8hmlT
+fPkGF64zFeBBXsyO+vOWrJim5tmivgJMWTvEIjMiSk5c20eHmiJWhNZbHATGOXiZ
+rC1Z3983eJ8kT7+LvQLIsgB+z16h5sxCTXiX/0rnRSyARfBCKs/cMqcsEVNLYTDz
+DjPiUJtwLh59UwmpWz0VaJtoaeCfyNK7pdtcsARIWz63BEtE/ekjQRBOQmrIcltC
+9n6SAHcAOsWbTnQN8zmc8YGMXHv/nTIBs3L0eEHAfkUyUyDqlr1LmC0cxBulbs1i
+gY+HrMPLxv3hwh9xiuhj88Uxkv4l2LM7g1Ci/JpNflsd0x0zCcovSXOMgeeo7kQf
+o7oXd1/bNZ6wx0xUQ3k8xHnZPu0Dt6BXpsjjPQdoSTBoPUWapKm/IfaRjEncuHpo
+LxMrvDoRlLvuSBqxeu+bIosJor+Ld0Vf6au10RPSGVOG+1GMEbQBWxWbIwGVqsUS
+2dLA0RcqTe8Tc2jfQt2Se5eGR4Q3fwkiIZUAfpgA6IWVQWNz5UhQ8dQebOaASGUJ
+tpKPVz2kHoDduQsSvhyhoiDE2etpKBBSYqinvSXvoczlkcID3zbQ7weN7drLfqge
+mRUXE2ysJgLaPZDt5srC
+=E6eB
 -----END PGP SIGNATURE-----
 -->

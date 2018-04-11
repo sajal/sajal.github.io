@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/category/linux.xml</link>
+    <link>https://www.sajalkayan.com/category/linux.xml</link>
     <description>Recent content in Linux on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/category/linux.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/category/linux.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Disco &#43; EC2 spot instance = WIN</title>
-      <link>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
+      <link>https://www.sajalkayan.com/disco-ec2-spot-instance-win.html</link>
       <pubDate>Tue, 30 Oct 2012 13:13:59 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
+      <guid>https://www.sajalkayan.com/disco-ec2-spot-instance-win.html</guid>
       <description>&lt;p&gt;tl;dr version : &lt;a href=&#34;https://github.com/sajal/disposabledisco&#34;&gt;This&lt;/a&gt; is how I spent a Saturday evening.&lt;/p&gt;
 
 	&lt;p&gt;&amp;lt;blink&amp;gt;&lt;strong&gt;Warning&lt;/strong&gt;: If you like to write Java, stop reading now. Go back to using Hadoop. It&#39;s a much more mature project.&amp;lt;/blink&amp;gt;&lt;/p&gt;
@@ -174,10 +174,10 @@ MyExampleJob().run(
     
     <item>
       <title>Simple command to &#34;watch&#34; the webserver access log</title>
-      <link>http://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html</link>
+      <link>https://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html</link>
       <pubDate>Fri, 02 Apr 2010 14:34:16 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html</guid>
+      <guid>https://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html</guid>
       <description>I am often curious as to what bots are going on my site at any given moment. So much so that I devote one terminal tab to running this script.
 
 save the following as say bot.sh and make it executable :-
@@ -200,7 +200,7 @@ OR
 
 and so on....
 
-&lt;strong&gt;UPDATE&lt;/strong&gt;: Better &lt;a href=&#34;http://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html#comment-1039&#34;&gt;alternative&lt;/a&gt; by &lt;a href=&#34;http://whsgroup.ath.cx/&#34;&gt;willwill&lt;/a&gt;. Save as bot.sh:-
+&lt;strong&gt;UPDATE&lt;/strong&gt;: Better &lt;a href=&#34;https://www.sajalkayan.com/simple-command-to-watch-the-webserver-access-log.html#comment-1039&#34;&gt;alternative&lt;/a&gt; by &lt;a href=&#34;http://whsgroup.ath.cx/&#34;&gt;willwill&lt;/a&gt;. Save as bot.sh:-
 &lt;pre lang=&#34;bash&#34;&gt;#!/bin/bash
 watch &#34;tail -f /path/to/access.log | grep $1&#34;&lt;/pre&gt;
 </description>
@@ -208,20 +208,20 @@ watch &#34;tail -f /path/to/access.log | grep $1&#34;&lt;/pre&gt;
     
     <item>
       <title>A beautiful video about LINUX</title>
-      <link>http://www.sajalkayan.com/a-beautiful-video-about-linux.html</link>
+      <link>https://www.sajalkayan.com/a-beautiful-video-about-linux.html</link>
       <pubDate>Thu, 25 Dec 2008 12:49:11 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/a-beautiful-video-about-linux.html</guid>
+      <guid>https://www.sajalkayan.com/a-beautiful-video-about-linux.html</guid>
       <description>&lt;object width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/7BOCfzkXJOc&amp;hl=en&amp;fs=1&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/7BOCfzkXJOc&amp;hl=en&amp;fs=1&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
 </description>
     </item>
     
     <item>
       <title>Make your own cheap charlie CDN</title>
-      <link>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
+      <link>https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
       <pubDate>Sat, 28 Jun 2008 05:26:21 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
+      <guid>https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
       <description>&lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network&#34; target=&#34;_self&#34;&gt;CDN&lt;/a&gt; stands for Content Delivery(or Distribution) Network. It is a network of servers usually located in various geographic locations to improve the availability and access speed of a website (or webapp or other media). The main use of CDNs were during the nineteens when inter-continental access was slow, scarce and expensive. Origin server could be in the silicon valley, users from UK would access the node located in UK, so in theory only once the page would be downloaded from the US server to the UK server. Thus allowing the UK visitors to access the page locally resulting in a huge saving in inter-continental bandwidth costs and improved access times for the end users.
 
 CDNs are traditionally a very expensive solution to implement if using any of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network#Commercial_CDNs&#34;&gt;established providers&lt;/a&gt;. The solution in itself is not very complex. I am in the process of implementing my very own CDN. The benefits are simple.
@@ -349,10 +349,10 @@ Also.. if squid supports ssl, would it be possible to use https (and also instal
     
     <item>
       <title>Open letter to Thailand&#39;s Software Bullies</title>
-      <link>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</link>
+      <link>https://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</link>
       <pubDate>Sat, 21 Jun 2008 04:04:26 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</guid>
+      <guid>https://www.sajalkayan.com/open-letter-to-thailands-software-bullies.html</guid>
       <description>Kind attn : &lt;strong&gt;Microsoft&lt;/strong&gt; Thailand (Sorry I cant read your Thai only website)
 Kind attn : &lt;strong&gt;Lenovo&lt;/strong&gt; Thailand (Sorry cant find name of contact on your site)
 Kind attn : Prasert Charoonpaisal - General Manager - Personal Systems Group (PSG) - &lt;strong&gt;HP&lt;/strong&gt; Thailand
@@ -403,10 +403,10 @@ Update 2 : Online discussions at &lt;a href=&#34;http://www.blognone.com/node/81
     
     <item>
       <title>My history</title>
-      <link>http://www.sajalkayan.com/my-history.html</link>
+      <link>https://www.sajalkayan.com/my-history.html</link>
       <pubDate>Mon, 14 Apr 2008 17:02:35 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/my-history.html</guid>
+      <guid>https://www.sajalkayan.com/my-history.html</guid>
       <description>Stolen idea from &lt;a href=&#34;http://sugree.com/node/114&#34; title=&#34;Sugree&#39;s history&#34; target=&#34;_blank&#34;&gt;Sugree&lt;/a&gt;...
 &lt;pre lang=&#34;Bash&#34;&gt;[sajal@localhost ~]$ history|awk &#39;{a[$2]++} END{for(i in a){printf &#34;%5d\t%s\n&#34;,a[i],i}}&#39;|sort -rn|head
 239   ./autofollow.pl
@@ -425,10 +425,10 @@ Update 2 : Online discussions at &lt;a href=&#34;http://www.blognone.com/node/81
     
     <item>
       <title>Why cant FOSS succeed in India?</title>
-      <link>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</link>
+      <link>https://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</link>
       <pubDate>Mon, 18 Feb 2008 20:29:27 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</guid>
+      <guid>https://www.sajalkayan.com/why-cant-foss-succeed-in-india.html</guid>
       <description>Recently Julie posted an interesting article called &#34;&lt;a href=&#34;http://goeastyoungwoman.wordpress.com/2008/02/17/open-source-development-women-and-asians-last/&#34;&gt;&lt;em&gt;open source development: women and Asians last&lt;/em&gt;&lt;/a&gt;&#34;. This attributes the main reason for Women and Asian people&#39;s lesser involvement in Open Source development to be its confrontational nature. It does make sense to an extent as far as Thailand is concerned, Thai people generally try to avoid confrontations. Women on the other hand is a species I can never understand.
 
 IMHO, the main issue is software piracy. The uninformed tend to think that &lt;strong&gt;Free Software == Cheap Software&lt;/strong&gt;. Cheap as in low quality. Proprietary software comes at a big price tag, so it must be good? A couple of months ago I visited a lawyer in Thailand and i booted my notebook(loaded with Fedora 7) to show him something. This person immediately remarked &#34;&lt;em&gt;Is that Vista?&lt;/em&gt;&#34; I told him &#34;&lt;em&gt;NO, Its Linux&lt;/em&gt;.&#34;. He found it hard to digest that I was running a far superior GUI than his crappy XP and it was Free. He replied &#34;&lt;strong&gt;&lt;em&gt;Isint Linux same like DOS?&lt;/em&gt;&lt;/strong&gt;&#34;. This person in question is quite computer literate, did his Masters in the States, manages his own website which by the way runs on an open source script uses open source PHP and MYSQL software and is probably hosted on a server running open source Linux. These people are so into the marketing BS coming from software vendors that they &lt;strong&gt;outright reject &lt;em&gt;Free Software&lt;/em&gt;&lt;/strong&gt;.&lt;!--more--&gt;
@@ -459,10 +459,10 @@ Interesting Articles-Seems &lt;strong&gt;India has changed since i left&lt;/stro
     
     <item>
       <title>Yet another PC - Mac video</title>
-      <link>http://www.sajalkayan.com/yet-another-pc-mac-videos.html</link>
+      <link>https://www.sajalkayan.com/yet-another-pc-mac-videos.html</link>
       <pubDate>Thu, 17 Jan 2008 14:07:15 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/yet-another-pc-mac-videos.html</guid>
+      <guid>https://www.sajalkayan.com/yet-another-pc-mac-videos.html</guid>
       <description>&lt;object width=&#34;425&#34; height=&#34;355&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/Pa1RCg-Ccp0&amp;rel=1&#34;&gt;&lt;/param&gt;&lt;param name=&#34;wmode&#34; value=&#34;transparent&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/Pa1RCg-Ccp0&amp;rel=1&#34; type=&#34;application/x-shockwave-flash&#34; wmode=&#34;transparent&#34; width=&#34;425&#34; height=&#34;355&#34;&gt;&lt;/embed&gt;&lt;/object&gt;&lt;br&gt;
 Seems some people just wont stop making us laugh and bring out the truth. A couple of months ago I showed my Fedora 7 loaded notebook to someone (who has both mac and a windows workstations). She immediately  commented.. &#34;ohh that looks like a mix of mac and windows.&#34;. I guess this video explains it.
 </description>
@@ -470,10 +470,10 @@ Seems some people just wont stop making us laugh and bring out the truth. A coup
     
     <item>
       <title>Linux at NYSE</title>
-      <link>http://www.sajalkayan.com/linux-at-nyse.html</link>
+      <link>https://www.sajalkayan.com/linux-at-nyse.html</link>
       <pubDate>Thu, 10 Jan 2008 12:53:17 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/linux-at-nyse.html</guid>
+      <guid>https://www.sajalkayan.com/linux-at-nyse.html</guid>
       <description>This would be one of my favourites at &lt;a href=&#34;http://ars.userfriendly.org/cartoons/?id=20071216&#34; target=&#34;_blank&#34;&gt;UserFriendly&lt;/a&gt;
 
 &lt;a href=&#34;http://www.userfriendly.org/cartoons/archives/07dec/uf011016.gif&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;http://www.userfriendly.org/cartoons/archives/07dec/uf011016.gif&#34; alt=&#34;Linux at NYSE : No one likes a crash&#34; border=&#34;0&#34; hspace=&#34;0&#34; vspace=&#34;0&#34; width=&#34;500&#34; /&gt;&lt;/a&gt;
@@ -484,10 +484,10 @@ Seems some people just wont stop making us laugh and bring out the truth. A coup
     
     <item>
       <title>Secure Proxy using Squid</title>
-      <link>http://www.sajalkayan.com/secure-proxy-using-squid.html</link>
+      <link>https://www.sajalkayan.com/secure-proxy-using-squid.html</link>
       <pubDate>Sat, 05 Jan 2008 05:16:52 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
+      <guid>https://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
       <description>Had originally posted this on Friday, September 29th, 2006 during the peak of Takhsin&#39;s rampant blocking of websites and the blocking proxies were messing up often blocking un-blocked pages also.
 
 It is very important to use a secure proxy if you browse the web from unsecure Networks.

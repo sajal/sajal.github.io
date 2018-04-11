@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Simplecdn on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/simplecdn.xml</link>
+    <link>https://www.sajalkayan.com/tag/simplecdn.xml</link>
     <description>Recent content in Simplecdn on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/simplecdn.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/simplecdn.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>SimpleCDN goes down - a case for using multiple CDN providers</title>
-      <link>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
+      <link>https://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
       <pubDate>Sat, 11 Dec 2010 21:24:49 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
+      <guid>https://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
       <description>CDN provider &lt;a href=&#34;http://www.simplecdn.com/&#34;&gt;SimpleCDN&lt;/a&gt; has been down since last few days, with their customers venting their anger via online channels such as &lt;a href=&#34;http://search.twitter.com/search?q=SimpleCDN&#34;&gt;twitter&lt;/a&gt;.
 
-To know more about what a CDN is, please read &lt;a href=&#34;http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;this post&lt;/a&gt;.
+To know more about what a CDN is, please read &lt;a href=&#34;https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;this post&lt;/a&gt;.
 
 The reason given by them :-
 

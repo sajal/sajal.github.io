@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Google Analytics on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/google-analytics.xml</link>
+    <link>https://www.sajalkayan.com/tag/google-analytics.xml</link>
     <description>Recent content in Google Analytics on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/google-analytics.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/google-analytics.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Attention skeptics: Web Performance Optimization works!</title>
-      <link>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</link>
+      <link>https://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</link>
       <pubDate>Sat, 14 May 2011 14:39:14 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</guid>
+      <guid>https://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</guid>
       <description>Today, I was looking into web performance issues for a new client who wishes to remain anonymous and saw an interesting example of value provided by improving performance.
 
 One of the first things I do when looking into a new site is look at Google Analytics to understand a little about the sites visitors. This helps in prioritizing changes which affects the majority of users.

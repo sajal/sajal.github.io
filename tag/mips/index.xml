@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Mips on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/mips.xml</link>
+    <link>https://www.sajalkayan.com/tag/mips.xml</link>
     <description>Recent content in Mips on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/mips.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/mips.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Running Go programs on $15 device - Beyond Hello World</title>
-      <link>http://www.sajalkayan.com/post/golang-openwrt-mips.html</link>
+      <link>https://www.sajalkayan.com/post/golang-openwrt-mips.html</link>
       <pubDate>Wed, 25 Feb 2015 18:14:00 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/golang-openwrt-mips.html</guid>
+      <guid>https://www.sajalkayan.com/post/golang-openwrt-mips.html</guid>
       <description>
 
 &lt;p&gt;I recently purchased a &lt;a href=&#34;http://wiki.openwrt.org/toh/nexx/wt1520&#34;&gt;WT1520&lt;/a&gt; router for $15 from Aliexpress to play with. I have a project in mind which would require few nodes running my custom Go code spread out throughout the world. A Raspberry Pi (almost $40 if you include SD card, etc) fits perfectly for my purpose, but I am looking to be cheap. Not to be dissing on the pi, its awesome and LOT more powerful than the WT1520, I&amp;rsquo;m just trying to find the cheapest device for my purpose.
 &lt;figure&gt;
-    &lt;img src=&#34;http://www.sajalkayan.com/images/wt1520-raspi.jpg&#34; alt=&#34;Raspberry Pi and WT1520 doing the same thing&#34; title=&#34;Raspberry Pi and WT1520 doing the same thing&#34; \&gt;
+    &lt;img src=&#34;https://www.sajalkayan.com/images/wt1520-raspi.jpg&#34; alt=&#34;Raspberry Pi and WT1520 doing the same thing&#34; title=&#34;Raspberry Pi and WT1520 doing the same thing&#34; \&gt;
     &lt;figcaption&gt;Raspberry Pi ($35+) and WT1520 ($15 shipped) doing the same thing&lt;/figcaption&gt;
 &lt;/figure&gt;
 Having no experience with OpenWrt, this &lt;a href=&#34;http://akagi201.org/blog/golang-on-openwrt/&#34;&gt;blog post&lt;/a&gt; (sidenote: our blogs look similar) helped a lot to get Hello World running.&lt;/p&gt;
@@ -27,11 +27,11 @@ Having no experience with OpenWrt, this &lt;a href=&#34;http://akagi201.org/blog
 
 &lt;p&gt;I couldn&amp;rsquo;t use the &lt;a href=&#34;https://github.com/GeertJohan/openwrt-go&#34;&gt;gccgo fork&lt;/a&gt; directly because support for my architecture was added at a later stage, so I had to clone the upstream master and patch it.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;git clone git://git.openwrt.org/openwrt.git
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;cd &lt;/span&gt;openwrt
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make menuconfig
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;make -j8
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;$ git clone git://git.openwrt.org/openwrt.git
+$ &lt;span style=&#34;color: #007020&#34;&gt;cd&lt;/span&gt; openwrt
+$ curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
+$ make menuconfig
+$ make -j8
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -43,9 +43,9 @@ Ive removed usb and wifi related things to keep the image small. It seems eglibc
 
 &lt;p&gt;Building hello world is simple&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;export &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;alias &lt;/span&gt;&lt;span style=&#34;color: #996633&#34;&gt;gccgo&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&amp;#39;&lt;/span&gt;
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;gccgo -o hello ~/hello.go -static-libgo
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;$ &lt;span style=&#34;color: #007020&#34;&gt;export&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;PATH&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:&lt;span style=&#34;color: #996633&#34;&gt;$PATH&lt;/span&gt;
+$ &lt;span style=&#34;color: #007020&#34;&gt;alias&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;gccgo&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&amp;#39;&lt;/span&gt;
+$ gccgo -o hello ~/hello.go -static-libgo
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -122,10 +122,10 @@ gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-
 
 &lt;p&gt;Note: I had to adjust code a bit to support the ancient Go implementation&amp;hellip; Specifically the TLS implementation and cipher suits.&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;file minion
-minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;uses shared libs&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; GNU/Linux 2.6.16, not stripped
-&lt;span style=&#34;color: #996633&#34;&gt;$ &lt;/span&gt;ls -lh minion
--rwxrwxr-x &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal 9.3M Feb &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;26&lt;/span&gt; 00:25 minion
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;$ file minion
+minion: ELF &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;32&lt;/span&gt;-bit LSB  executable, MIPS, MIPS32 rel2 version &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;, dynamically linked &lt;span style=&#34;color: #333333&#34;&gt;(&lt;/span&gt;uses shared libs&lt;span style=&#34;color: #333333&#34;&gt;)&lt;/span&gt;, &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;for&lt;/span&gt; GNU/Linux &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt;.6.16, not stripped
+$ ls -lh minion
+-rwxrwxr-x &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; sajal sajal &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;9&lt;/span&gt;.3M Feb &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;26&lt;/span&gt; &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;00&lt;/span&gt;:25 minion
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 

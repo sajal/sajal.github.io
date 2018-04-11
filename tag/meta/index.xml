@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Meta on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/meta.xml</link>
+    <link>https://www.sajalkayan.com/tag/meta.xml</link>
     <description>Recent content in Meta on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/meta.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/meta.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)</title>
-      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
+      <link>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
       <pubDate>Tue, 26 Feb 2008 09:38:47 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
-      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
+      <guid>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
+      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
 
 Meta tags are an important part of the web page. They are used to pass information to browsers and bots and are not intended for the average browser to see. We will basically discuss about the 2 most common meta attributes which are &lt;strong&gt;keywords&lt;/strong&gt; and &lt;strong&gt;description&lt;/strong&gt;.
 
 &lt;strong&gt;In Joomla&lt;/strong&gt;, The editing of the meta tags is a core functionality, and can be added while editing or creating content.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
 
 Also note the &#34;Sect/Cat/Title&#34; button. when pressing it it automatically adds the Section name, Category name and the title of the content into the Keyword attribute.
 
 &lt;strong&gt;In Drupal&lt;/strong&gt;, the meta attributes cant be set by default, you would need to install a module such as &#34;&lt;a href=&#34;http://drupal.org/project/nodewords&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;Meta Tags&lt;/strong&gt;&lt;/a&gt;&#34; to do this for you.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
 
 This is the box while editing a node.
 

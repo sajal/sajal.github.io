@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> Figuring out MAC address of a fitbit tracker &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Sat, Sep 24, 2016
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="Figuring out MAC address of a fitbit tracker" 
+      data-text="Figuring out MAC address of a fitbit tracker"
       data-url="http://www.sajalkayan.com/post/fitbit-bluetooth-mac.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="Figuring out MAC address of a fitbit tracker"
@@ -94,6 +94,7 @@ https://keybase.io/sajal -->
     
   </span>
       
+      
 
 <p><a href="/post/presence-bluetooth.html">Last week I posted</a> about potentially using my fitbit Charge HR for presence, and was looking for some way to figure out its MAC address. Here are some ways to do it.</p>
 
@@ -103,13 +104,13 @@ https://keybase.io/sajal -->
 
 <p>Then from some linux host with BLE enabled adapter (in my case raspberry pi 3 ) run a <code>lescan</code>.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~<span style="color: #996633">$ </span>sudo hcitool lescan
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~$ sudo hcitool lescan
 LE Scan ...
 xx:xx:xx:xx:xx:xx <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
-12:34:56:78:9A:BC <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
-12:34:56:78:9A:BC Charge HR
-^Cpi@raspberrypi:~<span style="color: #996633">$ </span>
+<span style="color: #6600EE; font-weight: bold">12</span>:34:56:78:9A:BC <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
+<span style="color: #6600EE; font-weight: bold">12</span>:34:56:78:9A:BC Charge HR
+^Cpi@raspberrypi:~$ 
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
 
@@ -120,19 +121,19 @@ yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color
 
 <p><a href="https://bitbucket.org/benallard/galileo/">Galileo</a> is project that allows you to sync your tracker using the bundled dongle that comes with fitbit. It&rsquo;s python and useful if you use linux since fitbit does not provide software for it.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~/path/to/galileo<span style="color: #996633">$ </span>./run --fitbit-server client.fitbit.com --force -v
-2016-09-24 22:07:11,549:INFO: Disconnecting from any connected trackers
-2016-09-24 22:07:13,555:INFO: Got an I/O Timeout <span style="color: #333333">(</span>&gt; 2000ms<span style="color: #333333">)</span> <span style="color: #008800; font-weight: bold">while</span> reading!
-2016-09-24 22:07:13,559:INFO: Discovering trackers to synchronize
-2016-09-24 22:07:13,565:INFO: Ignoring message: StartDiscovery
-2016-09-24 22:07:17,569:INFO: <span style="color: #6600EE; font-weight: bold">1</span> trackers discovered
-2016-09-24 22:07:17,569:INFO: Attempting to synchronize tracker BC9A78563412
-2016-09-24 22:07:17,575:INFO: Starting new HTTPS connection <span style="color: #333333">(</span>1<span style="color: #333333">)</span>: client.fitbit.com
-2016-09-24 22:07:24,401:INFO: Getting data from tracker
-2016-09-24 22:07:25,752:INFO: Sending tracker data to Fitbit
-2016-09-24 22:07:25,753:INFO: Starting new HTTPS connection <span style="color: #333333">(</span>1<span style="color: #333333">)</span>: client.fitbit.com
-2016-09-24 22:07:27,165:INFO: Successfully sent tracker data to Fitbit
-2016-09-24 22:07:27,165:INFO: Passing Fitbit response to tracker
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;sajal@sajal-lappy:~/path/to/galileo$ ./run --fitbit-server client.fitbit.com --force -v
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:11,549:INFO: Disconnecting from any connected trackers
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:13,555:INFO: Got an I/O Timeout <span style="color: #333333">(</span>&gt; 2000ms<span style="color: #333333">)</span> <span style="color: #008800; font-weight: bold">while</span> reading!
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:13,559:INFO: Discovering trackers to synchronize
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:13,565:INFO: Ignoring message: StartDiscovery
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:17,569:INFO: <span style="color: #6600EE; font-weight: bold">1</span> trackers discovered
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:17,569:INFO: Attempting to synchronize tracker BC9A78563412
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:17,575:INFO: Starting new HTTPS connection <span style="color: #333333">(</span><span style="color: #6600EE; font-weight: bold">1</span><span style="color: #333333">)</span>: client.fitbit.com
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:24,401:INFO: Getting data from tracker
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:25,752:INFO: Sending tracker data to Fitbit
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:25,753:INFO: Starting new HTTPS connection <span style="color: #333333">(</span><span style="color: #6600EE; font-weight: bold">1</span><span style="color: #333333">)</span>: client.fitbit.com
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:27,165:INFO: Successfully sent tracker data to Fitbit
+<span style="color: #6600EE; font-weight: bold">2016</span>-09-24 <span style="color: #6600EE; font-weight: bold">22</span>:07:27,165:INFO: Passing Fitbit response to tracker
 Tracker: BC9A78563412: Synchronisation successful
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
@@ -146,7 +147,7 @@ Tracker: BC9A78563412: Synchronisation successful
 
 <p><code>GET https://api.fitbit.com/1/user/-/devices.json</code></p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #FF0000; background-color: #FFAAAA">&lt;pre&gt;&lt;code&gt;</span>[
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span><span style="color: #FF0000; background-color: #FFAAAA">&lt;pre&gt;&lt;code&gt;</span>[
   {
     <span style="color: #007700">&quot;battery&quot;</span>: <span style="background-color: #fff0f0">&quot;High&quot;</span>,
     <span style="color: #007700">&quot;deviceVersion&quot;</span>: <span style="background-color: #fff0f0">&quot;Charge HR&quot;</span>,
@@ -161,7 +162,7 @@ Tracker: BC9A78563412: Synchronisation successful
 ]
 <span style="color: #FF0000; background-color: #FFAAAA">&lt;/code&gt;&lt;/pre&gt;</span>
 </pre></div>
-
+</p>
 
 <p>This again shows the reversed-byte MAC address in the <code>mac</code> field.</p>
 
@@ -169,7 +170,7 @@ Tracker: BC9A78563412: Synchronisation successful
 
 <h4 id="presence-server-upgrade">Presence server upgrade</h4>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #008800; font-weight: bold">package</span> main
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;<span style="color: #008800; font-weight: bold">package</span> main
 
 <span style="color: #008800; font-weight: bold">import</span> (
 	<span style="background-color: #fff0f0">&quot;flag&quot;</span>
@@ -260,13 +261,13 @@ Tracker: BC9A78563412: Synchronisation successful
 
       
       <div>
-  Tags:  
+  Tags: 
     <a href="/tag/fitbit">fitbit</a> </li>
-   
+  
     <a href="/tag/bluetooth">bluetooth</a> </li>
-   
+  
     <a href="/tag/presence">presence</a> </li>
-   
+  
     <a href="/tag/go">go</a> </li>
    <br />
   Categories:  <br />
@@ -282,7 +283,7 @@ Tracker: BC9A78563412: Synchronisation successful
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -307,22 +308,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPSwkQAIdA0+iqVSzzFbA5R0iN+loq
-VHeoB53YOGNKd+M75ynBELKevw0qNqf8IRU/zgx1SjExQ7JAQBRF51uMghGJP8DX
-/QPDarUYiBsu9ahM0N/NxNNm4qwSdbjnLRuaGPYg9aiSh3i2J32oB6GpK1v7kxf1
-xlz4xToURoBv4AvIY8UKbjVaFeNjDfHdv6xOEyXi9GfoK2Y68rwQ3TaGQOYkv4DB
-yX6hKLHskrMqW3nt48mdyYcLIO4f2ERxvwMKh0J795WrX7ENnxowDfUxDCp16ZI3
-EjjkLXpz0XdQIt1J0ihh86R+e6OpOiQOnMolQbfI1TdsOUXhYEesVIwpZIe2lnR1
-xJxOfOacfinEPsz4KujCmbOuvu25iGuOTquxgXUXx8YwVYKVedkouTgTPSvPYu3m
-jb/9SG7FwtvpGLrvTl8FP15wC3KR2FQzw+dSUj2f4cTris+Wjn4YDdTpoQ1+GzYC
-zOBwk1+bOADg1kSDrXppvJA05FLtHSkJ39bU7bGoTG1vkLWNq2QzwYENQz6BKY7M
-JAX96/muNRiw3n5q7J/NKM6bjg516TqlqP9k6Vi+FyFZYvstAYwlcFY3XIf8QDzu
-SU4gotrHzteu/MUDbMaKAJtunY+Ok97TFbwMpPUBFuCxZZNaKVFI/UEQN8QzIjQw
-874GLrlYLunpj3crE+XB
-=m1kt
+iQIcBAEBCAAGBQJazjPzAAoJEDlkkKy/FYKPIX0P/R65bl/EOaSA3HNUReSvgqen
+TDyN5C9ee6r1filJw+0yqPa+ClnJvEqPy+nMMn3F/kfmf5mF4yj7qwIXRgeg2xwx
+8CG5zgLFxf3ECvzLUEBtMDI3ah0QPGapc1yfZDyshTYF+YInLt4IEcgzBGrPRXbu
+owQ9/o0ya7d7+ehV2VdllT+VAq12aK9TFncr6I9jBzhq56086AN803oi9772FFVi
+zXq7GhvxTt8uc4dwnUpV+atK8BniwtToE8MiIZL6QJrawlOfuV5mhO9smh95q80T
+jXw6MfYrVS5ufznURFdEej62WTscIADITpGOAhpNeNLWULyaKBQj3Uw3RiLhS11D
+XRPx7U/kwQC085p6ZvvSf93nUfoj38LvxjrS96le9Lsn7lsIpow0c5adDU8PkbHR
+eTotLvT3P3012MWI6Kimvo0zj9FG38BncGZy8gqf92auCc9jY1NXyPfBw6q5CSdD
+UmODykkjh2v4ROfkKsKeV3mlWDoVtz1qUaYKhr3jLzqmoaNn5dAzT7BJmQvCMiCo
+5VMcZcDKHDtBunxvwIqpJjSa84T7cIDUtFbk3hf6I4r8NnBLbBASKNOBmxv3QX4h
++JHEnA8gSdxlgSJO5zmDsotOYcGoXx2jACq1MKipwSXlDwLC3jFP4G1iYcb1K0AA
+hTq8yjOeOJp9QMdpNmWS
+=aBu1
 -----END PGP SIGNATURE-----
 -->

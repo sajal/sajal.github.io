@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> Using MultiPath TCP to enhance home networks &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Sat, Nov 22, 2014
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="Using MultiPath TCP to enhance home networks" 
+      data-text="Using MultiPath TCP to enhance home networks"
       data-url="http://www.sajalkayan.com/post/fun-with-mptcp.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="Using MultiPath TCP to enhance home networks"
@@ -93,6 +93,7 @@ https://keybase.io/sajal -->
     
     
   </span>
+      
       
 
 <p>Over the last few months I&rsquo;ve been playing with <a href="http://multipath-tcp.org/">MultiPath TCP</a> and in this post I will show how I use it to leverage my humble <a href="http://trueonline.truecorp.co.th/">True ADSL</a> line at home.</p>
@@ -262,10 +263,10 @@ COMMIT
 
 <p>Also, each interface is maintains its own <a href="http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting">routing tables</a> using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/sh
-ip rule add from 10.8.0.20 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
-ip route add 10.8.0.0/24 dev tun0 scope link table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
-ip route add default via 10.8.0.21 dev tun0 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;#!/bin/sh
+ip rule add from <span style="color: #6600EE; font-weight: bold">10</span>.8.0.20 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip route add <span style="color: #6600EE; font-weight: bold">10</span>.8.0.0/24 dev tun0 scope link table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
+ip route add default via <span style="color: #6600EE; font-weight: bold">10</span>.8.0.21 dev tun0 table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
 ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> table <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #333333">||</span> <span style="color: #007020">true</span>
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
@@ -281,9 +282,9 @@ ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> tabl
 
 <p><strong>wvdial</strong> - To dial the ADSL connection which is itself behind a <a href="http://en.wikipedia.org/wiki/Carrier-grade_NAT">Carrier-grade NAT</a>. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.</p>
 
-<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
+<p><div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
-<span style="color: #996633">IP</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span>/sbin/ip route | grep -v default | grep ppp0 | cut -d <span style="background-color: #fff0f0">&quot; &quot;</span> -f 1<span style="background-color: #fff0f0">`</span>
+<span style="color: #996633">IP</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span>/sbin/ip route | grep -v default | grep ppp0 | cut -d <span style="background-color: #fff0f0">&quot; &quot;</span> -f <span style="color: #6600EE; font-weight: bold">1</span><span style="background-color: #fff0f0">`</span>
 <span style="color: #996633">COUNT</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">`</span><span style="color: #007020">echo</span> <span style="color: #996633">$IP</span> | wc -l<span style="background-color: #fff0f0">`</span>
 
 <span style="color: #007020">echo</span> <span style="color: #996633">$IP</span> <span style="color: #996633">$COUNT</span>
@@ -296,7 +297,7 @@ ip rule add fwmark <span style="color: #6600EE; font-weight: bold">3</span> tabl
   <span style="color: #008800; font-weight: bold">else</span>
     <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 is down&quot;</span>
     <span style="color: #007020">kill</span> -SIGHUP <span style="background-color: #fff0f0">`</span>pgrep pppd<span style="background-color: #fff0f0">`</span>
-    beep -l 25
+    beep -l <span style="color: #6600EE; font-weight: bold">25</span>
   <span style="color: #008800; font-weight: bold">fi</span>
 <span style="color: #008800; font-weight: bold">else</span>
   <span style="color: #007020">echo</span> <span style="background-color: #fff0f0">&quot;ppp0 not found?!?!?!?1&quot;</span>
@@ -337,11 +338,11 @@ The script above tries to ping the default gateway of the ppp0 interface to find
 
       
       <div>
-  Tags:  
+  Tags: 
     <a href="/tag/mptcp">mptcp</a> </li>
-   
+  
     <a href="/tag/tcp">tcp</a> </li>
-   
+  
     <a href="/tag/network">network</a> </li>
    <br />
   Categories:  <br />
@@ -357,7 +358,7 @@ The script above tries to ping the default gateway of the ppp0 interface to find
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -382,22 +383,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPUdIQAI8OXG09++5oNWl21WUi2ruI
-BO2nXfjTphhaJ4t9jtc0TX9RzAWbR2/mk8lglC0mbquawdOOFtmOW970wtASTnD9
-9ElcctEskm2dIo6v2Zr47cGxtufUXSWJcUIoq8mEsllZjdpUMYRFLrJpvxu37Hgs
-/NiI/LSqsH/MvGFmiyWD04ecfco+smP8f8VAWTbxK9KCIHaCjKLN/o1aSDbVHx7y
-9WX5uGEeWBX2UB+0c+LHSmQYY2POUy0q/ZOJSNIQ8s0LPNwhjHlBpYbukRo0ob+p
-VoHHiIhG6mPe9YXGqBORbAVY7C64vT7/fQfS6Mb+2Ru+yDjttN/M4ugaRF9iygBq
-ANuHFfTHbnKRVU9sOSqFtWQ0ph/onD/C2EY2VHOEYAidaW0eRzLq5bUByX/PxLA/
-tFPrz63Pj9gw0EJ+VB+me3akB/N9lvLocu8Jh9TkSKtOnp9IwHSvQzfun4nyVa29
-sRXQ+dEOz95lf2H1PS1RpqTn9Voq3/Q4Yj8sWHFRo3VhXK+ee7n91LPeIxGOwiAV
-Rn0aWNTJwkhwuUpl0r0QWqljN+TV9a9X84A7p4sOteLbg93ktynZBKEMU0QeSX9Z
-y8/cdEy7EKZJjbMNdJb8s5WtNj6KaeKDGQcI8Ug15G2vyJITy5N0Tm3Ah+iNT6vg
-LreCrvZg6341rlxSUhvp
-=uNDX
+iQIcBAEBCAAGBQJazjPzAAoJEDlkkKy/FYKP7BYQAKD0FXNjUvwwda6SmsPHHO5a
+PaYYC+LmcaVCR2/R65LT3PbtH9x8ksd1/erD7z28LFh5ExROy/RLuvxeTLomWRai
+qp1Hj1GEB+uYTs4G9YvVDsTTLDD8LzgByuoVCtK4pyoY2N9E19hNU7HhuBISUWfn
+MvoUaFQTfSAoBdkfU5OMvQ8ulvc3MWsw53bW8huOlhd+1jvWarXAi5KuXz0vXdrx
+X9J0O0BtvP9MPM+2C59vrvEg+YAvC9jalmQUCw+QNfoJwWVYNBc4hCXgmlFrDjJ4
+rD3d9COw79J7YtdeYy5UeHVmA67HBG1Ea25Z5dmFgrTR93XEoa8D5zPtBbfDM2hb
+BFXDZpGOf3A2ui2VsurIGVSYJPhhGQf83cHSg0v5mS1wcHA8MxrOentkKX5zrZg7
+ZmAqOG4kGTcOgE/OfQCx5gESLqsTwkyHrA+lROdZALoAIKvx5s1m9RsGxl1IbTRP
+CVFYPzRjaoc42ipg4AerZzRhicEIzbLMeGJ7p6mbvWlI7j6KYfjwLgxj/1sz1Tg3
+ywIK24Mcrs/hN6WPG/nnbDc77jU6hsaUVZN2dZIXbxwCMObwqKk3piW6OtTHmNmv
+COoFpTYTnMyKDzRIg0FP7B+4m0kJ5i09B2w8nEULemunQ9u8lyF+xjLuSDL3ff+A
+2TkrOAMM5q3akmCnweWO
+=SQa5
 -----END PGP SIGNATURE-----
 -->

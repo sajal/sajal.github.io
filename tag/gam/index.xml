@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Gam on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/gam.xml</link>
+    <link>https://www.sajalkayan.com/tag/gam.xml</link>
     <description>Recent content in Gam on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/gam.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/gam.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Future releases of Firefox to speed page load time considerably?</title>
-      <link>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
+      <link>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
       <pubDate>Wed, 20 Jan 2010 14:29:58 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
+      <guid>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
       <description>Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
 
 Especially when within one ad code, I have a default ad code and that too has a default. This means, when an impression is trying to be filled, the ad network decides, if they can fill the impression based on parameters I set or not. If not, then they pass the impression down the chain to another network. It goes on until the end network. In my case the chain is mostly 3 networks. I cant increase it as it results in a poorer user experience.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
 
 Recently, Google started showing average response times in &lt;a href=&#34;https://www.google.com/webmasters/tools/home?hl=en&#34;&gt;Google Webmaster Tools&lt;/a&gt; so, Ive started worrying about these things more than I should.
 
@@ -26,13 +26,13 @@ On &lt;a title=&#34;Thaindian News&#34; href=&#34;http://www.thaindian.com/newsp
 
 My first impression of &lt;a href=&#34;https://www.google.com/admanager&#34;&gt;Google ad manager&lt;/a&gt; was excellent. My page was no more held up while the ads loaded, but soon I realized thats not an admanager feature, it is &lt;strong&gt;firefox 3.5.8pre&lt;/strong&gt; which is speeding things up.
 
-&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
 
 Browsers Useragent : &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8pre) Gecko/20100116 Ubuntu/9.04 (jaunty) Shiretoko/3.5.8pre&lt;/em&gt; (Click image for full screenshot)
 
 My tests on my laptop shows otherwise. (it runs 3.0.17).
 
-&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
 
 Browsers Useragent: &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.16) Gecko/2009121601 Ubuntu/9.04 (jaunty) Firefox/3.0.17&lt;/em&gt; (Click on image for full screenshot)
 
@@ -49,7 +49,7 @@ Of course there is a neat and ideal solution... which is to make your template i
 
 In an ideal world, all ad networks would be banned from using &lt;em&gt;document.write&lt;/em&gt; in their scripts and use some form of ajax to call the banner code after(or during) rest of the page has loaded. Its not 2001 anymore!
 
-Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
+Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
 
 The info i need, could be like the following example:-
 

@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Github Pages on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/github-pages.xml</link>
+    <link>https://www.sajalkayan.com/tag/github-pages.xml</link>
     <description>Recent content in Github Pages on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/github-pages.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/github-pages.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Moved blog to github pages</title>
-      <link>http://www.sajalkayan.com/post/hugo-migration.html</link>
+      <link>https://www.sajalkayan.com/post/hugo-migration.html</link>
       <pubDate>Sun, 16 Nov 2014 18:43:03 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/hugo-migration.html</guid>
+      <guid>https://www.sajalkayan.com/post/hugo-migration.html</guid>
       <description>&lt;p&gt;After 2 years of neglecting this blog, I&amp;rsquo;ve moved away from wordpress and am hosting it on Github Pages.&lt;/p&gt;
 
 &lt;p&gt;The site is built using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;

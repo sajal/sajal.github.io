@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Seo on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/seo.xml</link>
+    <link>https://www.sajalkayan.com/tag/seo.xml</link>
     <description>Recent content in Seo on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/seo.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/seo.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Google News ranking factors, 2003 patent revealed</title>
-      <link>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</link>
+      <link>https://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</link>
       <pubDate>Thu, 20 Aug 2009 10:13:34 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</guid>
+      <guid>https://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</guid>
       <description>Via &lt;a href=&#34;http://www.webpronews.com/topnews/2009/08/19/possible-google-news-ranking-factors-revealed-in-patent&#34;&gt;WebProNews&lt;/a&gt; by Chris Crum
 A patent application by Google &#34;&lt;a href=&#34;http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&amp;Sect2=HITOFF&amp;u=%2Fnetahtml%2FPTO%2Fsearch-adv.htm&amp;r=1&amp;p=1&amp;f=G&amp;l=50&amp;d=PTXT&amp;S1=7,577,655.PN.&amp;OS=pn/7,577,655&amp;RS=PN/7,577,655&#34;&gt;Systems and methods for improving the ranking of news articles&lt;/a&gt;&#34; was Granted on August 18, 2009. The patent was originally filed about 6 years ago on &#34;September 16, 2003&#34;. Interesting analysis in human readable language at &lt;a href=&#34;http://www.seobythesea.com/?p=2810&#34;&gt;Seo By The Sea&lt;/a&gt; by Bill Slawski.
 
@@ -42,7 +42,7 @@ I will first discuss points already established and then try to have my own conc
 &lt;strong&gt;Circulation statistics of the news source&lt;/strong&gt; : Circulation stats from various media monitoring agencies.
 
 &lt;strong&gt;The size of the staff associated with the news source &lt;/strong&gt; : Google recently started showing(where possible) author names in news search. These are detected automagically using some algorithm. Im quite sure that they have been tracking these internally for quite some time.
-&lt;img src=&#34;http://www.sajalkayan.com/Google.png&#34; alt=&#34;Google News search result showing Author Name&#34;&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/Google.png&#34; alt=&#34;Google News search result showing Author Name&#34;&gt;
 
 &lt;strong&gt;The number of news bureaus associated with the news source&lt;/strong&gt; To favour bigger more established news outlets.
 
@@ -56,9 +56,9 @@ I will first discuss points already established and then try to have my own conc
 
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 
-This is not at all related to what Google told us about &lt;a href=&#34;http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html&#34;&gt;ranking on Google News&lt;/a&gt;, it does provide some nice insight.
+This is not at all related to what Google told us about &lt;a href=&#34;https://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html&#34;&gt;ranking on Google News&lt;/a&gt;, it does provide some nice insight.
 
-Now what i believe, is that &lt;a href=&#34;http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html&#34;&gt;Google News&lt;/a&gt; also implements what id like to call a &lt;strong&gt;Source Rank per Topic&lt;/strong&gt;. The &lt;em&gt;Breaking news score&lt;/em&gt; as explained above is applicable on per topic basis too. Example my site had few stories about an incident just after a major news broke. It got some traffic, then got clouded by the regular big sources which allegedly have a much higher &lt;em&gt;Source Rank&lt;/em&gt;. But from a couple of days later, any follow-ups I did, ranked well on Google News. My assumption is that Google sees which sources were the ones to &lt;em&gt;Break&lt;/em&gt; the particular story and assigns them a temporary(or permanent) authority on the topic.
+Now what i believe, is that &lt;a href=&#34;https://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html&#34;&gt;Google News&lt;/a&gt; also implements what id like to call a &lt;strong&gt;Source Rank per Topic&lt;/strong&gt;. The &lt;em&gt;Breaking news score&lt;/em&gt; as explained above is applicable on per topic basis too. Example my site had few stories about an incident just after a major news broke. It got some traffic, then got clouded by the regular big sources which allegedly have a much higher &lt;em&gt;Source Rank&lt;/em&gt;. But from a couple of days later, any follow-ups I did, ranked well on Google News. My assumption is that Google sees which sources were the ones to &lt;em&gt;Break&lt;/em&gt; the particular story and assigns them a temporary(or permanent) authority on the topic.
 
 I have no views on the content length point, but i do agree that more original sentences do result in a higher &lt;strong&gt;Source Rank&lt;/strong&gt;.
 
@@ -70,10 +70,10 @@ Google also sees(IMHO) regular SEO policies in determining the &lt;em&gt;Story R
     
     <item>
       <title>I &lt;3 Django</title>
-      <link>http://www.sajalkayan.com/i-django.html</link>
+      <link>https://www.sajalkayan.com/i-django.html</link>
       <pubDate>Sun, 30 Nov 2008 19:42:39 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/i-django.html</guid>
+      <guid>https://www.sajalkayan.com/i-django.html</guid>
       <description>Last month(November) had been quite busy for me, had many things going on including :-
 &lt;ul&gt;
 	&lt;li&gt;&lt;strong&gt;My new Secret Project&lt;/strong&gt; : Its a new &lt;a href=&#34;http://www.djangoproject.com/&#34;&gt;Django&lt;/a&gt; based web project, if all goes as per plan I take over the world and declare windows illegal ;)&lt;/li&gt;
@@ -84,7 +84,7 @@ Google also sees(IMHO) regular SEO policies in determining the &lt;em&gt;Story R
 &lt;/ul&gt;
 So... apologies to my regular readers (just in case there are any besides me) just had too many things shoved into one month.
 
-A couple of months ago I &lt;a href=&#34;http://www.sajalkayan.com/messing-with-ror.html&#34;&gt;wrote about how I had finally chosen Ruby on Rails over Django&lt;/a&gt;. Well... at the time of writing I hadnt taken a serious look at Django. Soon after making the post i decided to give Django a second look. The more i dugg, the deeper I fell in love Django and Python. I have &lt;a href=&#34;http://proteus-tech.com/&#34;&gt;Ben&lt;/a&gt; and &lt;a href=&#34;http://www.kirit.com/&#34;&gt;Kirit&lt;/a&gt; who I can regularly irriate with n00b questions, the &lt;a href=&#34;http://groups.google.com/group/django-users&#34;&gt;Django-Users group&lt;/a&gt; is quite active and the &lt;a href=&#34;http://docs.djangoproject.com/en/dev/&#34;&gt;Django documentation&lt;/a&gt; is just awesome. Django truly rocks.
+A couple of months ago I &lt;a href=&#34;https://www.sajalkayan.com/messing-with-ror.html&#34;&gt;wrote about how I had finally chosen Ruby on Rails over Django&lt;/a&gt;. Well... at the time of writing I hadnt taken a serious look at Django. Soon after making the post i decided to give Django a second look. The more i dugg, the deeper I fell in love Django and Python. I have &lt;a href=&#34;http://proteus-tech.com/&#34;&gt;Ben&lt;/a&gt; and &lt;a href=&#34;http://www.kirit.com/&#34;&gt;Kirit&lt;/a&gt; who I can regularly irriate with n00b questions, the &lt;a href=&#34;http://groups.google.com/group/django-users&#34;&gt;Django-Users group&lt;/a&gt; is quite active and the &lt;a href=&#34;http://docs.djangoproject.com/en/dev/&#34;&gt;Django documentation&lt;/a&gt; is just awesome. Django truly rocks.
 
 About my new secret project, it is a website about -SNIP- and I aim it to be one of the authorative websites in it domains. The topic of the site is not one I am an expert in, however that shouldnt be an issue. The website is located at -SNIP- . For this project &lt;a href=&#34;http://www.archit.in/&#34;&gt;Archit&lt;/a&gt; is helping with css n stuff for free :) .
 
@@ -104,7 +104,7 @@ data = model1.objects.all()
 #... and so onn....&lt;/pre&gt;
 Tools used : &lt;a href=&#34;http://www.postgresql.org/&#34;&gt;Postgres&lt;/a&gt;, &lt;a href=&#34;http://git.or.cz/&#34;&gt;git&lt;/a&gt;, &lt;a href=&#34;http://github.com/&#34;&gt;github&lt;/a&gt;, &lt;a href=&#34;http://projects.gnome.org/gedit/&#34;&gt;gedit&lt;/a&gt;, &lt;a href=&#34;http://www.activestate.com/Products/komodo_ide/&#34;&gt;Komodo IDE&lt;/a&gt;(looks nice but free trial gonna run out soon :( ), &lt;a href=&#34;http://www.ubuntu.com/&#34;&gt;Ubuntu&lt;/a&gt;(my notebook), &lt;a href=&#34;http://www.centos.org/&#34;&gt;CentOS&lt;/a&gt;(development server - crappy VPS)
 
-Since this project is being built from the ground up, I have full control of everything. Keeping both &lt;strong&gt;usability and &lt;a href=&#34;http://www.sajalkayan.com/category/seo&#34;&gt;Search Engine Optimization&lt;/a&gt;&lt;/strong&gt; in mind and not really feeling like there is a compromise in any.
+Since this project is being built from the ground up, I have full control of everything. Keeping both &lt;strong&gt;usability and &lt;a href=&#34;https://www.sajalkayan.com/category/seo&#34;&gt;Search Engine Optimization&lt;/a&gt;&lt;/strong&gt; in mind and not really feeling like there is a compromise in any.
 
 Perhaps in a couple of weeks the site would be somewhat presentable, then id discuss various aspects about the code and techniques im using in keeping the site SEOed. Its too early to talk about it at the moment.
 
@@ -114,23 +114,23 @@ Disclaimer : &lt;em&gt;No windows users were harmed during the production of thi
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)</title>
-      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
+      <link>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
       <pubDate>Tue, 26 Feb 2008 09:38:47 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
-      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
+      <guid>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
+      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
 
 Meta tags are an important part of the web page. They are used to pass information to browsers and bots and are not intended for the average browser to see. We will basically discuss about the 2 most common meta attributes which are &lt;strong&gt;keywords&lt;/strong&gt; and &lt;strong&gt;description&lt;/strong&gt;.
 
 &lt;strong&gt;In Joomla&lt;/strong&gt;, The editing of the meta tags is a core functionality, and can be added while editing or creating content.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
 
 Also note the &#34;Sect/Cat/Title&#34; button. when pressing it it automatically adds the Section name, Category name and the title of the content into the Keyword attribute.
 
 &lt;strong&gt;In Drupal&lt;/strong&gt;, the meta attributes cant be set by default, you would need to install a module such as &#34;&lt;a href=&#34;http://drupal.org/project/nodewords&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;Meta Tags&lt;/strong&gt;&lt;/a&gt;&#34; to do this for you.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
 
 This is the box while editing a node.
 
@@ -152,11 +152,11 @@ Source : &lt;a href=&#34;http://en.wikipedia.org/wiki/Meta_element#The_descripti
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 1 URLs</title>
-      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</link>
+      <link>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</link>
       <pubDate>Sun, 17 Feb 2008 12:06:25 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</guid>
-      <description>Last month I started using Drupal and explained how &lt;a href=&#34;http://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34;&gt;&lt;strong&gt;Drupal is better&lt;/strong&gt; in terms of organizing content when compared to Joomla&lt;/a&gt;. Today I am going to explain some &lt;strong&gt;SEO benifits of using Drupal over Joomla&lt;/strong&gt;.
+      <guid>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</guid>
+      <description>Last month I started using Drupal and explained how &lt;a href=&#34;https://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34;&gt;&lt;strong&gt;Drupal is better&lt;/strong&gt; in terms of organizing content when compared to Joomla&lt;/a&gt;. Today I am going to explain some &lt;strong&gt;SEO benifits of using Drupal over Joomla&lt;/strong&gt;.
 
 This is the first part of a series and I will blog about &lt;strong&gt;Search Engine Friendly URLs&lt;/strong&gt; today:-
 
@@ -180,21 +180,21 @@ Drupal has &lt;a href=&#34;http://drupal.org/project/pathauto&#34;&gt;Pathauto&l
 
 &lt;strong&gt;Joomla has&lt;/strong&gt; (among others) &lt;strong&gt;&lt;a href=&#34;http://extensions.joomla.org/component/option,com_mtree/task,viewlink/link_id,2524/Itemid,35/&#34; title=&#34;NuSEF same as OpenSEF&#34;&gt;OpenSEF&lt;/a&gt;&lt;/strong&gt; : This has some nice features, but not as powerfull or even user friendly as Pathauto. Here all you only have is few limited options spread across dozens of config pages. If you wanted custom components to work, you have to find (beg/borrow/steal) a &lt;strong&gt;customized sef_ext.php script&lt;/strong&gt; for that particular component, not very cool thing to do. In Drupal you can set these things within pathauto only, indipendant of the modules. One thing good about OpenSEF is that it takes care of the duplicate content problem I mentioned earlier, but the downside is that it might not work how it was supposed to work as each URL would now get bound to a particular ItemID.
 
-Some might call me biased towards Drupal, but the bottom line is that &lt;strong&gt;&lt;a href=&#34;http://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34; title=&#34;Drupal vs Joomla&#34;&gt;Drupal rocks and Joomla Sux! &lt;/a&gt;&lt;/strong&gt;
+Some might call me biased towards Drupal, but the bottom line is that &lt;strong&gt;&lt;a href=&#34;https://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34; title=&#34;Drupal vs Joomla&#34;&gt;Drupal rocks and Joomla Sux! &lt;/a&gt;&lt;/strong&gt;
 
-Part 1 of the Series. More to follow later on various other aspects on &lt;strong&gt;Drupal and Joomla from an SEO viewpoint&lt;/strong&gt; . Subscribe to my &lt;a href=&#34;http://www.sajalkayan.com/feed&#34; title=&#34;RSS Feed&#34;&gt;feed&lt;/a&gt; to stay updated.
+Part 1 of the Series. More to follow later on various other aspects on &lt;strong&gt;Drupal and Joomla from an SEO viewpoint&lt;/strong&gt; . Subscribe to my &lt;a href=&#34;https://www.sajalkayan.com/feed&#34; title=&#34;RSS Feed&#34;&gt;feed&lt;/a&gt; to stay updated.
 </description>
     </item>
     
     <item>
       <title>Watch out Bangkok Post, Thaindian is coming!</title>
-      <link>http://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</link>
+      <link>https://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</link>
       <pubDate>Thu, 07 Feb 2008 14:04:20 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</guid>
+      <guid>https://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</guid>
       <description>On 4th Feb, &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34;&gt;thaindian.com&lt;/a&gt; (BLUE) got a surge in traffic effectively kicking ass of other major news portals/forums.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/ti-graph.png&#34; alt=&#34;ti-graph.png&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/ti-graph.png&#34; alt=&#34;ti-graph.png&#34; /&gt;
 
 Sites overtaken.
 &lt;ol&gt;
@@ -214,11 +214,11 @@ Edit 9th Feb 2008 : &lt;em&gt;Short lived glory... now alexa shows thaindian.com
     
     <item>
       <title>Drupal rulez Joomla sux!</title>
-      <link>http://www.sajalkayan.com/drupal-rulez-joomls-sux.html</link>
+      <link>https://www.sajalkayan.com/drupal-rulez-joomls-sux.html</link>
       <pubDate>Wed, 06 Feb 2008 17:25:17 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/drupal-rulez-joomls-sux.html</guid>
-      <description>&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/drupliconsmall.png&#34; alt=&#34;Drupal Logo&#34; align=&#34;left&#34; border=&#34;0&#34; vspace=&#34;10&#34; hspace=&#34;10&#34; /&gt;I am perhaps the newest entrant to the growing number of Drupal fanboys in Thailand. From what Ive seen most geeks in Thailand use drupal, usually for community building projects and also for personal blogs.
+      <guid>https://www.sajalkayan.com/drupal-rulez-joomls-sux.html</guid>
+      <description>&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/drupliconsmall.png&#34; alt=&#34;Drupal Logo&#34; align=&#34;left&#34; border=&#34;0&#34; vspace=&#34;10&#34; hspace=&#34;10&#34; /&gt;I am perhaps the newest entrant to the growing number of Drupal fanboys in Thailand. From what Ive seen most geeks in Thailand use drupal, usually for community building projects and also for personal blogs.
 
 The first I was introduced to Drupal was while chatting with &lt;a href=&#34;http://www.johnberns.com/2008/02/10/my-first-drupal-convert/&#34; title=&#34;Converted me to Drupal&#34;&gt;John Berns&lt;/a&gt; and &lt;a href=&#34;http://sugree.com/&#34;&gt;Sugree&lt;/a&gt; on the &lt;a href=&#34;http://www.barcampbangkok.org/&#34;&gt;BarcampBangkok&lt;/a&gt; IRC room. In a short chat session, these two people managed to convince me that Drupal can easily do the stuff ive been trying/wanting to do for the last 2 Years.
 

@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Google Ad Manager on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/google-ad-manager.xml</link>
+    <link>https://www.sajalkayan.com/tag/google-ad-manager.xml</link>
     <description>Recent content in Google Ad Manager on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/google-ad-manager.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/google-ad-manager.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Complete Asynchronous ad loading using DFP and LABjs</title>
-      <link>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
+      <link>https://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</link>
       <pubDate>Wed, 02 Mar 2011 18:43:51 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
+      <guid>https://www.sajalkayan.com/complete-asynchronous-ad-loading-using-dfp-and-labjs.html</guid>
       <description>UPDATE: The hack is now available on &lt;a href=&#34;https://github.com/sajal/async-DFP-ads&#34;&gt;GitHub&lt;/a&gt;.
 
 &lt;strong&gt;8th May 2011: This seems to be having problems, will investigate and update when i have time. Pls revert to normal DFP tags for now.&lt;/strong&gt;
@@ -22,7 +22,7 @@ One of the biggest challenges when optimizing performance of websites is third p
 
 Most ad networks and servers use evil document.write() in their JavaScript(and even nested document.writes) which block further rendering of the page until their code has completed execution. In this blogpost, I&#39;ll show how you can use &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=90777&#34;&gt;DFP&#39;s iframe tagging&lt;/a&gt;(read warnings there) combined with &lt;a href=&#34;http://labjs.com/&#34; title=&#34;Loading And Blocking JavaScript&#34;&gt;LABjs&lt;/a&gt; and little bit of JavaScript hackery to make any ad load asynchronously with negligible impact on rest of the pageload.
 
-Attention Deficit Disorder version : &lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;Before&lt;/a&gt; - &lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;After&lt;/a&gt;
+Attention Deficit Disorder version : &lt;a href=&#34;https://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;Before&lt;/a&gt; - &lt;a href=&#34;https://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;After&lt;/a&gt;
 
 NOTE: Use the method below entirely at your own risk! Use only if you know what you are doing...
 
@@ -53,7 +53,7 @@ GA_googleFillSlotWithSize(&#34;ca-pub-7046344781760701&#34;, &#34;test_async_lb&
 
 With this method, the bootstrap does some blocking. First it loads a JavaScript then the following functions document.write another &amp;lt;script&amp;gt; tag which must load sequentially again. The &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; function is relatively inexpensive. All it seems to do is document.write an iframe with various targeting information as parameters in the URL and does not block further rendering. The advantage of iframe tagging is that slow ad networks don&#39;t fuck up your page. But the bootstrap is very expensive as shown in this waterfall chart.
 
-&lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;This&lt;/a&gt; is what it looks like.
+&lt;a href=&#34;https://www.sajalkayan.com/tests/dfp-iframe-tagging.html&#34; target=&#34;_blank&#34;&gt;This&lt;/a&gt; is what it looks like.
 
 &lt;img src=&#34;http://i.ticdn.com/sajal/dfp-async/normal.png&#34; alt=&#34;normal DFP iframe bootstrap&#34; title=&#34;normal DFP iframe bootstrap&#34; height=&#34;186&#34; width=&#34;485&#34; /&gt;
 
@@ -96,7 +96,7 @@ After playing with LABjs, ive come up with the following LABjs snippet :-
 
 Here &lt;em&gt;Wrapper_googleFillSlotWithSize&lt;/em&gt; is a wrapper around &lt;em&gt;GA_googleFillSlotWithSize&lt;/em&gt; which takes a 5th argument - &lt;em&gt;target&lt;/em&gt; - This is the id of &amp;lt;div&amp;gt; where we want to show the ad.
 
-&lt;a href=&#34;http://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; is a sample page using this hack. Id appreciate it if I get some feedback about this method via comments below. As I said earlier, use your own better judgment before using this snippet in production. I welcome criticism but will not accept blame if this doesn&#39;t work for you. 
+&lt;a href=&#34;https://www.sajalkayan.com/tests/dfp-async-LABjs.html&#34; target=&#34;_blank&#34;&gt;Here&lt;/a&gt; is a sample page using this hack. Id appreciate it if I get some feedback about this method via comments below. As I said earlier, use your own better judgment before using this snippet in production. I welcome criticism but will not accept blame if this doesn&#39;t work for you. 
 
 In my simple example, it may seem it takes longer to fully load the page, but if you have many other things on the page, the overall effect will be better with this hack. Moreover, if you are already using LABjs on your site, this is a no-brainer. With this method, even if Google is inaccessible(for whatever reasons) it wont &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;SPOF&lt;/a&gt; your page.
 
@@ -117,15 +117,15 @@ The world would be a much better place without the evil document.write(). Google
     
     <item>
       <title>Future releases of Firefox to speed page load time considerably?</title>
-      <link>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
+      <link>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
       <pubDate>Wed, 20 Jan 2010 14:29:58 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
+      <guid>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
       <description>Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
 
 Especially when within one ad code, I have a default ad code and that too has a default. This means, when an impression is trying to be filled, the ad network decides, if they can fill the impression based on parameters I set or not. If not, then they pass the impression down the chain to another network. It goes on until the end network. In my case the chain is mostly 3 networks. I cant increase it as it results in a poorer user experience.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
 
 Recently, Google started showing average response times in &lt;a href=&#34;https://www.google.com/webmasters/tools/home?hl=en&#34;&gt;Google Webmaster Tools&lt;/a&gt; so, Ive started worrying about these things more than I should.
 
@@ -133,13 +133,13 @@ On &lt;a title=&#34;Thaindian News&#34; href=&#34;http://www.thaindian.com/newsp
 
 My first impression of &lt;a href=&#34;https://www.google.com/admanager&#34;&gt;Google ad manager&lt;/a&gt; was excellent. My page was no more held up while the ads loaded, but soon I realized thats not an admanager feature, it is &lt;strong&gt;firefox 3.5.8pre&lt;/strong&gt; which is speeding things up.
 
-&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
 
 Browsers Useragent : &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8pre) Gecko/20100116 Ubuntu/9.04 (jaunty) Shiretoko/3.5.8pre&lt;/em&gt; (Click image for full screenshot)
 
 My tests on my laptop shows otherwise. (it runs 3.0.17).
 
-&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
 
 Browsers Useragent: &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.16) Gecko/2009121601 Ubuntu/9.04 (jaunty) Firefox/3.0.17&lt;/em&gt; (Click on image for full screenshot)
 
@@ -156,7 +156,7 @@ Of course there is a neat and ideal solution... which is to make your template i
 
 In an ideal world, all ad networks would be banned from using &lt;em&gt;document.write&lt;/em&gt; in their scripts and use some form of ajax to call the banner code after(or during) rest of the page has loaded. Its not 2001 anymore!
 
-Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
+Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
 
 The info i need, could be like the following example:-
 

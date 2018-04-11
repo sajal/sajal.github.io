@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> Running Go programs on $15 device - Beyond Hello World &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Wed, Feb 25, 2015
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="Running Go programs on $15 device - Beyond Hello World" 
+      data-text="Running Go programs on $15 device - Beyond Hello World"
       data-url="http://www.sajalkayan.com/post/golang-openwrt-mips.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="Running Go programs on $15 device - Beyond Hello World"
@@ -93,6 +93,7 @@ https://keybase.io/sajal -->
     
     
   </span>
+      
       
 
 <p>I recently purchased a <a href="http://wiki.openwrt.org/toh/nexx/wt1520">WT1520</a> router for $15 from Aliexpress to play with. I have a project in mind which would require few nodes running my custom Go code spread out throughout the world. A Raspberry Pi (almost $40 if you include SD card, etc) fits perfectly for my purpose, but I am looking to be cheap. Not to be dissing on the pi, its awesome and LOT more powerful than the WT1520, I&rsquo;m just trying to find the cheapest device for my purpose.
@@ -106,11 +107,11 @@ Having no experience with OpenWrt, this <a href="http://akagi201.org/blog/golang
 
 <p>I couldn&rsquo;t use the <a href="https://github.com/GeertJohan/openwrt-go">gccgo fork</a> directly because support for my architecture was added at a later stage, so I had to clone the upstream master and patch it.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #996633">$ </span>git clone git://git.openwrt.org/openwrt.git
-<span style="color: #996633">$ </span><span style="color: #007020">cd </span>openwrt
-<span style="color: #996633">$ </span>curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
-<span style="color: #996633">$ </span>make menuconfig
-<span style="color: #996633">$ </span>make -j8
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;$ git clone git://git.openwrt.org/openwrt.git
+$ <span style="color: #007020">cd</span> openwrt
+$ curl https://github.com/GeertJohan/openwrt-go/compare/add-gccgo-and-libgo.diff | patch -p1
+$ make menuconfig
+$ make -j8
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
 
@@ -122,9 +123,9 @@ Ive removed usb and wifi related things to keep the image small. It seems eglibc
 
 <p>Building hello world is simple</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #996633">$ </span><span style="color: #007020">export </span><span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:<span style="color: #996633">$PATH</span>
-<span style="color: #996633">$ </span><span style="color: #007020">alias </span><span style="color: #996633">gccgo</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&#39;</span>
-<span style="color: #996633">$ </span>gccgo -o hello ~/hello.go -static-libgo
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;$ <span style="color: #007020">export</span> <span style="color: #996633">PATH</span><span style="color: #333333">=</span>/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/bin:<span style="color: #996633">$PATH</span>
+$ <span style="color: #007020">alias</span> <span style="color: #996633">gccgo</span><span style="color: #333333">=</span><span style="background-color: #fff0f0">&#39;mipsel-openwrt-linux-gccgo -Wl,-R,/home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib/gcc/mipsel-openwrt-linux-gnu/4.8.3 -L /home/sajal/src/openwrt/staging_dir/toolchain-mipsel_24kec+dsp_gcc-4.8-linaro_eglibc-2.19/lib&#39;</span>
+$ gccgo -o hello ~/hello.go -static-libgo
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
 
@@ -201,10 +202,10 @@ gccgo -o minion $WORK/obj/minion.o $WORK/obj/dns.o $WORK/obj/dnsdebug.o -static-
 
 <p>Note: I had to adjust code a bit to support the ancient Go implementation&hellip; Specifically the TLS implementation and cipher suits.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #996633">$ </span>file minion
-minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically linked <span style="color: #333333">(</span>uses shared libs<span style="color: #333333">)</span>, <span style="color: #008800; font-weight: bold">for</span> GNU/Linux 2.6.16, not stripped
-<span style="color: #996633">$ </span>ls -lh minion
-- -rwxrwxr-x <span style="color: #6600EE; font-weight: bold">1</span> sajal sajal 9.3M Feb <span style="color: #6600EE; font-weight: bold">26</span> 00:25 minion
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;$ file minion
+minion: ELF <span style="color: #6600EE; font-weight: bold">32</span>-bit LSB  executable, MIPS, MIPS32 rel2 version <span style="color: #6600EE; font-weight: bold">1</span>, dynamically linked <span style="color: #333333">(</span>uses shared libs<span style="color: #333333">)</span>, <span style="color: #008800; font-weight: bold">for</span> GNU/Linux <span style="color: #6600EE; font-weight: bold">2</span>.6.16, not stripped
+$ ls -lh minion
+- -rwxrwxr-x <span style="color: #6600EE; font-weight: bold">1</span> sajal sajal <span style="color: #6600EE; font-weight: bold">9</span>.3M Feb <span style="color: #6600EE; font-weight: bold">26</span> <span style="color: #6600EE; font-weight: bold">00</span>:25 minion
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
 
@@ -219,15 +220,15 @@ minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically lin
 
       
       <div>
-  Tags:  
+  Tags: 
     <a href="/tag/go">go</a> </li>
-   
+  
     <a href="/tag/golang">golang</a> </li>
-   
+  
     <a href="/tag/openwrt">openwrt</a> </li>
-   
+  
     <a href="/tag/mips">mips</a> </li>
-   
+  
     <a href="/tag/wt1520">WT1520</a> </li>
    <br />
   Categories:  <br />
@@ -243,7 +244,7 @@ minion: ELF 32-bit LSB  executable, MIPS, MIPS32 rel2 version 1, dynamically lin
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -268,22 +269,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKPxCYQAJJ+ClUhL8msHAHA6R/5N5PJ
-kPKKyZH293Dblz1GDBHSTqa7HYS6XlAsXozr+i1XU6D8SVnJX1KdJ9Lte1vC6rlp
-96WSrU8bOl/QoevaVWU2XslHl8Wrk7njxTd5d64mtWb033fTUpMZOf1DcLV+PkmB
-93DbHySoyM/7znUA/JXa4IIiB5G/9tQACaCNJp2iqyw+pbo2QnGIQLOWuVgvWZLi
-LV9hRBYgUQv8Qi5md41BpsLn6Q3alks1vXDCRMm19a9D4lPekskL3FAlLCh/lzGf
-wD7g/629g+oLj8KHHrZTxB2v/gATXijq9AXEkMc3AZcZc3KiDFVhTffslH6eaeaT
-YwNGMamHbLFZrDABCUULhyq0fWwqk4H0XydHVZpuiYlsrhN87htwXD5NPGLFOrDy
-MuUNQaWKgeq17QsbISGiNZhDhf/SlUD3+XUadOgr1ZZk98dCxfX6BnkbEKzyERqL
-oJqzUAbJ2TjS7o44pjuYlazxkn9621xosrk2O5skdX8BN+7Yg+jwZpvWYy2sfLnI
-u4qTHbscBok3i9rrV+BGEhNXqIZB7u0O4d7hIuwliBITk7N3JZkCEm8sg6KT6ar5
-iS7VOOJL/O0PsxFVNvmNvUmhsvM6w5O47MTsfZdP1UX9a9VHjdEXV3QHd5ZPN0m8
-ntmyGAVUh9D29MN7Tinv
-=hZO5
+iQIcBAEBCAAGBQJazjPyAAoJEDlkkKy/FYKP2KMP/2mU3vExZjKpuWNrj002PQ1G
+mx234v8vsNUjHFuSLlMFKkRMU+1WBLMp1UttisaFY5rMIgmkNqJGle6J5sTaeHem
+0JVEFMJcgcCzPIT9kCCuGn4xlB4qhlD00PSEaE5h1qPIK/DYAwfGcEjrcpl3DGhF
+fLWaPnGoYxiS4ZNDkU3tENfbMp2RkFZj4koTxq4FyCmxH9X0u4zESasl6CGm2jd2
+KoBlamwa4d77xkU14mBTAfsL3vJinnylP236ngkzl6kKK8xTGsjGBjFIAxhxl5kC
+Gpo/Jnma0RczU0KdTNUMiDZB7POhTBmDsPQnnvwaV0J8FqJOpJYVW3Ybqb5D7vYe
+4po4aX8vtBkcut2O73GgVc3W5v8VQ3qleWuiD6klQgPiBscofWdkSVvCS9TcU+Bj
+6OOXFPb0sGm2Fggr1HmDBLtPNs5ZDbozQP/5KDg3MMekdldi9/JWRDyamWqTBkyb
+eusmW3IanzadJ325JFSyZe8n9c/sBa12LxBWQzkCt7I/1mIEkLgj39sxctDxey32
+33zGS0zVdW3hwQfUJW04DmAFVuLQLU2KZO1vqrsDBBI4dsfS6sdJvyukulu03EIJ
+tQnavMkPndUykVtLFxHEyRv9+B9BNfcI6KUAXhT81oBizifLy+yQvtcakDX+FYC9
+OSNY60KKtoK7xb71k+zn
+=xS5a
 -----END PGP SIGNATURE-----
 -->

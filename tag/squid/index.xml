@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Squid on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/squid.xml</link>
+    <link>https://www.sajalkayan.com/tag/squid.xml</link>
     <description>Recent content in Squid on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/squid.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/squid.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Make your own cheap charlie CDN</title>
-      <link>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
+      <link>https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</link>
       <pubDate>Sat, 28 Jun 2008 05:26:21 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
+      <guid>https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html</guid>
       <description>&lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network&#34; target=&#34;_self&#34;&gt;CDN&lt;/a&gt; stands for Content Delivery(or Distribution) Network. It is a network of servers usually located in various geographic locations to improve the availability and access speed of a website (or webapp or other media). The main use of CDNs were during the nineteens when inter-continental access was slow, scarce and expensive. Origin server could be in the silicon valley, users from UK would access the node located in UK, so in theory only once the page would be downloaded from the US server to the UK server. Thus allowing the UK visitors to access the page locally resulting in a huge saving in inter-continental bandwidth costs and improved access times for the end users.
 
 CDNs are traditionally a very expensive solution to implement if using any of the &lt;a href=&#34;http://en.wikipedia.org/wiki/Content_Delivery_Network#Commercial_CDNs&#34;&gt;established providers&lt;/a&gt;. The solution in itself is not very complex. I am in the process of implementing my very own CDN. The benefits are simple.
@@ -141,10 +141,10 @@ Also.. if squid supports ssl, would it be possible to use https (and also instal
     
     <item>
       <title>Secure Proxy using Squid</title>
-      <link>http://www.sajalkayan.com/secure-proxy-using-squid.html</link>
+      <link>https://www.sajalkayan.com/secure-proxy-using-squid.html</link>
       <pubDate>Sat, 05 Jan 2008 05:16:52 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
+      <guid>https://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
       <description>Had originally posted this on Friday, September 29th, 2006 during the peak of Takhsin&#39;s rampant blocking of websites and the blocking proxies were messing up often blocking un-blocked pages also.
 
 It is very important to use a secure proxy if you browse the web from unsecure Networks.

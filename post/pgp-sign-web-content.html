@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> Sign web content using PGP &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Sat, Feb 6, 2016
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="Sign web content using PGP" 
+      data-text="Sign web content using PGP"
       data-url="http://www.sajalkayan.com/post/pgp-sign-web-content.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="Sign web content using PGP"
@@ -93,6 +93,7 @@ https://keybase.io/sajal -->
     
     
   </span>
+      
       <p>A lot of web-content these days passes thru untrusted intermediaries, especially plain text traffic which is often <a href="http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html">intercepted by ISP proxies</a> for caching (and other purposes ;) ). A compromise at these places <a href="http://www.telecomasia.net/content/true-internets-proxy-compromised">can subject your users to malicious payload</a>, mostly in the form of javascript.</p>
 
 <p>The obvious solution to these issues is to use TLS i.e. <code>https://</code> sites, which is more accessible these days thanks to <a href="https://letsencrypt.org/">Lets Encrypt</a>. But even this does not give complete end-to-end coverage because many sites use a CDN who might unknowingly or maliciously tamper with the contents.</p>
@@ -145,15 +146,15 @@ $
 
 <p>Lets take this html payload</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span style="color: #007700">&lt;pre&gt;&lt;code&gt;&lt;html&gt;</span>
-<span style="color: #007700">&lt;head&gt;</span>
-	<span style="color: #007700">&lt;title&gt;</span>Hello World<span style="color: #007700">&lt;/title&gt;</span>
-<span style="color: #007700">&lt;/head&gt;</span>
-<span style="color: #007700">&lt;body&gt;</span>
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;<span style="color: #007700">pre</span>&gt;&lt;<span style="color: #007700">code</span>&gt;&lt;<span style="color: #007700">html</span>&gt;
+&lt;<span style="color: #007700">head</span>&gt;
+	&lt;<span style="color: #007700">title</span>&gt;Hello World&lt;/<span style="color: #007700">title</span>&gt;
+&lt;/<span style="color: #007700">head</span>&gt;
+&lt;<span style="color: #007700">body</span>&gt;
 Hello World
-<span style="color: #007700">&lt;/body&gt;</span>
-<span style="color: #007700">&lt;/html&gt;</span>
-<span style="color: #007700">&lt;/code&gt;&lt;/pre&gt;</span>
+&lt;/<span style="color: #007700">body</span>&gt;
+&lt;/<span style="color: #007700">html</span>&gt;
+&lt;/<span style="color: #007700">code</span>&gt;&lt;/<span style="color: #007700">pre</span>&gt;
 </pre></div>
 
 
@@ -287,9 +288,9 @@ rm $tmpfile #Perhaps keep it for debugging purpose if gpg fails to verify.
 
       
       <div>
-  Tags:  
+  Tags: 
     <a href="/tag/html">html</a> </li>
-   
+  
     <a href="/tag/pgp">pgp</a> </li>
    <br />
   Categories:  <br />
@@ -305,7 +306,7 @@ rm $tmpfile #Perhaps keep it for debugging purpose if gpg fails to verify.
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -330,22 +331,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbRAAoJEDlkkKy/FYKP7FcQAKy1RHm7sXWKWL4zJxIQ7/bL
-KaZ5wD4dvOMeuQ1KTxFV+lKRUKxU3A9Bfcf7ozx47kamHptudmgResy2C54HlO6f
-omKJLS1DSkzYYsFhbL7MeJTHD2wo4gDmdD+8y8stUgSyCmLrtuvLesEGtuM8Z+Gx
-y58uY2L0bOr7V9oPhBQS8Ks/5wesETxpMeKATvguLlowt2RGSyFH3RyiTbuDoNTH
-qx4FKfFtgoF+WVC2Z9S3FwHPP0tWvWOHdclaUZHHH2Yw97VkElOjWB2G7nm5pd/p
-v+JOKGU64xOZPTJDql0rpXBYslMRs8pIDLJ9lEWpJDDGv9HlmFY1EOfdvtrjJUa9
-uTTNkjh5KY/0dRQ/AZrxQGVrISvaLBD3Oa3DQikApfUmFGv689LHNHt8s9SntqEi
-00VlCjnlF1qisWUq6kaL1Wvz+mi7RdO991tKS3R52qogR1FWSLXvJKfvfWVdp3n1
-tEwheF0BD+ohor+YhmYzo+IxGhQyamMek1hpMQ8IADZ0Hi0wF6XSugnbqcxX0UXU
-JoGlUTZ/SVi7ELRbhbLBFiQjAF4gMkjtVqSWXwjrnbsiovv84jzIzRsXVMs2pgqi
-lpdVM2xgrpAR9b4diXn3PeMpXyE7BWR3jt0Fngm82N1QvFLiuYBnofDDiJBnKZiB
-+CZegYXFo4B/vNncooIm
-=daxX
+iQIcBAEBCAAGBQJazjPyAAoJEDlkkKy/FYKPCfMP/05YpAjFPgKWRDTVheEkRX1H
+vhO2yKOR/CqYVD5R787lBx0AxbRG1shKCs/LCzCnl7lSXK+OE8cbjd/bfgoEGOD9
+uc7ryUO8AVngHlxmQCTG9M5ks+yV3l03DsoTRmt04squ9It8oylcgoVwgMzMc5Vi
+UJr65egYcHJwplCFKkP4Ozy5FlTV20KF/BcZpzEl9IpwCcb7eGDaek6reg79ctJN
+5E2gJ5k5G5PP+7kewpV0S9PdwH2XA1f9dw/qk40DvNqmmCQLB6sBD29m51279/+4
+3B2ZwkzYXL87xxwlwiZNOzv6XPac8SosYCbPKoNkzDjxC6/D1XF3kwk1XKwPZZCy
+I+RY2Hb3v6otY3PnVuQ9nTbhjUtxDnxDdXQknWZ/BasKb/PVLDKxqEbl33tQXHuV
+40FHFZkSYv4h+qiQUfD8HceafdbxiX39nIeJesr9FnEbCaKjX+G8B9hh9EiDncqc
+PciQnEWxD3fJ/k2H6Ux6IQbew1J6b4Z0HNVNUuaSOvTUYjeIgfc5sUMkCPPdJtKj
+SfQLzLFFG4l04yymeB1zmvPZyZSLT3+DotL0AklgnRalgNHKYAL5S6vawaZN4/pO
+Tgogi/ze5DpzkBAnlM+Ey0zRTR5hsIf+mGQbrVVTS00QmW3Zqsg8ocv5gYiPn4Wk
+F2OGR1v5Mdoke7S6Po/7
+=qiEV
 -----END PGP SIGNATURE-----
 -->

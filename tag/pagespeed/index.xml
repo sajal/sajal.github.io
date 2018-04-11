@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pagespeed on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/pagespeed.xml</link>
+    <link>https://www.sajalkayan.com/tag/pagespeed.xml</link>
     <description>Recent content in Pagespeed on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/pagespeed.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/pagespeed.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Evaluating few CDN options</title>
-      <link>http://www.sajalkayan.com/evaluating-few-cdn-options.html</link>
+      <link>https://www.sajalkayan.com/evaluating-few-cdn-options.html</link>
       <pubDate>Fri, 10 Jun 2011 21:10:53 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/evaluating-few-cdn-options.html</guid>
+      <guid>https://www.sajalkayan.com/evaluating-few-cdn-options.html</guid>
       <description>Recently, I was evaluating CDN options for a client with some unique challenges. We ended up using Amazon CloudFront, but ill detail the options we looked at and what let us to this decision.
 
 Some things to note:-
@@ -33,7 +33,7 @@ The providers we looked at :-
 Pros:-
 &lt;ul&gt;
 	&lt;li&gt;Cheap : $40 for first TB (must use in a year) + $99 per additional TB . On current usage rates this comes to say 0.04+ /GB.&lt;/li&gt;
-	&lt;li&gt;* Anycast/BGP routing : No way bad &lt;a href=&#34;http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html&#34;&gt;DNS server can mess up&lt;/a&gt; routing.&lt;/li&gt;
+	&lt;li&gt;* Anycast/BGP routing : No way bad &lt;a href=&#34;https://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html&#34;&gt;DNS server can mess up&lt;/a&gt; routing.&lt;/li&gt;
 	&lt;li&gt;Nice control panel, has a purge all option for just in case. Purges take effect almost instantly.&lt;/li&gt;
 	&lt;li&gt;Handles gzip well.&lt;/li&gt;
 	&lt;li&gt;Can have separate cache timings for caching in Browser and caching at CDN. - i.e. We can say not cache a file in browser level, but cache at CDN and purge when theres a change made.&lt;/li&gt;
@@ -104,11 +104,11 @@ For us, the price and features are important, but whats more important is the re
     
     <item>
       <title>Page Speed Analysis: Search Engine Roundtable</title>
-      <link>http://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</link>
+      <link>https://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</link>
       <pubDate>Fri, 30 Jul 2010 17:25:40 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</guid>
-      <description>I am planing to do a series of posts on analyzing popular websites I visit frequently. By now I am so &lt;a href=&#34;http://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html&#34; title=&#34;ATTN Big Media: Web page speed matters!&#34;&gt;obsessed to optimize for speed&lt;/a&gt; that I&#39;ve run out of sites to optimize, hence I&#39;m doing it for other sites.
+      <guid>https://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</guid>
+      <description>I am planing to do a series of posts on analyzing popular websites I visit frequently. By now I am so &lt;a href=&#34;https://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html&#34; title=&#34;ATTN Big Media: Web page speed matters!&#34;&gt;obsessed to optimize for speed&lt;/a&gt; that I&#39;ve run out of sites to optimize, hence I&#39;m doing it for other sites.
 
 To start with I&#39;ll analyze &lt;a href=&#34;http://www.seroundtable.com/&#34;&gt;Search Engine Roundtable&lt;/a&gt;.
 
@@ -211,7 +211,7 @@ So Out of 50 requests made to www.seroundtable.com, 37 of them can be completely
         &lt;li&gt; &lt;strong&gt;Compress images&lt;/strong&gt;(Easy) : My favorite tool for this is &lt;a href=&#34;http://developer.yahoo.com/yslow/smushit/&#34;&gt;Smush.it&lt;/a&gt; by Yahoo! Similar results can be achieved using say GIMP or Photoshop.&lt;/li&gt;
         &lt;li&gt; &lt;strong&gt;Use cookie-less domain for static content&lt;/strong&gt;(Easy/Important): Serve static files(images/css/etc) from an external domain. Currently, the site sets cookies which the browser automatically sends with each subsequent request to the server while requesting static files. This cookie information is absolutely useless to the server and causes the request size to be big. The workaround is to host these files on another dedicated cookieless domain, say www.serassets.com or something. This tip may not sound important, in fact I used to ignore it, but once implemented the effects are HUGE.&lt;/li&gt;
         &lt;li&gt; &lt;strong&gt;Minify code&lt;/strong&gt; (Easy/Optional): Minify HTML, run the inline javascript using &lt;a href=&#34;http://closure-compiler.appspot.com/home&#34;&gt;Google&#39;s Closure Compiler&lt;/a&gt; for faster execution. Smaller files also require lesser resources on the browser.&lt;/li&gt;
-        &lt;li&gt; &lt;strong&gt;Use a CDN&lt;/strong&gt;(Easy): A &lt;a href=&#34;http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;CDN (Content Delivery Network)&lt;/a&gt; mantains POPs (Point Of Presence) globally, and can be used to serve the static files(images, javascripts, css, etc) which would be served from a server closer to you. The charges are not much. So if &lt;em&gt;SERoundtable.com&lt;/em&gt; used say &lt;a href=&#34;http://www.internap.com/&#34;&gt;Internap&lt;/a&gt;, I would be accessing the static files from a server in Singapore instead of US. In case of &lt;a href=&#34;http://www.akamai.com/&#34;&gt;Akamai&lt;/a&gt; I&#39;d be accessing the static assets from a server within my ISPs network! Choose any from this &lt;a href=&#34;http://www.mytestbox.com/miscellaneous/content-delivery-networks-cdn-list/&#34;&gt;list of CDNs&lt;/a&gt;.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Use a CDN&lt;/strong&gt;(Easy): A &lt;a href=&#34;https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;CDN (Content Delivery Network)&lt;/a&gt; mantains POPs (Point Of Presence) globally, and can be used to serve the static files(images, javascripts, css, etc) which would be served from a server closer to you. The charges are not much. So if &lt;em&gt;SERoundtable.com&lt;/em&gt; used say &lt;a href=&#34;http://www.internap.com/&#34;&gt;Internap&lt;/a&gt;, I would be accessing the static files from a server in Singapore instead of US. In case of &lt;a href=&#34;http://www.akamai.com/&#34;&gt;Akamai&lt;/a&gt; I&#39;d be accessing the static assets from a server within my ISPs network! Choose any from this &lt;a href=&#34;http://www.mytestbox.com/miscellaneous/content-delivery-networks-cdn-list/&#34;&gt;list of CDNs&lt;/a&gt;.&lt;/li&gt;
     &lt;/ol&gt;
 &lt;/li&gt;
 
@@ -245,16 +245,16 @@ A word of caution to other optimizers, don&#39;t get over obsessed with yslow, G
 
 &lt;h3&gt;Shameless Plug&lt;/h3&gt;
 
-I am available for &lt;a href=&#34;http://www.sajalkayan.com/web-speed-consulting-services&#34;&gt;consulting on web speed issues&lt;/a&gt;, contact details in the right sidebar.
+I am available for &lt;a href=&#34;https://www.sajalkayan.com/web-speed-consulting-services&#34;&gt;consulting on web speed issues&lt;/a&gt;, contact details in the right sidebar.
 </description>
     </item>
     
     <item>
       <title>ATTN Big Media: Web page speed matters!</title>
-      <link>http://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html</link>
+      <link>https://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html</link>
       <pubDate>Sun, 04 Jul 2010 14:59:50 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html</guid>
+      <guid>https://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html</guid>
       <description>I am not a front-end kinda guy, but these days my latest obsession is to test and improve web page loading times. With this blogpost, I intend to show with examples of some selected websites and what are they doing right and what *desperately* needs to be improved. As I learn more about this I will be posting more in-depth posts on these issues.
 
 &lt;h4&gt;Why does it matter?&lt;/h4&gt;
@@ -282,13 +282,13 @@ Some test results :-
         &lt;th colspan=&#34;4&#34;&gt;My Sites&lt;/th&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-        &lt;td&gt;&lt;a href=&#34;http://www.sajalkayan.com/&#34; title=&#34;Sajal Kayan&#34;&gt;Main blog page&lt;/a&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&#34;https://www.sajalkayan.com/&#34; title=&#34;Sajal Kayan&#34;&gt;Main blog page&lt;/a&gt;&lt;/td&gt;
 		&lt;td&gt;436,669&lt;/td&gt;
         &lt;td&gt;&lt;a href=&#34;http://www.webpagetest.org/result/100703_2a389e9913355156fe514dad6496fa1f/&#34; rel=&#34;nofollow&#34;&gt;1.512s&lt;/a&gt;&lt;/td&gt;
         &lt;td&gt;&lt;a href=&#34;http://www.webpagetest.org/result/100703_2a389e9913355156fe514dad6496fa1f/&#34; rel=&#34;nofollow&#34;&gt;1.038s&lt;/a&gt;&lt;/td&gt;
     &lt;/tr&gt;
     &lt;tr&gt;
-        &lt;td&gt;A single &lt;a href=&#34;http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html&#34; title=&#34;In a CDN’d world, OpenDNS is the enemy!&#34;&gt;post&lt;/a&gt; page on my blog.&lt;/td&gt;
+        &lt;td&gt;A single &lt;a href=&#34;https://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html&#34; title=&#34;In a CDN’d world, OpenDNS is the enemy!&#34;&gt;post&lt;/a&gt; page on my blog.&lt;/td&gt;
 		&lt;td&gt;436,669&lt;/td&gt;
         &lt;td&gt;&lt;a href=&#34;http://www.webpagetest.org/result/100630_f939860d7469491b4445dbd93d9fd9a2/&#34; rel=&#34;nofollow&#34;&gt;0.822s&lt;/a&gt;&lt;/td&gt;
         &lt;td&gt;&lt;a href=&#34;http://www.webpagetest.org/result/100630_f939860d7469491b4445dbd93d9fd9a2/&#34; rel=&#34;nofollow&#34;&gt;0.648s&lt;/a&gt;&lt;/td&gt;
@@ -530,13 +530,13 @@ An optimizers goal should not be simply to get the total load time low. Thats im
     
     <item>
       <title>In a CDN&#39;d world, OpenDNS is the enemy!</title>
-      <link>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</link>
+      <link>https://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</link>
       <pubDate>Mon, 17 May 2010 17:19:30 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
+      <guid>https://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html</guid>
       <description>While many people are happy with using DNS service providers such as OpenDNS, Google, etc... I will show you here why they may not produce optimal results.
 
-The way most &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDNs&lt;/a&gt; work is by using DNS routing. When a user attempts to resolve a hostname, the CDN&#39;s DNS server responds with an IP which is closest based on the IP address of the requester. A more detailed insight into the workings of a CDN can be found on an earlier post &#34;&lt;a href=&#34;http://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34;&gt;Make your own cheap charlie CDN&lt;/a&gt;&#34;
+The way most &lt;a href=&#34;http://www.cdnplanet.com/&#34;&gt;CDNs&lt;/a&gt; work is by using DNS routing. When a user attempts to resolve a hostname, the CDN&#39;s DNS server responds with an IP which is closest based on the IP address of the requester. A more detailed insight into the workings of a CDN can be found on an earlier post &#34;&lt;a href=&#34;https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34;&gt;Make your own cheap charlie CDN&lt;/a&gt;&#34;
 
 For my test here, I tested from the following locations listed below :-
 &lt;ol&gt;
@@ -740,7 +740,7 @@ The solution would be to use your ISPs DNS server rather than these Global provi
 
 &lt;a href=&#34;http://www.linkedin.com/in/billf&#34;&gt;Bill Fumerola&lt;/a&gt;, ex-director of network engineering at OpenDNS &lt;a href=&#34;http://forums.opendns.com/comments.php?DiscussionID=1096#Item_7&#34;&gt;confirms this problem&lt;/a&gt; on OpenDNS forums.
 
-You can run the tests from your own computer using this simple script: &lt;a href=&#34;http://www.sajalkayan.com/dnstest.py&#34; target=&#34;_blank&#34;&gt;dnstest.py&lt;/a&gt;
+You can run the tests from your own computer using this simple script: &lt;a href=&#34;https://www.sajalkayan.com/dnstest.py&#34; target=&#34;_blank&#34;&gt;dnstest.py&lt;/a&gt;
 
 Here is the named.conf for a recursive server. Set your computer to use 127.0.0.1 as the DNS. - config may differ for you, RTFM and adapt accordingly.
 &lt;pre&gt;options {
@@ -784,15 +784,15 @@ EDIT 5: Added link to Bill Fumerola’s explanation of the problem.
     
     <item>
       <title>Future releases of Firefox to speed page load time considerably?</title>
-      <link>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
+      <link>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
       <pubDate>Wed, 20 Jan 2010 14:29:58 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
+      <guid>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
       <description>Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
 
 Especially when within one ad code, I have a default ad code and that too has a default. This means, when an impression is trying to be filled, the ad network decides, if they can fill the impression based on parameters I set or not. If not, then they pass the impression down the chain to another network. It goes on until the end network. In my case the chain is mostly 3 networks. I cant increase it as it results in a poorer user experience.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
 
 Recently, Google started showing average response times in &lt;a href=&#34;https://www.google.com/webmasters/tools/home?hl=en&#34;&gt;Google Webmaster Tools&lt;/a&gt; so, Ive started worrying about these things more than I should.
 
@@ -800,13 +800,13 @@ On &lt;a title=&#34;Thaindian News&#34; href=&#34;http://www.thaindian.com/newsp
 
 My first impression of &lt;a href=&#34;https://www.google.com/admanager&#34;&gt;Google ad manager&lt;/a&gt; was excellent. My page was no more held up while the ads loaded, but soon I realized thats not an admanager feature, it is &lt;strong&gt;firefox 3.5.8pre&lt;/strong&gt; which is speeding things up.
 
-&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
 
 Browsers Useragent : &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8pre) Gecko/20100116 Ubuntu/9.04 (jaunty) Shiretoko/3.5.8pre&lt;/em&gt; (Click image for full screenshot)
 
 My tests on my laptop shows otherwise. (it runs 3.0.17).
 
-&lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
 
 Browsers Useragent: &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.16) Gecko/2009121601 Ubuntu/9.04 (jaunty) Firefox/3.0.17&lt;/em&gt; (Click on image for full screenshot)
 
@@ -823,7 +823,7 @@ Of course there is a neat and ideal solution... which is to make your template i
 
 In an ideal world, all ad networks would be banned from using &lt;em&gt;document.write&lt;/em&gt; in their scripts and use some form of ajax to call the banner code after(or during) rest of the page has loaded. Its not 2001 anymore!
 
-Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;http://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
+Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
 
 The info i need, could be like the following example:-
 

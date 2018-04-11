@@ -2,23 +2,23 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Firefox on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/firefox.xml</link>
+    <link>https://www.sajalkayan.com/tag/firefox.xml</link>
     <description>Recent content in Firefox on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/firefox.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/firefox.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Bangkok Bank is busy sucking Microsoft&#39;s &#39;certain body part&#39;</title>
-      <link>http://www.sajalkayan.com/bangkok-bank-is-busy-sucking-microsofts-certain-body-part.html</link>
+      <link>https://www.sajalkayan.com/bangkok-bank-is-busy-sucking-microsofts-certain-body-part.html</link>
       <pubDate>Tue, 03 Jun 2008 11:07:30 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/bangkok-bank-is-busy-sucking-microsofts-certain-body-part.html</guid>
+      <guid>https://www.sajalkayan.com/bangkok-bank-is-busy-sucking-microsofts-certain-body-part.html</guid>
       <description>Until today i used to be a big fan of Bangkok Bank. In fact everyone in my family and even their companies have been using Bangkok Bank as the primary bank, in many cases their only Bank. I was quite happy with their service, only recently opened an account in another bank for certain cool features that they have which is not the point of my rant here.
 
 So... what changed today? Well I tried to do my first login to my BizIBanking (yeah lame buzzword) account. Following the instructions in the email, i clicked login and instead of the login screen I got...
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/bbl-error.png&#34; alt=&#34;Bangkok Bank supports IE only&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/06/bbl-error.png&#34; alt=&#34;Bangkok Bank supports IE only&#34; /&gt;
 &lt;!--more--&gt;
 This is quite lame. I thought that one of the biggest banks wont try to push down an American capitalist product down the throat of not so rich Thai users, there must be a mistake. So i called up their friendly call center. After numerous IVR selections I finally got thru to their friendly staff.
 (approximate conversation - my memory gets weaker when my head gets hot!)
@@ -37,11 +37,11 @@ HE : Have a Good Day.
 
 At this point I nearly stormed out of my office to goto the bank to close my account, then i realized its past the banks closing hours. I decided to play with user agents. I changed my user agent to &#34;IE 7 on Vista&#34; using the User Agent Switcher firefox plugin.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/user-agent.png&#34; alt=&#34;User Agent IE on Vista&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/06/user-agent.png&#34; alt=&#34;User Agent IE on Vista&#34; /&gt;
 
 Changing User agent, everything works fine!!!
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/bbl-works.png&#34; alt=&#34;BBL now works on Firefox!&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/06/bbl-works.png&#34; alt=&#34;BBL now works on Firefox!&#34; /&gt;
 
 Most such websites usually don&#39;t work on Firefox as their programmers are lazy.. but in this case it does work on Firefox. I really wonder what is their hidden agenda behind attempting (poorly) to block firefox users from visiting their site???
 

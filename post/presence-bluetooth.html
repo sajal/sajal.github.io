@@ -15,9 +15,9 @@ https://keybase.io/sajal -->
   <title> Detecting presence using Bluetooth &middot; Sajal Kayan </title>
 
   
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/poole.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/syntax.css">
-  <link rel="stylesheet" href="http://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
   <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
 
   
@@ -25,10 +25,10 @@ https://keybase.io/sajal -->
   <link rel="shortcut icon" href="/favicon.ico">
 
   
-  <link href="http://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
-<script>
-(function(a,b,c){function d(){var a=b.createElement(c),d=b.getElementsByTagName(c)[0];a.async=a.src="https://rum.turbobytes.com/static/rum/rum.js",d.parentNode.insertBefore(a,d)}if(a.location.protocol=="https:")return;a.addEventListener&&a.addEventListener("load",d,!1)})(window,document,"script")
-</script>
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+  !function(a,b,c){function d(){if(!a.TURBOBYTESstarted){a.TURBOBYTESstarted=!0;var d=b.createElement(c),e=b.getElementsByTagName(c)[0];d.async=d.src="https://rum.turbobytes.com/static/rum/rum.js",e.parentNode.insertBefore(d,e)}}function e(){setTimeout(d,2e3)}a.addEventListener&&a.chrome&&(b.readyState&&"complete"!==b.readyState?(a.addEventListener("load",e,!1),setTimeout(d,15e3)):e())}(window,document,"script");
+  </script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -62,7 +62,7 @@ https://keybase.io/sajal -->
       
     </ul>
 
-    <p>&copy; 2017. All rights reserved.  <img src="/images/cc.png" /></p>
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
   </div>
 </div>
 
@@ -73,16 +73,16 @@ https://keybase.io/sajal -->
   <span class="post-date">
     Sun, Sep 18, 2016
     
-    <a 
-      class="twitter-share-button" 
+    <a
+      class="twitter-share-button"
       href="https://twitter.com/share"
       data-via="sajal"
-      data-text="Detecting presence using Bluetooth" 
+      data-text="Detecting presence using Bluetooth"
       data-url="http://www.sajalkayan.com/post/presence-bluetooth.html"
       >
       Tweet
     </a>
-    <a 
+    <a
       href="http://news.ycombinator.com/submit"
       class="hn-share-button"
       data-title="Detecting presence using Bluetooth"
@@ -93,6 +93,7 @@ https://keybase.io/sajal -->
     
     
   </span>
+      
       
 
 <p><em>How to programmatically detect whether I am at home or not?</em> - That&rsquo;s the problem I am currently trying to solve. In this post I will outline what methods I am using and what I have tried/considered.</p>
@@ -105,9 +106,9 @@ https://keybase.io/sajal -->
 
 <p>My router would assign a static IP to my phone using DHCP, and the result of a ping test would indicate my presence.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
-ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt; /dev/null
+ping -c <span style="color: #6600EE; font-weight: bold">3</span> <span style="color: #6600EE; font-weight: bold">192</span>.168.x.x &gt; /dev/null
 <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #996633">$?</span> -eq  <span style="color: #6600EE; font-weight: bold">0</span> <span style="color: #333333">]</span>; <span style="color: #008800; font-weight: bold">then</span>
 	<span style="color: #888888">#Sajal is at home...</span>
 <span style="color: #008800; font-weight: bold">else</span>
@@ -123,7 +124,7 @@ ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt
 
 <p>I altered this a bit by using arp instead of ping.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
 <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #008800; font-weight: bold">$(</span>arp -n | grep <span style="background-color: #fff0f0">&quot;xx:xx:xx:xx:xx:xx&quot;</span> | wc -l<span style="color: #008800; font-weight: bold">)</span> -eq  <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #333333">]</span>; <span style="color: #008800; font-weight: bold">then</span>
 	<span style="color: #888888">#Sajal is at home...</span>
@@ -144,7 +145,7 @@ ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt
 
 <p>I have the following Go code running on a Raspberry Pi 3 (which has Bluetooth builtin).</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;<span style="color: #008800; font-weight: bold">package</span> main
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;<span style="color: #008800; font-weight: bold">package</span> main
 
 <span style="color: #008800; font-weight: bold">import</span> (
 	<span style="background-color: #fff0f0">&quot;flag&quot;</span>
@@ -197,7 +198,7 @@ ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt
 
 <p>I need to use this http API because the bash script runs on a device without Bluetooth support. My bash script evolved to call the Go code using curl.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;#!/bin/bash
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;#!/bin/bash
 
 <span style="color: #008800; font-weight: bold">if</span> <span style="color: #333333">[</span> <span style="color: #008800; font-weight: bold">$(</span>curl --write-out %<span style="color: #333333">{</span>http_code<span style="color: #333333">}</span> --silent --output /dev/null http://192.168.x.x:8081/xx:xx:xx:xx:xx:xx<span style="color: #008800; font-weight: bold">)</span> -eq <span style="color: #6600EE; font-weight: bold">200</span> <span style="color: #333333">]</span>; <span style="color: #008800; font-weight: bold">then</span>
 	<span style="color: #888888">#Sajal is at home...</span>
@@ -216,18 +217,18 @@ ping -c <span style="color: #6600EE; font-weight: bold">3</span> 192.168.x.x &gt
 <li>Test if it is pingable. Phone does not need to be detectable any more.</li>
 </ol>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~<span style="color: #996633">$ </span>hcitool scan
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~$ hcitool scan
 Scanning ...
 	yy:yy:yy:yy:yy:yy	KDL-50W800C
 	xx:xx:xx:xx:xx:xx	G4
-pi@raspberrypi:~<span style="color: #996633">$ </span>sudo l2ping -c <span style="color: #6600EE; font-weight: bold">4</span> xx:xx:xx:xx:xx:xx
-Ping: xx:xx:xx:xx:xx:xx from zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>data size 44<span style="color: #333333">)</span> ...
-<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">0</span> <span style="color: #007020">time </span>5.90ms
-<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #007020">time </span>7.35ms
-<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #007020">time </span>28.66ms
-<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">3</span> <span style="color: #007020">time </span>28.64ms
-<span style="color: #6600EE; font-weight: bold">4</span> sent, <span style="color: #6600EE; font-weight: bold">4</span> received, 0% loss
-pi@raspberrypi:~<span style="color: #996633">$ </span>
+pi@raspberrypi:~$ sudo l2ping -c <span style="color: #6600EE; font-weight: bold">4</span> xx:xx:xx:xx:xx:xx
+Ping: xx:xx:xx:xx:xx:xx from zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>data size <span style="color: #6600EE; font-weight: bold">44</span><span style="color: #333333">)</span> ...
+<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">0</span> <span style="color: #007020">time</span> <span style="color: #6600EE; font-weight: bold">5</span>.90ms
+<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">1</span> <span style="color: #007020">time</span> <span style="color: #6600EE; font-weight: bold">7</span>.35ms
+<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">2</span> <span style="color: #007020">time</span> <span style="color: #6600EE; font-weight: bold">28</span>.66ms
+<span style="color: #6600EE; font-weight: bold">0</span> bytes from xx:xx:xx:xx:xx:xx id <span style="color: #6600EE; font-weight: bold">3</span> <span style="color: #007020">time</span> <span style="color: #6600EE; font-weight: bold">28</span>.64ms
+<span style="color: #6600EE; font-weight: bold">4</span> sent, <span style="color: #6600EE; font-weight: bold">4</span> received, <span style="color: #6600EE; font-weight: bold">0</span>% loss
+pi@raspberrypi:~$ 
 
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
@@ -260,31 +261,31 @@ pi@raspberrypi:~<span style="color: #996633">$ </span>
 
 <p>I investigated more about the possibility of using my Fitbit Charge HR for presence. It is not a practical option. The pi can detect it, but if I open the Fitbit app on my phone, the Fitbit <a href="https://community.fitbit.com/t5/Web-API/Charge-HR-and-Bit-Finder-Geo-app/m-p/1106648#M4177">will stop advertising</a> until I either force close the Fitbit app, or turn off (and on) the Bluetooth functionality on the phone.</p>
 
-<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%">&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~<span style="color: #996633">$ </span>sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
+<div class="highlight" style="background: #ffffff"><pre style="line-height: 125%"><span></span>&lt;pre&gt;&lt;code&gt;pi@raspberrypi:~$ sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
 LE Scan ...
 xx:xx:xx:xx:xx:xx <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 xx:xx:xx:xx:xx:xx Charge HR
 yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
-pi@raspberrypi:~<span style="color: #996633">$ </span><span style="color: #888888">#Now open app on phone and sync</span>
-pi@raspberrypi:~<span style="color: #996633">$ </span>sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
+pi@raspberrypi:~$ <span style="color: #888888">#Now open app on phone and sync</span>
+pi@raspberrypi:~$ sudo timeout --signal SIGINT <span style="color: #6600EE; font-weight: bold">5</span> hcitool lescan
 LE Scan ...
 zz:zz:zz:zz:zz:zz <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
 yy:yy:yy:yy:yy:yy <span style="color: #333333">(</span>unknown<span style="color: #333333">)</span>
-pi@raspberrypi:~<span style="color: #996633">$ </span>
+pi@raspberrypi:~$ 
 &lt;/code&gt;&lt;/pre&gt;
 </pre></div>
 
 
       
       <div>
-  Tags:  
+  Tags: 
     <a href="/tag/home-automation">home automation</a> </li>
-   
+  
     <a href="/tag/bluetooth">bluetooth</a> </li>
-   
+  
     <a href="/tag/presence">presence</a> </li>
-   
+  
     <a href="/tag/go">go</a> </li>
    <br />
   Categories:  <br />
@@ -300,7 +301,7 @@ pi@raspberrypi:~<span style="color: #996633">$ </span>
 		 
 		(function(w, d, s) {
 			function go(){
-				var dsq = d.createElement(s); 
+				var dsq = d.createElement(s);
 				dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
 				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
 			}
@@ -325,22 +326,22 @@ window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.ge
 
   </body>
 </html>
+
 <!--
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2.0.22 (GNU/Linux)
 
-iQIcBAEBCAAGBQJY+RbSAAoJEDlkkKy/FYKPQJEQAKdcJoHKCjO0cFih4nLqNCKU
-PXEK30MfKkHQ5qLNluyoCgO2LGaNIJYGvNWT8cgAkfklP1s/zkWllX3ZH3oQ8mIv
-CsPV6xx3gANWgDe3oLOOuAHEbS7375/7UENk0B2eoEQ9bnO2nkuxDxhjygzGSfg2
-EW8OjXFNVkqiEeAHajswTeqJzHknPQPsV9K+lr18W1cNUdNBdMJWSywL1kbkLE8D
-pwO4cW7Mito4DHBpBOoJO2O7wqQjCERzPlpmxZxswu4w7kpAySrpntvmAWKYAU3I
-hIC23C81tbsNMWM9oBfyLDJh7wYWaNYU8ai4AZtupdu2JPYdyllh3yUFCxnhr4LK
-yOXCWXZgC3roH7Ljg/spqhmcFC8kJQKyx2i9UokTO3rTRLaz0iEsqW5/DEBq0FEL
-xEeDNquEQkfddwmjdtODtZIYbQ9i3DljuvTYwO9IbfBbbz85m5rTqNZheURB5JRw
-TsNgsZdCFD2sti5dojToXuID+JvuLVKOOaWSYzCjCS7Ev59NtjA0CGS69aYDg/Zg
-SXAmDgTNYblvx6FccFrPTuurTeouoLnYjyhZFCdPQ5f4Z/uroOx5l8T81nGnoyv8
-w3MV7nUr4/gxu3D6LFZkgG4VrxpH2ZTIxPguBsUGJvvLBCqbHLhboaf7p88hETyb
-u5rxenVH3ia4xMSH8gXZ
-=X0Wb
+iQIcBAEBCAAGBQJazjPzAAoJEDlkkKy/FYKPTlcQAJC5Lk4KFJHwl3/8Ga7z5Roq
+nz9QU/s3OD9bz+XnOChqXFldCLYPVEz6+1RZHPhnBVBoQjAHYBuSunYetS4juqKQ
+Tu9b2rvIA5BZMaFhuWt60o8L9V3DRpkjmLy9cI520LbwyRbecV/Es6zp6yIweeZ1
+WjyH68xVgpPB9t0xDwzItaBbOOZoNREItDhj4SLc3pJSCjnBgh7ZjzGw3PqBx2vH
+ZZpAkSzBtO2vKf0+0d3NitFpPPZ8E11ZNKSbdSg4nBhrTq0YhQ39o+hQDnAY7o8x
+PcNRq1rMz3BkyDsib5P5MTG+H5TuWCDV6yS0afSuM0+0JmRatJXQulyTpJfy3mcH
+CMUqlN93X7Mc9OALkzgW8h8e7EqkNzDxPsMEjBbJr2q/A3eh82x2TIpYCt2/sPoi
+mKljHyPV9Vvo/H2hyp3/Bkft2pjgke2DTy6F1KKsEG/7Uhet7BYT+KWB6LES7m23
+9Y76RLAflBl2IrJDgwMzF/O5xUfZOGeKGmBmySJZTMcVqq2f0vw2MHsyuAjCRBpj
+yY+UDMtNSpIrv2b0p1j91wLsukDfwUzlPdhWqNSVGsb57asnXZZj4XvhwJT4VRw6
+Y1R1DeHFiSspNOlgGAoDZOp5CS2ZmgQzOq+NNFzODt/MGJFNw87UIPhjYMh9Rlb8
+uF2tL+aigK/7uVG7K6Et
+=31b7
 -----END PGP SIGNATURE-----
 -->

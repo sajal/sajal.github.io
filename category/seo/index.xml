@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Seo on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/category/seo.xml</link>
+    <link>https://www.sajalkayan.com/category/seo.xml</link>
     <description>Recent content in Seo on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/category/seo.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/category/seo.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Google News ranking factors, 2003 patent revealed</title>
-      <link>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</link>
+      <link>https://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</link>
       <pubDate>Thu, 20 Aug 2009 10:13:34 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</guid>
+      <guid>https://www.sajalkayan.com/google-news-ranking-factors-2003-patent-revealed.html</guid>
       <description>Via &lt;a href=&#34;http://www.webpronews.com/topnews/2009/08/19/possible-google-news-ranking-factors-revealed-in-patent&#34;&gt;WebProNews&lt;/a&gt; by Chris Crum
 A patent application by Google &#34;&lt;a href=&#34;http://patft.uspto.gov/netacgi/nph-Parser?Sect1=PTO2&amp;Sect2=HITOFF&amp;u=%2Fnetahtml%2FPTO%2Fsearch-adv.htm&amp;r=1&amp;p=1&amp;f=G&amp;l=50&amp;d=PTXT&amp;S1=7,577,655.PN.&amp;OS=pn/7,577,655&amp;RS=PN/7,577,655&#34;&gt;Systems and methods for improving the ranking of news articles&lt;/a&gt;&#34; was Granted on August 18, 2009. The patent was originally filed about 6 years ago on &#34;September 16, 2003&#34;. Interesting analysis in human readable language at &lt;a href=&#34;http://www.seobythesea.com/?p=2810&#34;&gt;Seo By The Sea&lt;/a&gt; by Bill Slawski.
 
@@ -42,7 +42,7 @@ I will first discuss points already established and then try to have my own conc
 &lt;strong&gt;Circulation statistics of the news source&lt;/strong&gt; : Circulation stats from various media monitoring agencies.
 
 &lt;strong&gt;The size of the staff associated with the news source &lt;/strong&gt; : Google recently started showing(where possible) author names in news search. These are detected automagically using some algorithm. Im quite sure that they have been tracking these internally for quite some time.
-&lt;img src=&#34;http://www.sajalkayan.com/Google.png&#34; alt=&#34;Google News search result showing Author Name&#34;&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/Google.png&#34; alt=&#34;Google News search result showing Author Name&#34;&gt;
 
 &lt;strong&gt;The number of news bureaus associated with the news source&lt;/strong&gt; To favour bigger more established news outlets.
 
@@ -56,9 +56,9 @@ I will first discuss points already established and then try to have my own conc
 
 &lt;h3&gt;Conclusion&lt;/h3&gt;
 
-This is not at all related to what Google told us about &lt;a href=&#34;http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html&#34;&gt;ranking on Google News&lt;/a&gt;, it does provide some nice insight.
+This is not at all related to what Google told us about &lt;a href=&#34;https://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html&#34;&gt;ranking on Google News&lt;/a&gt;, it does provide some nice insight.
 
-Now what i believe, is that &lt;a href=&#34;http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html&#34;&gt;Google News&lt;/a&gt; also implements what id like to call a &lt;strong&gt;Source Rank per Topic&lt;/strong&gt;. The &lt;em&gt;Breaking news score&lt;/em&gt; as explained above is applicable on per topic basis too. Example my site had few stories about an incident just after a major news broke. It got some traffic, then got clouded by the regular big sources which allegedly have a much higher &lt;em&gt;Source Rank&lt;/em&gt;. But from a couple of days later, any follow-ups I did, ranked well on Google News. My assumption is that Google sees which sources were the ones to &lt;em&gt;Break&lt;/em&gt; the particular story and assigns them a temporary(or permanent) authority on the topic.
+Now what i believe, is that &lt;a href=&#34;https://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html&#34;&gt;Google News&lt;/a&gt; also implements what id like to call a &lt;strong&gt;Source Rank per Topic&lt;/strong&gt;. The &lt;em&gt;Breaking news score&lt;/em&gt; as explained above is applicable on per topic basis too. Example my site had few stories about an incident just after a major news broke. It got some traffic, then got clouded by the regular big sources which allegedly have a much higher &lt;em&gt;Source Rank&lt;/em&gt;. But from a couple of days later, any follow-ups I did, ranked well on Google News. My assumption is that Google sees which sources were the ones to &lt;em&gt;Break&lt;/em&gt; the particular story and assigns them a temporary(or permanent) authority on the topic.
 
 I have no views on the content length point, but i do agree that more original sentences do result in a higher &lt;strong&gt;Source Rank&lt;/strong&gt;.
 
@@ -70,10 +70,10 @@ Google also sees(IMHO) regular SEO policies in determining the &lt;em&gt;Story R
     
     <item>
       <title>Goodbye Alexa : Google Trends for websites is here!</title>
-      <link>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</link>
+      <link>https://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</link>
       <pubDate>Sat, 21 Jun 2008 10:07:23 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</guid>
+      <guid>https://www.sajalkayan.com/goodbye-alexa-google-trends-for-websites-is-here.html</guid>
       <description>Earlier, every now and then I would go to Alexa to see my ranking to massage my ego. Now, Google has come up with a reality check - &lt;a href=&#34;http://trends.google.com/websites?q=sajalkayan.com&#34;&gt;Google Trends for websites&lt;/a&gt;.
 
 Google announced a new layer to Google Trends in an &lt;a href=&#34;http://googlewebmastercentral.blogspot.com/2008/06/new-layer-to-google-trends.html&#34;&gt;official blogpost&lt;/a&gt;. &lt;a href=&#34;http://www.mattcutts.com/blog/google-trends-for-websites/&#34;&gt;Matt Cutts&lt;/a&gt; and &lt;a href=&#34;http://searchengineland.com/080620-131900.php&#34;&gt;Barry Schwartz&lt;/a&gt; also blogged about it.
@@ -88,26 +88,26 @@ Upon login, you can see an estimate of the unique visitors. in my case the estim
 &lt;blockquote&gt;&lt;em&gt;Trends for Websites combines information from a variety of sources, such as aggregated Google search data, aggregated opt-in anonymous Google Analytics data, opt-in consumer panel data, and other third-party market research. The data is aggregated over millions of users, powered by computer algorithms, and doesn&#39;t contain personally identifiable information. Additionally, Google Trends for Websites only shows results for sites that receive a significant amount of traffic, and enforces minimum thresholds for inclusion in the tool.&lt;/em&gt;&lt;/blockquote&gt;
 In my case, Alexa puts me way ahead of websites I track. I know for fact that I should be lower than these. (click images to enlarge)
 
-&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/alexa-20080621.jpg&#34; title=&#34;Alexa Graph&#34; rel=&#34;lightbox&#34; &gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/alexa-20080621.jpg&#34; alt=&#34;Alexa Graph&#34; width=&#34;500&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/06/alexa-20080621.jpg&#34; title=&#34;Alexa Graph&#34; rel=&#34;lightbox&#34; &gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/06/alexa-20080621.jpg&#34; alt=&#34;Alexa Graph&#34; width=&#34;500&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
 
 Google Trends does a reality check : Now, these results are more believable.
 
-&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/google-website-trends.png&#34; title=&#34;Google Trends for Websites&#34; rel=&#34;lightbox&#34; &gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/06/google-website-trends.png&#34; alt=&#34;Google Trends for Websites&#34; width=&#34;500&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/06/google-website-trends.png&#34; title=&#34;Google Trends for Websites&#34; rel=&#34;lightbox&#34; &gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/06/google-website-trends.png&#34; alt=&#34;Google Trends for Websites&#34; width=&#34;500&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
 </description>
     </item>
     
     <item>
       <title>Me won Google schwag!</title>
-      <link>http://www.sajalkayan.com/me-won-google-schwag.html</link>
+      <link>https://www.sajalkayan.com/me-won-google-schwag.html</link>
       <pubDate>Fri, 18 Apr 2008 18:00:19 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/me-won-google-schwag.html</guid>
+      <guid>https://www.sajalkayan.com/me-won-google-schwag.html</guid>
       <description>On last week&#39;s &lt;a href=&#34;http://www.seroundtable.com/archives/016868.html&#34; target=&#34;_blank&#34;&gt;Video Recap of Weekly Search Buzz&lt;/a&gt;, &lt;a href=&#34;http://www.cartoonbarry.com/about.html&#34;&gt;Barry Schwartz&lt;/a&gt; of &lt;a href=&#34;http://www.seroundtable.com&#34; target=&#34;_blank&#34;&gt;seroundtable.com&lt;/a&gt; said he would is expecting schwag from a few companies, and he ran a video contest. The contest was to predict which companies schwag would arrive first. The correct entries would get the schwag as a prize. Here was my answer.
 &lt;blockquote&gt;&lt;em&gt;great show.
 for the quiz id say its Google!&lt;/em&gt;
 
 &lt;em&gt;i dont want others schwag :) &lt;/em&gt;&lt;/blockquote&gt;
-Now, I would get the schwag only if Google&#39;s schwag came first and and &lt;a href=&#34;http://www.seroundtable.com/archives/016930.html&#34; target=&#34;_blank&#34;&gt;it did&lt;/a&gt;. I already have one &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/2221137392/in/set-72157603798421941/&#34;&gt;Google Shirt&lt;/a&gt; which i won answering an easier question &lt;a href=&#34;http://www.sajalkayan.com/barcampbangkok-winter-2008-a-huge-success.html&#34; title=&#34;BarCampBangkok winter 2008 a HUGE success!&#34;&gt;at Barcamp Bangkok&lt;/a&gt;. Now this would be my second. Google schwag is not so common in this part of the world where we don&#39;t have many webmaster conferences or events.
+Now, I would get the schwag only if Google&#39;s schwag came first and and &lt;a href=&#34;http://www.seroundtable.com/archives/016930.html&#34; target=&#34;_blank&#34;&gt;it did&lt;/a&gt;. I already have one &lt;a href=&#34;http://www.flickr.com/photos/sajalkayan/2221137392/in/set-72157603798421941/&#34;&gt;Google Shirt&lt;/a&gt; which i won answering an easier question &lt;a href=&#34;https://www.sajalkayan.com/barcampbangkok-winter-2008-a-huge-success.html&#34; title=&#34;BarCampBangkok winter 2008 a HUGE success!&#34;&gt;at Barcamp Bangkok&lt;/a&gt;. Now this would be my second. Google schwag is not so common in this part of the world where we don&#39;t have many webmaster conferences or events.
 
 This weeks Video Recap of Weekly Search Buzz (Winners names at the end) :-
 
@@ -121,13 +121,13 @@ Thanks a lot Barry Schwartz and Google, both of you rock!
     
     <item>
       <title>Secrets of Google News...What I learnt the hard way!</title>
-      <link>http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</link>
+      <link>https://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</link>
       <pubDate>Thu, 03 Apr 2008 15:12:03 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</guid>
+      <guid>https://www.sajalkayan.com/secrets-of-google-newswhat-i-learnt-the-hard-way.html</guid>
       <description>Just now I noticed an &lt;a href=&#34;http://www.seroundtable.com/archives/016773.html&#34;&gt;interesting post from seroundtable&lt;/a&gt; on my feed-reader and it immediately caught my attention. Nice to hear things &lt;a href=&#34;http://googlenewsblog.blogspot.com/2008/04/psstsecrets-of-google-news-exposed.html&#34;&gt;directly from the horses mouth&lt;/a&gt;, most of them are what I assumed. searchengineland also posted &lt;a href=&#34;http://searchengineland.com/080403-083445.php&#34;&gt;some comments&lt;/a&gt; on this issue.
 &lt;blockquote&gt;&lt;em&gt;Having an image next to your article improves your ranking: MYTH&lt;/em&gt;&lt;/blockquote&gt;
-Having an image in an article might not improve your ranking, but it is a very important aspect for a &lt;a href=&#34;http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html&#34; title=&#34;SEO and news.google.com - Run your own news website&#34;&gt;Google News Publisher&lt;/a&gt;. Say if you are reporting on a story which has many sources, you stand to get greater exposure in case the image from your site is picked up for this story. Once, a story I had about &#34;Britney Spears&#34; had an image of her. Now the news story which showed up on organic SERPs for &#34;Britney Spears&#34; had the image from my site. Got shit loads of traffic on it.
+Having an image in an article might not improve your ranking, but it is a very important aspect for a &lt;a href=&#34;https://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html&#34; title=&#34;SEO and news.google.com - Run your own news website&#34;&gt;Google News Publisher&lt;/a&gt;. Say if you are reporting on a story which has many sources, you stand to get greater exposure in case the image from your site is picked up for this story. Once, a story I had about &#34;Britney Spears&#34; had an image of her. Now the news story which showed up on organic SERPs for &#34;Britney Spears&#34; had the image from my site. Got shit loads of traffic on it.
 &lt;blockquote&gt;&lt;em&gt;Updating an article after posting it will create problems with Google News: TRUE&lt;/em&gt;&lt;/blockquote&gt;
 Google said it would re-crawl the articles for updates in the future. This is good for me as some websites (including a popular English newspaper in Thailand) simply remove most stories after a couple of days of publishing and they still show up in the Google News search. This sux. They would be un-indexed if Google started to re-crawl news stories.
 &lt;blockquote&gt;&lt;em&gt;Timing the publication of your article improves your article ranking: MYTH&lt;/em&gt;&lt;/blockquote&gt;
@@ -135,11 +135,11 @@ I don&#39;t necessarily agree. It may not affect the ranking, but would definite
 &lt;blockquote&gt;&lt;em&gt;Articles that are just images or video won&#39;t be included: TRUE&lt;/em&gt;&lt;/blockquote&gt;
 Agree 100%
 &lt;blockquote&gt;&lt;em&gt;There&#39;s no way to see why my articles weren&#39;t included in Google News: MYTH&lt;/em&gt;&lt;/blockquote&gt;
-As the Google&#39;s blog post says, the web master tools does an excellent job in finding &lt;a href=&#34;http://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html&#34; title=&#34;Google works in mysterious ways - Stops Crawling&#34;&gt;potential issues&lt;/a&gt; with the crawling your site.
+As the Google&#39;s blog post says, the web master tools does an excellent job in finding &lt;a href=&#34;https://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html&#34; title=&#34;Google works in mysterious ways - Stops Crawling&#34;&gt;potential issues&lt;/a&gt; with the crawling your site.
 &lt;blockquote&gt;&lt;em&gt;Publishing a sitemap helps my rankings: MYTH&lt;/em&gt;&lt;/blockquote&gt;
 But... it does help Google find new stories. or a story which they might have missed on the website.
 &lt;blockquote&gt;&lt;em&gt;Redesigning my site may affect my coverage in Google News: TRUE&lt;/em&gt;&lt;/blockquote&gt;
-AFAIK this should not be such an issue. I launched a new section on an entirely different &lt;a href=&#34;http://www.sajalkayan.com/tag/cms&#34;&gt;CMS&lt;/a&gt; and from the first minute Google has had no issues in crawling the content. I even make tweaks in the template here and there and they don&#39;t have problems. I think the problem occurs if your layout is crappy with lots of junk in it. But for most properly done sites it shouldn&#39;t be an issue.
+AFAIK this should not be such an issue. I launched a new section on an entirely different &lt;a href=&#34;https://www.sajalkayan.com/tag/cms&#34;&gt;CMS&lt;/a&gt; and from the first minute Google has had no issues in crawling the content. I even make tweaks in the template here and there and they don&#39;t have problems. I think the problem occurs if your layout is crappy with lots of junk in it. But for most properly done sites it shouldn&#39;t be an issue.
 &lt;blockquote&gt;&lt;em&gt;If I put AdSense on my site, my article rankings will improve: MYTH&lt;/em&gt;&lt;/blockquote&gt;
 We have faith in Google. Even if the Google blog said this were true I wouldn&#39;t believe it ;)
 </description>
@@ -147,18 +147,18 @@ We have faith in Google. Even if the Google blog said this were true I wouldn&#3
     
     <item>
       <title>thaindian.com now has sitelinks on google SERPs</title>
-      <link>http://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</link>
+      <link>https://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</link>
       <pubDate>Sun, 09 Mar 2008 10:57:38 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</guid>
+      <guid>https://www.sajalkayan.com/thaindiancom-now-has-sitelinks-on-google-serps.html</guid>
       <description>w00t!
 
 Just noticed today. &lt;a href=&#34;http://www.thaindian.com/&#34; title=&#34;Indians in Thailand&#34;&gt;Thaindian.com&lt;/a&gt; now has sitelinks on &lt;a href=&#34;http://www.google.com/search?q=indians+in+thailand&#34; title=&#34;Google SERPs for &#34;indians in thailand&#34;&#34; target=&#34;_blank&#34;&gt;Google Search Result Pages&lt;/a&gt;. I found it while mucking around inside the Google Webmaster tools. In the web master tools, I can &#34;block&#34; pages from the sitelinks if i wished to do so.
 
-&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-sitelinks.png&#34; title=&#34;Google Sitelinks on Thaindian.com&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-sitelinks-th.png&#34; alt=&#34;Google Sitelinks on Thaindian.com&#34; border=&#34;0&#34; /&gt;
+&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-sitelinks.png&#34; title=&#34;Google Sitelinks on Thaindian.com&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-sitelinks-th.png&#34; alt=&#34;Google Sitelinks on Thaindian.com&#34; border=&#34;0&#34; /&gt;
 Click to Enlarge&lt;/a&gt;
 
-&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-wmt-sitelinks.png&#34; title=&#34;Google Sitelinks management in Webmaster Tools&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-wmt-sitelinks-th.png&#34; alt=&#34;Google Sitelinks management in Webmaster Tools&#34; border=&#34;0&#34; /&gt;
+&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-wmt-sitelinks.png&#34; title=&#34;Google Sitelinks management in Webmaster Tools&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-wmt-sitelinks-th.png&#34; alt=&#34;Google Sitelinks management in Webmaster Tools&#34; border=&#34;0&#34; /&gt;
 Click to enlarge&lt;/a&gt;
 
 Now i wish I would have some way of easily adding/editing the links in the sitelinks!
@@ -167,14 +167,14 @@ Now i wish I would have some way of easily adding/editing the links in the sitel
     
     <item>
       <title>SEO and news.google.com - Run your own news website</title>
-      <link>http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html</link>
+      <link>https://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html</link>
       <pubDate>Thu, 06 Mar 2008 22:24:04 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html</guid>
-      <description>&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-news.gif&#34; alt=&#34;Google News Logo&#34; align=&#34;left&#34; /&gt;As a relatively &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34; target=&#34;_blank&#34;&gt;new news publisher&lt;/a&gt; accepted into the &lt;a href=&#34;http://news.google.com&#34; title=&#34;Google News&#34; target=&#34;_blank&#34;&gt;Google News Search&lt;/a&gt;, I am exploring/testing various ways to rank better in the Google News Search. When I first started, I faced many problems like the &lt;a href=&#34;http://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html&#34; title=&#34;Google works in mysterious ways - Stops Crawling&#34;&gt;MTU issue&lt;/a&gt;, but since there was(and still is) a lack of online resources and blogs discussing how it works, I had to learn the hard way. On my blog here I intend to change this. Sure there is a &lt;a href=&#34;http://googlenewsblog.blogspot.com/&#34; title=&#34;Google News Blog&#34; target=&#34;_blank&#34;&gt;Google News Blog&lt;/a&gt;, but the posts are targeted towards news surfers not news publishers. A good place to ask questions would be at &lt;a href=&#34;http://groups.google.com/group/news-HelpPublishers/topics&#34; title=&#34;Google News Publishers - Troubleshooting&#34; target=&#34;_blank&#34;&gt;Google news publishers group&lt;/a&gt;, but most queries there are left unanswered for weeks.
+      <guid>https://www.sajalkayan.com/seo-and-newsgooglecom-run-your-own-news-website.html</guid>
+      <description>&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-news.gif&#34; alt=&#34;Google News Logo&#34; align=&#34;left&#34; /&gt;As a relatively &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34; target=&#34;_blank&#34;&gt;new news publisher&lt;/a&gt; accepted into the &lt;a href=&#34;http://news.google.com&#34; title=&#34;Google News&#34; target=&#34;_blank&#34;&gt;Google News Search&lt;/a&gt;, I am exploring/testing various ways to rank better in the Google News Search. When I first started, I faced many problems like the &lt;a href=&#34;https://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html&#34; title=&#34;Google works in mysterious ways - Stops Crawling&#34;&gt;MTU issue&lt;/a&gt;, but since there was(and still is) a lack of online resources and blogs discussing how it works, I had to learn the hard way. On my blog here I intend to change this. Sure there is a &lt;a href=&#34;http://googlenewsblog.blogspot.com/&#34; title=&#34;Google News Blog&#34; target=&#34;_blank&#34;&gt;Google News Blog&lt;/a&gt;, but the posts are targeted towards news surfers not news publishers. A good place to ask questions would be at &lt;a href=&#34;http://groups.google.com/group/news-HelpPublishers/topics&#34; title=&#34;Google News Publishers - Troubleshooting&#34; target=&#34;_blank&#34;&gt;Google news publishers group&lt;/a&gt;, but most queries there are left unanswered for weeks.
 
 As per &lt;a href=&#34;http://en.wikipedia.org/wiki/Google_News&#34; title=&#34;Google News on Wikipedia&#34; target=&#34;_blank&#34;&gt;wikipedia&lt;/a&gt; :
-&lt;blockquote&gt;&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-news-screenshot.png&#34; title=&#34;Screenshot of Google News&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-news-screenshot.thumbnail.png&#34; alt=&#34;Screenshot of Google News&#34; align=&#34;right&#34; border=&#34;0&#34; vspace=&#34;4&#34; hspace=&#34;10&#34; /&gt;&lt;/a&gt;&lt;em&gt;Google News is an automated news aggregator provided by Google Inc. The initial idea, StoryRank - related to Google&#39;s PageRank formula, was developed by Krishna Bharat in 2001, the Principal Research Scientist of Google. Google News left beta in January 2006.&lt;/em&gt;&lt;!--more--&gt;&lt;/blockquote&gt;
+&lt;blockquote&gt;&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-news-screenshot.png&#34; title=&#34;Screenshot of Google News&#34; rel=&#34;lightbox&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-news-screenshot.thumbnail.png&#34; alt=&#34;Screenshot of Google News&#34; align=&#34;right&#34; border=&#34;0&#34; vspace=&#34;4&#34; hspace=&#34;10&#34; /&gt;&lt;/a&gt;&lt;em&gt;Google News is an automated news aggregator provided by Google Inc. The initial idea, StoryRank - related to Google&#39;s PageRank formula, was developed by Krishna Bharat in 2001, the Principal Research Scientist of Google. Google News left beta in January 2006.&lt;/em&gt;&lt;!--more--&gt;&lt;/blockquote&gt;
 Let me explain some of the important factors to consider before &lt;a href=&#34;http://www.google.com/support/news/bin/request.py&#34; target=&#34;_blank&#34;&gt;submitting your site for inclusion in Google News&lt;/a&gt; Search. Do remember to go thru &lt;a href=&#34;http://www.google.com/support/news_pub/&#34; title=&#34;Help for Google News publishers&#34; target=&#34;_blank&#34;&gt;Google&#39;s Help for Publishers&lt;/a&gt; for updated and authentic information.
 &lt;ol&gt;
 	&lt;li&gt;&lt;strong&gt;Your website should be owned by a company or organization&lt;/strong&gt; : Google doesn&#39;t accept blogs or website run by an individual or group of people who don&#39;t have any legal status. Google needs someone to be accountable for the news stories. The contact details of your organization must be mentioned on the site and well linked. Probably from the About Us page.&lt;/li&gt;
@@ -189,7 +189,7 @@ I like to classify the surfers into these 2 categories:-
 &lt;/ol&gt;
 &lt;strong&gt;The sample listing on news.google.com homepage:-&lt;/strong&gt;
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/03/google-news-sample.png&#34; alt=&#34;Sample listing on news.google.com homepage&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/google-news-sample.png&#34; alt=&#34;Sample listing on news.google.com homepage&#34; /&gt;
 
 Google News has a very smart algorithm to club stories on the same topic together. These are the following components of this particular story.
 &lt;ul&gt;
@@ -199,70 +199,70 @@ Google News has a very smart algorithm to club stories on the same topic togethe
 	&lt;li&gt;&lt;strong&gt;The links in Green&lt;/strong&gt; : There are same as Headlines in Blue, the difference is that here the website name is shown rather than the headline. These get lesser clicks as the user doesn&#39;t know what they will get on clicking on it.&lt;/li&gt;
 	&lt;li&gt;&lt;strong&gt;The &#34;all nnn news articles&#34;&lt;/strong&gt; : This shows the search result of all articles Google thinks is reporting the same issue/story.&lt;/li&gt;
 &lt;/ul&gt;
-In the next post I will be writing about &lt;strong&gt;image optimization for Google News&lt;/strong&gt;. Be sure to &lt;a href=&#34;http://www.sajalkayan.com/feed&#34; rel=&#34;feed&#34;&gt;subscribe to my feed&lt;/a&gt; to be updated.
+In the next post I will be writing about &lt;strong&gt;image optimization for Google News&lt;/strong&gt;. Be sure to &lt;a href=&#34;https://www.sajalkayan.com/feed&#34; rel=&#34;feed&#34;&gt;subscribe to my feed&lt;/a&gt; to be updated.
 </description>
     </item>
     
     <item>
       <title>Google Webmaster tools now on iGoogle homepage!</title>
-      <link>http://www.sajalkayan.com/google-webmaster-tools-now-on-igoogle-homepage.html</link>
+      <link>https://www.sajalkayan.com/google-webmaster-tools-now-on-igoogle-homepage.html</link>
       <pubDate>Fri, 29 Feb 2008 15:10:52 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-webmaster-tools-now-on-igoogle-homepage.html</guid>
+      <guid>https://www.sajalkayan.com/google-webmaster-tools-now-on-igoogle-homepage.html</guid>
       <description>&lt;a href=&#34;http://www.seroundtable.com/archives/016419.html&#34; title=&#34;Get Google Webmaster Tools on iGoogle as Gadgets&#34; target=&#34;_blank&#34;&gt;Just noticed&lt;/a&gt; a new feature on Google webmaster tools. Now we can get important information directly on iGoogle homepage. Adding this gadget is very easy. Simply log in to webmaster tools and under tools there is a new option called Gadgets. &lt;strong&gt;Thank you Google&lt;/strong&gt; and keep coming up with cool stuff like this!&lt;!--more--&gt;
 
-&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/wmt.png&#34; title=&#34;Webmaster Tools&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/wmt_th.png&#34; alt=&#34;Webmaster tools&#34; border=&#34;0&#34; /&gt;
+&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/wmt.png&#34; title=&#34;Webmaster Tools&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/wmt_th.png&#34; alt=&#34;Webmaster tools&#34; border=&#34;0&#34; /&gt;
 &lt;/a&gt;
 
 Click the button &#34;&lt;em&gt;Add an iGoogle Webmaster Tools Homepage&lt;/em&gt;&#34; and you are done!
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/wmt-1.png&#34; alt=&#34;Add an iGoogle Webmaster Tools Homepage Button&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/wmt-1.png&#34; alt=&#34;Add an iGoogle Webmaster Tools Homepage Button&#34; /&gt;
 
 Now, some neat statistics is available right here on my iGoogle Homepage
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle-crawl.png&#34; alt=&#34;crawl stats&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle-crawl.png&#34; alt=&#34;crawl stats&#34; /&gt;
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle-top-queries.png&#34; alt=&#34;Top Queries&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle-top-queries.png&#34; alt=&#34;Top Queries&#34; /&gt;
 
-&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle.png&#34; title=&#34;igoogle homepage&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle_th.png&#34; alt=&#34;igoogle homepage&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle.png&#34; title=&#34;igoogle homepage&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/igoogle_th.png&#34; alt=&#34;igoogle homepage&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
 </description>
     </item>
     
     <item>
       <title>SEOs Dance with Google - Tuesday 26th Feburary 2008</title>
-      <link>http://www.sajalkayan.com/seos-dance-with-google-tuesday-26th-feburary-2008.html</link>
+      <link>https://www.sajalkayan.com/seos-dance-with-google-tuesday-26th-feburary-2008.html</link>
       <pubDate>Tue, 26 Feb 2008 19:13:48 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/seos-dance-with-google-tuesday-26th-feburary-2008.html</guid>
+      <guid>https://www.sajalkayan.com/seos-dance-with-google-tuesday-26th-feburary-2008.html</guid>
       <description>Yesterday was&lt;strong&gt; Google Dance day&lt;/strong&gt; and the SEOs are perhaps still dancing today (Tuesday in US). Some say that &lt;strong&gt;page rank is useless&lt;/strong&gt;, but i tend to believe it has some relevance. At least it is an &lt;strong&gt;indicative of the link authority of the site&lt;/strong&gt;.
 
 First noticed it yesterday evening(early a.m. in US) when &lt;a href=&#34;http://www.barcampbangkok.org/&#34; title=&#34;The first BarCamp in Thailand&#34; target=&#34;_blank&#34;&gt;BarCampBangkok homepage&lt;/a&gt; showed pagerank 4. This was a direct jump from no rank. This is the result of loads of Bangkok based Geeks linking to BarCampBangkok from their blogs and sites. I too am guilty of providing a site wide link :)
 
 Another surprising change I noticed was our &lt;strong&gt;&lt;a href=&#34;http://www.chalothailand.com/&#34; title=&#34;Travel to Thailand&#34;&gt;travel portal&lt;/a&gt;&lt;/strong&gt;. Until yesterday, it had no page rank. The site has had site wide links from my other sites. Until a month ago all it had on it was meaningless &lt;a href=&#34;http://en.wikipedia.org/wiki/Lorem_ipsum&#34; title=&#34;Lorem Ipsum&#34; target=&#34;_blank&#34;&gt;Lipsum&lt;/a&gt;, I&#39;ve been adding content to it only since 5 weeks ago and it is a slow and painful process. But the bottom line is site wide links from 2 domains can get a site&#39;s homepage to page rank 5?
 
-Pagerank updates may not have finished, the results mentioned here may change. In the &lt;a href=&#34;http://www.sajalkayan.com/google-dance-day-today-how-has-been-the-response-for-you.html&#34; title=&#34;Google dance day today - How has been the response for you?&#34;&gt;last Google Dance&lt;/a&gt; my &lt;a href=&#34;http://www.thaindian.com/newsportal&#34; title=&#34;News from India, Thailand and the World&#34; target=&#34;_blank&#34;&gt;news site&lt;/a&gt; also jumped from 0 to 5. &lt;strong&gt;Thank you Google. &lt;/strong&gt;
+Pagerank updates may not have finished, the results mentioned here may change. In the &lt;a href=&#34;https://www.sajalkayan.com/google-dance-day-today-how-has-been-the-response-for-you.html&#34; title=&#34;Google dance day today - How has been the response for you?&#34;&gt;last Google Dance&lt;/a&gt; my &lt;a href=&#34;http://www.thaindian.com/newsportal&#34; title=&#34;News from India, Thailand and the World&#34; target=&#34;_blank&#34;&gt;news site&lt;/a&gt; also jumped from 0 to 5. &lt;strong&gt;Thank you Google. &lt;/strong&gt;
 </description>
     </item>
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)</title>
-      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
+      <link>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
       <pubDate>Tue, 26 Feb 2008 09:38:47 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
-      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
+      <guid>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
+      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
 
 Meta tags are an important part of the web page. They are used to pass information to browsers and bots and are not intended for the average browser to see. We will basically discuss about the 2 most common meta attributes which are &lt;strong&gt;keywords&lt;/strong&gt; and &lt;strong&gt;description&lt;/strong&gt;.
 
 &lt;strong&gt;In Joomla&lt;/strong&gt;, The editing of the meta tags is a core functionality, and can be added while editing or creating content.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
 
 Also note the &#34;Sect/Cat/Title&#34; button. when pressing it it automatically adds the Section name, Category name and the title of the content into the Keyword attribute.
 
 &lt;strong&gt;In Drupal&lt;/strong&gt;, the meta attributes cant be set by default, you would need to install a module such as &#34;&lt;a href=&#34;http://drupal.org/project/nodewords&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;Meta Tags&lt;/strong&gt;&lt;/a&gt;&#34; to do this for you.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
 
 This is the box while editing a node.
 
@@ -284,11 +284,11 @@ Source : &lt;a href=&#34;http://en.wikipedia.org/wiki/Meta_element#The_descripti
     
     <item>
       <title>Drupal vs Joomla - The SEO viewpoint - Part 1 URLs</title>
-      <link>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</link>
+      <link>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</link>
       <pubDate>Sun, 17 Feb 2008 12:06:25 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</guid>
-      <description>Last month I started using Drupal and explained how &lt;a href=&#34;http://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34;&gt;&lt;strong&gt;Drupal is better&lt;/strong&gt; in terms of organizing content when compared to Joomla&lt;/a&gt;. Today I am going to explain some &lt;strong&gt;SEO benifits of using Drupal over Joomla&lt;/strong&gt;.
+      <guid>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html</guid>
+      <description>Last month I started using Drupal and explained how &lt;a href=&#34;https://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34;&gt;&lt;strong&gt;Drupal is better&lt;/strong&gt; in terms of organizing content when compared to Joomla&lt;/a&gt;. Today I am going to explain some &lt;strong&gt;SEO benifits of using Drupal over Joomla&lt;/strong&gt;.
 
 This is the first part of a series and I will blog about &lt;strong&gt;Search Engine Friendly URLs&lt;/strong&gt; today:-
 
@@ -312,21 +312,21 @@ Drupal has &lt;a href=&#34;http://drupal.org/project/pathauto&#34;&gt;Pathauto&l
 
 &lt;strong&gt;Joomla has&lt;/strong&gt; (among others) &lt;strong&gt;&lt;a href=&#34;http://extensions.joomla.org/component/option,com_mtree/task,viewlink/link_id,2524/Itemid,35/&#34; title=&#34;NuSEF same as OpenSEF&#34;&gt;OpenSEF&lt;/a&gt;&lt;/strong&gt; : This has some nice features, but not as powerfull or even user friendly as Pathauto. Here all you only have is few limited options spread across dozens of config pages. If you wanted custom components to work, you have to find (beg/borrow/steal) a &lt;strong&gt;customized sef_ext.php script&lt;/strong&gt; for that particular component, not very cool thing to do. In Drupal you can set these things within pathauto only, indipendant of the modules. One thing good about OpenSEF is that it takes care of the duplicate content problem I mentioned earlier, but the downside is that it might not work how it was supposed to work as each URL would now get bound to a particular ItemID.
 
-Some might call me biased towards Drupal, but the bottom line is that &lt;strong&gt;&lt;a href=&#34;http://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34; title=&#34;Drupal vs Joomla&#34;&gt;Drupal rocks and Joomla Sux! &lt;/a&gt;&lt;/strong&gt;
+Some might call me biased towards Drupal, but the bottom line is that &lt;strong&gt;&lt;a href=&#34;https://www.sajalkayan.com/drupal-rulez-joomls-sux.html&#34; title=&#34;Drupal vs Joomla&#34;&gt;Drupal rocks and Joomla Sux! &lt;/a&gt;&lt;/strong&gt;
 
-Part 1 of the Series. More to follow later on various other aspects on &lt;strong&gt;Drupal and Joomla from an SEO viewpoint&lt;/strong&gt; . Subscribe to my &lt;a href=&#34;http://www.sajalkayan.com/feed&#34; title=&#34;RSS Feed&#34;&gt;feed&lt;/a&gt; to stay updated.
+Part 1 of the Series. More to follow later on various other aspects on &lt;strong&gt;Drupal and Joomla from an SEO viewpoint&lt;/strong&gt; . Subscribe to my &lt;a href=&#34;https://www.sajalkayan.com/feed&#34; title=&#34;RSS Feed&#34;&gt;feed&lt;/a&gt; to stay updated.
 </description>
     </item>
     
     <item>
       <title>Watch out Bangkok Post, Thaindian is coming!</title>
-      <link>http://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</link>
+      <link>https://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</link>
       <pubDate>Thu, 07 Feb 2008 14:04:20 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</guid>
+      <guid>https://www.sajalkayan.com/watch-out-bangkok-post-thaindian-is-coming.html</guid>
       <description>On 4th Feb, &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34;&gt;thaindian.com&lt;/a&gt; (BLUE) got a surge in traffic effectively kicking ass of other major news portals/forums.
 
-&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/02/ti-graph.png&#34; alt=&#34;ti-graph.png&#34; /&gt;
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/ti-graph.png&#34; alt=&#34;ti-graph.png&#34; /&gt;
 
 Sites overtaken.
 &lt;ol&gt;
@@ -346,10 +346,10 @@ Edit 9th Feb 2008 : &lt;em&gt;Short lived glory... now alexa shows thaindian.com
     
     <item>
       <title>Google dance day today - How has been the response for you?</title>
-      <link>http://www.sajalkayan.com/google-dance-day-today-how-has-been-the-response-for-you.html</link>
+      <link>https://www.sajalkayan.com/google-dance-day-today-how-has-been-the-response-for-you.html</link>
       <pubDate>Sat, 12 Jan 2008 19:55:03 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-dance-day-today-how-has-been-the-response-for-you.html</guid>
+      <guid>https://www.sajalkayan.com/google-dance-day-today-how-has-been-the-response-for-you.html</guid>
       <description>Today I noticed an update in the pageranks of my websites. Most pages going up 1 or 2 ranks. However one news sub-site that I launched on mid-November went up from 0 to 5 at a go!
 
 It was 0 till 11th but on 12th January morning (Thai time) I was shocked to see it at 5. At first I thought it must be some bur or connectivity issue. I restarted my network connection, then my router. then firefox then even my computer.. heck even pinched myself, still pagerank 5. Even called up a couple of friends to check the PR on their toolbars, all confirming it. This looks good for me. Ive never walked the extra mile getting backlinks, never paid for any links, never employed any SEO consultant. Just shows that with a little bit of common sense and white hat SEO you can rank well. You don&#39;t need any black magic, only common sense and pray to Google daily!
@@ -362,13 +362,13 @@ Lastly, Happy Google Dance Day to you all!
     
     <item>
       <title>Thaindian.com&#39;s traffic exceeds local slashdot</title>
-      <link>http://www.sajalkayan.com/thaindiancoms-traffic-exceeds-local-slashdot.html</link>
+      <link>https://www.sajalkayan.com/thaindiancoms-traffic-exceeds-local-slashdot.html</link>
       <pubDate>Sun, 06 Jan 2008 09:00:21 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/thaindiancoms-traffic-exceeds-local-slashdot.html</guid>
+      <guid>https://www.sajalkayan.com/thaindiancoms-traffic-exceeds-local-slashdot.html</guid>
       <description>It was one of those days where instead of doing some productive work, I was wasting my time comparing my alexa graph to competitors. I don&#39;t know what got into me I decided to compare &lt;a href=&#34;http://www.thaindian.com/&#34; title=&#34;Indians in Thailand&#34; target=&#34;_blank&#34;&gt;Thaindian&lt;/a&gt;&#39;s traffic to &lt;a href=&#34;http://blognone.com/&#34; title=&#34;Tech News That&#39;s Worth&#34; target=&#34;_blank&#34;&gt;Blognone&lt;/a&gt;&#39;s. Look at what I found!
 
-&lt;a href=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/01/ti-blognone.png&#34; rel=&#34;lightbox&#34; title=&#34;Thaindian.com’s traffic exceeds blognone!&#34;&gt;&lt;img src=&#34;http://www.sajalkayan.com/wp-content/uploads/2008/01/ti-blognone1.png&#34; alt=&#34;ti-blognone1.png&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
+&lt;a href=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/01/ti-blognone.png&#34; rel=&#34;lightbox&#34; title=&#34;Thaindian.com’s traffic exceeds blognone!&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/01/ti-blognone1.png&#34; alt=&#34;ti-blognone1.png&#34; border=&#34;0&#34; /&gt;&lt;/a&gt;
 
 Blognone is to Thais&#39; what Slashdot is to the world.
 </description>
@@ -376,10 +376,10 @@ Blognone is to Thais&#39; what Slashdot is to the world.
     
     <item>
       <title>Google works in mysterious ways - Stops Crawling</title>
-      <link>http://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html</link>
+      <link>https://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html</link>
       <pubDate>Fri, 04 Jan 2008 20:07:34 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html</guid>
+      <guid>https://www.sajalkayan.com/google-works-in-mysterious-ways-stops-crawling.html</guid>
       <description>I am running the website &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34;&gt;thaindian.com&lt;/a&gt; which on September of 2007 finally(after 3 attempts) got &lt;strong&gt;approved as a &lt;a href=&#34;http://news.google.com/news?q=site%3Athaindian.com&#34;&gt;Google news search source&lt;/a&gt;&lt;/strong&gt;. Since then we have seen a steady increase in traffic at the portal. We partnered with a news agency for latest Indian news also and they have been providing good content. Since &lt;strong&gt;content is still the king&lt;/strong&gt;(some might argue), it was going good for us.
 &lt;p style=&#34;text-align: center&#34;&gt;&lt;img src=&#34;http://traffic.alexa.com/graph?c=1&amp;amp;f=555555&amp;amp;u=thaindian.com&amp;amp;r=6m&amp;amp;y=r&amp;amp;z=3&amp;amp;h=300&amp;amp;w=500&#34; alt=&#34;Notice the low traffic in december begining.&#34; title=&#34;Notice the low traffic in december begining.&#34; border=&#34;0&#34; width=&#34;500&#34; height=&#34;300&#34; /&gt;&lt;/p&gt;
 Sometime in November, we suddenly increased the rate of putting new content (from approx &lt;strong&gt;30 articles/week&lt;/strong&gt; to about &lt;strong&gt;200 articles/day&lt;/strong&gt;) this got a HUGE surge in traffic. My &lt;a href=&#34;http://en.wikipedia.org/wiki/WAMP&#34;&gt;WAMP&lt;/a&gt; setup couldn&#39;t handle it, Apache would restart for no apparent reason. I sent in motion to get myself a &lt;a href=&#34;http://en.wikipedia.org/wiki/LAMP_%28software_bundle%29&#34;&gt;LAMP&lt;/a&gt; server.

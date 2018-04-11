@@ -2,18 +2,18 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Html on Sajal Kayan</title>
-    <link>http://www.sajalkayan.com/tag/html.xml</link>
+    <link>https://www.sajalkayan.com/tag/html.xml</link>
     <description>Recent content in Html on Sajal Kayan</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <atom:link href="http://www.sajalkayan.com/tag/html.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://www.sajalkayan.com/tag/html.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Sign web content using PGP</title>
-      <link>http://www.sajalkayan.com/post/pgp-sign-web-content.html</link>
+      <link>https://www.sajalkayan.com/post/pgp-sign-web-content.html</link>
       <pubDate>Sat, 06 Feb 2016 18:18:00 +0000</pubDate>
       
-      <guid>http://www.sajalkayan.com/post/pgp-sign-web-content.html</guid>
+      <guid>https://www.sajalkayan.com/post/pgp-sign-web-content.html</guid>
       <description>&lt;p&gt;A lot of web-content these days passes thru untrusted intermediaries, especially plain text traffic which is often &lt;a href=&#34;http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html&#34;&gt;intercepted by ISP proxies&lt;/a&gt; for caching (and other purposes ;) ). A compromise at these places &lt;a href=&#34;http://www.telecomasia.net/content/true-internets-proxy-compromised&#34;&gt;can subject your users to malicious payload&lt;/a&gt;, mostly in the form of javascript.&lt;/p&gt;
 
 &lt;p&gt;The obvious solution to these issues is to use TLS i.e. &lt;code&gt;https://&lt;/code&gt; sites, which is more accessible these days thanks to &lt;a href=&#34;https://letsencrypt.org/&#34;&gt;Lets Encrypt&lt;/a&gt;. But even this does not give complete end-to-end coverage because many sites use a CDN who might unknowingly or maliciously tamper with the contents.&lt;/p&gt;
@@ -66,15 +66,15 @@ $
 
 &lt;p&gt;Lets take this html payload&lt;/p&gt;
 
-&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;&amp;lt;html&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;head&amp;gt;&lt;/span&gt;
-	&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;title&amp;gt;&lt;/span&gt;Hello World&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/title&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/head&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;body&amp;gt;&lt;/span&gt;
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;&lt;span style=&#34;color: #007700&#34;&gt;pre&lt;/span&gt;&amp;gt;&amp;lt;&lt;span style=&#34;color: #007700&#34;&gt;code&lt;/span&gt;&amp;gt;&amp;lt;&lt;span style=&#34;color: #007700&#34;&gt;html&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color: #007700&#34;&gt;head&lt;/span&gt;&amp;gt;
+	&amp;lt;&lt;span style=&#34;color: #007700&#34;&gt;title&lt;/span&gt;&amp;gt;Hello World&amp;lt;/&lt;span style=&#34;color: #007700&#34;&gt;title&lt;/span&gt;&amp;gt;
+&amp;lt;/&lt;span style=&#34;color: #007700&#34;&gt;head&lt;/span&gt;&amp;gt;
+&amp;lt;&lt;span style=&#34;color: #007700&#34;&gt;body&lt;/span&gt;&amp;gt;
 Hello World
-&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/body&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/html&amp;gt;&lt;/span&gt;
-&lt;span style=&#34;color: #007700&#34;&gt;&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;&lt;/span&gt;
+&amp;lt;/&lt;span style=&#34;color: #007700&#34;&gt;body&lt;/span&gt;&amp;gt;
+&amp;lt;/&lt;span style=&#34;color: #007700&#34;&gt;html&lt;/span&gt;&amp;gt;
+&amp;lt;/&lt;span style=&#34;color: #007700&#34;&gt;code&lt;/span&gt;&amp;gt;&amp;lt;/&lt;span style=&#34;color: #007700&#34;&gt;pre&lt;/span&gt;&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
