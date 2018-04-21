@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.sajalkayan.com/post/cloudflare-1dot1dot1dot1.html</loc>
+    <lastmod>2018-04-21T17:46:45+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.sajalkayan.com/post/kubemr.html</loc>
     <lastmod>2017-04-20T20:00:00+00:00</lastmod>
   </url>
@@ -518,6 +523,12 @@
   </url>
   
   <url>
+    <loc>https://www.sajalkayan.com/tag/1dot1dot1dot1.html</loc>
+    <lastmod>2018-04-21T17:46:45+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://www.sajalkayan.com/tag/acer.html</loc>
     <lastmod>2008-06-21T04:04:26+00:00</lastmod>
     <priority>0</priority>
@@ -620,14 +631,14 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/barcampbangkok.html</loc>
-    <lastmod>2008-01-28T01:56:55+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/category/barcampbangkok.html</loc>
+    <lastmod>2009-05-25T12:20:51+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/category/barcampbangkok.html</loc>
-    <lastmod>2009-05-25T12:20:51+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/tag/barcampbangkok.html</loc>
+    <lastmod>2008-01-28T01:56:55+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -638,13 +649,13 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/barcampchiangmai.html</loc>
+    <loc>https://www.sajalkayan.com/category/barcampchiangmai.html</loc>
     <lastmod>2008-05-10T09:09:09+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/category/barcampchiangmai.html</loc>
+    <loc>https://www.sajalkayan.com/tag/barcampchiangmai.html</loc>
     <lastmod>2008-05-10T09:09:09+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -758,7 +769,7 @@
   
   <url>
     <loc>https://www.sajalkayan.com/tag/cdn.html</loc>
-    <lastmod>2010-12-11T21:24:49+00:00</lastmod>
+    <lastmod>2018-04-21T17:46:45+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -795,6 +806,12 @@
   <url>
     <loc>https://www.sajalkayan.com/tag/cli.html</loc>
     <lastmod>2008-04-14T17:02:35+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sajalkayan.com/tag/cloudflare.html</loc>
+    <lastmod>2018-04-21T17:46:45+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -859,20 +876,20 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/django.html</loc>
-    <lastmod>2008-11-30T19:42:39+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://www.sajalkayan.com/category/django.html</loc>
     <lastmod>2008-11-30T19:42:39+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://www.sajalkayan.com/tag/django.html</loc>
+    <lastmod>2008-11-30T19:42:39+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://www.sajalkayan.com/tag/dns.html</loc>
-    <lastmod>2010-05-17T17:19:30+00:00</lastmod>
+    <lastmod>2018-04-21T17:46:45+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -895,14 +912,14 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/drupal.html</loc>
-    <lastmod>2008-02-26T09:38:47+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/category/drupal.html</loc>
+    <lastmod>2008-05-10T09:09:09+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/category/drupal.html</loc>
-    <lastmod>2008-05-10T09:09:09+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/tag/drupal.html</loc>
+    <lastmod>2008-02-26T09:38:47+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1255,14 +1272,14 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/linux.html</loc>
-    <lastmod>2008-04-14T17:02:35+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/category/linux.html</loc>
+    <lastmod>2012-10-30T13:13:59+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/category/linux.html</loc>
-    <lastmod>2012-10-30T13:13:59+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/tag/linux.html</loc>
+    <lastmod>2008-04-14T17:02:35+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1453,26 +1470,26 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/perl.html</loc>
-    <lastmod>2008-06-28T05:26:21+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://www.sajalkayan.com/category/perl.html</loc>
     <lastmod>2008-06-28T05:26:21+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/personal.html</loc>
-    <lastmod>2008-03-20T04:46:59+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/tag/perl.html</loc>
+    <lastmod>2008-06-28T05:26:21+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.sajalkayan.com/category/personal.html</loc>
     <lastmod>2008-06-20T04:06:02+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sajalkayan.com/tag/personal.html</loc>
+    <lastmod>2008-03-20T04:46:59+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1508,7 +1525,7 @@
   
   <url>
     <loc>https://www.sajalkayan.com/post.html</loc>
-    <lastmod>2017-04-20T20:00:00+00:00</lastmod>
+    <lastmod>2018-04-21T17:46:45+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1543,13 +1560,13 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/python.html</loc>
+    <loc>https://www.sajalkayan.com/category/python.html</loc>
     <lastmod>2012-10-30T13:13:59+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/category/python.html</loc>
+    <loc>https://www.sajalkayan.com/tag/python.html</loc>
     <lastmod>2012-10-30T13:13:59+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -1573,14 +1590,14 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/rants.html</loc>
-    <lastmod>2008-03-01T23:28:02+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/category/rants.html</loc>
+    <lastmod>2011-11-28T18:52:26+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/category/rants.html</loc>
-    <lastmod>2011-11-28T18:52:26+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/tag/rants.html</loc>
+    <lastmod>2008-03-01T23:28:02+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1603,20 +1620,20 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/ruby.html</loc>
-    <lastmod>2008-09-15T13:47:02+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://www.sajalkayan.com/category/ruby.html</loc>
     <lastmod>2008-09-15T13:47:02+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://www.sajalkayan.com/tag/ruby.html</loc>
+    <lastmod>2008-09-15T13:47:02+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://www.sajalkayan.com/</loc>
-    <lastmod>2017-04-20T20:00:00+00:00</lastmod>
+    <lastmod>2018-04-21T17:46:45+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -1651,13 +1668,13 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/seo.html</loc>
+    <loc>https://www.sajalkayan.com/category/seo.html</loc>
     <lastmod>2009-08-20T10:13:34+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/category/seo.html</loc>
+    <loc>https://www.sajalkayan.com/tag/seo.html</loc>
     <lastmod>2009-08-20T10:13:34+00:00</lastmod>
     <priority>0</priority>
   </url>
@@ -1770,26 +1787,26 @@
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/thailand.html</loc>
-    <lastmod>2009-05-25T12:20:51+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://www.sajalkayan.com/category/thailand.html</loc>
     <lastmod>2011-11-28T18:52:26+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://www.sajalkayan.com/tag/thaindian.html</loc>
-    <lastmod>2008-03-03T17:27:11+00:00</lastmod>
+    <loc>https://www.sajalkayan.com/tag/thailand.html</loc>
+    <lastmod>2009-05-25T12:20:51+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://www.sajalkayan.com/category/thaindian.html</loc>
     <lastmod>2008-03-09T10:57:38+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.sajalkayan.com/tag/thaindian.html</loc>
+    <lastmod>2008-03-03T17:27:11+00:00</lastmod>
     <priority>0</priority>
   </url>
   

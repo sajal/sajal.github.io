@@ -1,0 +1,589 @@
+<!--
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
+
+https://keybase.io/sajal -->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title> Using Cloudflare&#39;s 1.1.1.1 might lead to slower CDN performance &middot; Sajal Kayan </title>
+
+  
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/poole.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/syntax.css">
+  <link rel="stylesheet" href="https://www.sajalkayan.com/css/hyde.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  
+  <link href="https://www.sajalkayan.com/post.xml" rel="alternate" type="application/rss+xml" title="Sajal Kayan" />
+  <script>
+
+  
+  var host = "www.sajalkayan.com";
+  if ((host == window.location.host) && (window.location.protocol != "https:"))
+      window.location.protocol = "https";
+
+  (function(b,c){b.Promise&&(new b.Promise(function(a,d){"complete"===c.readyState&&a();b.addEventListener("load",a);b.setTimeout(a,15E3)})).then(function(){const a=c.createElement("iframe");a.referrerPolicy="no-referrer";a.width=0;a.height=0;a.style="display:none";a.src="https://rum.turbobytes.com/static/rum/rum.html?id=1";c.body.appendChild(a)}).catch(function(){})})(window,document);
+  </script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-3020223-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>Sajal Kayan</h1>
+      <p class="lead">
+        Likes to make all the things faster.
+      </p>
+      <p>CTO at <a href="http://www.turbobytes.com/">TurboBytes</a></p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="/">Home</a> </li>
+      
+        <li><a href="/about.html"> About me </a></li>
+      
+    </ul>
+
+    <p>&copy; 2018. All rights reserved.  <img src="/images/cc.png" /></p>
+  </div>
+</div>
+
+
+    <div class="content container">
+<div class="post">
+  <h1>Using Cloudflare&#39;s 1.1.1.1 might lead to slower CDN performance</h1>
+  <span class="post-date">
+    Sat, Apr 21, 2018
+    
+    <a
+      class="twitter-share-button"
+      href="https://twitter.com/share"
+      data-via="sajal"
+      data-text="Using Cloudflare&#39;s 1.1.1.1 might lead to slower CDN performance"
+      data-url="https://www.sajalkayan.com/post/cloudflare-1dot1dot1dot1.html"
+      >
+      Tweet
+    </a>
+    <a
+      href="https://news.ycombinator.com/submit"
+      class="hn-share-button"
+      data-title="Using Cloudflare&#39;s 1.1.1.1 might lead to slower CDN performance"
+      data-url="https://www.sajalkayan.com/post/cloudflare-1dot1dot1dot1.html"
+      >
+      Vote on HN
+    </a>
+    
+    
+  </span>
+      
+      <p><strong>Disclaimer: All views expressed here are personal</strong></p>
+
+<p>Recently Cloudflare launched their <a href="https://1.1.1.1/">1.1.1.1</a> public resolver in partnership with APNIC to great fan-fare boasting  performance improvements and increased privacy.</p>
+
+<p>While their claims are true, I would like to talk about them <a href="https://developers.cloudflare.com/1.1.1.1/nitty-gritty-details/#edns-client-subnet">not forwarding</a> <a href="https://tools.ietf.org/html/rfc7871">EDNS client subnet</a>(ECS). <a href="https://www.quad9.net/">Quad9</a> does something similar, but provide an <a href="https://www.quad9.net/faq/#Is_there_a_service_that_Quad9_offers_that_does_not_have_the_blocklist_or_other_security">ECS capable IP</a> hidden in the docs for users who really care about performance.</p>
+
+<p>In 2010 I <a href="/in-a-cdnd-world-opendns-is-the-enemy.html">wrote a post</a> outlining how using public DNS resolvers leads to degraded performance when accessing non-anycast CDNs. We have come a long way since then, with EDNS Client Subnet being supported by most public resolvers, and a wider pop footprint, that blogpost is very outdated.</p>
+
+<p>According to Cloudflare</p>
+
+<blockquote>
+<p>1.1.1.1 is a privacy centric resolver so it does not send any client IP information and does not send the EDNS Client Subnet Header to authoritative servers</p>
+</blockquote>
+
+<p>If I do a DNS lookup for <code>cdn.example.com</code>, it is with the intent of connecting to that website(over HTTP/HTTPS/TCP/whatever). The concern appears to be the CDN&rsquo;s authoritative DNS service provider being able to see the subnet of the end user. Sure that is one way some information about the user could <em>leak</em>. But /24 is not a strong indicator to identify specific user.</p>
+
+<p>When I do make the final connection, I am sending my whole /32 IP address. The /24 (or /28) that would have been sent is hardly any privacy concern compared to the exact IP that&rsquo;s needed to be exposed while making a TCP connection.</p>
+
+<p>While visiting a typical website, A user exposes their full IP to potentially following parties</p>
+
+<ol>
+<li>The website&rsquo;s server</li>
+<li>The website&rsquo;s loadbalancer (if any - Like AWS ELB, digital ocean, etc)</li>
+<li>The website&rsquo;s hosting provider (AWS, DO, Google, etc etc&hellip;)</li>
+<li>1 - 3 for all 3rd party objects on the webpage (including their CDNs).</li>
+<li>All network devices sitting in between 1 - 4</li>
+</ol>
+
+<p>Authoritative DNS service provider is just another piece of a website&rsquo;s hosting infrastructure, which with ECS only gets partial IP. Sending partial IP, IMHO, is a very trivial privacy concern in comparison to the potential benefits.</p>
+
+<p>For a non-anycast CDN, to get accurate DNS-based routing from user of 1.1.1.1, the following must work flawlessly.</p>
+
+<ol>
+<li>Internal POP IP of Cloudflare must be very accurate in geoip databases like MaxMind and friends.</li>
+<li>The user must always be routed to closest Cloudflare POP. If for some reason the path is wrong, then along with slower Cloudflare, users will experience slower all-CDNs.</li>
+</ol>
+
+<p>But&hellip; Doesn&rsquo;t Cloudflare have POPs <a href="https://www.cloudflare.com/network/">almost everywhere</a>?</p>
+
+<p>Yes. But that only gives somewhat geographical granularity. What about ISP-level optimizations. I would like to only send users on Verizon from San Francisco to my Verizon POP. If that user uses 1.1.1.1, they don&rsquo;t benefit from all the money I spent in setting up that POP. If another CDN has more locations than Cloudflare, then for a 1.1.1.1 user the CDN has to limit their service based on Cloudflare&rsquo;s network map. CDNs who host closer to the Edge are impacted more than ones who host at hubs.</p>
+
+<p>Some tests using <a href="https://github.com/turbobytes/dnsperfbench">dnsperfbench</a> tool&rsquo;s <a href="https://github.com/turbobytes/dnsperfbench/blob/httptest/README.md#httptest">httptest</a> feature. Basically for each resolver it figures out what IP the resolver is returning for Akamai, and then running HTTPS tests over it.</p>
+
+<p>Choosing Akamai as the target of this test was an intentional selection bias on my end to highlight the issue at hand.</p>
+
+<p>From Thailand/<a href="https://www.ais.co.th/fibre/en/">AIS Fiber</a> (first hop adds ~20ms latency!)</p>
+
+<pre><code>$ dnsperfbench -resolver 115.178.58.10 -httptest https://turbobytes.akamaized.net/static/rum/100kb-image.jpg
+2018/04/21 20:09:47 Resolving
+2018/04/21 20:10:00 Issuing HTTP(s) tests
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>RESOLVER</th>
+<th>REMOTE</th>
+<th align="right">DNS</th>
+<th align="right">CONNECT</th>
+<th align="right">TLS</th>
+<th align="right">TTFB</th>
+<th align="right">TRANSFER</th>
+<th align="right">TOTAL</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>115.178.58.10</code> (Unknown)</td>
+<td>49.231.112.9:443</td>
+<td align="right">26ms</td>
+<td align="right">23ms</td>
+<td align="right">83ms</td>
+<td align="right">25ms</td>
+<td align="right">40ms</td>
+<td align="right">197ms</td>
+</tr>
+
+<tr>
+<td><code>9.9.9.9</code> (Quad9)</td>
+<td>202.183.253.10:443</td>
+<td align="right">56ms</td>
+<td align="right">25ms</td>
+<td align="right">89ms</td>
+<td align="right">26ms</td>
+<td align="right">43ms</td>
+<td align="right">238ms</td>
+</tr>
+
+<tr>
+<td><code>208.67.222.222</code> (OpenDNS)</td>
+<td>49.231.112.33:443</td>
+<td align="right">71ms</td>
+<td align="right">23ms</td>
+<td align="right">83ms</td>
+<td align="right">25ms</td>
+<td align="right">40ms</td>
+<td align="right">242ms</td>
+</tr>
+
+<tr>
+<td><code>8.8.8.8</code> (Google)</td>
+<td>49.231.112.9:443</td>
+<td align="right">110ms</td>
+<td align="right">24ms</td>
+<td align="right">84ms</td>
+<td align="right">24ms</td>
+<td align="right">40ms</td>
+<td align="right">281ms</td>
+</tr>
+
+<tr>
+<td><code>[2001:4860:4860::8888]</code> (Google)</td>
+<td>49.231.112.33:443</td>
+<td align="right">111ms</td>
+<td align="right">24ms</td>
+<td align="right">83ms</td>
+<td align="right">24ms</td>
+<td align="right">41ms</td>
+<td align="right">282ms</td>
+</tr>
+
+<tr>
+<td><code>[2620:0:ccc::2]</code> (OpenDNS)</td>
+<td>49.231.112.33:443</td>
+<td align="right">156ms</td>
+<td align="right">24ms</td>
+<td align="right">82ms</td>
+<td align="right">24ms</td>
+<td align="right">40ms</td>
+<td align="right">326ms</td>
+</tr>
+
+<tr>
+<td><code>[2606:4700:4700::1111]</code> (Cloudflare)</td>
+<td><strong>23.49.60.192:443</strong></td>
+<td align="right">53ms</td>
+<td align="right">53ms</td>
+<td align="right">114ms</td>
+<td align="right">53ms</td>
+<td align="right">69ms</td>
+<td align="right"><strong>342ms</strong></td>
+</tr>
+
+<tr>
+<td><code>1.1.1.1</code> (Cloudflare)</td>
+<td><strong>23.49.60.192:443</strong></td>
+<td align="right">54ms</td>
+<td align="right">56ms</td>
+<td align="right">120ms</td>
+<td align="right">57ms</td>
+<td align="right">72ms</td>
+<td align="right"><strong>358ms</strong></td>
+</tr>
+
+<tr>
+<td><code>199.85.126.20</code> (Norton)</td>
+<td>23.52.171.99:443</td>
+<td align="right">89ms</td>
+<td align="right">62ms</td>
+<td align="right">130ms</td>
+<td align="right">60ms</td>
+<td align="right">85ms</td>
+<td align="right">426ms</td>
+</tr>
+
+<tr>
+<td><code>180.76.76.76</code> (Baidu)</td>
+<td>23.2.16.27:443</td>
+<td align="right">129ms</td>
+<td align="right">86ms</td>
+<td align="right">180ms</td>
+<td align="right">86ms</td>
+<td align="right">123ms</td>
+<td align="right">605ms</td>
+</tr>
+
+<tr>
+<td><code>[2620:fe::fe]</code> (Quad9)</td>
+<td>23.215.102.26:443</td>
+<td align="right">27ms</td>
+<td align="right">223ms</td>
+<td align="right">456ms</td>
+<td align="right">224ms</td>
+<td align="right">317ms</td>
+<td align="right">1.247s</td>
+</tr>
+
+<tr>
+<td><code>[2a0d:2a00:1::]</code> (Clean Browsing)</td>
+<td>23.219.38.67:443</td>
+<td align="right">350ms</td>
+<td align="right">228ms</td>
+<td align="right">465ms</td>
+<td align="right">229ms</td>
+<td align="right">278ms</td>
+<td align="right">1.55s</td>
+</tr>
+
+<tr>
+<td><code>185.228.168.168</code> (Clean Browsing)</td>
+<td>23.219.38.48:443</td>
+<td align="right">382ms</td>
+<td align="right">227ms</td>
+<td align="right">463ms</td>
+<td align="right">227ms</td>
+<td align="right">292ms</td>
+<td align="right">1.591s</td>
+</tr>
+
+<tr>
+<td><code>119.29.29.29</code> (DNSPod)</td>
+<td>205.197.140.136:443</td>
+<td align="right">474ms</td>
+<td align="right">236ms</td>
+<td align="right">481ms</td>
+<td align="right">244ms</td>
+<td align="right">335ms</td>
+<td align="right">1.772s</td>
+</tr>
+
+<tr>
+<td><code>114.114.114.114</code> (114dns)</td>
+<td>23.215.104.203:443</td>
+<td align="right">382ms</td>
+<td align="right">283ms</td>
+<td align="right">573ms</td>
+<td align="right">284ms</td>
+<td align="right">401ms</td>
+<td align="right">1.924s</td>
+</tr>
+
+<tr>
+<td><code>8.26.56.26</code> (Comodo)</td>
+<td>104.86.110.154:443</td>
+<td align="right">219ms</td>
+<td align="right">280ms</td>
+<td align="right">566ms</td>
+<td align="right">279ms</td>
+<td align="right">648ms</td>
+<td align="right">1.993s</td>
+</tr>
+</tbody>
+</table>
+
+<p>The fastest responding IP <code>49.231.112.x</code> is hosted inside my ISP, next best is in another ISP in Thailand. If I were to use <code>1.1.1.1</code> my access to things hosted with Akamai would get about 2x slower, in exchange for Akamai not getting to see my (partial) IP during DNS resolution.</p>
+
+<p>Sure, Cloudflare&rsquo;s DNS service (which appears to be serving locally within this ISP) is new, perhaps Akamai has not updated their geoip databases with Cloudflare&rsquo;s backend IPs, perhaps Cloudflare has not yet published them, but even with that fix, the best Akamai could do is send me to a <em>generic</em> Thailand POP, instead of the one sitting at my ISP.</p>
+
+<p>Similarly for Thailand/<a href="http://www.trueinternet.co.th/ENG/index.html">True</a></p>
+
+<table>
+<thead>
+<tr>
+<th>RESOLVER</th>
+<th>REMOTE</th>
+<th align="right">DNS</th>
+<th align="right">CONNECT</th>
+<th align="right">TLS</th>
+<th align="right">TTFB</th>
+<th align="right">TRANSFER</th>
+<th align="right">TOTAL</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td><code>203.144.206.49</code> (Unknown)</td>
+<td>61.91.165.154:443</td>
+<td align="right">15ms</td>
+<td align="right">10ms</td>
+<td align="right">29ms</td>
+<td align="right">10ms</td>
+<td align="right">15ms</td>
+<td align="right">80ms</td>
+</tr>
+
+<tr>
+<td><code>9.9.9.9</code> (Quad9)</td>
+<td>202.183.253.8:443</td>
+<td align="right">13ms</td>
+<td align="right">11ms</td>
+<td align="right">57ms</td>
+<td align="right">12ms</td>
+<td align="right">16ms</td>
+<td align="right">109ms</td>
+</tr>
+
+<tr>
+<td><code>8.8.8.8</code> (Google)</td>
+<td>61.91.165.154:443</td>
+<td align="right">97ms</td>
+<td align="right">10ms</td>
+<td align="right">29ms</td>
+<td align="right">11ms</td>
+<td align="right">17ms</td>
+<td align="right">163ms</td>
+</tr>
+
+<tr>
+<td><code>208.67.222.222</code> (OpenDNS)</td>
+<td>61.91.165.154:443</td>
+<td align="right">105ms</td>
+<td align="right">9ms</td>
+<td align="right">29ms</td>
+<td align="right">11ms</td>
+<td align="right">15ms</td>
+<td align="right">169ms</td>
+</tr>
+
+<tr>
+<td><code>199.85.126.20</code> (Norton)</td>
+<td>203.116.50.51:443</td>
+<td align="right">66ms</td>
+<td align="right">43ms</td>
+<td align="right">105ms</td>
+<td align="right">43ms</td>
+<td align="right">46ms</td>
+<td align="right">303ms</td>
+</tr>
+
+<tr>
+<td><code>1.1.1.1</code> (Cloudflare)</td>
+<td><strong>184.86.250.8:443</strong></td>
+<td align="right">36ms</td>
+<td align="right">67ms</td>
+<td align="right">144ms</td>
+<td align="right">66ms</td>
+<td align="right">110ms</td>
+<td align="right"><strong>423ms</strong></td>
+</tr>
+
+<tr>
+<td><code>180.76.76.76</code> (Baidu)</td>
+<td>23.2.16.32:443</td>
+<td align="right">72ms</td>
+<td align="right">84ms</td>
+<td align="right">181ms</td>
+<td align="right">84ms</td>
+<td align="right">114ms</td>
+<td align="right">535ms</td>
+</tr>
+
+<tr>
+<td><code>119.29.29.29</code> (DNSPod)</td>
+<td>23.42.156.42:443</td>
+<td align="right">70ms</td>
+<td align="right">90ms</td>
+<td align="right">187ms</td>
+<td align="right">90ms</td>
+<td align="right">103ms</td>
+<td align="right">542ms</td>
+</tr>
+
+<tr>
+<td><code>8.26.56.26</code> (Comodo)</td>
+<td>104.86.110.185:443</td>
+<td align="right">225ms</td>
+<td align="right">220ms</td>
+<td align="right">442ms</td>
+<td align="right">221ms</td>
+<td align="right">312ms</td>
+<td align="right">1.421s</td>
+</tr>
+
+<tr>
+<td><code>185.228.168.168</code> (Clean Browsing)</td>
+<td>80.239.137.26:443</td>
+<td align="right">212ms</td>
+<td align="right">225ms</td>
+<td align="right">464ms</td>
+<td align="right">229ms</td>
+<td align="right">507ms</td>
+<td align="right">1.636s</td>
+</tr>
+
+<tr>
+<td><code>114.114.114.114</code> (114dns)</td>
+<td>23.215.104.225:443</td>
+<td align="right">264ms</td>
+<td align="right">259ms</td>
+<td align="right">527ms</td>
+<td align="right">260ms</td>
+<td align="right">610ms</td>
+<td align="right">1.92s</td>
+</tr>
+</tbody>
+</table>
+
+<p>In this case only Google, OpenDNS and ISP resolvers send me to an ISP-local POP. Quad9 came #2 because of their fast DNS time (this test does not use locally cached DNS).</p>
+
+<p>Cloudflare sends me to Singapore, and others further out.</p>
+
+<p>Cloudflare sending me Singapore IP might be due to the fact that for me <code>1.1.1.1</code> is being routed to Cloudflare Singapore, probably True&rsquo;s fault.</p>
+
+<pre style="overflow-x:scroll;font-size:12px;white-space:pre">
+~# mtr --report-wide 1.1.1.1
+Start: Sat Apr 21 21:05:43 2018
+HOST: apu                                       Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1.|-- 192.168.2.1                                0.0%    10    1.2   1.1   0.9   1.2   0.0
+  2.|-- 10.137.128.1                               0.0%    10   18.0  13.4  10.5  18.8   2.8
+  3.|-- 10.246.253.133                             0.0%    10    8.8   8.3   6.3   9.7   0.9
+  4.|-- 10.185.94.203                              0.0%    10    8.2   9.3   7.8  11.7   1.3
+  5.|-- 10.185.94.25                               0.0%    10    9.2   9.4   7.5  15.1   2.1
+  6.|-- 61-91-220-101.static.asianet.co.th         0.0%    10    8.3   9.2   7.8  10.2   0.5
+  7.|-- 58-97-82-116.static.asianet.co.th          0.0%    10    8.6  10.2   8.5  13.4   1.4
+  8.|-- ppp-171-102-254-65.revip18.asianet.co.th   0.0%    10    9.2   9.7   8.3  11.4   0.7
+  9.|-- ppp-171-102-254-227.revip18.asianet.co.th  0.0%    10   11.5  10.6   8.9  15.9   2.0
+ 10.|-- 210-86-143-74.static.asianet.co.th         0.0%    10    9.8   9.3   8.0  10.8   0.7
+ 11.|-- TIG-Net242-108.trueintergateway.com        0.0%    10   10.6  11.8   9.8  16.5   1.9
+ 12.|-- TIG-Net245-241.trueintergateway.com        0.0%    10   39.7  40.5  38.5  47.6   2.5
+ 13.|-- 13335.sgw.equinix.com                      0.0%    10   41.8  38.2  36.5  44.5   2.6
+ 14.|-- 1dot1dot1dot1.cloudflare-dns.com           0.0%    10   35.3  37.4  35.3  40.0   1.2
+</pre>
+
+<p>Dear Cloudflare, please turn on ECS by default.</p>
+
+<p>PS: Check out <a href="https://ismydnsfast.com/">ismydnsfast.com</a> to check <em>your</em> performance to major authoritative DNS providers.</p>
+
+      
+      <div>
+  Tags: 
+    <a href="/tag/cloudflare">cloudflare</a> </li>
+  
+    <a href="/tag/1dot1dot1dot1">1dot1dot1dot1</a> </li>
+  
+    <a href="/tag/dns">dns</a> </li>
+  
+    <a href="/tag/cdn">cdn</a> </li>
+   <br />
+  Categories:  <br />
+
+</div>
+      <div id="disqus_thread"></div>
+<script type="text/javascript">
+		 
+		var disqus_shortname = 'sajal';
+		var disqus_title = 'Using Cloudflare\x27s 1.1.1.1 might lead to slower CDN performance';
+		var disqus_url = 'https://www.sajalkayan.com\/post\/cloudflare-1dot1dot1dot1.html';
+
+		 
+		(function(w, d, s) {
+			function go(){
+				var dsq = d.createElement(s);
+				dsq.src = 'https://' + disqus_shortname + '.disqus.com/embed.js';
+				(d.getElementsByTagName('head')[0] || d.getElementsByTagName('body')[0]).appendChild(dsq);
+			}
+		if (w.addEventListener) { w.addEventListener("load", go, false); }
+		else if (w.attachEvent) { w.attachEvent("onload",go); }
+		}(window, document, 'script'));
+
+</script>
+<script type="text/javascript">
+window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+</script>
+<script src="/hn.min.js" async defer></script>
+<script type="text/javascript">
+
+
+
+</script>
+
+      
+</div>
+</div>
+
+  </body>
+</html>
+
+<!--
+-----BEGIN PGP SIGNATURE-----
+
+iQIcBAEBCAAGBQJa23pPAAoJEDlkkKy/FYKPNSYP/ipaworQVamIJc5ufY8XtvFS
+elaCN7I1p6TfSUf7JuXS+T72vIxK5QpZtoFYyGo8nhkiB8mau/JeG6F0dEdrzjXF
+cxy8eZi/1IJV6wuruI3y//GsR4xJMjgMGkYW2cPFtvxGLSldldu26W3L+MUsV7Ja
+3lQkm1wCqZzRPZWhX1NKFPzqiqnCR78TRjfRlPo5e84XC4H9eRQRSk8Kch9ESxEu
+sG1lmyGWxZ/gQIyBYuzjO3NfIZbdiJsGfgAyePxVtf1Pynbh5s1c7j9IdtPdZKA5
+CM+L0ih+/82Zhn3hQLg3Dx7TtBXY9VckbUAWOTtI448v7MtrhjBTqEBMc1B8wzMw
+w+iPb4oS7rAofnxYPf8VxB4/wsEq6nXglRKp75WS8nAMqwj5ENL4pdYGL4BiDHEw
+mIsIHVm8hXDjFIQeyBD9f+XiYTyCb5kz2su17UFS3yF5YVO+EqXEB7eyAHDJ6nk8
+l5oy33bKYpcm3Ml6eVUimiooPmN+qlIZhLRm/Fdy/IOM+z+RfPAbONK8t6UdQgAd
+UhHFX62s3Fea50x7bFtdR2K7vg/FOIg36Cru+BDWiBLoO0rH3UU4PQ52dM1unAX9
+IMLiHYlkNrt4ccJTGSpDko+lLh6gK61rlgX4FAt4cgxGdfWCIGsp8OXS2Rbsomke
+RZ8zl+cOcKrUOcnfdblv
+=Y3lW
+-----END PGP SIGNATURE-----
+-->

@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloudflare on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/cloudflare.xml</link>
+    <description>Recent content in Cloudflare on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/cloudflare.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Using Cloudflare&#39;s 1.1.1.1 might lead to slower CDN performance</title>
+      <link>https://www.sajalkayan.com/post/cloudflare-1dot1dot1dot1.html</link>
+      <pubDate>Sat, 21 Apr 2018 17:46:45 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/post/cloudflare-1dot1dot1dot1.html</guid>
+      <description>&lt;p&gt;&lt;strong&gt;Disclaimer: All views expressed here are personal&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Recently Cloudflare launched their &lt;a href=&#34;https://1.1.1.1/&#34;&gt;1.1.1.1&lt;/a&gt; public resolver in partnership with APNIC to great fan-fare boasting  performance improvements and increased privacy.&lt;/p&gt;
+
+&lt;p&gt;While their claims are true, I would like to talk about them &lt;a href=&#34;https://developers.cloudflare.com/1.1.1.1/nitty-gritty-details/#edns-client-subnet&#34;&gt;not forwarding&lt;/a&gt; &lt;a href=&#34;https://tools.ietf.org/html/rfc7871&#34;&gt;EDNS client subnet&lt;/a&gt;(ECS). &lt;a href=&#34;https://www.quad9.net/&#34;&gt;Quad9&lt;/a&gt; does something similar, but provide an &lt;a href=&#34;https://www.quad9.net/faq/#Is_there_a_service_that_Quad9_offers_that_does_not_have_the_blocklist_or_other_security&#34;&gt;ECS capable IP&lt;/a&gt; hidden in the docs for users who really care about performance.&lt;/p&gt;
+
+&lt;p&gt;In 2010 I &lt;a href=&#34;https://www.sajalkayan.com/in-a-cdnd-world-opendns-is-the-enemy.html&#34;&gt;wrote a post&lt;/a&gt; outlining how using public DNS resolvers leads to degraded performance when accessing non-anycast CDNs. We have come a long way since then, with EDNS Client Subnet being supported by most public resolvers, and a wider pop footprint, that blogpost is very outdated.&lt;/p&gt;
+
+&lt;p&gt;According to Cloudflare&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;1.1.1.1 is a privacy centric resolver so it does not send any client IP information and does not send the EDNS Client Subnet Header to authoritative servers&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;If I do a DNS lookup for &lt;code&gt;cdn.example.com&lt;/code&gt;, it is with the intent of connecting to that website(over HTTP/HTTPS/TCP/whatever). The concern appears to be the CDN&amp;rsquo;s authoritative DNS service provider being able to see the subnet of the end user. Sure that is one way some information about the user could &lt;em&gt;leak&lt;/em&gt;. But /24 is not a strong indicator to identify specific user.&lt;/p&gt;
+
+&lt;p&gt;When I do make the final connection, I am sending my whole /32 IP address. The /24 (or /28) that would have been sent is hardly any privacy concern compared to the exact IP that&amp;rsquo;s needed to be exposed while making a TCP connection.&lt;/p&gt;
+
+&lt;p&gt;While visiting a typical website, A user exposes their full IP to potentially following parties&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;The website&amp;rsquo;s server&lt;/li&gt;
+&lt;li&gt;The website&amp;rsquo;s loadbalancer (if any - Like AWS ELB, digital ocean, etc)&lt;/li&gt;
+&lt;li&gt;The website&amp;rsquo;s hosting provider (AWS, DO, Google, etc etc&amp;hellip;)&lt;/li&gt;
+&lt;li&gt;1 - 3 for all 3rd party objects on the webpage (including their CDNs).&lt;/li&gt;
+&lt;li&gt;All network devices sitting in between 1 - 4&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Authoritative DNS service provider is just another piece of a website&amp;rsquo;s hosting infrastructure, which with ECS only gets partial IP. Sending partial IP, IMHO, is a very trivial privacy concern in comparison to the potential benefits.&lt;/p&gt;
+
+&lt;p&gt;For a non-anycast CDN, to get accurate DNS-based routing from user of 1.1.1.1, the following must work flawlessly.&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Internal POP IP of Cloudflare must be very accurate in geoip databases like MaxMind and friends.&lt;/li&gt;
+&lt;li&gt;The user must always be routed to closest Cloudflare POP. If for some reason the path is wrong, then along with slower Cloudflare, users will experience slower all-CDNs.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;But&amp;hellip; Doesn&amp;rsquo;t Cloudflare have POPs &lt;a href=&#34;https://www.cloudflare.com/network/&#34;&gt;almost everywhere&lt;/a&gt;?&lt;/p&gt;
+
+&lt;p&gt;Yes. But that only gives somewhat geographical granularity. What about ISP-level optimizations. I would like to only send users on Verizon from San Francisco to my Verizon POP. If that user uses 1.1.1.1, they don&amp;rsquo;t benefit from all the money I spent in setting up that POP. If another CDN has more locations than Cloudflare, then for a 1.1.1.1 user the CDN has to limit their service based on Cloudflare&amp;rsquo;s network map. CDNs who host closer to the Edge are impacted more than ones who host at hubs.&lt;/p&gt;
+
+&lt;p&gt;Some tests using &lt;a href=&#34;https://github.com/turbobytes/dnsperfbench&#34;&gt;dnsperfbench&lt;/a&gt; tool&amp;rsquo;s &lt;a href=&#34;https://github.com/turbobytes/dnsperfbench/blob/httptest/README.md#httptest&#34;&gt;httptest&lt;/a&gt; feature. Basically for each resolver it figures out what IP the resolver is returning for Akamai, and then running HTTPS tests over it.&lt;/p&gt;
+
+&lt;p&gt;Choosing Akamai as the target of this test was an intentional selection bias on my end to highlight the issue at hand.&lt;/p&gt;
+
+&lt;p&gt;From Thailand/&lt;a href=&#34;https://www.ais.co.th/fibre/en/&#34;&gt;AIS Fiber&lt;/a&gt; (first hop adds ~20ms latency!)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ dnsperfbench -resolver 115.178.58.10 -httptest https://turbobytes.akamaized.net/static/rum/100kb-image.jpg
+2018/04/21 20:09:47 Resolving
+2018/04/21 20:10:00 Issuing HTTP(s) tests
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;RESOLVER&lt;/th&gt;
+&lt;th&gt;REMOTE&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;DNS&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;CONNECT&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TLS&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TTFB&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TRANSFER&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TOTAL&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;115.178.58.10&lt;/code&gt; (Unknown)&lt;/td&gt;
+&lt;td&gt;49.231.112.9:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;26ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;23ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;83ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;25ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;40ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;197ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;9.9.9.9&lt;/code&gt; (Quad9)&lt;/td&gt;
+&lt;td&gt;202.183.253.10:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;56ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;25ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;89ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;26ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;43ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;238ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;208.67.222.222&lt;/code&gt; (OpenDNS)&lt;/td&gt;
+&lt;td&gt;49.231.112.33:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;71ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;23ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;83ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;25ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;40ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;242ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;8.8.8.8&lt;/code&gt; (Google)&lt;/td&gt;
+&lt;td&gt;49.231.112.9:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;110ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;24ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;84ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;24ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;40ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;281ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[2001:4860:4860::8888]&lt;/code&gt; (Google)&lt;/td&gt;
+&lt;td&gt;49.231.112.33:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;111ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;24ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;83ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;24ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;41ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;282ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[2620:0:ccc::2]&lt;/code&gt; (OpenDNS)&lt;/td&gt;
+&lt;td&gt;49.231.112.33:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;156ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;24ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;82ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;24ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;40ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;326ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[2606:4700:4700::1111]&lt;/code&gt; (Cloudflare)&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;23.49.60.192:443&lt;/strong&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;53ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;53ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;114ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;53ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;69ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&lt;strong&gt;342ms&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;1.1.1.1&lt;/code&gt; (Cloudflare)&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;23.49.60.192:443&lt;/strong&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;54ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;56ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;120ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;57ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;72ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&lt;strong&gt;358ms&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;199.85.126.20&lt;/code&gt; (Norton)&lt;/td&gt;
+&lt;td&gt;23.52.171.99:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;89ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;62ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;130ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;60ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;85ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;426ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;180.76.76.76&lt;/code&gt; (Baidu)&lt;/td&gt;
+&lt;td&gt;23.2.16.27:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;129ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;180ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;123ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;605ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[2620:fe::fe]&lt;/code&gt; (Quad9)&lt;/td&gt;
+&lt;td&gt;23.215.102.26:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;27ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;223ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;456ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;224ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;317ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.247s&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;[2a0d:2a00:1::]&lt;/code&gt; (Clean Browsing)&lt;/td&gt;
+&lt;td&gt;23.219.38.67:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;350ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;228ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;465ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;229ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;278ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.55s&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;185.228.168.168&lt;/code&gt; (Clean Browsing)&lt;/td&gt;
+&lt;td&gt;23.219.38.48:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;382ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;227ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;463ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;227ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;292ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.591s&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;119.29.29.29&lt;/code&gt; (DNSPod)&lt;/td&gt;
+&lt;td&gt;205.197.140.136:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;474ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;236ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;481ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;244ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;335ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.772s&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;114.114.114.114&lt;/code&gt; (114dns)&lt;/td&gt;
+&lt;td&gt;23.215.104.203:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;382ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;283ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;573ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;284ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;401ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.924s&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;8.26.56.26&lt;/code&gt; (Comodo)&lt;/td&gt;
+&lt;td&gt;104.86.110.154:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;219ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;280ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;566ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;279ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;648ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.993s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;The fastest responding IP &lt;code&gt;49.231.112.x&lt;/code&gt; is hosted inside my ISP, next best is in another ISP in Thailand. If I were to use &lt;code&gt;1.1.1.1&lt;/code&gt; my access to things hosted with Akamai would get about 2x slower, in exchange for Akamai not getting to see my (partial) IP during DNS resolution.&lt;/p&gt;
+
+&lt;p&gt;Sure, Cloudflare&amp;rsquo;s DNS service (which appears to be serving locally within this ISP) is new, perhaps Akamai has not updated their geoip databases with Cloudflare&amp;rsquo;s backend IPs, perhaps Cloudflare has not yet published them, but even with that fix, the best Akamai could do is send me to a &lt;em&gt;generic&lt;/em&gt; Thailand POP, instead of the one sitting at my ISP.&lt;/p&gt;
+
+&lt;p&gt;Similarly for Thailand/&lt;a href=&#34;http://www.trueinternet.co.th/ENG/index.html&#34;&gt;True&lt;/a&gt;&lt;/p&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;RESOLVER&lt;/th&gt;
+&lt;th&gt;REMOTE&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;DNS&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;CONNECT&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TLS&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TTFB&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TRANSFER&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;TOTAL&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;203.144.206.49&lt;/code&gt; (Unknown)&lt;/td&gt;
+&lt;td&gt;61.91.165.154:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;29ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;80ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;9.9.9.9&lt;/code&gt; (Quad9)&lt;/td&gt;
+&lt;td&gt;202.183.253.8:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;57ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;16ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;109ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;8.8.8.8&lt;/code&gt; (Google)&lt;/td&gt;
+&lt;td&gt;61.91.165.154:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;97ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;29ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;17ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;163ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;208.67.222.222&lt;/code&gt; (OpenDNS)&lt;/td&gt;
+&lt;td&gt;61.91.165.154:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;105ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;29ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;169ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;199.85.126.20&lt;/code&gt; (Norton)&lt;/td&gt;
+&lt;td&gt;203.116.50.51:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;66ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;43ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;105ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;43ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;46ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;303ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;1.1.1.1&lt;/code&gt; (Cloudflare)&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;184.86.250.8:443&lt;/strong&gt;&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;36ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;67ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;144ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;66ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;110ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;&lt;strong&gt;423ms&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;180.76.76.76&lt;/code&gt; (Baidu)&lt;/td&gt;
+&lt;td&gt;23.2.16.32:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;72ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;84ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;181ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;84ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;114ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;535ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;119.29.29.29&lt;/code&gt; (DNSPod)&lt;/td&gt;
+&lt;td&gt;23.42.156.42:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;70ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;90ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;187ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;90ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;103ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;542ms&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;8.26.56.26&lt;/code&gt; (Comodo)&lt;/td&gt;
+&lt;td&gt;104.86.110.185:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;225ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;220ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;442ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;221ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;312ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.421s&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;185.228.168.168&lt;/code&gt; (Clean Browsing)&lt;/td&gt;
+&lt;td&gt;80.239.137.26:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;212ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;225ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;464ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;229ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;507ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.636s&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;114.114.114.114&lt;/code&gt; (114dns)&lt;/td&gt;
+&lt;td&gt;23.215.104.225:443&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;264ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;259ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;527ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;260ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;610ms&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1.92s&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;In this case only Google, OpenDNS and ISP resolvers send me to an ISP-local POP. Quad9 came #2 because of their fast DNS time (this test does not use locally cached DNS).&lt;/p&gt;
+
+&lt;p&gt;Cloudflare sends me to Singapore, and others further out.&lt;/p&gt;
+
+&lt;p&gt;Cloudflare sending me Singapore IP might be due to the fact that for me &lt;code&gt;1.1.1.1&lt;/code&gt; is being routed to Cloudflare Singapore, probably True&amp;rsquo;s fault.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;font-size:12px;white-space:pre&#34;&gt;
+~# mtr --report-wide 1.1.1.1
+Start: Sat Apr 21 21:05:43 2018
+HOST: apu                                       Loss%   Snt   Last   Avg  Best  Wrst StDev
+  1.|-- 192.168.2.1                                0.0%    10    1.2   1.1   0.9   1.2   0.0
+  2.|-- 10.137.128.1                               0.0%    10   18.0  13.4  10.5  18.8   2.8
+  3.|-- 10.246.253.133                             0.0%    10    8.8   8.3   6.3   9.7   0.9
+  4.|-- 10.185.94.203                              0.0%    10    8.2   9.3   7.8  11.7   1.3
+  5.|-- 10.185.94.25                               0.0%    10    9.2   9.4   7.5  15.1   2.1
+  6.|-- 61-91-220-101.static.asianet.co.th         0.0%    10    8.3   9.2   7.8  10.2   0.5
+  7.|-- 58-97-82-116.static.asianet.co.th          0.0%    10    8.6  10.2   8.5  13.4   1.4
+  8.|-- ppp-171-102-254-65.revip18.asianet.co.th   0.0%    10    9.2   9.7   8.3  11.4   0.7
+  9.|-- ppp-171-102-254-227.revip18.asianet.co.th  0.0%    10   11.5  10.6   8.9  15.9   2.0
+ 10.|-- 210-86-143-74.static.asianet.co.th         0.0%    10    9.8   9.3   8.0  10.8   0.7
+ 11.|-- TIG-Net242-108.trueintergateway.com        0.0%    10   10.6  11.8   9.8  16.5   1.9
+ 12.|-- TIG-Net245-241.trueintergateway.com        0.0%    10   39.7  40.5  38.5  47.6   2.5
+ 13.|-- 13335.sgw.equinix.com                      0.0%    10   41.8  38.2  36.5  44.5   2.6
+ 14.|-- 1dot1dot1dot1.cloudflare-dns.com           0.0%    10   35.3  37.4  35.3  40.0   1.2
+&lt;/pre&gt;
+
+&lt;p&gt;Dear Cloudflare, please turn on ECS by default.&lt;/p&gt;
+
+&lt;p&gt;PS: Check out &lt;a href=&#34;https://ismydnsfast.com/&#34;&gt;ismydnsfast.com&lt;/a&gt; to check &lt;em&gt;your&lt;/em&gt; performance to major authoritative DNS providers.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
