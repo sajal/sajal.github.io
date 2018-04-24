@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google Analytics on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/google-analytics.xml</link>
+    <description>Recent content in Google Analytics on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/google-analytics.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Attention skeptics: Web Performance Optimization works!</title>
+      <link>https://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</link>
+      <pubDate>Sat, 14 May 2011 14:39:14 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/attention-skeptics-web-performance-optimization-works.html</guid>
+      <description>Today, I was looking into web performance issues for a new client who wishes to remain anonymous and saw an interesting example of value provided by improving performance.
+
+One of the first things I do when looking into a new site is look at Google Analytics to understand a little about the sites visitors. This helps in prioritizing changes which affects the majority of users.
+
+An interesting observation :-
+
+&lt;strong&gt;Pageviews for all visitors&lt;/strong&gt;
+&lt;a href=&#34;http://i.ticdn.com/sajal/page-views.png&#34; target=&#34;_blank&#34; title=&#34;Pageviews for all visitors&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/page-views-s.png&#34; alt=&#34;Pageviews for all visitors&#34; /&gt;&lt;/a&gt;
+
+&lt;strong&gt;Average Pageviews for all visitors&lt;/strong&gt;
+&lt;a href=&#34;http://i.ticdn.com/sajal/avg-page-views.png&#34; target=&#34;_blank&#34; title=&#34;Average Pageviews for all visitors&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/avg-page-views-s.png&#34; alt=&#34;Average Pageviews for all visitors&#34; /&gt;&lt;/a&gt;
+
+Adsense revenue also followed a similar path. -- Screenshot not available
+
+The reason for this effect was a simple database indexing tweak which sped up the backend performance of a very important action page on the site.
+
+The site in question is a web application where user inputs something and gets some result. It is not a content site where pageview/user could have increased due to some interesting content being added or something. The only change was indexing of a column which should have an index right from the start.
+
+&lt;em&gt;DISCLAIMER: I did not have any role in the above improvement. This was done before my involvement. Perhaps this convinced the client to hire me. Screenshots/info shared with clients permission.&lt;/em&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

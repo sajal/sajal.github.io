@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Network on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/network.xml</link>
+    <description>Recent content in Network on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/network.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Using MultiPath TCP to enhance home networks</title>
+      <link>https://www.sajalkayan.com/post/fun-with-mptcp.html</link>
+      <pubDate>Sat, 22 Nov 2014 12:46:11 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/post/fun-with-mptcp.html</guid>
+      <description>
+
+&lt;p&gt;Over the last few months I&amp;rsquo;ve been playing with &lt;a href=&#34;http://multipath-tcp.org/&#34;&gt;MultiPath TCP&lt;/a&gt; and in this post I will show how I use it to leverage my humble &lt;a href=&#34;http://trueonline.truecorp.co.th/&#34;&gt;True ADSL&lt;/a&gt; line at home.&lt;/p&gt;
+
+&lt;p&gt;For performance and security reasons, I tunnel all my traffic thru a VPN. This is not necessarily to circumvent censorship, but to circumvent the &lt;a href=&#34;http://www.sajalkayan.com/4-reasons-why-i-love-my-isp.html&#34;&gt;evil transparent proxies&lt;/a&gt; my ISP puts in middle. The total bandwidth available is ~10 mbps down / ~1 mbps up.&lt;/p&gt;
+
+&lt;h2 id=&#34;introduction-to-multipath-tcp&#34;&gt;Introduction to MultiPath TCP&lt;/h2&gt;
+
+&lt;p&gt;MultiPath TCP is an interesting effort to use multiple interfaces/networks for any single TCP connection. A Linux kernel implementation is being developed at &lt;a href=&#34;http://multipath-tcp.org/&#34;&gt;multipath-tcp.org&lt;/a&gt;. Its main use cases are for mobile (transition between Wi-Fi and 3G) and datacenters. I exploit it to get better Internet browsing experience.&lt;/p&gt;
+
+&lt;h2 id=&#34;old-way&#34;&gt;Old way&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.sajalkayan.com/images/ssh_tun.svg&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/images/ssh_tun.svg&#34; alt=&#34;Simple SSH Tunnel&#34; title=&#34;Simple SSH Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;SSH tunnel to EC2 instance in Singapore. Browser configured to use this tunnel as proxy&lt;/li&gt;
+&lt;li&gt;SSH tunnel to EC2 instance in us-east (for accessing geo-blocked services)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Main drawback : If my ISP has issues talking to AWS, then I&amp;rsquo;m totally screwed. This happened a month or so ago where most links coming into True was severely limited, however link from &lt;a href=&#34;https://www.digitalocean.com/?refcode=f92c3276603e&#34; rel=&#34;nofollow&#34;&gt;Digital Ocean&lt;/a&gt; to True was healthy. I had to manually change my tunnels to a $5 Digital Ocean instance.&lt;/p&gt;
+
+&lt;h2 id=&#34;new-way&#34;&gt;New way&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.sajalkayan.com/images/mptcp_tun.svg&#34;&gt;&lt;img src=&#34;https://www.sajalkayan.com/images/mptcp_tun.svg&#34; alt=&#34;MPTCP Tunnel&#34; title=&#34;MPTCP Tunnel&#34; \&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Note: This is a constantly evolving setup as I find new things to play with.&lt;/p&gt;
+
+&lt;p&gt;Infrastructure involved :-&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&#34;http://www.pcengines.ch/apu.htm&#34;&gt;PC Engines APU system board&lt;/a&gt;&lt;/strong&gt; - Replaces router. All magic happens here. &lt;em&gt;gateway&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ADSL modem&lt;/strong&gt; in bridge mode.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EC2 instance in Singapore&lt;/strong&gt; - The main proxy endpoint. Runs &lt;a href=&#34;https://github.com/shadowsocks/shadowsocks-go&#34;&gt;shadowsocks&lt;/a&gt; server over MPTCP kernel. &lt;em&gt;destination, jumpbox&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EC2 instance in us-west&lt;/strong&gt; - The proxy endpoint for US geo blocked traffic. Runs shadowsocks server over MPTCP kernel. &lt;em&gt;destination&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Digital Ocean instance in Singapore&lt;/strong&gt; - An alternate path to reach the EC2 instance(s) &lt;em&gt;jumpbox&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;VPS in &lt;a href=&#34;http://www.cattelecom.com/&#34;&gt;CAT&lt;/a&gt; datacenter&lt;/strong&gt; in Thailand - Another alternate path. All Thai ISPs usually have good connectivity to CAT. &lt;em&gt;jumpbox&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Android phone&lt;/strong&gt; - With Dtac 3G for extra boost when needed. USB tethering. Bandwidth fluctuates a lot. I typically use it to get a boost in my upload bandwidth which is generally 100 kbps to 8 mbps.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;All TCP Traffic is intercepted by the APU using iptables, diverted to &lt;a href=&#34;http://darkk.net.ru/redsocks/&#34;&gt;redsocks&lt;/a&gt;, which sends it to the shadowsocks client, which sends it to the shadowsocks server running in EC2 Singapore. This socks connection has several ways to communicate with the EC2 instance.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;APU &amp;lt;--&amp;gt; True ADSL Directly &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; True ADSL Directly over OpenVPN/UDP &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; True ADSL &amp;lt;--&amp;gt; via CAT VPS over OpenVPN/UDP &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; True ADSL &amp;lt;--&amp;gt; via DO Singapore over OpenVPN/UDP &amp;lt;--&amp;gt; EC2  
+APU &amp;lt;--&amp;gt; Dtac 3G Directly &amp;lt;--&amp;gt; EC2 (Optional/ondemand)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now I have 5 possible paths. MPTCP kernel creates a TCP connection over each available path and bonds them together and exposes it as a single TCP connection to the application. Packets are sent over paths that currently have the lowest delay. Now my available bandwidth is not impacted by congestion over some of these paths. All paths need to be congested for me to have a bad day&amp;hellip; Also some path might have good uplink, some might have good downlink, with MPTCP you mix the best of both&amp;hellip;&lt;/p&gt;
+
+&lt;p&gt;Example &lt;code&gt;bmon&lt;/code&gt; stats when downloading a large file (I removed irreverent interfaces.)
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34; id=&#34;bmon&#34;&gt;
+  #   Interface                RX Rate         RX #     TX Rate         TX #
+─────────────────────────────────────────────────────────────────────────────
+xxx (source: local)
+  0   tun1                     621.28KiB        628      38.82KiB        636
+  3   tun3                     200.22KiB        198       9.42KiB        149
+  5   ppp0                       1.07MiB       1018     119.42KiB        980
+  9   tun0                      90.06KiB         90       5.94KiB         97
+&lt;/pre&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;configurations&#34;&gt;Configurations&lt;/h3&gt;
+
+&lt;h4 id=&#34;jumpbox&#34;&gt;Jumpbox&lt;/h4&gt;
+
+&lt;p&gt;Jumpbox is pretty basic setup. It&amp;rsquo;s role is to provide additional gateways which MPTCP uses to build additional paths.&lt;/p&gt;
+
+&lt;p&gt;OpenVPN server configured normally. Set to not redirect default gateway. In my current setup I need to ensure that the server assigns the same IP to my client. This is not really that crucial, but it keeps things simple. Its important to configure each jumpbox to use a different IP range.&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;net.ipv4.ip_forward&lt;/code&gt; needs to be set to 1 to allow forwarding. In fact almost all boxes in the setup need this.&lt;/p&gt;
+
+&lt;p&gt;iptables rules needed :-&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+iptables -t filter -A FORWARD -i tun0 -j ACCEPT
+iptables -t filter -A FORWARD -o tun0 -j ACCEPT
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Replace the &lt;code&gt;tun0&lt;/code&gt; and &lt;code&gt;eth0&lt;/code&gt; to suit your environment.&lt;/p&gt;
+
+&lt;h4 id=&#34;destination&#34;&gt;Destination&lt;/h4&gt;
+
+&lt;p&gt;A destination server is remote end of our socks tunnel. It&amp;rsquo;s job is to service the socks connections patching them to the real destination.&lt;/p&gt;
+
+&lt;p&gt;This needs to run a &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/HowToInstallMPTCP?&#34;&gt;MultiPath TCP kernel&lt;/a&gt;. On EC2 it is pretty simple. Launch an Ubuntu 14.04 instance with a &lt;a href=&#34;http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html&#34;&gt;pv-grub AKI&lt;/a&gt;. Then follow the &lt;a href=&#34;http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/UserProvidedKernels.html&#34;&gt;apt-repository installation method&lt;/a&gt;. And ensure the grub loads the MPTCP kernel as its first choice.&lt;/p&gt;
+
+&lt;p&gt;Next we also need shadowsocks server running. &lt;a href=&#34;https://github.com/shadowsocks/shadowsocks-go/blob/master/README.md&#34;&gt;RTFM&lt;/a&gt; its pretty simple. Before using shadowsocks I was using a simple &lt;code&gt;ssh -D&lt;/code&gt; tunnel, but I found it to be inefficient. Often times one large transfer would make all other TCP streams &lt;em&gt;stuck&lt;/em&gt;. Perhaps this has something to do with the fact that with SSH everything is happening over a single TCP stream whereas shadowsocks makes a new socks connection dedicated to each TCP connection.&lt;/p&gt;
+
+&lt;h4 id=&#34;gateway&#34;&gt;Gateway&lt;/h4&gt;
+
+&lt;p&gt;The gateway is the most complicated component. Running stock Debian wheezy with MPTCP kernel installed via their &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/AptRepository&#34;&gt;apt repository&lt;/a&gt;. A lot of services run here. I will not elaborate on some of them.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;dbcpd&lt;/strong&gt; - Assign LAN users with IP&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;bind&lt;/strong&gt; - For DNS recursion. Since we tunnel most traffic to Singapore, I also set bind to send DNS queries thru OpenVPN.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;iptables&lt;/strong&gt; - I use iptables to do the NAT. NAT all UDP packets to OpenVPN. Send all outgoing TCP connections to redsocks.&lt;/p&gt;
+
+&lt;pre style=&#34;overflow-x:scroll;overflow-wrap: normal;white-space: pre;&#34;&gt;
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*nat
+:PREROUTING ACCEPT [378881:57485495]
+:INPUT ACCEPT [210208:17266788]
+:OUTPUT ACCEPT [4099955:310913862]
+:POSTROUTING ACCEPT [3239510:252587265]
+:REDSOCKS - [0:0]
+-A PREROUTING -i br0 -p tcp -j REDSOCKS
+-A PREROUTING -i br0 -j REDSOCKS
+-A POSTROUTING -o tun1 -j MASQUERADE
+-A POSTROUTING -o tun0 -j MASQUERADE
+-A POSTROUTING -o tun2 -j MASQUERADE
+-A POSTROUTING -o eth0 -j MASQUERADE
+-A REDSOCKS -d 0.0.0.0/8 -j RETURN
+-A REDSOCKS -d 10.0.0.0/8 -j RETURN
+-A REDSOCKS -d 127.0.0.0/8 -j RETURN
+-A REDSOCKS -d 169.254.0.0/16 -j RETURN
+-A REDSOCKS -d 172.16.0.0/12 -j RETURN
+-A REDSOCKS -d 192.168.0.0/16 -j RETURN
+-A REDSOCKS -d 224.0.0.0/4 -j RETURN
+-A REDSOCKS -d 240.0.0.0/4 -j RETURN
+-A REDSOCKS -d a.b.c.d/32 -j RETURN
+-A REDSOCKS -d e.f.g.h/32 -j RETURN
+-A REDSOCKS -d i.j.k.l/32 -j RETURN
+-A REDSOCKS -d m.n.o.p/32 -j RETURN
+-A REDSOCKS -d q.r.s.t/32 -j RETURN
+-A REDSOCKS -s 192.168.5.1/32 -j RETURN
+-A REDSOCKS -s 192.168.5.1/32 -j RETURN
+-A REDSOCKS -s 192.168.1.2/32 -j RETURN
+-A REDSOCKS -s 192.168.5.32/27 -p tcp -j REDIRECT --to-ports 12345
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*filter
+:INPUT ACCEPT [115657469:73738905421]
+:FORWARD ACCEPT [64078:47442189]
+:OUTPUT ACCEPT [122121802:63701527314]
+-A FORWARD -i eth1 -j ACCEPT
+-A FORWARD -o eth1 -j ACCEPT
+-A FORWARD -i br0 -j ACCEPT
+-A FORWARD -o br0 -j ACCEPT
+-A FORWARD -i eth0 -j ACCEPT
+-A FORWARD -o eth0 -j ACCEPT
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+# Generated by iptables-save v1.4.14 on Sat Nov 22 00:37:10 2014
+*mangle
+:PREROUTING ACCEPT [118734314:74507536093]
+:INPUT ACCEPT [115635709:73734306355]
+:FORWARD ACCEPT [3100331:759352048]
+:OUTPUT ACCEPT [122104929:63698976437]
+:POSTROUTING ACCEPT [125198421:64456746251]
+-A PREROUTING ! -d 192.168.5.0/24 -i br0 -j MARK --set-xmark 0x1/0xffffffff
+-A PREROUTING -d 10.8.0.10/32 -i br0 -j MARK --set-xmark 0x3/0xffffffff
+-A PREROUTING -d 192.168.10.1/32 -i br0 -j MARK --set-xmark 0x2/0xffffffff
+COMMIT
+# Completed on Sat Nov 22 00:37:10 2014
+&lt;/pre&gt;
+
+&lt;p&gt;Note: &lt;em&gt;a.b.c.d&lt;/em&gt;, &lt;em&gt;e.f.g.h&lt;/em&gt;, &lt;em&gt;i.j.k.l&lt;/em&gt;, &lt;em&gt;m.n.o.p&lt;/em&gt; and &lt;em&gt;q.r.s.t&lt;/em&gt; are public internet ips that I don&amp;rsquo;t want redsocks to intercept.&lt;/p&gt;
+
+&lt;p&gt;Interfaces&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;br0 - LAN&lt;/li&gt;
+&lt;li&gt;tun[0-3] - Various Jumpboxes. OpenVPN tunnels.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Also, each interface is maintains its own &lt;a href=&#34;http://multipath-tcp.org/pmwiki.php/Users/ConfigureRouting&#34;&gt;routing tables&lt;/a&gt; using if-up scripts. For example this is what gets executed when one of the tunnels comes alive.&lt;/p&gt;
+
+&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/sh
+ip rule add from &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;.8.0.20 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;.8.0.0/24 dev tun0 scope link table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip route add default via &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt;.8.0.21 dev tun0 table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+ip rule add fwmark &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;3&lt;/span&gt; table &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;||&lt;/span&gt; &lt;span style=&#34;color: #007020&#34;&gt;true&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The fwmark is added so if in future I want to pipe different traffic to go thru this interface I can set the corresponding iptables rule.&lt;/p&gt;
+
+&lt;p&gt;All local services are scoped to listen only on local interfaces to avoid random people connecting to local services.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;redsocks&lt;/strong&gt; - Accepts intercepted connections and pipes it off to shadowsocks client&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;shadowsocks client&lt;/strong&gt; - sends all TCP connections to shadowsocks servers running in EC2 Singapore and US. By default intercepted traffic is sent to Singapore, however any application on any computer in the network could be set to explicitly use any of the available proxies.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;wvdial&lt;/strong&gt; - To dial the ADSL connection which is itself behind a &lt;a href=&#34;http://en.wikipedia.org/wiki/Carrier-grade_NAT&#34;&gt;Carrier-grade NAT&lt;/a&gt;. Sometimes the connection stops working while pppd things its still connected. Am ugly CRON script to test the network and flip it if needed.&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#34;highlight&#34; style=&#34;background: #ffffff&#34;&gt;&lt;pre style=&#34;line-height: 125%&#34;&gt;&lt;span&gt;&lt;/span&gt;&amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;#!/bin/bash
+
+&lt;span style=&#34;color: #996633&#34;&gt;IP&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;/sbin/ip route | grep -v default | grep ppp0 | cut -d &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot; &amp;quot;&lt;/span&gt; -f &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+&lt;span style=&#34;color: #996633&#34;&gt;COUNT&lt;/span&gt;&lt;span style=&#34;color: #333333&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; | wc -l&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+
+&lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$COUNT&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt; 
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+  ping -c &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;10&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$IP&lt;/span&gt; &amp;gt; /dev/null
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;[&lt;/span&gt; &lt;span style=&#34;color: #996633&#34;&gt;$?&lt;/span&gt; -eq &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color: #333333&#34;&gt;]&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;then&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is up&amp;quot;&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 is down&amp;quot;&lt;/span&gt;
+    &lt;span style=&#34;color: #007020&#34;&gt;kill&lt;/span&gt; -SIGHUP &lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;pgrep pppd&lt;span style=&#34;background-color: #fff0f0&#34;&gt;`&lt;/span&gt;
+    beep -l &lt;span style=&#34;color: #6600EE; font-weight: bold&#34;&gt;25&lt;/span&gt;
+  &lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;else&lt;/span&gt;
+  &lt;span style=&#34;color: #007020&#34;&gt;echo&lt;/span&gt; &lt;span style=&#34;background-color: #fff0f0&#34;&gt;&amp;quot;ppp0 not found?!?!?!?1&amp;quot;&lt;/span&gt;
+&lt;span style=&#34;color: #008800; font-weight: bold&#34;&gt;fi&lt;/span&gt;
+&amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+The script above tries to ping the default gateway of the ppp0 interface to find out if it is really up. &lt;code&gt;SIGHUP&lt;/code&gt; signals pppd to handup and redial. I don&amp;rsquo;t bother maintaining the pid of pppd because currently I use ppp0 exclusively for the ADSL modem.&lt;/p&gt;
+
+&lt;h2 id=&#34;missing-parts&#34;&gt;Missing parts&lt;/h2&gt;
+
+&lt;p&gt;There are some issues I am having that I need to sort out work-around for.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Default connection unstable&lt;/strong&gt;. If the initial syn packet for ppp0 (my default interface) fails, then the connection cant be established. I need to look deeper into MPTCP docs to figure out how to make it such that if the initial TCP connection setup fails on ppp0 then make it try tun0, tun1 and so on.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Connection fairness&lt;/strong&gt;. Sometimes if I am doing a big upload, everything else (like browsing websites) seems too slow. The upload is hogging all the available uplink, which is already too tiny. I have my suspicions on buffer bloat&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Higher uplink usage&lt;/strong&gt;. When downloading something, I see ~10% upload traffic corresponding to it. This is lot higher than a simple setup. I need to investigate deeper whats causing it. Perhaps MPTCP or the socks setup or OpenVPN. The &lt;a href=&#34;#bmon&#34;&gt;example bmon stats&lt;/a&gt; above show this as well 119.42KiB uplink while downloading @ 1.07MiB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;EC2 bandwidth is expensive&lt;/strong&gt;. I would like to use Digital Ocean boxes for socks proxies. This is a little tricky since DO does not allow loading custom kernels. I need to figure out &lt;a href=&#34;https://en.wikipedia.org/wiki/Kexec&#34;&gt;kexec&lt;/a&gt; to make this possible. Unsure if this way is stable&amp;hellip;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Advanced routing&lt;/strong&gt;. I would like to programatically decide which external IP should go thru which proxy. For example most Thai IPs I would like to go direct. Some American destinations should go thru the US proxy, rest thru Singapore proxy. Perhaps in future add an European proxy.. Currently the only way to use the American proxy is to explicitly configure a particular application to use socks proxy.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;UDP tunneling&lt;/strong&gt;. UDP traffic currently goes directly using a single OpenVPN session. There is no load-balancing being performed on it. I would like to switch to a different socks client/server. One that does &lt;a href=&#34;http://compgroups.net/comp.protocols.tcp-ip/how-socks-5-udp-associate-works/2603784&#34;&gt;UDP associate&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;future-path-enhancements&#34;&gt;Future path enhancements&lt;/h2&gt;
+
+&lt;p&gt;More paths can be added to get better throughput.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;3G dongles from various providers.&lt;/li&gt;
+&lt;li&gt;The shitty Wi-Fi that your apartment/office provides.&lt;/li&gt;
+&lt;li&gt;More ADSL/Cable connections from diverse providers with different backbones.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+
+&lt;p&gt;MPTCP is a fantastic piece of technology. Hat-tip to everyone who &lt;a href=&#34;http://multipath-tcp.org/mptcp_stats/authors.html&#34;&gt;contributed&lt;/a&gt; to it. The PC Engines ALU box is also awesome. Decent x86_64 box consuming only about 6 to 12W power.&lt;/p&gt;
+
+&lt;p&gt;In the future I will do a walk-thru type post on how to setup a &lt;a href=&#34;http://www.raspberrypi.org/&#34;&gt;Raspberry Pi&lt;/a&gt; as a one-arm gateway doing a subset of what I described above. The most challenging part is getting a MPTCP enabled kernel on the pi, which requires kernel patching and compiling. The throughput will likely be very limited because MPTCP has a higher CPU overhead than regular TCP.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

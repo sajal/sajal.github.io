@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chalo Thailand on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/chalo-thailand.xml</link>
+    <description>Recent content in Chalo Thailand on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/chalo-thailand.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Drupal rulez Joomla sux!</title>
+      <link>https://www.sajalkayan.com/drupal-rulez-joomls-sux.html</link>
+      <pubDate>Wed, 06 Feb 2008 17:25:17 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/drupal-rulez-joomls-sux.html</guid>
+      <description>&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/drupliconsmall.png&#34; alt=&#34;Drupal Logo&#34; align=&#34;left&#34; border=&#34;0&#34; vspace=&#34;10&#34; hspace=&#34;10&#34; /&gt;I am perhaps the newest entrant to the growing number of Drupal fanboys in Thailand. From what Ive seen most geeks in Thailand use drupal, usually for community building projects and also for personal blogs.
+
+The first I was introduced to Drupal was while chatting with &lt;a href=&#34;http://www.johnberns.com/2008/02/10/my-first-drupal-convert/&#34; title=&#34;Converted me to Drupal&#34;&gt;John Berns&lt;/a&gt; and &lt;a href=&#34;http://sugree.com/&#34;&gt;Sugree&lt;/a&gt; on the &lt;a href=&#34;http://www.barcampbangkok.org/&#34;&gt;BarcampBangkok&lt;/a&gt; IRC room. In a short chat session, these two people managed to convince me that Drupal can easily do the stuff ive been trying/wanting to do for the last 2 Years.
+
+The worst thing about Joomla is that to do many things, you need to get your hands dirty and hack the core files. This for people like me is not good at all. I am a very untidy person, often leave the hacks un-commented and never document my changes. Now, when the next version of Joomla (or some components) come by, Im unable to upgrade due to the fear of breaking my hacks. This blocks me from taking advantage of the latest security patches or code improvements.
+
+Some might say that Joomla is more user friendly, I disagree. &lt;strong&gt;The only way in which Joomla is better than Drupal is in looks&lt;/strong&gt;. Joomla is more of eye candy. Drupal presents a very simple admin interface, all the admin functions is available from the &#34;/admin&#34; page, whereas in Joomla I would need to navigate complex menus n stuff to get to where I wanna be.
+
+&lt;strong&gt;The USP for Drupal is its taxonomy system&lt;/strong&gt;. It effectively gives me the power to categorize my content however I want it. Unlike Joomla where we have only a &#34;Section&#34; and a &#34;Category&#34;, only 2 levels deep, and one category can be only inside one section, no &lt;em&gt;one-to-many&lt;/em&gt; relationships.
+
+&lt;!--more--&gt;Let me give a small example : I am making our travel portal &lt;strong&gt;&lt;a href=&#34;http://www.chalothailand.com/&#34; title=&#34;Travel to Thailand&#34;&gt;Chalo Thailand&lt;/a&gt;&lt;/strong&gt; in Drupal. I want to be able to list information on various destinations (eg Cities or Towns). Then I would also need to list down various tips specific to that town, What places to see, recommended hotels, travel packages, etc. Would be a hell of a task doing this on Joomla! it be copy/pasting... linking... for months, still not get the site ready.
+
+Here what I have done is made 2 vocabularies &#34;&lt;strong&gt;Destination&lt;/strong&gt;&#34; and &#34;&lt;strong&gt;Guide&lt;/strong&gt;&#34;.
+
+Destination would contain terms like &#34;&lt;strong&gt;Bangkok&lt;/strong&gt;&#34;, &#34;&lt;strong&gt;Pattaya&lt;/strong&gt;&#34;, etc...
+
+Guide would contain : &#34;&lt;strong&gt;Getting Around&lt;/strong&gt;&#34;, &#34;&lt;strong&gt;Sight Seeing&lt;/strong&gt;&#34;, &#34;&lt;strong&gt;Shopping Tips&lt;/strong&gt;&#34;, etc
+
+Now on the page listing introduction about &lt;strong&gt;Bangkok&lt;/strong&gt;, I can easily list getting around tips with this few lines of code (don&#39;t get scared. the code is really easy, even non php coder like me can figure it out):-
+&lt;pre lang=&#34;php&#34;&gt;
+&amp;lt;h3&amp;gt;Getting Around in Bangkok&amp;lt;/h3&amp;gt;
+&amp;lt;?php
+$myNodes = taxonomy_select_nodes(array(6,7),&#34;and&#34;);
+echo node_title_list($myNodes)
+?&amp;gt;&lt;/pre&gt;
+&lt;strong&gt;taxonomy_select_nodes(array(6,7),&#34;and&#34;)&lt;/strong&gt; selects node (any content) which has terms 6 AND 7 specified. 6 states the the &lt;strong&gt;Guide&lt;/strong&gt; is &lt;strong&gt;Getting Around&lt;/strong&gt; and 7 means that the &lt;strong&gt;Destination&lt;/strong&gt; is &lt;strong&gt;Bangkok&lt;/strong&gt;. Now I can happily add a new Getting around article for Bangkok and it would automagically show up in the Bangkok introduction page. Another neat advantage of this would be when im listing travel packages. A person viewing details of a &#34;Sight Seeing&#34; location, can see the list of Tour Packages which include this venue. On clicking on a particular Package, they can see the list of Sight-Seeing Venues which are included in this package. &lt;strong&gt;This is something which is not there in Joomla&lt;/strong&gt; (please forgive me if some add on component does this, but chances are there that it would be crappy or some non-seo friendly hack).
+
+The bottom line is that &lt;strong&gt;Drupal is better than Joomla&lt;/strong&gt; in every aspect. &lt;strong&gt;You do not need to be a PHP coder to use Drupal&lt;/strong&gt;. In fact you can do more in Drupal than Joomla without touching PHP. With some knowledge of PHP combined with Drupal (&lt;a href=&#34;http://blog.venture-skills.co.uk/2007/01/08/cck-views-the-ultimate-combination-part-1/&#34; title=&#34;CCK &amp;amp; Views the ultimate combination - part 1&#34; target=&#34;_blank&#34;&gt;CCK+views&lt;/a&gt;) and some time you can effectively make any kind of portal system.
+
+Enough of ranting for today, back to kicking myself in the ass for not starting my &lt;a href=&#34;http://www.thaindian.com&#34; title=&#34;Indians in Thailand&#34;&gt;main portal&lt;/a&gt; in Drupal.
+</description>
+    </item>
+    
+  </channel>
+</rss>

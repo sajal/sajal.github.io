@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Thai on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/thai.xml</link>
+    <description>Recent content in Thai on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/thai.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Blognone.com gets English Language sub-forum</title>
+      <link>https://www.sajalkayan.com/blognonecom-gets-english-language-sub-forum.html</link>
+      <pubDate>Wed, 05 Mar 2008 09:52:08 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/blognonecom-gets-english-language-sub-forum.html</guid>
+      <description>Yesterday &lt;a href=&#34;http://www.isriya.com/&#34; target=&#34;_blank&#34;&gt;mk&lt;/a&gt; of &lt;a href=&#34;http://www.blognone.com&#34; target=&#34;_blank&#34;&gt;blognone.com&lt;/a&gt; &lt;a href=&#34;http://www.blognone.com/node/7150&#34; target=&#34;_blank&#34;&gt;announced the launch&lt;/a&gt; of a new &lt;a href=&#34;http://www.blognone.com/english&#34; target=&#34;_blank&#34;&gt;sub-forum to conduct discussions in English&lt;/a&gt; Language on the site which is otherwise in Thai.
+
+The Announcement :-
+&lt;blockquote&gt;&lt;em&gt;Dear non-Thai members (or Thai members who want to talk in English),&lt;/em&gt;
+
+&lt;em&gt;This forum is for discuss on (almost) everything you want to. The only thing you should know is Blognone uses Markdown as default input format. Please see the instruction manual from the link if you’ve never heard of Markdown before. Anyway, HTML is also selectable in the input format tab under the textbox.&lt;/em&gt;
+
+&lt;em&gt;Now enjoy talking! &lt;/em&gt;&lt;/blockquote&gt;
+This is excelent news for those who dont read or write much Thai as well as the Thais who want to communicate more in English to have more practice. Finally there is now a place where foreigners and Thais can chare ideas and views.
+
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/03/bn-logo-cropped.png&#34; alt=&#34;Blognone Logo&#34; /&gt;
+
+About Blognone :-
+&lt;blockquote&gt;&lt;em&gt;Blognone is Thai independent IT news site. It was found on August 2004 and driven by geek community in Thailand. Our goals are:&lt;/em&gt;
+&lt;ul&gt;
+	&lt;li&gt;&lt;em&gt;deliver update and high quality IT news in Thai language&lt;/em&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;sharing knowledge between IT industry/community&lt;/em&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;em&gt;promote use of open source, open standard and other good alternative concepts&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+IMHO Blognone.com is also a good example of a community website built using Drupal.
+</description>
+    </item>
+    
+  </channel>
+</rss>

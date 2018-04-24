@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Censorship on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/censorship.xml</link>
+    <description>Recent content in Censorship on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/censorship.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Internet connectivity in Myanmar (Burma)</title>
+      <link>https://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</link>
+      <pubDate>Mon, 21 Feb 2011 09:21:09 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/internet-connectivity-in-myanmar-burma.html</guid>
+      <description>Last weekend ( Feb 19th &amp; 20th) I was in Yangon for &lt;a href=&#34;http://www.barcampyangon.org/&#34;&gt;BarCamp Yangon&lt;/a&gt;.
+
+It probably had an attendance of &amp;gt; 4k participants... Probably one of the largest BarCamps ever,  despite the fact that the internet connectivity in Myanmar sucks big time.... Really unusable... 
+
+I used internet at the free &#34;wifi&#34; internet at the hotel and the wifi arranged by the organizers. Both places, the speeds I&#39;ve seen range from 0 kbps to ~50 kbps.... most of the time around 0 kbps :P
+
+&lt;h3&gt;Internet access&lt;/h3&gt;
+
+Most locals use internet at cafes/internet shops. The average shop would have 512 kbps connection shared between 15 to 20 computers charging 300 to 500 MKY ( US$ 0.3 to 0.5 ) per hour for usage. Some give discount if you bring your own laptop, some don&#39;t. I didn&#39;t get a chance to visit a cafe, this is based on what people told me.
+
+Most geeks have a computer at home, very few have laptops. ADSL is available but is very expensive. It costs &gt; $1000 setup fee + $120/month for a mere 512 kbps. Only the very rich people can afford it.
+
+Mobile internet was unheard of until few weeks ago. They don&#39;t have gprs there, but recently they launched 3G and CDMA for wireless internet. CDMA would charge around $0.10/minute for 1 or 2 mbps (don&#39;t remember clearly).
+
+Out of the few sites i tried opening, only Facebook seemed to be usable. This is due to the &lt;a href=&#34;http://www.youtube.com/watch?v=51JGykHrwZA&#34; title=&#34;David Wei and Changhao Jiang (Facebook Inc.) - Frontend Performance Engineering in Facebook&#34;&gt;enormous effort&lt;/a&gt; they invest in &lt;a href=&#34;https://www.sajalkayan.com/tag/site-performance&#34;&gt;frontend performance&lt;/a&gt;. Google search was also fast, but none of the sites in the results seemed to open.
+
+The average DNS query took me 2+ seconds to resolve. DNS access is limited to the ISPs crappy nameserver, I couldn&#39;t use opendns or any external nameservers.
+
+Almost all local sites are hosted outside of Myanmar cause domestic connectivity is as bad as international routes. Server co-location fees are 10x in Burma than in America.
+
+&lt;h3&gt;Censorship&lt;/h3&gt;
+
+I didn&#39;t use the internet much... but here is what I found.
+
+Among the sites/services blocked :-
+
+&lt;ul&gt;
+&lt;li&gt;My secret project - Details/screenshot below&lt;/li&gt;
+&lt;li&gt;Twitter - Blocked normally, but works using https or apps.&lt;/li&gt;
+&lt;li&gt;Gmail - works on browser but IMAP doesn&#39;t work at all... The most surprising aspect of it is that 99% of ppl there use gmail.&lt;/li&gt;
+&lt;li&gt;SSH - connections to port 22 are completely blocked, but I&#39;ve been told that setting ssh server on port 443 works fine. I used &lt;a href=&#34;http://www.splitbrain.org/blog/2008-11/02-dns_tunneling_made_simple&#34;&gt;DNS tunnel&lt;/a&gt; and it kinda worked occasionally for emergency usage - after trying for 10 - 15 mins i could get 1 min or so of connectivity.&lt;/li&gt;
+&lt;li&gt;gtalk - Using Pidgin  - doesn&#39;t work at all.&lt;/li&gt;
+&lt;/ul&gt;
+
+I am building a new webservice called www.{secret}.com . Hardly anyone knows about it. Its got only 3 users, and has nothing to do with Burma. That site was somehow blocked in Burma (only one ISP). I cant understand how {secret} could trigger any phrase based blocklists or something.. Makes me feel important if governments block my site...
+
+My moment of pride :-
+
+&lt;a href=&#34;http://i.ticdn.com/sajal/blocked-classified-big.png&#34; title=&#34;secret project blocked in burma&#34;&gt;&lt;img src=&#34;http://i.ticdn.com/sajal/blocked-classified-small.png&#34; alt=&#34;secret project blocked in burma&#34; /&gt;&lt;/a&gt;
+
+&lt;h3&gt;Summary&lt;/h3&gt;
+
+BarCamp Yangoon 2011 was probably the biggest barcamp ever with about 4500 to 5000 participants (with about 20 - 30 foreigners traveling in from abroad). An interesting activity was file swapping. There were about 20 - 30 computers setup with shared folders which participants used to exchange software/music/etc. 
+
+Based on a simple survey, everyone uses Firefox. Very few people use Linux. Windows is very popular due to rampant piracy.
+
+I was considering giving a talk on web performance optimization on day 2 of the event, but didn&#39;t go thru with it cause an American expat covered the topic well on day 1.
+
+One thing that I should have done would be to download all the &lt;a href=&#34;http://velocityconf.com/&#34;&gt;Velocity Conference&lt;/a&gt; videos and pass it around... unfortunately it occurred to me to late. Ill try to arrange it now...
+
+The country has great people... It can succeed in this digital age if only America and other western countries lift sanctions on Burma..
+</description>
+    </item>
+    
+    <item>
+      <title>Secure Proxy using Squid</title>
+      <link>https://www.sajalkayan.com/secure-proxy-using-squid.html</link>
+      <pubDate>Sat, 05 Jan 2008 05:16:52 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/secure-proxy-using-squid.html</guid>
+      <description>Had originally posted this on Friday, September 29th, 2006 during the peak of Takhsin&#39;s rampant blocking of websites and the blocking proxies were messing up often blocking un-blocked pages also.
+
+It is very important to use a secure proxy if you browse the web from unsecure Networks.
+The basic requirements are a Linux box in a location which is secure and another PC Linux or windows which may be in the unsecure location.
+
+NOTE : Please excuse my newbieness. I do not provide any kind of waranty on this article, only hope that it may be useful or interesting to you.
+
+For this article, the squid was setup on a CentOS based server and accessed from FC5 based notebook using Mozilla Firefox. The settings would be simillar for other distributions/ browsers.
+
+This method is not to be used illegally to view government blocked websites. Please follow laws of the country you reside in.&lt;!--more--&gt;
+
+On CentOS it is very easy to install squid using yum (note you must be root to continue with the instalation)
+&lt;blockquote&gt;&lt;em&gt;yum install squid&lt;/em&gt;&lt;/blockquote&gt;
+On Debian based system :-
+&lt;blockquote&gt;&lt;em&gt;apt-get install squid&lt;/em&gt;&lt;/blockquote&gt;
+For others/slackware :-
+
+Download squid source file as a gzipped tar ball (squid-x.y-STABLE.tar.gz) available at http://www.squid-cache.org/ or from ftp://www.squid-cache.org/pub. Then run the following commands
+&lt;blockquote&gt;&lt;em&gt;tar -xvzf squid-*-src.tar.gz&lt;/em&gt;
+&lt;em&gt;cd squid -*&lt;/em&gt;
+&lt;em&gt;./configure&lt;/em&gt;
+&lt;em&gt;make&lt;/em&gt;
+&lt;em&gt;make install&lt;/em&gt;&lt;/blockquote&gt;
+This by default, will install in “/usr/local/squid”.
+
+There are some basic configurations which you may need to edit.
+By default the squid config file is located in /etc/squid/squid.conf on centos with squid installed using yum. Config file may be located at /usr/local/squid/etc/squid.conf if you have installed manually.
+
+Start Squid on CentOS
+&lt;blockquote&gt;&lt;em&gt;/etc/init.d/squid start&lt;/em&gt;&lt;/blockquote&gt;
+Squid is now ready to serve as proxy only to local host and is listening on port 3128
+
+Now you have squid listening to localhost only. We need to make a tunnel from the server to the PC.
+Note for windows users reffer to &lt;a href=&#34;http://web.archive.org/web/20070505081807/http://www.jfitz.com/tips/putty_config.html&#34; target=&#34;_blank&#34; title=&#34;Secure tunnel on windows using putty &#34;&gt;putty configuration guide&lt;/a&gt;
+to do this on a FC5 (Fedora core instructions may be similar for other distributions) be root(or superuser) and run the following command.
+&lt;blockquote&gt;&lt;em&gt;ssh -L 8080:localhost:3128 someserver.com -l username&lt;/em&gt;&lt;/blockquote&gt;
+Replace the someserver.com with the DNS name or IP of your newly setup proxy server.
+In case the SSHD on your server listens to aa port other than port 22, you may need to enter the following command
+&lt;blockquote&gt;&lt;em&gt;ssh -L 8080:localhost:3128 someserver.com -p 1022 -l username&lt;/em&gt;&lt;/blockquote&gt;
+In the above example:-
+8080 is a free unused port on your PC. We will tunnel this port to squid.
+localhost is your PC
+3128 is the port on the proxy server where squid is listening to.
+someserver.com is your proxy servers hostname or IP address.
+1022 is the port on your server where SSHD listens to.
+username is your username on the server
+
+After entering the ssh command, you will get a prompt asking for a password. Enter the password for ‘username’.
+
+Open Mozilla Firefox
+Click Edit the preferences. Then click on the box Connection Settings
+Choose Manual proxy configuration.
+Under HTTP proxy type in localhost. For port type in 8080 (change it as per your tunnel settingings)
+Then click OK
+
+You should now be able to use the Web browser to surf the net using browsing the web without fear of packets being sniffed.
+This only encrypts the information exchanged between your workstation and the proxy server. The information from your proxy to the website you are browsing can still be sniffed, so to be on the safe side use https when browsing sites which support it.
+</description>
+    </item>
+    
+  </channel>
+</rss>

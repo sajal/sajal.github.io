@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Reviews on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/reviews.xml</link>
+    <description>Recent content in Reviews on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/reviews.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Page Speed Analysis: Search Engine Roundtable</title>
+      <link>https://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</link>
+      <pubDate>Fri, 30 Jul 2010 17:25:40 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/page-speed-analysis-search-engine-roundtable.html</guid>
+      <description>I am planing to do a series of posts on analyzing popular websites I visit frequently. By now I am so &lt;a href=&#34;https://www.sajalkayan.com/attn-big-media-web-page-speed-matters.html&#34; title=&#34;ATTN Big Media: Web page speed matters!&#34;&gt;obsessed to optimize for speed&lt;/a&gt; that I&#39;ve run out of sites to optimize, hence I&#39;m doing it for other sites.
+
+To start with I&#39;ll analyze &lt;a href=&#34;http://www.seroundtable.com/&#34;&gt;Search Engine Roundtable&lt;/a&gt;.
+
+Before I start, wanna make it absolutely clear that I am not looking to make the site owners or webmasters look bad. &lt;a href=&#34;http://en.wikipedia.org/wiki/Barry_Schwartz_%28technologist%29&#34;&gt;Barry Schwartz&lt;/a&gt;, editor of &lt;em&gt;SERoundtable.com&lt;/em&gt;, tells me &lt;em&gt;&#34;The site is old and is being completely revamped from bottom up.&#34;&lt;/em&gt;
+
+About &lt;em&gt;SERoundtable.com&lt;/em&gt; :-
+
+Traffic Rank: 5,738 (&lt;a href=&#34;http://www.alexa.com/siteinfo/seroundtable.com&#34;&gt;Alexa&lt;/a&gt;), 16,804 (compete)
+Browsers : Assuming lesser than average Internet Explorer users based on the nature of the target demographics.
+
+My assumption is that the site targets regular (loyal) readers, so I place more emphasis on repeat views and caching.
+
+&lt;h3&gt;The Problem&lt;/h3&gt;
+
+The website is slow, I access it regularly and loose productivity while waiting for the pages to load.
+
+Page Load times (using &lt;a href=&#34;http://www.webpagetest.org/&#34;&gt;WebPageTest.org&lt;/a&gt; - &lt;a href=&#34;http://www.webpagetest.org/result/100729_21GK/&#34; rel=&#34;nofollow&#34;&gt;here&lt;/a&gt; and &lt;a href=&#34;http://www.webpagetest.org/result/100729_21GM/&#34; rel=&#34;nofollow&#34;&gt;here&lt;/a&gt;):
+
+&lt;table border=&#34;1&#34; cellspacing=&#34;0&#34;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Page&lt;/th&gt;
+        &lt;th&gt;Start Render&lt;/th&gt;
+        &lt;th&gt;Load Time&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Home Page - First View&lt;/td&gt;
+        &lt;td&gt;1.894s&lt;/td&gt;
+        &lt;td&gt;9.733s&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Home Page - Repeat View&lt;/td&gt;
+        &lt;td&gt;0.914s&lt;/td&gt;
+        &lt;td&gt;4.619s&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Individual Post - First View&lt;/td&gt;
+        &lt;td&gt;1.539s&lt;/td&gt;
+        &lt;td&gt;11.855s&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Individual Post - Repeat View&lt;/td&gt;
+        &lt;td&gt;0.858s&lt;/td&gt;
+        &lt;td&gt;5.171s&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+Web Speed Rankings (Using &lt;a href=&#34;http://www.showslow.com/&#34;&gt;Show Slow&lt;/a&gt;):-
+&lt;table border=&#34;1&#34; cellspacing=&#34;0&#34;&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Page&lt;/th&gt;
+        &lt;th&gt;Yslow grade&lt;/th&gt;
+        &lt;th&gt;Page Speed score&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;a href=&#34;http://www.showslow.com/details/?url=http%3A%2F%2Fwww.seroundtable.com%2F&#34; rel=&#34;nofollow&#34;&gt;Homepage&lt;/a&gt;&lt;/td&gt;
+        &lt;td&gt;D (65)&lt;/td&gt;
+        &lt;td&gt;C (74)&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&lt;a href=&#34;http://www.showslow.com/details/?url=http%3A%2F%2Fwww.seroundtable.com%2Farchives%2F022625.html&#34; rel=&#34;nofollow&#34;&gt;Individual Post&lt;/a&gt;&lt;/td&gt;
+        &lt;td&gt;D (64)&lt;/td&gt;
+        &lt;td&gt;C (75)&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;a href=&#34;http://www.webpagetest.org/video/compare.php?tests=100729_21GK%2C100729_21GM&amp;thumbSize=200&amp;ival=100&#34; rel=&#34;nofollow&#34;&gt;Visual Latency&lt;/a&gt; (tested from Dulles, VA using IE7): 
+
+Homepage : 2.5 seconds
+Post Page : 2.6 seconds
+
+(The timing I&#39;ve used here is the time at which the page becomes somewhat usable, this in my definition is the time at which the content title and body is shown on the screen. This is the time at which the user can start engaging with the site while other stuff loads.)
+
+&lt;object width=&#34;488&#34; height=&#34;300&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/FfaPq3DEjpM&amp;amp;hl=en_US&amp;amp;fs=1&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/FfaPq3DEjpM&amp;amp;hl=en_US&amp;amp;fs=1&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;488&#34; height=&#34;300&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+
+Thus you can see that for whole 2.5 seconds the user is doing nothing but staring at an almost blank screen.
+
+So we have a problem here, unoptimized websites open exponentially slower from across the globe in Thailand especially when using crappy ISPs. So whats the solution?
+
+&lt;h3&gt;The Solution&lt;/h3&gt;
+
+Firstly, kudos to &lt;em&gt;SERoundtable.com&lt;/em&gt; for using Source Ordered Content(SOC). This ensures that the title and text of the post is the first thing to render on the page, lesser susceptible to &lt;a href=&#34;http://www.stevesouders.com/blog/2010/06/01/frontend-spof/&#34;&gt;Frontend SPOF&lt;/a&gt;. The reason for SOC here may or may not be for SEO purposes, but in terms of page speed this is a valuable optimizations. Also try to move the adslot SER-HOME-468x60-1 to below the content.
+
+Now the things that needs to be changed (In order of importance as I see it) :-
+
+
+&lt;ol&gt;
+    &lt;li&gt;&lt;strong&gt;Minimize the number of requests&lt;/strong&gt; : The time taken to load the page is somewhat directly proportional to the number of requests. Most people these days use high speed internet access which basically gives them a higher bandwidth but not better speed (latency). The following steps need to be implemented to reduce the number of requests.
+    &lt;ol&gt;
+        &lt;li&gt;&lt;strong&gt;Disable Etags and add far futures cache headers for static objects&lt;/strong&gt; (Easy/Urgent/Obvious): 49 of the 50 requests made to www.seroundtable.com are non frequently changing static files (CSS, images, etc). Currently the browsers send a &lt;em&gt;If-Modified-Since&lt;/em&gt; requests to all of them to check if it has changed since then or not. My advise is to send expires headers to at least 7 days( &gt; 30 days preferred) in the future. This would make repeat views amazingly fast. Quite easy to implement &lt;a href=&#34;http://www.askapache.com/htaccess/apache-speed-cache-control.html&#34;&gt;cache control in Apache&lt;/a&gt;. &lt;a href=&#34;http://en.wikipedia.org/wiki/HTTP_ETag&#34;&gt;Etags&lt;/a&gt; don&#39;t serve much purpose here, require a tiny bit of CPU for each request, useless information IMHO.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Use &lt;a href=&#34;http://www.alistapart.com/articles/sprites&#34;&gt;CSS Sprites&lt;/a&gt;&lt;/strong&gt; (Easy - Intermediate): Request for following files can easily be sprited (after converting everything to either gif or png - png prefered) -- nav_previous.gif, nav_next.gif, h2.gif, 3dots.gif, pen.png, sphinn-favicon.png, Twitter-16x16.png, digg-favicon.jpg, barry.png, entry-footer.png, comforminput.gif, comformtextarea.gif, sbauthors.gif, sbarchives.gif, sbmoreinfo.gif, mbg.jpg, sbhome.gif, sbourforums.gif, delicious-favicon.png, google-favicon-16.png, sbtheforums.gif, arrow_yellow.gif, rss.gif, foo.jpg, credits.jpg - Thats a reduction of &lt;strong&gt;24&lt;/strong&gt; requests!&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Use &lt;a href=&#34;http://en.wikipedia.org/wiki/Data_URI_scheme&#34;&gt;Data-URI&lt;/a&gt; for the tiny background files&lt;/strong&gt; (Advanced/Optional): Embed the tiny background files directly inside the CSS using Data URI Scheme. The drawback is IE7 and below dont support this, the workaround is to use the &lt;a href=&#34;http://www.evotech.net/blog/2007/04/ie7-only-css-hacks/#star&#34;&gt;star hack&lt;/a&gt; to send them the current background settings. Another drawback is this would increase the size of the CSS file, but the total size after compression(see below) would be about the same as the current total size. This optimization reduces the need for the following files in all non IE browsers and IE8 -- sbbg.gif, formbg.gif, mbg.jpg, sbhbg.gif, sboxbg.gif, tbbg.gif, rcredbg.gif, rcbg.gif, threadlibg.gif, bg.gif, hbgleft.jpg, msep.gif, fbg.gif - Thats elimination of &lt;strong&gt;13&lt;/strong&gt; requests! Another advantage is that the css file starts to download much before actual rendering starts, this at the start of rendering, these files would already be available, making the background graphics appear almost instantly without additional blocking of rest of the page.&lt;/li&gt;
+    &lt;/ol&gt;
+So Out of 50 requests made to www.seroundtable.com, 37 of them can be completely eliminated for first view, for repeat views almost all but base page should be cached.&lt;/li&gt;
+
+    &lt;li&gt;&lt;strong&gt;Enable Keep-Alive&lt;/strong&gt;(Easy/Obvious): An uncached pageload makes about 50 requests to www.seroundtable.com. For each of these requests, the client must make a new connection with the server. Enabling Keep-Alive can get the job done in much fewer(depends on browsers parallel connection policies) connections, thus saving dozens of round-trips. Enabling keep-alive does increase memory utilization on the server, but the benefits are greater. See this &lt;a href=&#34;http://www.webpagetest.org/result/100729_f53996276504cd0c9759ed2cd2a210c8/1/details/&#34; rel=&#34;nofollow&#34;&gt;chart&lt;/a&gt;, the brown portion of the loadtime can be removed for ~90% of the requests. &lt;a href=&#34;http://www.smartsoftwarebits.com/qaa/46-misc/85-howto-set-keepalive-in-apache-httpd&#34; title=&#34; HOWTO Set KeepAlive in Apache HTTPd&#34;&gt;Here&lt;/a&gt; are some instructions for Apache.&lt;/li&gt;
+
+    &lt;li&gt;Optimize each request : Reduce the size of each request/response using the following methods
+    &lt;ol&gt;
+        &lt;li&gt;&lt;strong&gt;Gzip text assets&lt;/strong&gt; (Easy/Obvious): About 75% of data transfer for the base page and the css file can be reduced by simple &lt;a href=&#34;http://www.askapache.com/htaccess/apache-speed-compression.html#menu0-el0&#34;&gt;enabling gzip&lt;/a&gt; on Apache.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Compress images&lt;/strong&gt;(Easy) : My favorite tool for this is &lt;a href=&#34;http://developer.yahoo.com/yslow/smushit/&#34;&gt;Smush.it&lt;/a&gt; by Yahoo! Similar results can be achieved using say GIMP or Photoshop.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Use cookie-less domain for static content&lt;/strong&gt;(Easy/Important): Serve static files(images/css/etc) from an external domain. Currently, the site sets cookies which the browser automatically sends with each subsequent request to the server while requesting static files. This cookie information is absolutely useless to the server and causes the request size to be big. The workaround is to host these files on another dedicated cookieless domain, say www.serassets.com or something. This tip may not sound important, in fact I used to ignore it, but once implemented the effects are HUGE.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Minify code&lt;/strong&gt; (Easy/Optional): Minify HTML, run the inline javascript using &lt;a href=&#34;http://closure-compiler.appspot.com/home&#34;&gt;Google&#39;s Closure Compiler&lt;/a&gt; for faster execution. Smaller files also require lesser resources on the browser.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Use a CDN&lt;/strong&gt;(Easy): A &lt;a href=&#34;https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;CDN (Content Delivery Network)&lt;/a&gt; mantains POPs (Point Of Presence) globally, and can be used to serve the static files(images, javascripts, css, etc) which would be served from a server closer to you. The charges are not much. So if &lt;em&gt;SERoundtable.com&lt;/em&gt; used say &lt;a href=&#34;http://www.internap.com/&#34;&gt;Internap&lt;/a&gt;, I would be accessing the static files from a server in Singapore instead of US. In case of &lt;a href=&#34;http://www.akamai.com/&#34;&gt;Akamai&lt;/a&gt; I&#39;d be accessing the static assets from a server within my ISPs network! Choose any from this &lt;a href=&#34;http://www.mytestbox.com/miscellaneous/content-delivery-networks-cdn-list/&#34;&gt;list of CDNs&lt;/a&gt;.&lt;/li&gt;
+    &lt;/ol&gt;
+&lt;/li&gt;
+
+&lt;li&gt;Onpage/rendering optimizations: 
+    &lt;ol&gt;
+        &lt;li&gt; &lt;strong&gt;Choose &amp;lt;link&amp;gt; over @import&lt;/strong&gt; (Easy): Yahoo! &lt;a href=&#34;http://developer.yahoo.com/performance/rules.html#csslink&#34;&gt;explains&lt;/a&gt; it better than I can. Affects usability in IE, delays rendering.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Move the inline JavaScript into an external file&lt;/strong&gt; (Easy): This would make the page load faster for repeat users since the base page would be lighter and the JavaScript file would already be cached in the client&#39;s browser (or at upstream proxy). Make sure to minify the JavaScript (see point 3-4)&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Move JavaScript to the end&lt;/strong&gt; (Intermediate): The JavaScript files/codes that are not necessary to be accessed during the page rendering, should be moved to the bottom of the page just before &lt;em&gt;&lt;/body&gt;&lt;/em&gt; or just before they are needed.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Use the &lt;a href=&#34;http://code.google.com/apis/analytics/docs/tracking/asyncTracking.html&#34;&gt;Async Google Analytics Code&lt;/a&gt;&lt;/strong&gt;(Easy): The new method really doesn&#39;t block the rest of the page. The current &lt;em&gt;document.write&lt;/em&gt; method in the &lt;em&gt;&lt;head&gt;&lt;/em&gt; section blocks rendering on many browsers.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Move &lt;a href=&#34;https://www.google.com/dfp/&#34;&gt;DFP&lt;/a&gt; code lower&lt;/strong&gt;(Intermediate): Right now, the javascript code for DFP is placed within the &lt;em&gt;&lt;head&gt;&lt;/em&gt; section, this makes 3 serial blocking requests which must be downloaded and executed before rest of the elements download and render blocking the page for 500 to 1000 ms. My suggestion is to move this just above the first Adblock(the &lt;em&gt;GA_googleFillSlot()&lt;/em&gt; calls) in the HTML. This combined with the current Source Ordered Content architecture will ensure that the users will feel minimal impact even if DFP has problems.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;Try using &lt;a href=&#34;http://www.google.com/support/dfp_sb/bin/answer.py?hl=en&amp;answer=90777&#34;&gt;DFP&#39;s Iframe tagging&lt;/a&gt;&lt;/strong&gt; (Easy but Experimental/Risky): The major drawback to this is that it may mess up &lt;a href=&#34;http://en.wikipedia.org/wiki/Online_advertising#Types&#34;&gt;expandable ads&lt;/a&gt;, which I don&#39;t think &lt;em&gt;SERoundtable.com&lt;/em&gt; uses. If you notice the &lt;a href=&#34;http://www.youtube.com/watch?v=FfaPq3DEjpM&#34;&gt;video&lt;/a&gt; above, notice starting from about the &lt;a href=&#34;http://www.youtube.com/watch?v=FfaPq3DEjpM#t=0m20s&#34;&gt;4 second mark&lt;/a&gt;, currently the 6 adblocks load one by one. With the Iframe tagging, they would load independently, not blocking each other or the rest of the page. A major protection from frontend SPOF due to 3rd party ad networks. Personally I am impressed with the results of this method.&lt;/li&gt;
+        &lt;li&gt; &lt;strong&gt;&lt;a href=&#34;http://yuiblog.com/blog/2007/04/11/performance-research-part-4/&#34;&gt;Domain Sharding&lt;/a&gt;&lt;/strong&gt; (Advanced): Split requests across several domains like static1.seroundtable.com, static2.seroundtable.com, static3.seroundtable.com, etc to increase parallel downloads. The downside is that this results in increased DNS lookups which is bad. Fortunately there is a &lt;a href=&#34;http://www.webpagetest.org/forums/showthread.php?tid=289&amp;pid=1329#pid1329&#34; title=&#34;nested DNS CNAME hack&#34;&gt;workaround&lt;/a&gt; to this issue.&lt;/li&gt;
+    &lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+
+
+&lt;h3&gt;Conclusions&lt;/h3&gt;
+
+Apart from the tips above make sure to read the &lt;a href=&#34;http://developer.yahoo.com/performance/rules.html&#34; title=&#34;Best Practices for Speeding Up Your Web Site&#34;&gt;best&lt;/a&gt; &lt;a href=&#34;http://code.google.com/speed/page-speed/docs/rules_intro.html&#34; title=&#34;Web Performance Best Practices&#34;&gt;practices&lt;/a&gt; for faster websites. Most of what I&#39;ve suggested is redundant from the best practices, tailored to this particular website. Lots more can be done, but at the moment compare to what I&#39;ve mentioned above, the effects of additional optimizations may seem like a waste of time.
+
+Just a reminder that I&#39;ve been told that &lt;em&gt;SERoundtable.com&lt;/em&gt; is revamping the entire site and it &#34;is really a full revamp from the CMS to the html on the frontend.&#34;.
+
+Implementation of most of the above tips would make at least one reader of &lt;em&gt;SERoundtable.com&lt;/em&gt; very happy :).
+
+Total time spent : &gt;= 5 hours.
+
+Appreciate any criticism of my analysis via comments below.
+
+A word of caution to other optimizers, don&#39;t get over obsessed with yslow, Google page speed or page load times, its the visitors experience which matters the most. Optimize for visual latency more than bragging rights!
+
+&lt;h3&gt;Shameless Plug&lt;/h3&gt;
+
+I am available for &lt;a href=&#34;https://www.sajalkayan.com/web-speed-consulting-services&#34;&gt;consulting on web speed issues&lt;/a&gt;, contact details in the right sidebar.
+</description>
+    </item>
+    
+  </channel>
+</rss>

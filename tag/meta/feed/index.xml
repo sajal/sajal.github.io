@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Meta on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/meta.xml</link>
+    <description>Recent content in Meta on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/meta.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Drupal vs Joomla - The SEO viewpoint - Part 2 (Meta Tags)</title>
+      <link>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</link>
+      <pubDate>Tue, 26 Feb 2008 09:38:47 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-2-meta-tags.html</guid>
+      <description>This is the Second part of my side by side comparison of Drupal and Joomla from an SEO viewpoint. In the first part i wrote about &lt;a href=&#34;https://www.sajalkayan.com/drupal-vs-joomla-the-seo-viewpoint-part-1-urls.html&#34; title=&#34;Search Engine Friendly URLs in Joomla and Drupal&#34;&gt;Search Engine Friendly URLs&lt;/a&gt;, this part will talk about meta tags.
+
+Meta tags are an important part of the web page. They are used to pass information to browsers and bots and are not intended for the average browser to see. We will basically discuss about the 2 most common meta attributes which are &lt;strong&gt;keywords&lt;/strong&gt; and &lt;strong&gt;description&lt;/strong&gt;.
+
+&lt;strong&gt;In Joomla&lt;/strong&gt;, The editing of the meta tags is a core functionality, and can be added while editing or creating content.
+
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/joomla-meta-editor.png&#34; alt=&#34;Joomla Meta Editor&#34; /&gt;
+
+Also note the &#34;Sect/Cat/Title&#34; button. when pressing it it automatically adds the Section name, Category name and the title of the content into the Keyword attribute.
+
+&lt;strong&gt;In Drupal&lt;/strong&gt;, the meta attributes cant be set by default, you would need to install a module such as &#34;&lt;a href=&#34;http://drupal.org/project/nodewords&#34; target=&#34;_blank&#34;&gt;&lt;strong&gt;Meta Tags&lt;/strong&gt;&lt;/a&gt;&#34; to do this for you.
+
+&lt;img src=&#34;https://www.sajalkayan.com/wp-content/uploads/2008/02/drupal-meta-editor.png&#34; alt=&#34;Drupal Meta Editor&#34; /&gt;
+
+This is the box while editing a node.
+
+The meta editor in Joomla is a core feature, however as Drupal is very flexible, i can perhaps get it to include the taxonomy terms into the keyword without replication as well. &lt;strong&gt;Both the CMS does well&lt;/strong&gt; in this simple but important factor. The Joomla people had to put in all these features into Joomla, however the Drupal guys only made a platform where anyone can make modules for any specific task. Based on my initial observations, Drupal module development is easier compared to Joomla extension development.&lt;!--more--&gt;
+
+&lt;strong&gt;Meta Keyword Attribute :&lt;/strong&gt;
+&lt;blockquote&gt;&lt;em&gt;The keywords attribute was popularized by search engines such as Infoseek and AltaVista in 1995, and its popularity quickly grew until it became one of the most commonly used meta elements. By late 1997, however, search engine providers realized that information stored in meta elements, especially the keyword attribute, was often unreliable and misleading, and at worst, used to draw users into spam sites. (Unscrupulous webmasters could easily place false keywords into their meta elements in order to draw people to their site.)&lt;/em&gt;&lt;/blockquote&gt;
+Source : &lt;a href=&#34;http://en.wikipedia.org/wiki/Meta_element#The_keywords_attribute&#34; target=&#34;_blank&#34;&gt;The Keywords Attribute - wikipedia&lt;/a&gt;
+
+The major search engines claim to not use this attribute, however it does no harm in maintaining it, just in case some crawler gives some weight to it.
+
+&lt;strong&gt;Meta Description Attribute:&lt;/strong&gt;
+&lt;blockquote&gt;&lt;em&gt;Unlike the keyword attribute, the description attribute is supported by most major search engines, like Yahoo and Live Search, while Google will fall back on this tag when information about the page itself is requested (e.g. using the related: query). The description attribute provides a concise explanation of a web page&#39;s content.&lt;/em&gt;&lt;/blockquote&gt;
+Source : &lt;a href=&#34;http://en.wikipedia.org/wiki/Meta_element#The_description_attribute&#34;&gt;The description attribute - Wikipedia&lt;/a&gt;
+
+&lt;strong&gt;The description is a very important attribute&lt;/strong&gt;. It basically summarizes your web page in a few words. Many times the description is used as the snippet for the&lt;strong&gt; Search Engine Results Page (SERP)&lt;/strong&gt;. Ranking high is an important factor, however it is equally important for the listing to look interesting enough to be clicked upon.
+</description>
+    </item>
+    
+  </channel>
+</rss>

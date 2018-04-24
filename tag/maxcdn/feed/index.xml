@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Maxcdn on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/maxcdn.xml</link>
+    <description>Recent content in Maxcdn on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/maxcdn.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>SimpleCDN goes down - a case for using multiple CDN providers</title>
+      <link>https://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</link>
+      <pubDate>Sat, 11 Dec 2010 21:24:49 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/simplecdn-goes-down-a-case-for-using-multiple-cdn-providers.html</guid>
+      <description>CDN provider &lt;a href=&#34;http://www.simplecdn.com/&#34;&gt;SimpleCDN&lt;/a&gt; has been down since last few days, with their customers venting their anger via online channels such as &lt;a href=&#34;http://search.twitter.com/search?q=SimpleCDN&#34;&gt;twitter&lt;/a&gt;.
+
+To know more about what a CDN is, please read &lt;a href=&#34;https://www.sajalkayan.com/make-your-own-cheap-charlie-cdn.html&#34; title=&#34;Make your own cheap charlie CDN&#34;&gt;this post&lt;/a&gt;.
+
+The reason given by them :-
+
+&lt;blockquote&gt;&lt;em&gt;Dear SimpleCDN Customer,
+
+I am writing this letter to update you on a situation that has been developing for the past 72 hours between SimpleCDN and our technology and infrastructure providers, SoftLayer and Hosting Services, Inc.
+
+Two days ago these organizations decided to immediately terminate our contract and suspend service on much of our infrastructure in Dallas, Seattle and Washington, D.C. This infrastructure constitutes the majority of our delivery network for our value services, including on-demand and live streaming services. 
+
+[...]&lt;/em&gt;&lt;/blockquote&gt;
+
+Their full statement can be read at &lt;a href=&#34;http://admin.simplecdn.com/&#34;&gt;http://admin.simplecdn.com/&lt;/a&gt;. Quite likely this won&#39;t be the permanent url for their rant.
+
+My first thought was that they didn&#39;t pay their bills.. but this &lt;a href=&#34;http://twitter.com/#!/SimpleCDN/status/13688306478882816&#34;&gt;doesn&#39;t seem&lt;/a&gt; to be the case here. I&#39;d speculate that this is related to DMCA or even some connection to Wikileaks. We need Softlayer&#39;s side of the story to make an opinion. I&#39;m a Softlayer user for few years, I refuse to believe it that they did it for competitive advantage. There is more to it!
+
+MaxCDN has &lt;a href=&#34;http://blog.maxcdn.com/news/maxcdn-offers-easy-transition-for-stranded-simplecdn-customers/&#34; title=&#34;MaxCDN Offers Easy Transition for Stranded SimpleCDN Customers&#34;&gt;stepped in&lt;/a&gt; to help stranded SimpleCDN customers to get their sites up asap at lower costs.
+
+So... let me be &lt;a href=&#34;http://www.youtube.com/watch?v=cY_oKve-bH0&#34;&gt;Captain Hindsight&lt;/a&gt; here and say what SimpleCDN users should have done all along.
+
+&lt;strong&gt;Keep a hot spare CDN ready to be deployed at a moments notice.&lt;/strong&gt;
+
+There are many CDN services, like &lt;a href=&#34;http://www.softlayer.com/cloudlayer/cdn/&#34;&gt;Softlayer&lt;/a&gt;, &lt;a href=&#34;http://aws.amazon.com/cloudfront/&#34;&gt;CloudFront&lt;/a&gt;, etc which have pay as you go plans, no upfront or monthly costs. Sign up for them, set up your zones, and keep the required CNAMEs handy. If your prime CDN provider goes under, has high latency, or any other issue, switching to these alternate CDNs is simply a change in the DNS zone. This could be automated with &lt;a href=&#34;http://aws.amazon.com/route53/&#34;&gt;Amazon Route 53&lt;/a&gt;.
+
+Very easy to implement for origin pull, for uploaded content it doesn&#39;t hurt to store your content on multiple services for redundancy.
+
+Had the users kept a hot spare CDN provider ready, it would have taken them 5 mins (plus the DNS propagation time) to switch to another provider.
+
+In most cases, where only css, javascript, images are served by the CDN, frequent users such as admins would have these files in their browser cache and may not feel that anything is broken. For such situations, the answer is &lt;a href=&#34;http://blog.patrickmeenan.com/2010/08/passive-vs-active-performance.html&#34; title=&#34;Passive vs Active performance monitoring&#34;&gt;passive monitoring&lt;/a&gt;.
+
+Bottomline: Everything FAILs.... eventually...
+
+Notes:-
+&lt;ul&gt;
+    &lt;li&gt;This blog is hosted at softlayer&lt;/li&gt;
+    &lt;li&gt;This blog uses MaxCDN&lt;/li&gt;
+    &lt;li&gt;This blog uses Softlayer&#39;s CDN service&lt;/li&gt;
+    &lt;li&gt;Before today i hadn&#39;t heard about SimpleCDN&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;strong&gt;UPDATED: 11:20 (EST) Dec 15&lt;/strong&gt;
+
+The only 2 statements by SoftLayer on this issue comes in the form of tweets.
+
+&lt;em&gt;FYI, our privacy policy prevents us from discussing customer issues in public. We definitely can&#39;t discuss customers of customers.&lt;/em&gt; - &lt;a href=&#34;http://twitter.com/#!/SoftLayer/status/14822398792564736&#34;&gt;twitter&lt;/a&gt;
+
+&lt;em&gt;@simplecdn happy to have you as a direct customer. Send over your requirements so we can price it out for you. ^SK&lt;/em&gt; - &lt;a href=&#34;http://twitter.com/#!/SoftLayer/status/15059240414609408&#34;&gt;twitter&lt;/a&gt;
+
+IMHO the second tweet is rubbing salt on SimpleCDN&#39;s wound.
+
+It is common for companies under legal threat to not make any statements which may or maynot be used against them during litigation.
+
+</description>
+    </item>
+    
+  </channel>
+</rss>

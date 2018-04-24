@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gam on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/gam.xml</link>
+    <description>Recent content in Gam on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/gam.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Future releases of Firefox to speed page load time considerably?</title>
+      <link>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</link>
+      <pubDate>Wed, 20 Jan 2010 14:29:58 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/future-releases-of-firefox-to-speed-page-load-time-considerabilly.html</guid>
+      <description>Living in Thailand has its fair share of disadvantages. The most prominent being bad internet and poor response times. In most cases, the packet shaping, caching and filtering mechanisms use by ISPs do more harm than good. A response from a US server may take anywhere between 100 to 1000 ms extra than it should (not counting the ping lag and server processing overhead, etc). These days, most websites integrate a lot of client side external scripts and APIs, lagging responses make for a horrible user experience.
+
+Especially when within one ad code, I have a default ad code and that too has a default. This means, when an impression is trying to be filled, the ad network decides, if they can fill the impression based on parameters I set or not. If not, then they pass the impression down the chain to another network. It goes on until the end network. In my case the chain is mostly 3 networks. I cant increase it as it results in a poorer user experience.
+
+&lt;img src=&#34;https://www.sajalkayan.com/wmt-performance-chart.png&#34; border=&#34;0&#34; alt=&#34;Google Webmaster Tools&#34; width=&#34;500&#34; height=&#34;94&#34; /&gt;
+
+Recently, Google started showing average response times in &lt;a href=&#34;https://www.google.com/webmasters/tools/home?hl=en&#34;&gt;Google Webmaster Tools&lt;/a&gt; so, Ive started worrying about these things more than I should.
+
+On &lt;a title=&#34;Thaindian News&#34; href=&#34;http://www.thaindian.com/newsportal/&#34;&gt;my site&lt;/a&gt;, I have 2 ad blocks(leaderboard, skyscraper and another block which shows up on individual story pages) which load up before the main content page. Recently I moved the ads to Google ad manager which has a &lt;a href=&#34;http://www.google.com/support/admanager/bin/answer.py?hl=en&amp;amp;answer=94394&#34;&gt;wonderful way of debugging ad loading&lt;/a&gt; by adding ?google_debug to the end of the URL.
+
+My first impression of &lt;a href=&#34;https://www.google.com/admanager&#34;&gt;Google ad manager&lt;/a&gt; was excellent. My page was no more held up while the ads loaded, but soon I realized thats not an admanager feature, it is &lt;strong&gt;firefox 3.5.8pre&lt;/strong&gt; which is speeding things up.
+
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.5.8pre-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+
+Browsers Useragent : &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8pre) Gecko/20100116 Ubuntu/9.04 (jaunty) Shiretoko/3.5.8pre&lt;/em&gt; (Click image for full screenshot)
+
+My tests on my laptop shows otherwise. (it runs 3.0.17).
+
+&lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt; &lt;img src=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu.png&#34; alt=&#34;&#34; /&gt;&lt;/a&gt;
+
+Browsers Useragent: &lt;em&gt;Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.0.16) Gecko/2009121601 Ubuntu/9.04 (jaunty) Firefox/3.0.17&lt;/em&gt; (Click on image for full screenshot)
+
+This does not speed up much on Chrome or IE too... They all show that the &#34;Time the page is blocked fetching ads from Google&#34; to range between 1000ms to 2500ms. The variation is irrelevant its due to network issues and ad server response times. But the bottom line is that these browsers do hold up the page while the ads load.
+
+Maybe this is an improvement in the latest Ubuntu nightly build or a general improvement, whatever it is, the future is &lt;a href=&#34;http://www.getfirefox.com/&#34;&gt;Firefox&lt;/a&gt; and they are &lt;a href=&#34;http://www.mozilla.com/en-US/firefox/fastest/&#34;&gt;fast&lt;/a&gt;!
+
+So far, there has been no proper way to load ads such that they don&#39;t block the rest of the page from loading. The 2 ways i know of are very ugly and I don&#39;t like them :-
+&lt;ol&gt;
+	&lt;li&gt;Load the target adscript from a separate HTML file loaded via iframe - costs one extra request/ad code, may screw up ad targeting, etc.&lt;/li&gt;
+	&lt;li&gt;Place a blank hidden div in place of ad, load the ad in a hidden div below the actual content and then using javascript trickery swap contents of the hidden div with this ad div. - sounds ugly again. not a neat solution.&lt;/li&gt;
+&lt;/ol&gt;
+Of course there is a neat and ideal solution... which is to make your template in such a way(CSS absolute positioning or something) such that the HTML of the content appears before in the code than the ad javascript... but again this is cumbersome. &lt;a href=&#34;http://www.google.com/support/forum/p/Google+Ad+Manager/thread?tid=4e3c789b45f46902&amp;amp;hl=en&#34;&gt;Interesting discussion here&lt;/a&gt;.
+
+In an ideal world, all ad networks would be banned from using &lt;em&gt;document.write&lt;/em&gt; in their scripts and use some form of ajax to call the banner code after(or during) rest of the page has loaded. Its not 2001 anymore!
+
+Here is what I request from you, open the following URL &lt;a href=&#34;http://www.thaindian.com/newsportal/?google_debug&#34;&gt;http://www.thaindian.com/newsportal/?google_debug&lt;/a&gt; then there should be 1 or 2 popups(maybe some browsers need to disable popup blocker). Look at the popup which resembles the &lt;a rel=&#34;lightbox&#34; href=&#34;https://www.sajalkayan.com/ff-3.0-ubuntu-big.png&#34;&gt;screenshots&lt;/a&gt; above, and report your findings in the comments below. Be sure to wait for the main page to complete loading and don&#39;t forget to include your full useragent. If you can upload screenshots somewhere then please drop their URLs in comments too.
+
+The info i need, could be like the following example:-
+
+&lt;em&gt;User Agent: Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.1.8pre) Gecko/20100116 Ubuntu/9.04 (jaunty) Shiretoko/3.5.8pre
+Debug: -
+7342	Information  	Time the page is blocked fetching ads from Google 0 ms
+7343	Information  	Time the page is blocked rendering ads from Google 0 ms&lt;/em&gt;
+Your useragent can be checked &lt;a href=&#34;http://whatsmyuseragent.com/&#34;&gt;here&lt;/a&gt;.
+
+Video of pageload on Google Chrome:-
+&lt;object width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/M6B9t2tbwx0&amp;hl=en_US&amp;fs=1&amp;&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/M6B9t2tbwx0&amp;hl=en_US&amp;fs=1&amp;&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+
+Video of pageload on Firefox 3.6pre(Ubuntu build):-
+&lt;object width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;param name=&#34;movie&#34; value=&#34;http://www.youtube.com/v/4SIMl8IEZsg&amp;hl=en_US&amp;fs=1&amp;&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowFullScreen&#34; value=&#34;true&#34;&gt;&lt;/param&gt;&lt;param name=&#34;allowscriptaccess&#34; value=&#34;always&#34;&gt;&lt;/param&gt;&lt;embed src=&#34;http://www.youtube.com/v/4SIMl8IEZsg&amp;hl=en_US&amp;fs=1&amp;&#34; type=&#34;application/x-shockwave-flash&#34; allowscriptaccess=&#34;always&#34; allowfullscreen=&#34;true&#34; width=&#34;480&#34; height=&#34;385&#34;&gt;&lt;/embed&gt;&lt;/object&gt;
+
+&lt;strong&gt;UPDATE&lt;/strong&gt;: I upgraded my main browser to Firefox 3.6 (Your User Agent: Mozilla/5.0 (&lt;em&gt;X11; U; Linux x86_64; en-US; rv:1.9.2pre) Gecko/20100120 Ubuntu/9.04 (jaunty) Namoroka/3.6pre&lt;/em&gt;) same results as 3.5.8pre its bloody fast and doesn&#39;t stall the pageload waiting for ads.
+
+&lt;strong&gt;UPDATE 2:&lt;/strong&gt; Based on comment by Archit below, the speed improvement is not visible on 3.6rc2 . My conclusions are based on the nightly builds by the &lt;a href=&#34;https://launchpad.net/~ubuntu-mozilla-daily&#34;&gt;Ubuntu Mozilla Daily Build Team&lt;/a&gt;
+
+&lt;strong&gt;UPDATE 3:&lt;/strong&gt; Added videos
+
+&lt;strong&gt;UPDATE 4:&lt;/strong&gt; For my site I implemented the hidden div trick, so for now, all browsers will not notice the visual delay.
+</description>
+    </item>
+    
+  </channel>
+</rss>

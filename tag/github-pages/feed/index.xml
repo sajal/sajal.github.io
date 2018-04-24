@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Github Pages on Sajal Kayan</title>
+    <link>https://www.sajalkayan.com/tag/github-pages.xml</link>
+    <description>Recent content in Github Pages on Sajal Kayan</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <atom:link href="https://www.sajalkayan.com/tag/github-pages.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Moved blog to github pages</title>
+      <link>https://www.sajalkayan.com/post/hugo-migration.html</link>
+      <pubDate>Sun, 16 Nov 2014 18:43:03 +0000</pubDate>
+      
+      <guid>https://www.sajalkayan.com/post/hugo-migration.html</guid>
+      <description>&lt;p&gt;After 2 years of neglecting this blog, I&amp;rsquo;ve moved away from wordpress and am hosting it on Github Pages.&lt;/p&gt;
+
+&lt;p&gt;The site is built using &lt;a href=&#34;http://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Source repo : &lt;a href=&#34;https://github.com/sajal/sajalblog&#34;&gt;https://github.com/sajal/sajalblog&lt;/a&gt; &lt;br /&gt;
+Built pages : &lt;a href=&#34;https://github.com/sajal/sajal.github.io&#34;&gt;https://github.com/sajal/sajal.github.io&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;Some links, especially RSS URLs might be broken currently.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>
